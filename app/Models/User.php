@@ -23,7 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'avatar'
+        'avatar',
+        'jabatan_id',
+        'golongan_id'
     ];
 
     /**
@@ -53,5 +55,15 @@ class User extends Authenticatable
         } else {
             return asset('assets/images/faces/face28.jpg');
         }
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
+    }
+
+    public function golongan()
+    {
+        return $this->belongsTo(Golongan::class);
     }
 }

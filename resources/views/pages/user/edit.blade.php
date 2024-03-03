@@ -55,6 +55,38 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class='form-group'>
+                            <label for='jabatan_id'>Jabatan</label>
+                            <select name='jabatan_id' id='jabatan_id'
+                                class='form-control @error('jabatan_id') is-invalid @enderror'>
+                                <option value='' selected disabled>Pilih Jabatan</option>
+                                @foreach ($data_jabatan as $jabatan)
+                                    <option @selected($jabatan->id == $user->jabatan_id) value='{{ $jabatan->id }}'>{{ $jabatan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('jabatan_id')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group'>
+                            <label for='golongan_id'>Golongan</label>
+                            <select name='golongan_id' id='golongan_id'
+                                class='form-control @error('golongan_id') is-invalid @enderror'>
+                                <option value='' selected disabled>Pilih Golongan</option>
+                                @foreach ($data_golongan as $golongan)
+                                    <option @selected($golongan->id == $user->golongan_id) value='{{ $golongan->id }}'>{{ $golongan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('golongan_id')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         <div class='form-group mb-3'>
                             <label for='password' class='mb-2'>Password</label>
                             <input type='password' name='password'

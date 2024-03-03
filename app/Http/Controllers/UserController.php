@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Golongan;
+use App\Models\Jabatan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +34,9 @@ class UserController extends Controller
         $roles = Role::orderBy('name', 'ASC')->get();
         return view('pages.user.create', [
             'title' => 'Tambah User',
-            'roles' => $roles
+            'roles' => $roles,
+            'data_jabatan' => Jabatan::orderBy('nama', 'ASC')->get(),
+            'data_golongan' => Golongan::orderBy('nama', 'ASC')->get()
         ]);
     }
 
@@ -49,7 +53,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $roles = request('roles');
-            $data = request()->only(['name', 'email']);
+            $data = request()->only(['name', 'email', 'jabatan_id', 'golongan_id']);
             $data['password'] = bcrypt(request('password'));
             request()->file('avatar') ? $data['avatar'] = request()->file('avatar')->store('users', 'public') : NULL;
             $user = User::create($data);
@@ -70,6 +74,8 @@ class UserController extends Controller
         return view('pages.user.edit', [
             'title' => 'Edit User',
             'user' => $user,
+            'data_jabatan' => Jabatan::orderBy('nama', 'ASC')->get(),
+            'data_golongan' => Golongan::orderBy('nama', 'ASC')->get(),
             'roles' => $roles
         ]);
     }
@@ -93,7 +99,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $roles = request('roles');
-            $data = request()->only(['name', 'email']);
+            $data = request()->only(['name', 'email', 'jabatan_id', 'golongan_id']);
             request('password') ? $data['password'] = bcrypt(request('password')) : NULL;
             request()->file('avatar') ? $data['avatar'] = request()->file('avatar')->store('users', 'public') : NULL;
             $user->update($data);
