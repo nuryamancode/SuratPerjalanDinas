@@ -24,6 +24,22 @@
                 </a>
             </li>
         @endcan
+        @can('Jabatan Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('jabatan.index') }}">
+                    <i class="mdi mdi-security  pr-2 icon-large"></i>
+                    <span class="menu-title">Jabatan</span>
+                </a>
+            </li>
+        @endcan
+        @can('Golongan Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('golongan.index') }}">
+                    <i class="mdi mdi-security  pr-2 icon-large"></i>
+                    <span class="menu-title">Golongan</span>
+                </a>
+            </li>
+        @endcan
         @can('User Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('users.index') }}">

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GolonganController;
+use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -32,4 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class)->except('show');
     // permissions
     Route::resource('permissions', PermissionController::class)->except('show');
+    Route::resource('jabatan', JabatanController::class)->except('show');
+    Route::resource('golongan', GolonganController::class)->except('show');
 });
