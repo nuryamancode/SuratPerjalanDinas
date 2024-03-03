@@ -8,6 +8,14 @@
                 </a>
             </li>
         @endcan
+        @can('Surat Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('surat.index') }}">
+                    <i class="mdi mdi-shield-account  pr-2 icon-large"></i>
+                    <span class="menu-title">Surat</span>
+                </a>
+            </li>
+        @endcan
         @can('Role Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('roles.index') }}">

@@ -3,9 +3,11 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\LampiranController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('permissions', PermissionController::class)->except('show');
     Route::resource('jabatan', JabatanController::class)->except('show');
     Route::resource('golongan', GolonganController::class)->except('show');
+    Route::resource('surat', SuratController::class);
+    Route::delete('lampiran/{uuid}', [LampiranController::class, 'destroy'])->name('lampiran.destroy');
 });
