@@ -17,8 +17,6 @@
                                     <th>Avatar</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Jabatan</th>
-                                    <th>Golongan</th>
                                     <th>Role</th>
                                     @canany(['User Edit', 'User Delete'])
                                         <th>Aksi</th>
@@ -34,8 +32,6 @@
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->jabatan->nama ?? '-' }}</td>
-                                        <td>{{ $user->golongan->nama ?? '-' }}</td>
                                         <td>
                                             @forelse ($user->roles as $role)
                                                 <span class="badge badge-warning">{{ $role->name }}</span>

@@ -11,50 +11,45 @@
         @can('Surat Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('surat.index') }}">
-                    <i class="mdi mdi-shield-account  pr-2 icon-large"></i>
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Surat</span>
                 </a>
             </li>
         @endcan
-        @can('Role Index')
+        @can('Karyawan Index')
             <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('roles.index') }}">
-                    <i class="mdi mdi-shield-account  pr-2 icon-large"></i>
-                    <span class="menu-title">Roles</span>
+                <a class="nav-link py-2" href="{{ route('karyawan.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Karyawan</span>
                 </a>
             </li>
         @endcan
-        @can('Permission Index')
-            <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('permissions.index') }}">
-                    <i class="mdi mdi-security  pr-2 icon-large"></i>
-                    <span class="menu-title">Permission</span>
-                </a>
-            </li>
-        @endcan
-        @can('Jabatan Index')
-            <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('jabatan.index') }}">
-                    <i class="mdi mdi-security  pr-2 icon-large"></i>
-                    <span class="menu-title">Jabatan</span>
-                </a>
-            </li>
-        @endcan
-        @can('Golongan Index')
-            <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('golongan.index') }}">
-                    <i class="mdi mdi-security  pr-2 icon-large"></i>
-                    <span class="menu-title">Golongan</span>
-                </a>
-            </li>
-        @endcan
-        @can('User Index')
-            <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('users.index') }}">
-                    <i class="icon-head menu-icon"></i>
-                    <span class="menu-title">Users</span>
-                </a>
-            </li>
-        @endcan
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#master_data" aria-expanded="false"
+                aria-controls="master_data">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Master Data</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="master_data">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('roles.index') }}"> Role </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('permissions.index') }}">Permission </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.index') }}">User </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('jabatan.index') }}"> Jabatan </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('golongan.index') }}"> Golongan </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     </ul>
 </nav>

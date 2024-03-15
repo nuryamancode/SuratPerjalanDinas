@@ -34,9 +34,7 @@ class UserController extends Controller
         $roles = Role::orderBy('name', 'ASC')->get();
         return view('pages.user.create', [
             'title' => 'Tambah User',
-            'roles' => $roles,
-            'data_jabatan' => Jabatan::orderBy('nama', 'ASC')->get(),
-            'data_golongan' => Golongan::orderBy('nama', 'ASC')->get()
+            'roles' => $roles
         ]);
     }
 
@@ -53,7 +51,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $roles = request('roles');
-            $data = request()->only(['name', 'email', 'jabatan_id', 'golongan_id']);
+            $data = request()->only(['name', 'email']);
             $data['password'] = bcrypt(request('password'));
             request()->file('avatar') ? $data['avatar'] = request()->file('avatar')->store('users', 'public') : NULL;
             $user = User::create($data);
@@ -74,8 +72,6 @@ class UserController extends Controller
         return view('pages.user.edit', [
             'title' => 'Edit User',
             'user' => $user,
-            'data_jabatan' => Jabatan::orderBy('nama', 'ASC')->get(),
-            'data_golongan' => Golongan::orderBy('nama', 'ASC')->get(),
             'roles' => $roles
         ]);
     }
@@ -99,7 +95,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $roles = request('roles');
-            $data = request()->only(['name', 'email', 'jabatan_id', 'golongan_id']);
+            $data = request()->only(['name', 'email']);
             request('password') ? $data['password'] = bcrypt(request('password')) : NULL;
             request()->file('avatar') ? $data['avatar'] = request()->file('avatar')->store('users', 'public') : NULL;
             $user->update($data);

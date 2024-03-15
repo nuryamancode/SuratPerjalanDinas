@@ -11,6 +11,11 @@ class Surat extends Model
     protected $table = 'surat';
     protected $guarded = ['id'];
 
+    public function getFile()
+    {
+        return asset('storage/' . $this->file);
+    }
+
     public function lampiran()
     {
         return $this->hasMany(Lampiran::class);

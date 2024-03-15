@@ -55,8 +55,8 @@
                             <select name='pelaksana[]' id='pelaksana'
                                 class='form-control @error('pelaksana') is-invalid @enderror' multiple>
                                 <option value='' disabled>Pilih Pelaksana</option>
-                                @foreach ($data_users as $user)
-                                    <option @selected($user->id == old('pelaksana')) value='{{ $user->id }}'>{{ $user->name }}
+                                @foreach ($data_karyawan as $karyawan)
+                                    <option @selected($karyawan->id == old('pelaksana')) value='{{ $karyawan->id }}'>{{ $karyawan->nama }}
                                     </option>
                                 @endforeach
                             </select>

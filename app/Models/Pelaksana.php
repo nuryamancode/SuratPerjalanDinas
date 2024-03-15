@@ -11,8 +11,8 @@ class Pelaksana extends Model
     protected $table = 'pelaksana';
     protected $guarded = ['id'];
 
-    public function user()
+    public function karyawan()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Karyawan::class);
     }
 }

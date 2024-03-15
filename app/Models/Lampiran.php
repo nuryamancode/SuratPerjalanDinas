@@ -10,4 +10,9 @@ class Lampiran extends Model
     use HasFactory;
     protected $table = 'lampiran';
     protected $guarded = ['id'];
+
+    public function getFile()
+    {
+        return asset('storage/' . $this->file);
+    }
 }

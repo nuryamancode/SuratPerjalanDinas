@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Karyawan;
 use App\Models\Surat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class SuratController extends Controller
     {
         return view('pages.surat.create', [
             'title' => 'Tambah Surat',
-            'data_users' => User::orderBy('name', 'ASC')->get()
+            'data_karyawan' => Karyawan::orderBy('nama', 'ASC')->get()
         ]);
     }
 
@@ -73,7 +74,7 @@ class SuratController extends Controller
                 foreach ($data_pelaksana as $pelaksana) {
                     $surat->pelaksana()->create([
                         'uuid' => \Str::uuid(),
-                        'user_id' => $pelaksana
+                        'karyawan_id' => $pelaksana
                     ]);
                 }
             }
@@ -87,14 +88,23 @@ class SuratController extends Controller
         }
     }
 
+    public function show($uuid)
+    {
+        $item = Surat::where('uuid', $uuid)->firstOrFail();
+        return view('pages.surat.show', [
+            'title' => 'Detail Surat',
+            'item' => $item
+        ]);
+    }
+
     public function edit($uuid)
     {
         $item = Surat::where('uuid', $uuid)->firstOrFail();
         return view('pages.surat.edit', [
             'title' => 'Edit Surat',
             'item' => $item,
-            'data_users' => User::orderBy('name', 'ASC')->get(),
-            'selectedUsers' => $item->pelaksana->pluck('user.id')->toArray()
+            'data_karyawan' => Karyawan::orderBy('nama', 'ASC')->get(),
+            'selectedKaryawan' => $item->pelaksana->pluck('karyawan.id')->toArray()
         ]);
     }
 
@@ -138,7 +148,7 @@ class SuratController extends Controller
                 foreach ($data_pelaksana as $pelaksana) {
                     $item->pelaksana()->create([
                         'uuid' => \Str::uuid(),
-                        'user_id' => $pelaksana
+                        'karyawan_id' => $pelaksana
                     ]);
                 }
             }
@@ -152,12 +162,12 @@ class SuratController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
 
         DB::beginTransaction();
         try {
-            $item = Surat::findOrFail($id);
+            $item = Surat::where('uuid', $uuid);
             $item->delete();
             DB::commit();
             return redirect()->route('surat.index')->with('success', 'Surat berhasil dihapus.');
