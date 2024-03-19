@@ -9,6 +9,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SuratController;
+use App\Http\Controllers\SuratPerjalananDinasController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,9 +40,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('permissions', PermissionController::class)->except('show');
     Route::resource('jabatan', JabatanController::class)->except('show');
     Route::resource('golongan', GolonganController::class)->except('show');
+    Route::get('surat/detail', [SuratController::class, 'detail'])->name('surat.detail');
     Route::resource('surat', SuratController::class);
     Route::delete('lampiran/{uuid}', [LampiranController::class, 'destroy'])->name('lampiran.destroy');
 
     // karyawan
     Route::resource('karyawan', KaryawanController::class)->except('show');
+    // surat-perjalanan-dinas
+    Route::get('surat-perjalanan-dinas/disposisi-single/{id}', [SuratPerjalananDinasController::class, 'disposisi_single'])->name('surat-perjalanan-dinas.disposisi-single');
 });
+Route::resource('surat-perjalanan-dinas', SuratPerjalananDinasController::class)->except('show');

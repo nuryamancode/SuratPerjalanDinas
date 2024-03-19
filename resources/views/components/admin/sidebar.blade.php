@@ -16,6 +16,14 @@
                 </a>
             </li>
         @endcan
+        @can('Surat Perjalanan Dinas Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('surat-perjalanan-dinas.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Surat Perjalanan Dinas</span>
+                </a>
+            </li>
+        @endcan
         @can('Karyawan Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('karyawan.index') }}">

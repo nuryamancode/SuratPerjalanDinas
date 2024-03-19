@@ -177,4 +177,12 @@ class SuratController extends Controller
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
+
+    public function detail()
+    {
+        if (request()->ajax()) {
+            $surat = Surat::find(request('surat_id'));
+            return response()->json($surat);
+        }
+    }
 }
