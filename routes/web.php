@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KaryawanController;
@@ -48,5 +49,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('karyawan', KaryawanController::class)->except('show');
     // surat-perjalanan-dinas
     Route::get('surat-perjalanan-dinas/disposisi-single/{id}', [SuratPerjalananDinasController::class, 'disposisi_single'])->name('surat-perjalanan-dinas.disposisi-single');
+    Route::post('surat-perjalanan-dinas/disposisi-single/{id}', [SuratPerjalananDinasController::class, 'disposisi_single_submit'])->name('surat-perjalanan-dinas.disposisi-single-submit');
+
+    Route::get('surat-perjalanan-dinas/{surat_perjalanan_dinas_id}/disposisi', [DisposisiController::class, 'index'])->name('disposisi.index');
+    Route::post('surat-perjalanan-dinas/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
 });
-Route::resource('surat-perjalanan-dinas', SuratPerjalananDinasController::class)->except('show');
+Route::get('/surat-perjalanan-dinas/acc-tim-ppk', [SuratPerjalananDinasController::class, 'acc_tim_ppk'])->name('surat-perjalanan-dinas.acc-tim-ppk');
+Route::resource('surat-perjalanan-dinas', SuratPerjalananDinasController::class);

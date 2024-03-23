@@ -18,7 +18,7 @@
                             <span>Pelaksana</span>
                             <div>
                                 <ol class="list-group">
-                                    @foreach ($item->pelaksana as $pelaksana)
+                                    @foreach ($item->surat->pelaksana as $pelaksana)
                                         <li>
                                             {{ $pelaksana->karyawan->nama }}
                                         </li>
@@ -29,14 +29,21 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>File</span>
                             <span>
-                                <a href="{{ $item->getFile() }}" target="_blank" class="btn btn-success btn-sm">Lihat
+                                <a href="{{ $item->surat->getFile() }}" target="_blank" class="btn btn-success btn-sm">Lihat
                                     Surat</a>
+                            </span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Diteruskan Kepada</span>
+                            <span>
+                                {{ $item->tujuan_disposisi->nama }}
                             </span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
-                                <a href="{{ route('surat.index') }}" class="btn btn-sm btn-warning">Kembali</a>
+                                <a href="{{ route('surat-perjalanan-dinas.index') }}"
+                                    class="btn btn-sm btn-warning">Kembali</a>
                             </div>
                         </li>
                     </ul>
@@ -48,7 +55,7 @@
                 <div class="card-body">
                     <h4 class="card-title mb-5">List Lampiran</h4>
                     <ul class="list-unstyled">
-                        @forelse ($item->lampiran as $lampiran)
+                        @forelse ($item->surat->lampiran as $lampiran)
                             <li class="mb-4 d-flex justify-content-between">
                                 <p>Lampiran {{ $loop->iteration }}</p>
                                 <a href="{{ $lampiran->getFile() }}" target="_blank" class="btn btn-sm btn-info">Lihat</a>

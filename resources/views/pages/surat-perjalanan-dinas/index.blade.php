@@ -5,12 +5,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Surat</h4>
-                        @can('Surat Perjalanan Dinas Create')
+                        <h4 class="card-title mb-3">Surat Perjalanan Dinas</h4>
+                        @if (is_pengadministrasiumum())
                             <a href="{{ route('surat-perjalanan-dinas.create') }}"
                                 class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
                                 Surat Perjalanan Dinas</a>
-                        @endcan
+                        @endif
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -22,9 +22,8 @@
                                     <th>Tipe</th>
                                     <th>Tujuan Disposisi</th>
                                     <th>Status</th>
-                                    @canany(['Surat Edit', 'Surat Delete'])
-                                        <th>Aksi</th>
-                                    @endcanany
+                                    <th>Persetujuan TIM PPK</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,25 +35,40 @@
                                         <td>{{ $item->tipe }}</td>
                                         <td>{{ $item->tujuan_disposisi->nama ?? '-' }}</td>
                                         <td>{{ $item->status }}</td>
-                                        @canany(['Surat Edit', 'Surat Delete', 'Surat Show'])
-                                            <td>
-                                                @can('Surat Perjalanan Dinas Edit')
-                                                    <a href="{{ route('surat-perjalanan-dinas.edit', $item->id) }}"
-                                                        class="btn btn-sm py-2 btn-info">Edit</a>
-                                                    <a href="{{ route('surat-perjalanan-dinas.disposisi-single', $item->id) }}"
-                                                        class="btn btn-sm py-2 btn-warning">Disposisi</a>
-                                                @endcan
-                                                @can('Surat Perjalanan Dinas Delete')
-                                                    <form action="javascript:void(0)" method="post" class="d-inline"
-                                                        id="formDelete">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                            data-action="{{ route('surat-perjalanan-dinas.destroy', $item->id) }}">Hapus</button>
-                                                    </form>
-                                                @endcan
-                                            </td>
-                                        @endcanany
+                                        <td>{{ $item->acc_tim_ppk() }}</td>
+                                        <td>
+                                            @if (is_wakildirekturii())
+                                                <a href="{{ route('surat-perjalanan-dinas.disposisi-single', $item->id) }}"
+                                                    class="btn btn-sm py-2 btn-warning">Disposisi</a>
+                                            @endif
+                                            @if (is_pejabatpembuatkomitmen())
+                                                <a href="{{ route('disposisi.index', $item->id) }}"
+                                                    class="btn btn-sm py-2 btn-warning">Disposisi</a>
+                                                @if ($item->acc_tim_ppk == 0)
+                                                    <a href="{{ route('surat-perjalanan-dinas.acc-tim-ppk', [
+                                                        'id' => $item->id,
+                                                        'status' => 1,
+                                                    ]) }}"
+                                                        class="btn btn-sm py-2 btn-success">Setujui</a>
+                                                    <a href="{{ route('surat-perjalanan-dinas.acc-tim-ppk', [
+                                                        'id' => $item->id,
+                                                        'status' => 2,
+                                                    ]) }}"
+                                                        class="btn btn-sm py-2 btn-danger">Tolak</a>
+                                                @endif
+                                            @endif
+                                            <a href="{{ route('surat-perjalanan-dinas.show', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-warning">Detail</a>
+                                            @if (is_pengadministrasiumum())
+                                                <form action="javascript:void(0)" method="post" class="d-inline"
+                                                    id="formDelete">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
+                                                        data-action="{{ route('surat-perjalanan-dinas.destroy', $item->id) }}">Hapus</button>
+                                                </form>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
