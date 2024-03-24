@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('surat_perjalanan_dinas', function (Blueprint $table) {
-            $table->integer('acc_tim_ppk')->default(0);
+        Schema::table('disposisi', function (Blueprint $table) {
+            $table->integer('acc_tujuan_karyawan_id')->default(0);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('surat_perjalanan_dinas', function (Blueprint $table) {
-            $table->dropColumn('acc_tim_ppk');
+        Schema::table('disposisi', function (Blueprint $table) {
+            $table->dropColumn('acc_tujuan_karyawan_id');
         });
     }
 };

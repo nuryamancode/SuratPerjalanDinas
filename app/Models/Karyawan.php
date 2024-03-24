@@ -31,4 +31,9 @@ class Karyawan extends Model
             return 'Tidak';
         }
     }
+
+    public function tte()
+    {
+        return asset('storage/' . $this->tte_file);
+    }
 }

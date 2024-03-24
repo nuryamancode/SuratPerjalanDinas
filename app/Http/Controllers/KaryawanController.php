@@ -139,7 +139,7 @@ class KaryawanController extends Controller
                 if (request('password'))
                     $data_user['password'] = bcrypt(request('password'));
                 $user = $karyawan->user()->update($data_user);
-                $user->synceRole(request('role'));
+                $karyawan->user->syncRoles(request('role'));
             }
 
             $karyawan->update($data_karyawan);

@@ -16,24 +16,28 @@ class SuratPerjalananDinas extends Model
         return $this->belongsTo(Surat::class);
     }
 
+    public function details()
+    {
+        return $this->hasMany(SuratPerjalananDinasDetail::class, 'surat_perjalanan_dinas_id', 'id');
+    }
+
     public function tujuan_disposisi()
     {
         return $this->belongsTo(Karyawan::class, 'disposisi_karyawan_id', 'id');
     }
 
-    public function acc_tim_ppk()
-    {
-        if ($this->acc_tim_ppk == 0) {
-            return 'Dalam Peninjauan';
-        } elseif ($this->acc_tim_ppk == 1) {
-            return 'Disetujui';
-        } else {
-            return 'Ditolak';
-        }
-    }
-
     public function disposisi()
     {
         return $this->hasOne(Disposisi::class, 'surat_perjalanan_dinas_id', 'id');
+    }
+
+    public function scopeNotActive($val)
+    {
+        $val->where('status', 0)->orWhere('status', NULL);
+    }
+
+    public function scopeActive($val)
+    {
+        $val->where('status', 1);
     }
 }

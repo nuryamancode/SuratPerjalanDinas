@@ -16,8 +16,13 @@ class DisposisiDetail extends Model
         return $this->belongsTo(Disposisi::class);
     }
 
-    public function karyawan()
+    public function tujuan()
     {
-        return $this->belongsTo(Karyawan::class);
+        return $this->belongsTo(Karyawan::class, 'tujuan_karyawan_id', 'id');
+    }
+
+    public function pembuat()
+    {
+        return $this->belongsTo(Karyawan::class, 'pembuat_karyawan_id', 'id');
     }
 }

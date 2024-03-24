@@ -5,7 +5,11 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Disposisi Surat Perjalanan Dinas</h4>
-                    <form action="{{ route('disposisi.store', $item->id) }}" method="post" enctype="multipart/form-data">
+                    <form
+                        action="{{ route('disposisi-detail.store', [
+                            'disposisi_id' => $disposisi->id,
+                        ]) }}"
+                        method="post" enctype="multipart/form-data">
                         @csrf
                         <div class='form-group'>
                             <label for='tujuan_karyawan_id'>Diteruskan Ke</label>
@@ -13,7 +17,7 @@
                                 class='form-control @error('tujuan_karyawan_id') is-invalid @enderror'>
                                 <option value='' selected disabled>Pilih Karyawan</option>
                                 @foreach ($data_karyawan as $karyawan)
-                                    <option @selected($karyawan->id == isset($item->disposisi) ? $item->disposisi->tujuan_karyawan_id : null) value='{{ $karyawan->id }}'>
+                                    <option value='{{ $karyawan->id }}'>
                                         {{ $karyawan->nama . ' | ' . $karyawan->jabatan->nama }}
                                     </option>
                                 @endforeach
@@ -24,22 +28,16 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class='form-group'>
-                            <label for='tipe'>Tipe</label>
-                            <select name='tipe' id='tipe' class='form-control @error('tipe') is-invalid @enderror'>
-                                <option value='' selected disabled>Pilih tipe</option>
-                                <option @selected(isset($item->disposisi) ? $item->disposisi->tipe : 'NULL' === 'Rahasia') value="Rahasia">Rahasia</option>
-                                <option @selected(isset($item->disposisi) ? $item->disposisi->tipe : 'NULL' === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
-                                <option @selected(isset($item->disposisi) ? $item->disposisi->tipe : 'NULL' === 'Segera') value="Segera">Segera</option>
-                                <option @selected(isset($item->disposisi) ? $item->disposisi->tipe : 'NULL' === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
-                            </select>
-                            @error('tipe')
+                        <div class='form-group mb-3'>
+                            <label for='catatan' class='mb-2'>Catatan</label>
+                            <textarea name='catatan' id='catatan' cols='30' rows='3'
+                                class='form-control @error('catatan') is-invalid @enderror'>{{ old('catatan') }}</textarea>
+                            @error('catatan')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
-
                         <div class="form-group text-right">
                             <a href="{{ route('surat-perjalanan-dinas.index') }}" class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Submit</button>

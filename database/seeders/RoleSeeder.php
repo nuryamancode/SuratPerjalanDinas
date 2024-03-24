@@ -20,5 +20,24 @@ class RoleSeeder extends Seeder
         Role::create([
             'name' => 'admin'
         ]);
+
+        Role::create([
+            'name' => 'Pengadministrasi Umum'
+        ]);
+
+        Role::create([
+            'name' => 'Pelaksana Perjalanan Dinas'
+        ]);
+
+        Role::create([
+            'name' => 'Bendahara Keuangan'
+        ]);
+
+        Role::create([
+            'name' => 'Pejabat Pembuat Komitmen'
+        ]);
+        Role::create([
+            'name' => 'Wakil Direktur II'
+        ]);
     }
 }

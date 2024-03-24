@@ -36,3 +36,13 @@ function is_pejabatpembuatkomitmen()
         return false;
     }
 }
+
+
+function is_bendaharakeuangan()
+{
+    if (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
+        return true;
+    } else {
+        return false;
+    }
+}

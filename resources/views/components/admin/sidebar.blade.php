@@ -6,29 +6,52 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        @if (is_pengadministrasiumum())
+        @if (is_pengadministrasiumum() || is_bendaharakeuangan())
+            @if (is_pengadministrasiumum())
+                <li class="nav-item">
+                    <a class="nav-link py-2" href="{{ route('surat.index') }}">
+                        <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                        <span class="menu-title">Surat</span>
+                    </a>
+                </li>
+            @endif
             <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('surat.index') }}">
+                <a class="nav-link py-2" href="{{ route('permohonan-surat-perjalanan-dinas.index') }}">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                    <span class="menu-title">Surat</span>
+                    <span class="menu-title">Permohonan SPD</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('surat-perjalanan-dinas.index') }}">
-                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                    <span class="menu-title">Surat Perjalanan Dinas</span>
-                </a>
-            </li>
+            @if (is_bendaharakeuangan())
+                <li class="nav-item">
+                    <a class="nav-link py-2" href="{{ route('surat-perjalanan-dinas.index') }}">
+                        <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                        <span class="menu-title">Surat Perjalanan Dinas</span>
+                    </a>
+                </li>
+            @endif
         @endif
         @if (is_wakildirekturii() || is_pejabatpembuatkomitmen())
             <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('permohonan-surat-perjalanan-dinas.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Permohonan SPD</span>
+                </a>
+            </li>
+        @endif
+        @if (is_pejabatpembuatkomitmen())
+            <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('surat-perjalanan-dinas.index') }}">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Surat Perjalanan Dinas</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('tte.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Upload TTE</span>
+                </a>
+            </li>
         @endif
-
         @if (is_superadmin())
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('karyawan.index') }}">

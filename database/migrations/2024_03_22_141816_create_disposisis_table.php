@@ -14,13 +14,17 @@ return new class extends Migration
         Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('surat_perjalanan_dinas_id')->constrained('surat_perjalanan_dinas');
+            $table->string('tipe');
             $table->text('catatan')->nullable();
+            $table->foreignId('pembuat_karyawan_id')->constrained('karyawan');
+            $table->foreignId('tujuan_karyawan_id')->constrained('karyawan');
             $table->timestamps();
         });
         Schema::create('disposisi_detail', function (Blueprint $table) {
             $table->id();
             $table->foreignId('disposisi_id')->constrained('disposisi')->cascadeOnDelete();
-            $table->foreignId('karyawan_id')->constrained('karyawan');
+            $table->foreignId('tujuan_karyawan_id')->constrained('karyawan');
+            $table->foreignId('pembuat_karyawan_id')->constrained('karyawan');
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

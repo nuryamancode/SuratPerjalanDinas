@@ -5,16 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Karyawan;
 use App\Models\Surat;
 use App\Models\SuratPerjalananDinas;
+use App\Models\SuratPerjalananDinasDetail;
 use Illuminate\Http\Request;
 
 class SuratPerjalananDinasController extends Controller
 {
     public function index()
     {
-        $items = SuratPerjalananDinas::latest()->get();
+        if (request('surat_perjalanan_dinas_id')) {
+            $items = SuratPerjalananDinasDetail::where('surat_perjalanan_dinas_id', request('surat_perjalanan_dinas_id'))->latest()->get();
+        } else {
+            $items = [];
+        }
+        $data_surat_perjalanan_dinas = SuratPerjalananDinas::latest()->get();
         return view('pages.surat-perjalanan-dinas.index', [
             'title' => 'Surat Perjalanan Dinas',
-            'items' => $items
+            'items' => $items,
+            'data_surat_perjalanan_dinas' => $data_surat_perjalanan_dinas
         ]);
     }
 
@@ -34,34 +41,9 @@ class SuratPerjalananDinasController extends Controller
         ]);
 
         $data = request()->only(['surat_id']);
+        $data['status'] = 0;
         SuratPerjalananDinas::create($data);
         return redirect()->route('surat-perjalanan-dinas.index')->with('success', 'Surat Perjalanan Dinas berhasil diajukan.');
-    }
-
-    public function disposisi_single($id)
-    {
-        $item = SuratPerjalananDinas::findOrFail($id);
-        $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
-        return view('pages.surat-perjalanan-dinas.disposisi-single', [
-            'title' => 'Disposisi Single Surat Perjalanan Dinas',
-            'item' => $item,
-            'data_karyawan' => $data_karyawan
-        ]);
-    }
-    public function disposisi_single_submit($id)
-    {
-        request()->validate([
-            'disposisi_karyawan_id' => ['required'],
-            'tipe' => ['required']
-        ]);
-        $item = SuratPerjalananDinas::findOrFail($id);
-        $item->update([
-            'disposisi_karyawan_id' => request('disposisi_karyawan_id'),
-            'tipe' => request('tipe'),
-            'status' => 'Menunggu Pengecekan TIM PPK'
-        ]);
-
-        return redirect()->route('surat-perjalanan-dinas.index')->with('success', 'Disposisi Surat Perjalan Dinas Berhasi Diupdate');
     }
 
     public function show($id)
@@ -73,13 +55,38 @@ class SuratPerjalananDinasController extends Controller
         ]);
     }
 
-    public function acc_tim_ppk()
+    public function generate()
     {
-        $item = SuratPerjalananDinas::findOrFail(request('id'));
+        $item = SuratPerjalananDinas::where('id', request('surat_perjalanan_dinas_id'))->firstOrFail();
+        if ($item && $item->details) {
+            $data_pelaksana = $item->surat->pelaksana;
+            // create spd
+            if ($data_pelaksana) {
+                foreach ($data_pelaksana as $pelaksana) {
+                    SuratPerjalananDinasDetail::create([
+                        'surat_perjalanan_dinas_id' => $item->id,
+                        'karyawan_id' => $pelaksana->karyawan->id
+                    ]);
+                }
+            }
+
+            // update spd
+            $item->update([
+                'status' => 1
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Surat perjalanan dinas berhasil dibuat.');
+    }
+
+    public function validasi_pemberangkatan($id)
+    {
+        $item = SuratPerjalananDinas::findOrFail($id);
         $item->update([
-            'acc_tim_ppk' => request('status')
+            'validasi_pemberangkatan' => 1,
+            'validasi_karyawan_id' => auth()->user()->karyawan->id
         ]);
 
-        return redirect()->back()->with('success', 'Persetujuan berhasil diupdate.');
+        return redirect()->back()->with('success', 'Surat Perjalanan Dinas Berhasil divalidasi.');
     }
 }

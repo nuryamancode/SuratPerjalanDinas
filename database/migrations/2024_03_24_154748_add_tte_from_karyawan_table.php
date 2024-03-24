@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('surat_perjalanan_dinas', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('surat_id')->constrained('surat');
-            $table->string('tipe')->nullable();
-            $table->string('status')->nullable();
-            $table->timestamps();
+        Schema::table('karyawan', function (Blueprint $table) {
+            $table->string("tte_file")->nullable();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('surat_perjalanan_dinas');
+        Schema::table('karyawan', function (Blueprint $table) {
+            $table->dropColumn('tte_file');
+        });
     }
 };

@@ -3,32 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disposisi;
+use App\Models\Karyawan;
 use App\Models\SuratPerjalananDinas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DisposisiController extends Controller
 {
-    public function index($surat_perjalanan_dinas_id)
+    public function index($id)
     {
-        $spd = SuratPerjalananDinas::with('disposisi')->findOrFail($surat_perjalanan_dinas_id);
+        $item = SuratPerjalananDinas::findOrFail($id);
+        $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
         return view('pages.disposisi.index', [
-            'title' => 'Disposisi',
-            'spd' => $spd
+            'title' => 'Disposisi Surat Perjalanan Dinas',
+            'item' => $item,
+            'data_karyawan' => $data_karyawan
         ]);
     }
-
-    public function store()
+    public function store($id)
     {
         request()->validate([
-            'surat_perjalanan_dinas_id' => ['required']
+            'tujuan_karyawan_id' => ['required'],
+            'tipe' => ['required']
+        ]);
+        DB::beginTransaction();
+        try {
+            $item = SuratPerjalananDinas::findOrFail($id);
+            // dd($item->disposisi);
+            // cek disposisi
+            if ($item->disposisi) {
+                // update disposisi
+                $item->disposisi()->update([
+                    'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
+                    'tipe' => request('tipe')
+                ]);
+            } else {
+                // create
+                $item->disposisi()->create([
+                    'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
+                    'tipe' => request('tipe'),
+                    'pembuat_karyawan_id' => auth()->user()->karyawan->id,
+                ]);
+            }
+            DB::commit();
+            return redirect()->route('surat-perjalanan-dinas.index',)->with('success', 'Disposisi Surat Perjalan Dinas Berhasi Diupdate');
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function acc()
+    {
+        $item = SuratPerjalananDinas::findOrFail(request('surat_perjalanan_dinas_id'));
+        $item->disposisi()->update([
+            'acc_tujuan_karyawan_id' => request('status')
         ]);
 
-        $data = request()->only(['surat_perjalanan_dinas_id', 'catatan']);
-        Disposisi::create([
-            'surat_perjalanan_dinas_id' => request('surat_perjalanan_dinas_id'),
-            'catatan' => request('catatan')
-        ]);
-
-        return redirect()->back()->with('success', 'Disposisi berhasil dibuat');
+        return redirect()->back()->with('success', 'Persetujuan berhasil diupdate.');
     }
 }

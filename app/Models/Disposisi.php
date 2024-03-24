@@ -11,6 +11,11 @@ class Disposisi extends Model
     protected $table = 'disposisi';
     protected $guarded = ['id'];
 
+    public function tujuan()
+    {
+        return $this->belongsTo(Karyawan::class, 'tujuan_karyawan_id', 'id');
+    }
+
     public function details()
     {
         return $this->hasMany(DisposisiDetail::class);

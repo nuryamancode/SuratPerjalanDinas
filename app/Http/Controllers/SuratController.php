@@ -12,13 +12,13 @@ use Illuminate\Validation\Rule;
 
 class SuratController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:Surat Index')->only('index');
-        $this->middleware('can:Surat Create')->only(['create', 'store']);
-        $this->middleware('can:Surat Edit')->only(['edit', 'update']);
-        $this->middleware('can:Surat Delete')->only('destroy');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('can:Surat Index')->only('index');
+    //     $this->middleware('can:Surat Create')->only(['create', 'store']);
+    //     $this->middleware('can:Surat Edit')->only(['edit', 'update']);
+    //     $this->middleware('can:Surat Delete')->only('destroy');
+    // }
 
     public function index()
     {
