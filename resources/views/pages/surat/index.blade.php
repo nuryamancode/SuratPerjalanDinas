@@ -15,6 +15,9 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
+                                    <th>Nomor Agenda</th>
+                                    <th>Asal Surat</th>
+                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
                                     <th>Pelaksana</th>
                                     <th>Status Surat</th>
@@ -26,6 +29,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
+                                        <td>{{ $item->no_agenda }}</td>
+                                        <td>{{ $item->asal_surat }}</td>
+                                        <td>{{ $item->tanggal_surat }}</td>
                                         <td>{{ $item->perihal }}</td>
                                         <td>
                                             <ul>

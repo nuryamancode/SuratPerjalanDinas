@@ -11,6 +11,18 @@
                             <span>{{ $item->nomor_surat }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Nomor Agenda</span>
+                            <span>{{ $item->no_agenda }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Asal Surat</span>
+                            <span>{{ $item->asal_surat }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Tanggal Surat</span>
+                            <span>{{ $item->tanggal_surat }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Perihal</span>
                             <span>{{ $item->perihal }}</span>
                         </li>

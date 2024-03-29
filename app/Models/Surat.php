@@ -11,6 +11,11 @@ class Surat extends Model
     protected $table = 'surat';
     protected $guarded = ['id'];
 
+    public function surat_perjalanan_dinas()
+    {
+        return $this->hasOne(SuratPerjalananDinas::class);
+    }
+
     public function getFile()
     {
         return asset('storage/' . $this->file);
@@ -24,5 +29,10 @@ class Surat extends Model
     public function pelaksana()
     {
         return $this->hasMany(Pelaksana::class);
+    }
+
+    public function scopeIsNotUsed()
+    {
+        return $this->whereDoesntHave('surat_perjalanan_dinas');
     }
 }

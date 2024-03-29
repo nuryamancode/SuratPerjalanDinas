@@ -7,7 +7,7 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Permohonan Surat Perjalanan Dinas</h4>
                         @if (is_pengadministrasiumum())
-                            <a href="{{ route('surat-perjalanan-dinas.create') }}"
+                            <a href="{{ route('permohonan-surat-perjalanan-dinas.create') }}"
                                 class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
                                 Permohonan Surat Perjalanan Dinas</a>
                         @endif
@@ -39,7 +39,7 @@
                                         {{-- <th>Acc</th> --}}
                                         <td>
                                             @if (is_bendaharakeuangan())
-                                                <a href="{{ route('surat-perjalanan-dinas.index', [
+                                                <a href="{{ route('permohonan-surat-perjalanan-dinas.index', [
                                                     'surat_perjalanan_dinas_id' => $item->id,
                                                 ]) }}"
                                                     class="btn btn-sm py-2 btn-success">Buatkan SPD</a>

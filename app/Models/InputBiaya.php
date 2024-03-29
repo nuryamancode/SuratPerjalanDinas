@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DisposisiSpd extends Model
+class InputBiaya extends Model
 {
     use HasFactory;
 }

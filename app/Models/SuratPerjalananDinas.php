@@ -31,6 +31,11 @@ class SuratPerjalananDinas extends Model
         return $this->hasOne(Disposisi::class, 'surat_perjalanan_dinas_id', 'id');
     }
 
+    public function riwayat()
+    {
+        return $this->hasMany(RiwayatSuratPerjalananDinas::class, 'surat_perjalanan_dinas_id', 'id');
+    }
+
     public function scopeNotActive($val)
     {
         $val->where('status', 0)->orWhere('status', NULL);

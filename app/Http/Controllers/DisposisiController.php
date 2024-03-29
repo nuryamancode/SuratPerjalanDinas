@@ -29,22 +29,11 @@ class DisposisiController extends Controller
         DB::beginTransaction();
         try {
             $item = SuratPerjalananDinas::findOrFail($id);
-            // dd($item->disposisi);
-            // cek disposisi
-            if ($item->disposisi) {
-                // update disposisi
-                $item->disposisi()->update([
-                    'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
-                    'tipe' => request('tipe')
-                ]);
-            } else {
-                // create
-                $item->disposisi()->create([
-                    'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
-                    'tipe' => request('tipe'),
-                    'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                ]);
-            }
+            $item->disposisi()->create([
+                'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
+                'tipe' => request('tipe'),
+                'pembuat_karyawan_id' => auth()->user()->karyawan->id,
+            ]);
             DB::commit();
             return redirect()->route('surat-perjalanan-dinas.index',)->with('success', 'Disposisi Surat Perjalan Dinas Berhasi Diupdate');
         } catch (\Throwable $th) {

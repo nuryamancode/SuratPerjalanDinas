@@ -20,6 +20,39 @@
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
+                            <label for='no_agenda' class='mb-2'>Nomor Agenda</label>
+                            <input type='text' name='no_agenda' id='no_agenda'
+                                class='form-control @error('no_agenda') is-invalid @enderror'
+                                value='{{ $item->no_agenda ?? old('no_agenda') }}'>
+                            @error('no_agenda')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='asal_surat' class='mb-2'>Asal Surat</label>
+                            <input type='text' name='asal_surat' id='asal_surat'
+                                class='form-control @error('asal_surat') is-invalid @enderror'
+                                value='{{ $item->asal_surat ?? old('asal_surat') }}'>
+                            @error('asal_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
+                            <input type='date' name='tanggal_surat' id='tanggal_surat'
+                                class='form-control @error('tanggal_surat') is-invalid @enderror'
+                                value='{{ $item->tanggal_surat ?? old('tanggal_surat') }}'>
+                            @error('tanggal_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
                             <label for='perihal' class='mb-2'>Perihal</label>
                             <input type='text' name='perihal' id='perihal'
                                 class='form-control @error('perihal') is-invalid @enderror'

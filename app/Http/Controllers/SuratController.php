@@ -49,7 +49,7 @@ class SuratController extends Controller
 
         DB::beginTransaction();
         try {
-            $data = request()->only(['nomor_surat', 'perihal']);
+            $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'asal_surat', 'tanggal_surat']);
             $data['file'] = request()->file('file')->store('surat', 'public');
             $data_lampiran = request()->file('lampiran');
             $data_pelaksana = request('pelaksana');
@@ -120,7 +120,7 @@ class SuratController extends Controller
 
         DB::beginTransaction();
         try {
-            $data = request()->only(['nomor_surat', 'perihal']);
+            $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'asal_surat', 'tanggal_surat']);
             $item = Surat::where('uuid', $uuid)->firstOrFail();
             if (request()->file('file')) {
                 if ($item->file)

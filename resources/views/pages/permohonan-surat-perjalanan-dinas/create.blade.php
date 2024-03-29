@@ -5,7 +5,8 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Pengajuan Surat Perjalanan Dinas</h4>
-                    <form action="{{ route('surat-perjalanan-dinas.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('permohonan-surat-perjalanan-dinas.store') }}" method="post"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class='form-group'>
                             <label for='surat_id'>Surat</label>
@@ -46,8 +47,51 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class='form-group'>
+                            <label for='tujuan_karyawan_id'>Diteruskan Ke</label>
+                            <select name='tujuan_karyawan_id' id='tujuan_karyawan_id'
+                                class='form-control @error('tujuan_karyawan_id') is-invalid @enderror'>
+                                <option value='' selected disabled>Pilih Diteruskan Ke</option>
+                                @foreach ($data_karyawan as $karyawan)
+                                    <option @selected($karyawan->id == old('tujuan_karyawan_id')) value='{{ $karyawan->id }}'>{{ $karyawan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('tujuan_karyawan_id')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group'>
+                            <label for='tipe'>Tipe</label>
+                            <select name='tipe' id='tipe' class='form-control @error('tipe') is-invalid @enderror'>
+                                <option value='' selected disabled>Pilih tipe</option>
+                                <option @selected(request('tipe') === 'Rahasia') value="Rahasia">Rahasia</option>
+                                <option @selected(request('tipe') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
+                                <option @selected(request('tipe') === 'Segera') value="Segera">Segera</option>
+                                <option @selected(request('tipe') === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
+                            </select>
+                            @error('tipe')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='catatan' class='mb-2'>Catatan</label>
+                            <textarea name='catatan' id='catatan' cols='30' rows='3'
+                                class='form-control @error('catatan') is-invalid @enderror'>{{ old('catatan') }}</textarea>
+                            @error('catatan')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
                         <div class="form-group text-right">
-                            <a href="{{ route('surat-perjalanan-dinas.index') }}" class="btn btn-warning">Batal</a>
+                            <a href="{{ route('permohonan-surat-perjalanan-dinas.index') }}"
+                                class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Ajukan Surat Perjalanan Dinas</button>
                         </div>
                     </form>

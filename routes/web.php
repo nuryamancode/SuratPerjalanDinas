@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\DisposisiDetailController;
 use App\Http\Controllers\GolonganController;
+use App\Http\Controllers\InputBiayaController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LampiranController;
@@ -67,4 +68,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('surat-perjalanan-dinas-detail', SuratPerjalananDinasDetailController::class);
     Route::get('tte', [TTEController::class, 'index'])->name('tte.index');
     Route::post('tte', [TTEController::class, 'update'])->name('tte.update');
+
+    Route::resource('input-biaya', [InputBiayaController::class, 'index']);
 });
