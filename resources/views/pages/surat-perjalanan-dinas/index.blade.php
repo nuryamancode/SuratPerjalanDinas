@@ -63,7 +63,7 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Karyawan</th>
+                                    <th>Pelaksana</th>
                                     <th>Tempat Berangkat</th>
                                     <th>Tempat Tujuan</th>
                                     <th>Lama Perjalanan Dinas</th>
@@ -85,10 +85,10 @@
                                         <td>{{ $item->tanggal_harus_kembali ?? '-' }}</td>
                                         <td>{{ $item->keterangan_lain_lain ?? '-' }}</td>
                                         <td>
-                                            <a href="{{ route('input-biaya.index', [
-                                                'surat_perjalanan_dinas_id' => $item->id,
+                                            <a href="{{ route('surat-perjalanan-dinas-supir.index', [
+                                                'surat_perjalanan_dinas_detail_id' => $item->id,
                                             ]) }}"
-                                                class="btn btn-info">Input Biaya</a>
+                                                class="btn btn-primary  py-2">Supir</a>
                                             <a href="{{ route('surat-perjalanan-dinas-detail.edit', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-info">Edit</a>
                                         </td>

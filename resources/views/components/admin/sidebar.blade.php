@@ -28,6 +28,12 @@
                         <span class="menu-title">Surat Perjalanan Dinas</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link py-2" href="{{ route('uang-muka.index') }}">
+                        <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                        <span class="menu-title">Uang Muka</span>
+                    </a>
+                </li>
             @endif
         @endif
         @if (is_wakildirekturii() || is_pejabatpembuatkomitmen())

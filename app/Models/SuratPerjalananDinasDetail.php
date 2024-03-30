@@ -20,4 +20,9 @@ class SuratPerjalananDinasDetail extends Model
     {
         return $this->belongsTo(SuratPerjalananDinas::class);
     }
+
+    public function supir()
+    {
+        return $this->hasMany(SuratPerjalananDinasDetailSupir::class, 'spd_detail_id', 'id');
+    }
 }

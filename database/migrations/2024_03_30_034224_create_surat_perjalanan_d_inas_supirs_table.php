@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('input_biayas', function (Blueprint $table) {
+        Schema::create('spd_detail_supir', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('spd_detail_id')->constrained('surat_perjalanan_dinas_detail')->cascadeOnDelete();
+            $table->foreignId('karyawan_id')->constrained('karyawan')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('input_biayas');
+        Schema::dropIfExists('spd_detail_supir');
     }
 };

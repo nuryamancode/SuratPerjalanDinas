@@ -89,4 +89,11 @@ class SuratPerjalananDinasController extends Controller
 
         return redirect()->back()->with('success', 'Surat Perjalanan Dinas Berhasil divalidasi.');
     }
+
+    public function getById()
+    {
+        $id = request('spd_id');
+        $item = SuratPerjalananDinas::with('surat')->findOrFail(($id));
+        return response()->json($item);
+    }
 }
