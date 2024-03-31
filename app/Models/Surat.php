@@ -38,7 +38,7 @@ class Surat extends Model
 
     public function status()
     {
-        if ($this->surat_perjalanan_dinas->disposisi) {
+        if ($this->surat_perjalanan_dinas && $this->surat_perjalanan_dinas->disposisi) {
             return 'Sudah Didisposisikan';
         } else {
             return 'Belum Didisposisikan';
