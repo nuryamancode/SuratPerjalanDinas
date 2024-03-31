@@ -71,4 +71,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Karyawan::class, 'user_id', 'id');
     }
+
+    public function getPermissions($permission)
+    {
+        return $this->roles->map(function ($role) {
+            return $role->permissions;
+        })->collapse()->unique()->where('name', $permission)->first();
+    }
 }

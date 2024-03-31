@@ -25,4 +25,19 @@ class SuratPerjalananDinasDetail extends Model
     {
         return $this->hasMany(SuratPerjalananDinasDetailSupir::class, 'spd_detail_id', 'id');
     }
+
+    public function spj()
+    {
+        return $this->hasOne(SuratPertanggungJawaban::class, 'spd_detail_id', 'id');
+    }
+
+    public function downloadFile()
+    {
+        return asset('storage/' . $this->file);
+    }
+
+    public function scopeGetByKaryawan($val)
+    {
+        $val->where('karyawan_id', auth()->user()->karyawan->id);
+    }
 }

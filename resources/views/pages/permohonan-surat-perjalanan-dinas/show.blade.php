@@ -42,7 +42,7 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
-                                <a href="{{ route('surat-perjalanan-dinas.index') }}"
+                                <a href="{{ route('permohonan-surat-perjalanan-dinas.index') }}"
                                     class="btn btn-sm btn-warning">Kembali</a>
                             </div>
                         </li>

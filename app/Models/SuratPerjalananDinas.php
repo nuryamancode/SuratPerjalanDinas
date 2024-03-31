@@ -28,7 +28,7 @@ class SuratPerjalananDinas extends Model
 
     public function disposisi()
     {
-        return $this->hasOne(Disposisi::class, 'surat_perjalanan_dinas_id', 'id');
+        return $this->hasOne(Disposisi::class, 'surat_perjalanan_dinas_id', 'id')->latest();
     }
 
     public function riwayat()
@@ -44,5 +44,17 @@ class SuratPerjalananDinas extends Model
     public function scopeActive($val)
     {
         $val->where('status', 1);
+    }
+
+    public function scopeAcc($val)
+    {
+        $val->where('validasi_pemberangkatan', 1);
+    }
+
+    public function scopeGetByKaryawan($val)
+    {
+        $val->whereHas('details', function ($q) {
+            $q->where('karyawan_id', auth()->user()->karyawan->id);
+        });
     }
 }

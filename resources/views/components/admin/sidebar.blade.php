@@ -6,65 +6,63 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        @if (is_pengadministrasiumum() || is_bendaharakeuangan())
-            @if (is_pengadministrasiumum())
-                <li class="nav-item">
-                    <a class="nav-link py-2" href="{{ route('surat.index') }}">
-                        <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                        <span class="menu-title">Surat</span>
-                    </a>
-                </li>
-            @endif
+        @can('Surat Pertanggung Jawaban Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('surat-pertanggung-jawaban.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">SPJ</span>
+                </a>
+            </li>
+        @endcan
+        @can('Surat Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('surat.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Surat</span>
+                </a>
+            </li>
+        @endcan
+        @can('Permohonan Surat Perjalanan Dinas Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('permohonan-surat-perjalanan-dinas.index') }}">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Permohonan SPD</span>
                 </a>
             </li>
-            @if (is_bendaharakeuangan())
-                <li class="nav-item">
-                    <a class="nav-link py-2" href="{{ route('surat-perjalanan-dinas.index') }}">
-                        <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                        <span class="menu-title">Surat Perjalanan Dinas</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-2" href="{{ route('uang-muka.index') }}">
-                        <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                        <span class="menu-title">Uang Muka</span>
-                    </a>
-                </li>
-            @endif
-        @endif
-        @if (is_wakildirekturii() || is_pejabatpembuatkomitmen())
-            <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('permohonan-surat-perjalanan-dinas.index') }}">
-                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                    <span class="menu-title">Permohonan SPD</span>
-                </a>
-            </li>
-        @endif
-        @if (is_pejabatpembuatkomitmen())
+        @endcan
+        @can('Surat Perjalanan Dinas Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('surat-perjalanan-dinas.index') }}">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Surat Perjalanan Dinas</span>
                 </a>
             </li>
+        @endcan
+        @can('Uang Muka Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('uang-muka.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Uang Muka</span>
+                </a>
+            </li>
+        @endcan
+        @can('TTE Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('tte.index') }}">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Upload TTE</span>
                 </a>
             </li>
-        @endif
-        @if (is_superadmin())
+        @endcan
+        @can('Karyawan Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('karyawan.index') }}">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Karyawan</span>
                 </a>
             </li>
+        @endcan
+        @canany(['Role Index', 'Permission Index', 'User Index', 'Jabatan Index', 'Golongan Index'])
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#master_data" aria-expanded="false"
                     aria-controls="master_data">
@@ -92,6 +90,6 @@
                     </ul>
                 </div>
             </li>
-        @endif
+        @endcanany
     </ul>
 </nav>

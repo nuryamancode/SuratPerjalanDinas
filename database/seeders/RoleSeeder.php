@@ -17,27 +17,29 @@ class RoleSeeder extends Seeder
             'name' => 'superadmin'
         ]);
 
-        Role::create([
-            'name' => 'admin'
-        ]);
-
-        Role::create([
+        $pa = Role::create([
             'name' => 'Pengadministrasi Umum'
         ]);
+        $pa->givePermissionTo(['Dashboard', 'Surat Index', 'Surat Create', 'Surat Edit', 'Surat Delete', 'Permohonan Surat Perjalanan Dinas Index', 'Permohonan Surat Perjalanan Dinas Create', 'Permohonan Surat Perjalanan Dinas Edit', 'Permohonan Surat Perjalanan Dinas Delete', 'Permohonan Surat Perjalanan Dinas Show']);
 
-        Role::create([
+        $ppl = Role::create([
             'name' => 'Pelaksana Perjalanan Dinas'
         ]);
+        $ppl->givePermissionTo(['Dashboard', 'Surat Perjalanan Dinas Index', 'Surat Perjalanan Dinas By Karyawan', 'Surat Pertanggung Jawaban Index', 'Surat Pertanggung Jawaban By Karyawan']);
 
-        Role::create([
+        $bendahara = Role::create([
             'name' => 'Bendahara Keuangan'
         ]);
+        $bendahara->givePermissionTo(['Dashboard', 'Permohonan Surat Perjalanan Dinas Index', 'Surat Perjalanan Dinas Create', 'Surat Perjalanan Dinas Index', 'Surat Pertanggung Jawaban Arsip Index', 'Surat Pertanggung Jawaban Create', 'Surat Pertanggung Jawaban Delete', 'Uang Muka Index', 'Uang Muka Create', 'Uang Muka Edit', 'Uang Muka Delete']);
 
-        Role::create([
+        $ppk = Role::create([
             'name' => 'Pejabat Pembuat Komitmen'
         ]);
-        Role::create([
+        $ppk->givePermissionTo(['Dashboard', 'Permohonan Surat Perjalanan Dinas Show', 'Disposisi Index', 'Disposisi Create', 'Disposisi Edit', 'Disposisi Delete', 'Surat Perjalanan Dinas Verifikasi', 'Surat Pertanggung Jawaban Index', 'Surat Pertanggung Jawaban Show', 'Surat Pertanggung Jawaban Verifikasi']);
+
+        $wadir2 = Role::create([
             'name' => 'Wakil Direktur II'
         ]);
+        $wadir2->givePermissionTo(['Dashboard', 'Disposisi Index', 'Disposisi Create']);
     }
 }

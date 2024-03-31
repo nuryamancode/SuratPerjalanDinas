@@ -16,6 +16,8 @@ use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratPerjalananDinasController;
 use App\Http\Controllers\SuratPerjalananDinasDetailController;
 use App\Http\Controllers\SuratPerjalananDinasDetailSupirController;
+use App\Http\Controllers\SuratPertanggungJawabanController;
+use App\Http\Controllers\SuratPertanggungJawabanDetailController;
 use App\Http\Controllers\TTEController;
 use App\Http\Controllers\UangMukaController;
 use App\Http\Controllers\UserController;
@@ -68,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::post('surat-perjalanan-dinas/{id}/validasi-pemberangkatan', [SuratPerjalananDinasController::class, 'validasi_pemberangkatan'])->name('surat-perjalanan-dinas.validasi-pemberangkatan');
     Route::get('surat-perjalanan-dinas/getbyId', [SuratPerjalananDinasController::class, 'getById'])->name('surat-perjalanan-dinas.getById');
     Route::resource('surat-perjalanan-dinas', SuratPerjalananDinasController::class);
+    Route::get('surat-perjalanan-dinas-detail/getById', [SuratPerjalananDinasDetailController::class, 'getById'])->name('surat-perjalanan-dinas-detail.getById');
     Route::resource('surat-perjalanan-dinas-detail', SuratPerjalananDinasDetailController::class);
     Route::get('tte', [TTEController::class, 'index'])->name('tte.index');
     Route::post('tte', [TTEController::class, 'update'])->name('tte.update');
@@ -75,4 +78,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('input-biaya', InputBiayaController::class);
     Route::resource('uang-muka', UangMukaController::class);
+    Route::get('surat-pertanggung-jawaban/verifikasi', [SuratPertanggungJawabanController::class, 'verifikasi'])->name('surat-pertanggung-jawaban.verifikasi');
+    Route::resource('surat-pertanggung-jawaban', SuratPertanggungJawabanController::class);
+    Route::resource('surat-pertanggung-jawaban-detail', SuratPertanggungJawabanDetailController::class);
 });

@@ -13,7 +13,13 @@ class PermohonanSuratPerjalananDinasController extends Controller
 {
     public function index()
     {
-        $items = SuratPerjalananDinas::notActive()->latest()->get();
+        $data = SuratPerjalananDinas::notActive();
+        if (auth()->user()->getPermissions('Permohonan Surat Perjalanan Dinas By Karyawan')) {
+            $data->whereHas('disposisi', function ($q) {
+                $q->where('pembuat_karyawan_id', auth()->user()->karyawan->id)->orWhere('tujuan_karyawan_id', auth()->user()->karyawan->id);
+            });
+        }
+        $items = $data->latest()->get();
         return view('pages.permohonan-surat-perjalanan-dinas.index', [
             'title' => 'Surat Perjalanan Dinas',
             'items' => $items

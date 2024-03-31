@@ -12,12 +12,21 @@ class SuratPerjalananDinasController extends Controller
 {
     public function index()
     {
+        $data = SuratPerjalananDinasDetail::whereNotNull('id');
+        $data_spd = SuratPerjalananDinas::latest();
         if (request('surat_perjalanan_dinas_id')) {
-            $items = SuratPerjalananDinasDetail::where('surat_perjalanan_dinas_id', request('surat_perjalanan_dinas_id'))->latest()->get();
+            if (auth()->user()->getPermissions('Surat Perjalanan Dinas Detail By Karyawan')) {
+                $data->getByKaryawan();
+            }
+            $items = $data->where('surat_perjalanan_dinas_id', request('surat_perjalanan_dinas_id'))->latest()->get();
         } else {
             $items = [];
         }
-        $data_surat_perjalanan_dinas = SuratPerjalananDinas::latest()->get();
+        if (auth()->user()->getPermissions('Surat Perjalanan Dinas By Karyawan')) {
+            $data_spd->getByKaryawan();
+        }
+        $data_surat_perjalanan_dinas = $data_spd->get();
+
         return view('pages.surat-perjalanan-dinas.index', [
             'title' => 'Surat Perjalanan Dinas',
             'items' => $items,
@@ -82,12 +91,16 @@ class SuratPerjalananDinasController extends Controller
     public function validasi_pemberangkatan($id)
     {
         $item = SuratPerjalananDinas::findOrFail($id);
+        // cek tte
+        if (!auth()->user()->karyawan->tte_file) {
+            return redirect()->route('tte.index')->with('error', 'Silahkan upload terlebih dahulu TTE nya.');
+        }
         $item->update([
             'validasi_pemberangkatan' => 1,
             'validasi_karyawan_id' => auth()->user()->karyawan->id
         ]);
 
-        return redirect()->back()->with('success', 'Surat Perjalanan Dinas Berhasil divalidasi.');
+        return redirect()->back()->with('success', 'Surat Perjalanan Dinas Berhasil diverifikasi.');
     }
 
     public function getById()

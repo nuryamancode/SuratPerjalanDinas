@@ -18,51 +18,53 @@
                                 </div>
                             @enderror
                         </div>
-                        <table class="table table-borderless permissionTable overflow-hidden my-4 p-4">
-                            <th class="px-4">
-                                Grup
-                            </th>
+                        <div class="table-responsive">
+                            <table class="table nowrap table-borderless permissionTable overflow-hidden my-4 p-4">
+                                <th class="px-4">
+                                    Grup
+                                </th>
 
-                            <th class="px-4">
-                                <label>
-                                    <input class="grand_selectall" type="checkbox">
-                                    Pilih Semua
-                                </label>
-                            </th>
+                                <th class="px-4">
+                                    <label>
+                                        <input class="grand_selectall" type="checkbox">
+                                        Pilih Semua
+                                    </label>
+                                </th>
 
-                            <th class="px-4">
-                                Permissions
-                            </th>
+                                <th class="px-4">
+                                    Permissions
+                                </th>
 
-                            <tbody>
-                                @foreach ($permissions as $key => $group)
-                                    <tr class="pr-2">
-                                        <td class="text-left">
-                                            <b>{{ ucfirst($key) }}</b>
-                                        </td>
-                                        <td class="text-left" width="20%">
-                                            <label>
-                                                <input class="selectall" type="checkbox">
-                                                Pilih Semua
-                                            </label>
-                                        </td>
-                                        <td class="pr-2">
-                                            @forelse($group as $permission)
-                                                <label class="pr-3">
-                                                    <input name="permissions[]" class="permissioncheckbox"
-                                                        class="rounded-md border" type="checkbox"
-                                                        value="{{ $permission->name }}"
-                                                        {{ in_array($permission->name, $item->permissions->pluck('name')->toArray()) ? 'checked' : '' }}>
-                                                    {{ $permission->name }} &nbsp;&nbsp;
+                                <tbody>
+                                    @foreach ($permissions as $key => $group)
+                                        <tr class="pr-2">
+                                            <td class="text-left">
+                                                <b>{{ ucfirst($key) }}</b>
+                                            </td>
+                                            <td class="text-left" width="20%">
+                                                <label>
+                                                    <input class="selectall" type="checkbox">
+                                                    Pilih Semua
                                                 </label>
-                                            @empty
-                                                {{ __('No permission in this group !') }}
-                                            @endforelse
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                            </td>
+                                            <td class="pr-2">
+                                                @forelse($group as $permission)
+                                                    <label class="pr-3">
+                                                        <input name="permissions[]" class="permissioncheckbox"
+                                                            class="rounded-md border" type="checkbox"
+                                                            value="{{ $permission->name }}"
+                                                            {{ in_array($permission->name, $item->permissions->pluck('name')->toArray()) ? 'checked' : '' }}>
+                                                        {{ $permission->name }} &nbsp;&nbsp;
+                                                    </label>
+                                                @empty
+                                                    {{ __('No permission in this group !') }}
+                                                @endforelse
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="form-group text-right">
                             <a href="{{ route('roles.index') }}" class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Update Role</button>

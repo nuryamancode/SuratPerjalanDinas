@@ -16,7 +16,7 @@ class UangMukaController extends Controller
         } else {
             $items = UangMuka::latest()->get();
         }
-        $data_surat_perjalanan_dinas = SuratPerjalananDinas::latest()->get();
+        $data_surat_perjalanan_dinas = SuratPerjalananDinas::acc()->latest()->get();
         return view('pages.uang-muka.index', [
             'title' => 'Uang Muka',
             'items' => $items,
@@ -26,7 +26,7 @@ class UangMukaController extends Controller
 
     public function create()
     {
-        $data_surat_perjalanan_dinas = SuratPerjalananDinas::latest()->get();
+        $data_surat_perjalanan_dinas = SuratPerjalananDinas::acc()->latest()->get();
         return view('pages.uang-muka.create', [
             'title' => 'Tambah Uang Muka',
             'data_surat_perjalanan_dinas' => $data_surat_perjalanan_dinas

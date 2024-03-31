@@ -35,4 +35,12 @@ class SuratPerjalananDinasDetailController extends Controller
             'surat_perjalanan_dinas_id' => $item->surat_perjalanan_dinas_id
         ])->with('success', 'Surat perjalanan dinas berhasil diupdate.');
     }
+
+    public function getById()
+    {
+        if (request()->ajax()) {
+            $item = SuratPerjalananDinasDetail::findOrFail(request('spd_detail_id'));
+            return $item;
+        }
+    }
 }
