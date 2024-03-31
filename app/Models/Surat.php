@@ -35,4 +35,13 @@ class Surat extends Model
     {
         return $this->whereDoesntHave('surat_perjalanan_dinas');
     }
+
+    public function status()
+    {
+        if ($this->surat_perjalanan_dinas->disposisi) {
+            return 'Sudah Didisposisikan';
+        } else {
+            return 'Belum Didisposisikan';
+        }
+    }
 }

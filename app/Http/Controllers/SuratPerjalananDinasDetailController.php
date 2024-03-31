@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SuratPerjalananDinasDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SuratPerjalananDinasDetailController extends Controller
@@ -20,6 +21,9 @@ class SuratPerjalananDinasDetailController extends Controller
     {
         $item = SuratPerjalananDinasDetail::findOrFail($id);
         $data = request()->all();
+        if (request('lama_perjalanan')) {
+            $data['tanggal_harus_kembali'] = Carbon::parse(request('tanggal_berangkat'))->addDays(request('lama_perjalanan'));
+        }
         if (request('jenis') === 'all') {
             // update keseluruhan
             $spd = $item->surat_perjalanan_dinas;

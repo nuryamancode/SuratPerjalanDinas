@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('surat-perjalanan-dinas-detail', SuratPerjalananDinasDetailController::class);
     Route::get('tte', [TTEController::class, 'index'])->name('tte.index');
     Route::post('tte', [TTEController::class, 'update'])->name('tte.update');
+    Route::delete('tte', [TTEController::class, 'destroy'])->name('tte.destroy');
     Route::resource('surat-perjalanan-dinas-supir', SuratPerjalananDinasDetailSupirController::class);
 
     Route::resource('input-biaya', InputBiayaController::class);

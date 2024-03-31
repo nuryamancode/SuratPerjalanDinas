@@ -21,7 +21,6 @@ class ProfileController extends Controller
         request()->validate([
             'name' => ['required', 'min:3'],
             'email' => ['required', 'unique:users,email,' . $user->id . ''],
-            'role' => ['required'],
             'avatar' => ['image', 'mimes:jpg,jpeg,png,svg', 'max:2048']
         ]);
 

@@ -6,8 +6,16 @@
                 <div class="card-body">
                     <h4 class="card-title mb-5">Upload TTE</h4>
                     @if (auth()->user()->karyawan->tte_file)
-                        <a target="_blank" href="{{ auth()->user()->karyawan->tte() }}"
-                            class="btn btn-warning mb-2 btn-sm">Lihat TTE</a>
+                        <div class="mb-3">
+                            <a target="_blank" href="{{ auth()->user()->karyawan->tte() }}"
+                                class="btn btn-warning  btn-sm">Lihat
+                                TTE</a>
+                            <form action="{{ route('tte.destroy') }}" method="post" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger">Hapus TTE</button>
+                            </form>
+                        </div>
                     @endif
                     <form action="{{ route('tte.update') }}" method="post" enctype="multipart/form-data">
                         @csrf

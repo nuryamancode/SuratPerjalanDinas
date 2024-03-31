@@ -66,7 +66,7 @@
                         </div>
                         <div class='form-group mb-3'>
                             <label for='lama_perjalanan' class='mb-2'>Lama Perjalanan</label>
-                            <input type='text' name='lama_perjalanan' id='lama_perjalanan'
+                            <input type='number' name='lama_perjalanan' id='lama_perjalanan'
                                 class='form-control @error('lama_perjalanan') is-invalid @enderror'
                                 value='{{ $item->lama_perjalanan ?? old('lama_perjalanan') }}'>
                             @error('lama_perjalanan')
@@ -81,17 +81,6 @@
                                 class='form-control @error('tanggal_berangkat') is-invalid @enderror'
                                 value='{{ $item->tanggal_berangkat ?? old('tanggal_berangkat') }}'>
                             @error('tanggal_berangkat')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group mb-3'>
-                            <label for='tanggal_harus_kembali' class='mb-2'>Tanggal Harus Kembali</label>
-                            <input type='date' name='tanggal_harus_kembali' id='tanggal_harus_kembali'
-                                class='form-control @error('tanggal_harus_kembali') is-invalid @enderror'
-                                value='{{ $item->tanggal_harus_kembali ?? old('tanggal_harus_kembali') }}'>
-                            @error('tanggal_harus_kembali')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>

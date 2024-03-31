@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TTEController extends Controller
 {
@@ -24,5 +25,17 @@ class TTEController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'TTE berhasil diupdate.');
+    }
+
+    public function destroy()
+    {
+        if (auth()->user()->karyawan->tte_file) {
+            Storage::disk('public')->delete(auth()->user()->karyawan->tte_file);
+        }
+        auth()->user()->karyawan()->update([
+            'tte_file' => NULL
+        ]);
+
+        return redirect()->route('tte.index')->with('success', 'TTE berhasil dihapus.');
     }
 }

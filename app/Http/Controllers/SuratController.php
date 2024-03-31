@@ -174,7 +174,7 @@ class SuratController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             // throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
+            return redirect()->back()->with('error', 'Surat Tidak bisa dihapus, dikarenakan berada di transaksi lain.');
         }
     }
 

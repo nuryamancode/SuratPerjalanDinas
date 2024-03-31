@@ -15,7 +15,7 @@
                                 class='form-control @error('karyawan_id') is-invalid @enderror' multiple>
                                 @foreach ($data_karyawan as $karyawan)
                                     <option @if ($selectedKaryawan->contains($karyawan->id)) selected @endif value='{{ $karyawan->id }}'>
-                                        {{ $karyawan->nama . ' | ' . $karyawan->nip }}
+                                        {{ $karyawan->nama . ' | ' . $karyawan->jabatan->nama }}
                                     </option>
                                 @endforeach
                             </select>

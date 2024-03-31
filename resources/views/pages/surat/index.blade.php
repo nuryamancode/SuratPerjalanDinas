@@ -40,7 +40,7 @@
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->status }}</td>
+                                        <td>{{ $item->status() }}</td>
                                         <td>
                                             <a href="{{ route('surat.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>

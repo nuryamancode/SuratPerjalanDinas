@@ -22,9 +22,17 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <input type="password"
-                                    class="form-control @error('password') is-invalid @enderror form-control-lg"
-                                    id="password" placeholder="Password" name="password">
+                                <div class="input-group">
+                                    <input type="password"
+                                        class="form-control @error('password') is-invalid @enderror form-control-lg"
+                                        id="password" placeholder="Password" name="password">
+                                    <div class="input-group-append" style="border-radius: 0">
+                                        <button class="btn" type="button" id="togglePassword"
+                                            style=" background-color: #f8f9fa;border-radius:0 5px 5px 0">
+                                            <i class="mdi mdi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 @error('password')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -43,12 +51,24 @@
                                 <button class="btn btn-block btn-info btn-lg font-weight-medium auth-form-btn">SIGN
                                     IN</button>
                             </div>
-
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- content-wrapper ends -->
     </div>
 @endsection
+@push('scripts')
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        const eyeIcon = document.querySelector('#togglePassword i');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            eyeIcon.classList.toggle('mdi-eye');
+            eyeIcon.classList.toggle('mdi-eye-off');
+        });
+    </script>
+@endpush
