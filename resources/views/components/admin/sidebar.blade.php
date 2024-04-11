@@ -6,14 +6,31 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        @can('Surat Pertanggung Jawaban Index')
+        @canany(['Surat Pertanggung Jawaban Index', 'SPJ Form Non PBJ Index'])
             <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('surat-pertanggung-jawaban.index') }}">
+                <a class="nav-link" data-toggle="collapse" href="#surat_pertanggungjawaban" aria-expanded="false"
+                    aria-controls="surat_pertanggungjawaban">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">SPJ</span>
+                    <i class="menu-arrow"></i>
                 </a>
+                <div class="collapse" id="surat_pertanggungjawaban">
+                    <ul class="nav flex-column sub-menu">
+                        @can('Surat Pertanggung Jawaban Index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('surat-pertanggung-jawaban.index') }}"> PBJ </a>
+                            </li>
+                        @endcan
+                        @can('SPJ Form Non PBJ Index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('spj-form-non-pbj.index') }}">Form Non PBJ
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
             </li>
-        @endcan
+        @endcanany
         @can('Surat Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('surat.index') }}">
@@ -38,14 +55,31 @@
                 </a>
             </li>
         @endcan
-        @can('Uang Muka Index')
+        @canany(['Uang Muka Index', 'Uang Muka Form Non PBJ Index'])
             <li class="nav-item">
-                <a class="nav-link py-2" href="{{ route('uang-muka.index') }}">
+                <a class="nav-link" data-toggle="collapse" href="#uang_muka" aria-expanded="false"
+                    aria-controls="uang_muka">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Uang Muka</span>
+                    <i class="menu-arrow"></i>
                 </a>
+                <div class="collapse" id="uang_muka">
+                    <ul class="nav flex-column sub-menu">
+                        @can('Uang Muka Index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('uang-muka.index') }}"> PBJ </a>
+                            </li>
+                        @endcan
+                        @can('Uang Muka Form Non PBJ Index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('pengajuan-form-non-pbj.uang-muka.index') }}">Form Non PBJ
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
             </li>
-        @endcan
+        @endcanany
         @can('TTE Index')
             <li class="nav-item">
                 <a class="nav-link py-2" href="{{ route('tte.index') }}">
@@ -59,6 +93,46 @@
                 <a class="nav-link py-2" href="{{ route('karyawan.index') }}">
                     <i class="mdi mdi-folder  pr-2 icon-large"></i>
                     <span class="menu-title">Karyawan</span>
+                </a>
+            </li>
+        @endcan
+        @can('Pengajuan PBJ Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('pengajuan-pbj.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Pengajuan PBJ</span>
+                </a>
+            </li>
+        @endcan
+        @canany(['Pengajuan PBJ Index', 'Pengajuan Form Non PBJ Index'])
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#pengajuan" aria-expanded="false"
+                    aria-controls="pengajuan">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Pengajuan</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="pengajuan">
+                    <ul class="nav flex-column sub-menu">
+                        @can('Pengajuan PBJ Index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('pengajuan-pbj.index') }}"> PBJ </a>
+                            </li>
+                        @endcan
+                        @can('Pengajuan Form Non PBJ Index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('pengajuan-form-non-pbj.index') }}"> Form Non PBJ </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
+            </li>
+        @endcanany
+        @can('Proses PBJ Index')
+            <li class="nav-item">
+                <a class="nav-link py-2" href="{{ route('proses-pbj.index') }}">
+                    <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                    <span class="menu-title">Proses PBJ</span>
                 </a>
             </li>
         @endcan

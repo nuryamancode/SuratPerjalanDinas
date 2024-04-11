@@ -31,8 +31,8 @@
         </script>
     @endif
     <script>
-        $(function(){
-              $('body').on('click','.btnDelete', function(e) {
+        $(function() {
+            $('body').on('click', '.btnDelete', function(e) {
                 e.preventDefault();
 
                 Swal.fire({
@@ -46,7 +46,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         let action = $(this).data('action');
-                        $('#formDelete').attr('action',action);
+                        $('#formDelete').attr('action', action);
                         $('#formDelete').submit();
                     }
                 })

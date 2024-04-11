@@ -46,3 +46,13 @@ function is_bendaharakeuangan()
         return false;
     }
 }
+
+
+function is_pengusul()
+{
+    if (auth()->user()->getRoleNames()->first() === 'Pengusul') {
+        return true;
+    } else {
+        return false;
+    }
+}

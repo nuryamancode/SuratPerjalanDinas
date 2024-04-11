@@ -8,10 +8,20 @@ use App\Http\Controllers\InputBiayaController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LampiranController;
+use App\Http\Controllers\PengajuanBarangJasaController;
+use App\Http\Controllers\PengajuanFormNonPbjController;
+use App\Http\Controllers\PengajuanFormNonPbjDetailController;
+use App\Http\Controllers\PengajuanFormNonPbjDisposisiController;
+use App\Http\Controllers\PengajuanFormNonPbjUangMukaController;
+use App\Http\Controllers\PengajuanPbjController;
+use App\Http\Controllers\PengajuanPbjDetailController;
+use App\Http\Controllers\PengajuanPbjDisposisiController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermohonanSuratPerjalananDinasController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProsesPbjController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SpjFormNonPbjController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratPerjalananDinasController;
 use App\Http\Controllers\SuratPerjalananDinasDetailController;
@@ -21,6 +31,7 @@ use App\Http\Controllers\SuratPertanggungJawabanDetailController;
 use App\Http\Controllers\TTEController;
 use App\Http\Controllers\UangMukaController;
 use App\Http\Controllers\UserController;
+use App\Models\PengajuanPbj;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,4 +93,47 @@ Route::middleware('auth')->group(function () {
     Route::get('surat-pertanggung-jawaban/verifikasi', [SuratPertanggungJawabanController::class, 'verifikasi'])->name('surat-pertanggung-jawaban.verifikasi');
     Route::resource('surat-pertanggung-jawaban', SuratPertanggungJawabanController::class);
     Route::resource('surat-pertanggung-jawaban-detail', SuratPertanggungJawabanDetailController::class);
+
+    Route::get('pengajuan-pbj/{uuid}/disposisi', [PengajuanPbjDisposisiController::class, 'index'])->name('pengajuan-pbj.disposisi.index');
+    Route::get('pengajuan-pbj/{uuid}/disposisi/create', [PengajuanPbjDisposisiController::class, 'create'])->name('pengajuan-pbj.disposisi.create');
+    Route::post('pengajuan-pbj/disposisi', [PengajuanPbjDisposisiController::class, 'store'])->name('pengajuan-pbj.disposisi.store');
+    Route::delete('pengajuan-pbj/{uuid}/disposisi', [PengajuanPbjDisposisiController::class, 'destroy'])->name('pengajuan-pbj.disposisi.destroy');
+
+    Route::get('pengajuan-pbj/verifikasi', [PengajuanPbjController::class, 'verifikasi'])->name('pengajuan-pbj.verifikasi');
+    Route::get('pengajuan-pbj/acc-wadir2', [PengajuanPbjController::class, 'acc_wadir2'])->name('pengajuan-pbj.acc-wadir2');
+    Route::get('pengajuan-pbj/acc-ppk', [PengajuanPbjController::class, 'acc_ppk'])->name('pengajuan-pbj.acc-ppk');
+    Route::resource('pengajuan-pbj', PengajuanPbjController::class);
+    Route::resource('pengajuan-pbj-detail', PengajuanPbjDetailController::class);
+
+    // proses pbj
+    Route::resource('proses-pbj', ProsesPbjController::class)->except('show');
+    Route::get('proses-pbj/{pbj_uuid}', [ProsesPbjController::class, 'show'])->name('proses-pbj.show');
+
+
+    Route::get('pengajuan-form-non-pbj/{uuid}/disposisi', [PengajuanFormNonPbjDisposisiController::class, 'index'])->name('pengajuan-form-non-pbj.disposisi.index');
+    Route::get('pengajuan-form-non-pbj/{uuid}/disposisi/create', [PengajuanFormNonPbjDisposisiController::class, 'create'])->name('pengajuan-form-non-pbj.disposisi.create');
+    Route::post('pengajuan-form-non-pbj/{uuid}/disposisi', [PengajuanFormNonPbjDisposisiController::class, 'store'])->name('pengajuan-form-non-pbj.disposisi.store');
+    Route::delete('pengajuan-form-non-pbj/{uuid}/disposisi', [PengajuanFormNonPbjDisposisiController::class, 'destroy'])->name('pengajuan-form-non-pbj.disposisi.destroy');
+
+    Route::get('pengajuan-form-non-pbj/acc-pengusul', [PengajuanFormNonPbjController::class, 'acc_pengusul'])->name('pengajuan-form-non-pbj.acc-pengusul');
+    Route::get('pengajuan-form-non-pbj/acc-ppk', [PengajuanFormNonPbjController::class, 'acc_ppk'])->name('pengajuan-form-non-pbj.acc-ppk');
+    Route::get('pengajuan-form-non-pbj/getById', [PengajuanFormNonPbjController::class, 'getById'])->name('pengajuan-form-non-pbj.getById');
+    Route::resource('pengajuan-form-non-pbj', PengajuanFormNonPbjController::class);
+    Route::resource('pengajuan-form-non-pbj-detail', PengajuanFormNonPbjDetailController::class);
+
+
+    // uang muka form non pbj
+    Route::controller(PengajuanFormNonPbjUangMukaController::class)->group(function () {
+        Route::get('/uang-muka-form-non-pbj', 'index')->name('pengajuan-form-non-pbj.uang-muka.index');
+        Route::get('/uang-muka-form-non-pbj/create', 'create')->name('pengajuan-form-non-pbj.uang-muka.create');
+        Route::post('/uang-muka-form-non-pbj/create', 'store')->name('pengajuan-form-non-pbj.uang-muka.store');
+        Route::get('/uang-muka-form-non-pbj/{uuid}/edit', 'edit')->name('pengajuan-form-non-pbj.uang-muka.edit');
+        Route::patch('/uang-muka-form-non-pbj/{uuid}/edit', 'update')->name('pengajuan-form-non-pbj.uang-muka.update');
+        Route::delete('/uang-muka-form-non-pbj/{uuid}', 'destroy')->name('pengajuan-form-non-pbj.uang-muka.destroy');
+    });
+
+    // spj
+    Route::get('spj-form-non-pbj/verifikasi', [SpjFormNonPbjController::class, 'verifikasi'])->name('spj-form-non-pbj.verifikasi');
+    Route::resource('spj-form-non-pbj', SpjFormNonPbjController::class);
+    Route::resource('spj-form-non-pbj-detail', SuratPertanggungJawabanDetailController::class);
 });
