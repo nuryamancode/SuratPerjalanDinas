@@ -42,9 +42,10 @@ class LoginController extends Controller
     {
         if (auth()->user()->getRoleNames()->first() === 'Pengadministrasi Umum') {
             return redirect()->route('pengadministrasi-umum.dashboard');
-        }
-        if (auth()->user()->getRoleNames()->first() === 'Wakil Direktur II') {
+        } else if (auth()->user()->getRoleNames()->first() === 'Wakil Direktur II') {
             return redirect()->route('wakil-direktur-ii.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
+            return redirect()->route('ppk.dashboard');
         }
     }
 }

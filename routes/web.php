@@ -140,6 +140,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('spj-form-non-pbj-detail', SuratPertanggungJawabanDetailController::class);
 });
 
+Route::name('ppk.')->prefix('ppk')->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Ppk\DashboardController::class, 'index'])->name('dashboard');
+    Route::post('permohonan-spd/acc-ppk/{id}', [App\Http\Controllers\Ppk\PermohonanSpdController::class, 'acc_ppk'])->name('permohonan-spd.acc-ppk');
+
+    Route::resource('permohonan-spd', App\Http\Controllers\Ppk\PermohonanSpdController::class);
+    // disposisi spd
+    Route::resource('permohonan-spd-disposisi', App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class);
+});
+
 
 Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\Pengadministrasiumum\DashboardController::class, 'index'])->name('dashboard');

@@ -80,4 +80,20 @@ class SuratPerjalananDinas extends Model
             return 'Sudah Diverifikasi';
         }
     }
+
+    public function statusAccPpk()
+    {
+        if ($this->acc_ppk == 0) {
+            return 'Belum Dicek';
+        } elseif ($this->acc_ppk == 1) {
+            return 'Diterima';
+        } else {
+            return 'Ditolak';
+        }
+    }
+
+    public function scopeVerifikasiWadir2($val)
+    {
+        $val->where('verifikasi_wadir2', 1);
+    }
 }
