@@ -23,16 +23,18 @@
                                     <th>Perihal</th>
                                     <th>Pelaksana</th>
                                     <th>Status Surat</th>
-                                    <th>Status Verifikasi</th>
+                                    {{-- <th>Status Verifikasi</th> --}}
                                     <th>Acc Pengusul</th>
                                     <th>Acc PPK</th>
+                                    <th>Status Uang Muka</th>
                                     @canany([
                                         'Pengajuan Form Non PBJ Show',
                                         'Pengajuan Form Non PBJ Edit',
-                                        'Pengajuan Form Non PBJ Delete',
-                                        'Pengajuan Form Non
-                                        PBJ Disposisi',
+                                        'Pengajuan Form
+                                        Non PBJ Delete',
+                                        'Pengajuan Form Non PBJ Disposisi',
                                         'Pengajuan Form Non PBJ Acc',
+                                        'Uang Muka Form Non PBJ Index',
                                         ])
                                         <th>Aksi</th>
                                     @endcanany
@@ -54,9 +56,10 @@
                                             </ul>
                                         </td>
                                         <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusVerifikasi() }}</td>
+                                        {{-- <td>{{ $item->statusVerifikasi() }}</td> --}}
                                         <td>{{ $item->statusAccPengusul() }}</td>
                                         <td>{{ $item->statusAccPpk() }}</td>
+                                        <td>{{ $item->statusUangMuka() }}</td>
                                         @canany([
                                             'Pengajuan Form Non PBJ Show',
                                             'Pengajuan Form Non PBJ Edit',
@@ -64,6 +67,7 @@
                                             Form Non PBJ Delete',
                                             'Pengajuan Form Non PBJ Disposisi',
                                             'Pengajuan Form Non PBJ Acc',
+                                            'Uang Muka Form Non PBJ Index',
                                             ])
                                             <td>
                                                 @role('Pengusul')
@@ -84,6 +88,14 @@
                                                             'status' => 1,
                                                         ]) }}"
                                                             class="btn  py-2  btn-success">Setujui</a>
+                                                    @endif
+                                                @endrole
+                                                @role('Bendahara Keuangan')
+                                                    @if ($item->formNonPbjAccAll())
+                                                        <a href="{{ route('pengajuan-form-non-pbj.uang-muka.index', [
+                                                            'pengajuan_form_non_pbj_id' => $item->id,
+                                                        ]) }}"
+                                                            class="btn  py-2  btn-info">Uang Muka</a>
                                                     @endif
                                                 @endrole
                                                 @role('Pejabat Pembuat Komitmen')

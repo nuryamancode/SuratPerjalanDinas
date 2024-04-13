@@ -15,4 +15,9 @@ class PengajuanBarangJasaPelaksana extends Model
     {
         return $this->belongsTo(Karyawan::class);
     }
+
+    public function spjFormNonPbj()
+    {
+        return $this->hasOne(SpjBarangJasa::class, 'pengajuan_barang_jasa_pelaksana_id', 'id');
+    }
 }

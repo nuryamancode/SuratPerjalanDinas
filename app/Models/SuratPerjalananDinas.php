@@ -11,6 +11,16 @@ class SuratPerjalananDinas extends Model
     protected $table = 'surat_perjalanan_dinas';
     protected $guarded = ['id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (!$model->uuid) {
+                $model->uuid = \Str::uuid();
+            }
+        });
+    }
+
     public function surat()
     {
         return $this->belongsTo(Surat::class);
@@ -60,5 +70,14 @@ class SuratPerjalananDinas extends Model
         $val->whereHas('disposisi', function ($q) {
             $q->where('tujuan_karyawan_id', auth()->user()->karyawan->id)->orWhere('pembuat_karyawan_id', auth()->user()->karyawan->id);;
         });
+    }
+
+    public function verifikasi_wadir2()
+    {
+        if ($this->verifikasi_wadir2 == 0) {
+            return 'Belum Diverifikasi';
+        } elseif ($this->verifikasi_wadir2 == 1) {
+            return 'Sudah Diverifikasi';
+        }
     }
 }

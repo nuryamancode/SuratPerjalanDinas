@@ -35,6 +35,11 @@ class PengajuanBarangJasa extends Model
         return $this->hasMany(PengajuanBarangJasaPelaksana::class);
     }
 
+    // public function statusSpjFormNonPbj()
+    // {
+    //     return $this->pelaksana()->where('karyawan_id', auth()->user()->karyawan->id)->spjFormNonPbj->exists();
+    // }
+
     public function status()
     {
         if ($this->disposisi) {
@@ -110,5 +115,28 @@ class PengajuanBarangJasa extends Model
             'acc_pengusul' => 1,
             'acc_ppk' => 1
         ]);
+    }
+
+    public function formNonPbjAccAll()
+    {
+        if ($this->acc_pengusul == 1 && $this->acc_ppk == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function uang_muka()
+    {
+        return $this->hasOne(UangMukaBarangjasa::class, 'pengajuan_barang_jasa_id', 'id');
+    }
+
+    public function statusUangMuka()
+    {
+        if ($this->uang_muka) {
+            return 'Sudah Didistribusikan';
+        } else {
+            return 'Belum Didistribusikan';
+        }
     }
 }

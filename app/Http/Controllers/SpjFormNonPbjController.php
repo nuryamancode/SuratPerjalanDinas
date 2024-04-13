@@ -8,13 +8,18 @@ use App\Models\PengajuanBarangJasaPelaksana;
 use App\Models\SpjBarangJasa;
 use App\Models\SpjBarangJasaDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SpjFormNonPbjController extends Controller
 {
     public function index()
     {
-        $data = SpjBarangJasa::with('spd_detail');
-        $items = $data->latest()->get();
+        // $data = SpjBarangJasa::with('spd_detail');
+        // $items = $data->latest()->get();
+        $items = PengajuanBarangJasa::formNonPbj()->whereHas('pelaksana', function ($q) {
+            $q->where('karyawan_id', auth()->user()->karyawan->id);
+        })->get();
         return view('pages.spj-barang-jasa.index', [
             'title' => 'Surat Pertanggung Jawaban Data',
             'items' => $items
@@ -22,9 +27,18 @@ class SpjFormNonPbjController extends Controller
     }
     public function create()
     {
-        $data_pengajuan = PengajuanBarangJasa::formNonPbj()->whereHas('details', function ($q) {
+        $pengajuan_barang_jasa_uuid = request('pengajuan_barang_jasa_uuid');
+        $pengajuan = PengajuanBarangJasa::where('uuid', $pengajuan_barang_jasa_uuid)->firstOrFail();
+        $pelaksana = PengajuanBarangJasaPelaksana::where('pengajuan_barang_jasa_id', $pengajuan->id)->where('karyawan_id', auth()->user()->karyawan->id)->first();
+        $spj = SpjBarangJasa::where('pengajuan_barang_jasa_pelaksana_id', $pelaksana->id)->first();
+        if ($spj) {
+            // edit spj
+            return redirect()->route('spj-form-non-pbj.edit', $spj->uuid);
+        }
+        $pengajuan = PengajuanBarangJasa::where('uuid', $pengajuan_barang_jasa_uuid)->formNonPbj()->whereHas('pelaksana', function ($q) {
             $q->where('karyawan_id', auth()->user()->karyawan->id);
-        })->latest()->get();
+        })->first();
+        dd($pengajuan);
         return view('pages.spj-barang-jasa.create', [
             'title' => 'Buat SPJ',
             'data_pengajuan' => $data_pengajuan
@@ -34,8 +48,7 @@ class SpjFormNonPbjController extends Controller
     public function store()
     {
         request()->validate([
-            'draft' => ['required', 'mimes:pdf'],
-            'spd_detail_id' => ['required']
+            'draft' => ['required', 'mimes:pdf']
         ]);
 
         DB::beginTransaction();
@@ -44,14 +57,13 @@ class SpjFormNonPbjController extends Controller
             $data_nominal = request('nominal');
             $data_keterangan = request('keterangan');
             $data_file = request('file');
-            // cek spj
-            $cekSpj = SpjBarangJasa::where('spd_detail_id', request('spd_detail_id'))->count();
-            if ($cekSpj) {
-                return redirect()->route('surat-pertanggung-jawaban.index')->with('error', 'Surat Pertanggung Jawaban sudah ada di database.');
-            }
+            // dd(request()->all());
+            $pengajuan = PengajuanBarangJasa::formNonPbj()->where('uuid', request('pengajuan_barang_jasa_uuid'))->firstOrFail();
+            $pelaksana = $pengajuan->pelaksana()->where('karyawan_id', auth()->user()->karyawan->id)->first();
+
             $spj = SpjBarangJasa::create([
                 'uuid' => \Str::uuid(),
-                'spd_detail_id' => request('spd_detail_id'),
+                'pengajuan_barang_jasa_pelaksana_id' => $pelaksana->id,
                 'file' => request()->file('draft')->store('spj', 'public'),
                 'status' => 0
             ]);
@@ -69,16 +81,17 @@ class SpjFormNonPbjController extends Controller
                 }
             }
             DB::commit();
-            return redirect()->route('surat-pertanggung-jawaban.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
+            return redirect()->route('spj-form-non-pbj.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
-            return redirect()->route('surat-pertanggung-jawaban.index')->with('error', $th->getMessage());
+            return redirect()->route('spj-form-non-pbj.index')->with('error', $th->getMessage());
         }
     }
 
     public function edit($uuid)
     {
+        // dd($uuid);
         $item = SpjBarangJasa::where('uuid', $uuid)->firstOrFail();
         return view('pages.spj-barang-jasa.edit', [
             'title' => 'Buat SPJ',
@@ -102,17 +115,25 @@ class SpjFormNonPbjController extends Controller
             }
             $item->update($data);
             DB::commit();
-            return redirect()->route('surat-pertanggung-jawaban.index')->with('success', 'Surat Pertanggung Jawaban Berhasil diupdate.');
+            return redirect()->route('spj-form-non-pbj.index')->with('success', 'Surat Pertanggung Jawaban Berhasil diupdate.');
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
-            return redirect()->route('surat-pertanggung-jawaban.index')->with('error', $th->getMessage());
+            return redirect()->route('spj-form-non-pbj.index')->with('error', $th->getMessage());
         }
     }
 
     public function show($uuid)
     {
-        $item = SpjBarangJasa::where('uuid', $uuid)->firstOrFail();
+        $pengajuan = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->firstOrFail();
+        $pelaksana = PengajuanBarangJasaPelaksana::where('pengajuan_barang_jasa_id', $pengajuan->id)->where('karyawan_id', auth()->user()->karyawan->id)->first();
+        $spj = SpjBarangJasa::where('pengajuan_barang_jasa_pelaksana_id', $pelaksana->id)->first();
+        // if(!$spj)
+        // {
+        //     return redirect()->route('spj-form-non-pbj.create',[
+        //         'pengajuan)ba'
+        //     ])
+        // }
         return view('pages.spj-barang-jasa.show', [
             'title' => 'Detail Surat Pertanggung Jawaban',
             'item' => $item
@@ -128,7 +149,7 @@ class SpjFormNonPbjController extends Controller
             Storage::disk('public')->delete($detail->file);
         }
         $item->delete();
-        return redirect()->route('surat-pertanggung-jawaban.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dihapus.');
+        return redirect()->route('spj-form-non-pbj.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dihapus.');
     }
 
     public function verifikasi()
@@ -144,11 +165,11 @@ class SpjFormNonPbjController extends Controller
                 'status' => request('status')
             ]);
             DB::commit();
-            return redirect()->route('surat-pertanggung-jawaban.index')->with('success', 'Surat Pertanggung Jawaban Berhasil diupdate.');
+            return redirect()->route('spj-form-non-pbj.index')->with('success', 'Surat Pertanggung Jawaban Berhasil diupdate.');
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
-            return redirect()->route('surat-pertanggung-jawaban.index')->with('error', $th->getMessage());
+            return redirect()->route('spj-form-non-pbj.index')->with('error', $th->getMessage());
         }
     }
 }

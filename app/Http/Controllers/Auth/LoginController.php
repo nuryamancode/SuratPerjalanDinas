@@ -37,4 +37,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function authenticated()
+    {
+        if (auth()->user()->getRoleNames()->first() === 'Pengadministrasi Umum') {
+            return redirect()->route('pengadministrasi-umum.dashboard');
+        }
+        if (auth()->user()->getRoleNames()->first() === 'Wakil Direktur II') {
+            return redirect()->route('wakil-direktur-ii.dashboard');
+        }
+    }
 }

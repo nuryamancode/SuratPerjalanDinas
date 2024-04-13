@@ -1,13 +1,14 @@
-@extends('layouts.app')
+@extends('pengadministrasi-umum.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Surat</h4>
-                        <a href="{{ route('surat.create') }}" class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
-                            Surat</a>
+                        <h4 class="card-title mb-3">Surat Tugas</h4>
+                        <a href="{{ route('pengadministrasi-umum.surat.create') }}"
+                            class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
+                            Surat Tugas</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -42,16 +43,16 @@
                                         </td>
                                         <td>{{ $item->status() }}</td>
                                         <td>
-                                            <a href="{{ route('surat.show', $item->uuid) }}"
+                                            <a href="{{ route('pengadministrasi-umum.surat.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            <a href="{{ route('surat.edit', $item->uuid) }}"
+                                            <a href="{{ route('pengadministrasi-umum.surat.edit', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-info">Edit</a>
                                             <form action="javascript:void(0)" method="post" class="d-inline"
                                                 id="formDelete">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('surat.destroy', $item->uuid) }}">Hapus</button>
+                                                    data-action="{{ route('pengadministrasi-umum.surat.destroy', $item->uuid) }}">Hapus</button>
                                             </form>
                                         </td>
                                     </tr>

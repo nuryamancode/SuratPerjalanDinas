@@ -12,7 +12,16 @@ class PengajuanFormNonPbjUangMukaController extends Controller
     public function index()
     {
         if (request('pengajuan_form_non_pbj_id')) {
-            $items = UangMukaBarangjasa::with('barang_jasa')->where('pengajuan_form_non_pbj_id', request('pengajuan_form_non_pbj_id'))->latest()->get();
+            // jika sudah ada uang muka, berarti edit uang muka, kalau tidak ada buat
+            $item = UangMukaBarangjasa::with('barang_jasa')->where('pengajuan_barang_jasa_id', request('pengajuan_form_non_pbj_id'))->first();
+            if ($item) {
+                // alihkan ke edit
+                return redirect()->route('pengajuan-form-non-pbj.uang-muka.edit', $item->id);
+            } else {
+                return redirect()->route('pengajuan-form-non-pbj.uang-muka.create', [
+                    'pengajuan_form_non_pbj_id' => request('pengajuan_form_non_pbj_id')
+                ]);
+            }
         } else {
             $items = UangMukaBarangjasa::with('barang_jasa')->latest()->get();
         }

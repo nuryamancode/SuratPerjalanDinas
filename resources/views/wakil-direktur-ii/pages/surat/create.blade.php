@@ -1,18 +1,18 @@
-@extends('layouts.app')
+@extends('pengadministrasi-umum.layouts.app')
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Edit Surat</h4>
-                    <form action="{{ route('surat.update', $item->uuid) }}" method="post" enctype="multipart/form-data">
+                    <h4 class="card-title mb-5">Tambah Surat Tugas</h4>
+                    <form action="{{ route('pengadministrasi-umum.surat.store') }}" method="post"
+                        enctype="multipart/form-data">
                         @csrf
-                        @method('patch')
                         <div class='form-group mb-3'>
                             <label for='nomor_surat' class='mb-2'>Nomor Surat</label>
                             <input type='text' name='nomor_surat' id='nomor_surat'
                                 class='form-control @error('nomor_surat') is-invalid @enderror'
-                                value='{{ $item->nomor_surat ?? old('nomor_surat') }}'>
+                                value='{{ old('nomor_surat') }}'>
                             @error('nomor_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -23,7 +23,7 @@
                             <label for='no_agenda' class='mb-2'>Nomor Agenda</label>
                             <input type='text' name='no_agenda' id='no_agenda'
                                 class='form-control @error('no_agenda') is-invalid @enderror'
-                                value='{{ $item->no_agenda ?? old('no_agenda') }}'>
+                                value='{{ old('no_agenda') }}'>
                             @error('no_agenda')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -34,7 +34,7 @@
                             <label for='asal_surat' class='mb-2'>Asal Surat</label>
                             <input type='text' name='asal_surat' id='asal_surat'
                                 class='form-control @error('asal_surat') is-invalid @enderror'
-                                value='{{ $item->asal_surat ?? old('asal_surat') }}'>
+                                value='{{ old('asal_surat') }}'>
                             @error('asal_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -45,7 +45,7 @@
                             <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
                             <input type='date' name='tanggal_surat' id='tanggal_surat'
                                 class='form-control @error('tanggal_surat') is-invalid @enderror'
-                                value='{{ $item->tanggal_surat ?? old('tanggal_surat') }}'>
+                                value='{{ old('tanggal_surat') }}'>
                             @error('tanggal_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -55,8 +55,7 @@
                         <div class='form-group mb-3'>
                             <label for='perihal' class='mb-2'>Perihal</label>
                             <input type='text' name='perihal' id='perihal'
-                                class='form-control @error('perihal') is-invalid @enderror'
-                                value='{{ $item->perihal ?? old('perihal') }}'>
+                                class='form-control @error('perihal') is-invalid @enderror' value='{{ old('perihal') }}'>
                             @error('perihal')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -91,7 +90,7 @@
                                 class='form-control @error('pelaksana') is-invalid @enderror' multiple>
                                 <option value='' disabled>Pilih Pelaksana</option>
                                 @foreach ($data_karyawan as $karyawan)
-                                    <option value='{{ $karyawan->id }}' @selected(in_array($karyawan->id, old('pelaksana', $selectedKaryawan ?? [])))>{{ $karyawan->nama }}
+                                    <option @selected($karyawan->id == old('pelaksana')) value='{{ $karyawan->id }}'>{{ $karyawan->nama }}
                                     </option>
                                 @endforeach
                             </select>
@@ -102,35 +101,10 @@
                             @enderror
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('surat.index') }}" class="btn btn-warning">Batal</a>
-                            <button class="btn btn-primary">Update Surat</button>
+                            <a href="{{ route('pengadministrasi-umum.surat.index') }}" class="btn btn-warning">Batal</a>
+                            <button class="btn btn-primary">Tambah Surat Tugas</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title mb-5">List Lampiran</h4>
-                    <ul class="list-unstyled">
-                        @forelse ($item->lampiran as $lampiran)
-                            <li class="mb-2">
-                                <a href="{{ asset('storage/' . $lampiran->file) }}" target="_blank"
-                                    class="btn btn-sm btn-info">Lihat</a>
-                                <form action="javascript:void(0)" method="post" class="d-inline" id="formDelete">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btnDelete btn-sm py-2 btn-link"
-                                        data-action="{{ route('lampiran.destroy', $lampiran->uuid) }}">Hapus</button>
-                                </form>
-                            </li>
-                        @empty
-                            <li class="text-center">
-                                Lampiran Tidak Ada
-                            </li>
-                        @endforelse
-                    </ul>
                 </div>
             </div>
         </div>

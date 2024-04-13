@@ -1,11 +1,12 @@
-@extends('layouts.app')
+@extends('pengadministrasi-umum.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Tambah Surat</h4>
-                    <form action="{{ route('surat.store') }}" method="post" enctype="multipart/form-data">
+                    <h4 class="card-title mb-5">Tambah Surat Tugas</h4>
+                    <form action="{{ route('pengadministrasi-umum.surat.store') }}" method="post"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class='form-group mb-3'>
                             <label for='nomor_surat' class='mb-2'>Nomor Surat</label>
@@ -100,8 +101,8 @@
                             @enderror
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('surat.index') }}" class="btn btn-warning">Batal</a>
-                            <button class="btn btn-primary">Tambah Surat</button>
+                            <a href="{{ route('pengadministrasi-umum.surat.index') }}" class="btn btn-warning">Batal</a>
+                            <button class="btn btn-primary">Tambah Surat Tugas</button>
                         </div>
                     </form>
                 </div>

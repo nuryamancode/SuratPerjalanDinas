@@ -14,7 +14,7 @@
                                 class='form-control @error('pengajuan_barang_jasa_id') is-invalid @enderror'>
                                 <option value='' selected disabled>Pilih Pengajuan Form Non PBJ</option>
                                 @foreach ($data_pengajuan_form_non_pbj as $non_pbj)
-                                    <option @selected($non_pbj->id == old('pengajuan_barang_jasa_id')) value='{{ $non_pbj->id }}'>
+                                    <option @selected($non_pbj->id == request('pengajuan_form_non_pbj_id')) value='{{ $non_pbj->id }}'>
                                         {{ $non_pbj->perihal }}
                                     </option>
                                 @endforeach
@@ -87,6 +87,22 @@
     <script src="{{ asset('assets/vendors/select2/select2.min.js') }}"></script>
     <script>
         $(function() {
+            let pengajuan_form_non_pbj_id = '{{ request('pengajuan_form_non_pbj_id') }}';
+            if (pengajuan_form_non_pbj_id) {
+                $.ajax({
+                    url: '{{ route('pengajuan-form-non-pbj.getById') }}',
+                    data: {
+                        id: pengajuan_form_non_pbj_id
+                    },
+                    dataType: 'JSON',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#surat_perihal').val(data.perihal);
+                        $('#surat_nomor_surat').val(data.nomor_surat);
+                        $('#surat_no_agenda').val(data.nomor_agenda);
+                    }
+                })
+            }
             $('#pengajuan_barang_jasa_id').on('change', function() {
                 let id = $(this).val();
                 $.ajax({

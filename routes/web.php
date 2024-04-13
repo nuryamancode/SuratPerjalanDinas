@@ -8,6 +8,8 @@ use App\Http\Controllers\InputBiayaController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LampiranController;
+use App\Http\Controllers\Pengadministrasiumum\PermohonanSpdController;
+// use App\Http\Controllers\Pengadministrasiumum\SuratTugasController;
 use App\Http\Controllers\PengajuanBarangJasaController;
 use App\Http\Controllers\PengajuanFormNonPbjController;
 use App\Http\Controllers\PengajuanFormNonPbjDetailController;
@@ -136,4 +138,25 @@ Route::middleware('auth')->group(function () {
     Route::get('spj-form-non-pbj/verifikasi', [SpjFormNonPbjController::class, 'verifikasi'])->name('spj-form-non-pbj.verifikasi');
     Route::resource('spj-form-non-pbj', SpjFormNonPbjController::class);
     Route::resource('spj-form-non-pbj-detail', SuratPertanggungJawabanDetailController::class);
+});
+
+
+Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Pengadministrasiumum\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('surat/detail', [\App\Http\Controllers\Pengadministrasiumum\SuratTugasController::class, 'detail'])->name('surat.detail');
+    Route::resource('surat', \App\Http\Controllers\Pengadministrasiumum\SuratTugasController::class);
+
+    Route::resource('permohonan-spd', PermohonanSpdController::class);
+});
+
+Route::name('wakil-direktur-ii.')->prefix('wakil-direktur-ii')->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Wakildirekturii\DashboardController::class, 'index'])->name('dashboard');
+    Route::post('permohonan-spd/verifikasi/{id}', [App\Http\Controllers\Wakildirekturii\PermohonanSpdController::class, 'verifikasi'])->name('permohonan-spd.verifikasi');
+    Route::resource('permohonan-spd', App\Http\Controllers\Wakildirekturii\PermohonanSpdController::class);
+    Route::get('tte', [App\Http\Controllers\Wakildirekturii\TTEController::class, 'index'])->name('tte.index');
+    Route::post('tte', [App\Http\Controllers\Wakildirekturii\TTEController::class, 'update'])->name('tte.update');
+    Route::delete('tte', [App\Http\Controllers\Wakildirekturii\TTEController::class, 'destroy'])->name('tte.destroy');
+
+    // disposisi spd
+    Route::resource('permohonan-spd-disposisi', App\Http\Controllers\Wakildirekturii\PermohonanSpdDisposisiController::class);
 });
