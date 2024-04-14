@@ -12,5 +12,17 @@
                 <span class="menu-title">Permohonan SPD</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link py-2" href="{{ route('ppk.spd-spj.index') }}">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">SPJ SPD</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link py-2" href="{{ route('ppk.tte.index') }}">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Upload TTE</span>
+            </a>
+        </li>
     </ul>
 </nav>

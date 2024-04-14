@@ -14,7 +14,7 @@ class PermohonanSpdController extends Controller
 {
     public function index()
     {
-        $items = SuratPerjalananDinas::notActive()->latest()->get();
+        $items = SuratPerjalananDinas::latest()->get();
         return view('pengadministrasi-umum.pages.permohonan-spd.index', [
             'title' => 'Surat Perjalanan Dinas',
             'items' => $items

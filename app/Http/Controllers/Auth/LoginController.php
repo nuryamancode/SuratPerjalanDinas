@@ -46,6 +46,10 @@ class LoginController extends Controller
             return redirect()->route('wakil-direktur-ii.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
             return redirect()->route('ppk.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
+            return redirect()->route('bendahara-keuangan.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Perjalanan Dinas') {
+            return redirect()->route('pelaksana-spd.dashboard');
         }
     }
 }

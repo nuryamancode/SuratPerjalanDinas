@@ -20,7 +20,6 @@ class SuratPerjalananDinas extends Model
             }
         });
     }
-
     public function surat()
     {
         return $this->belongsTo(Surat::class);
@@ -92,8 +91,46 @@ class SuratPerjalananDinas extends Model
         }
     }
 
+    public function statusSpd()
+    {
+        if ($this->verifikasi_ppk == 0) {
+            return 'Belum Diverifikasi';
+        } else {
+            return 'Sudah Diverifikasi PPK';
+        }
+    }
+
     public function scopeVerifikasiWadir2($val)
     {
         $val->where('verifikasi_wadir2', 1);
+    }
+
+
+    public function scopeAccPpk($val)
+    {
+        $val->where('acc_ppk', 1);
+    }
+    public function scopeVerifikasiWadir2Ppk($val)
+    {
+        $val->where('verifikasi_wadir2', 1)->where('acc_ppk', 1);
+    }
+
+    public function scopeStatusSpdDetail($val)
+    {
+        $val->whereHas('details');
+    }
+
+    public function statusUangMuka()
+    {
+        if ($this->uang_muka) {
+            return 'Sudah Didistribusikan';
+        } else {
+            return 'Belum Didistribusikan';
+        }
+    }
+
+    public function uang_muka()
+    {
+        return $this->hasOne(UangMuka::class, 'surat_perjalanan_dinas_id', 'id');
     }
 }

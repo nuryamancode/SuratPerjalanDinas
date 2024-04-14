@@ -1,4 +1,4 @@
-@extends('ppk.layouts.app')
+@extends('bendahara-keuangan.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -14,8 +14,8 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Perihal</th>
-                                    <th>Keterangan PPK</th>
                                     <th>Status</th>
+                                    <th>Status Uang Muka</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -25,36 +25,31 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->surat->nomor_surat }}</td>
                                         <td>{{ $item->surat->perihal }}</td>
-                                        <td>{{ $item->keterangan_acc_ppk }}</td>
-                                        <td>{{ $item->statusSpd() }}</td>
+                                        <td>{{ $item->statusAccPpk() }}</td>
+                                        <td>{{ $item->statusUangMuka() }}</td>
                                         <td>
-                                            @if ($item->acc_ppk == 0)
-                                                <form action="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
-                                                    method="post" class="d-inline" id="formAcc">
-                                                    @csrf
-                                                    <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button
-                                                        data-url="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                </form>
-                                            @elseif($item->acc_ppk == 1)
-                                                <a href="{{ route('ppk.permohonan-spd-disposisi.index', [
-                                                    'permohonan_spd_uuid' => $item->uuid,
+                                            @if (count($item->details) > 0)
+                                                <a href="{{ route('bendahara-keuangan.spd.index', [
+                                                    'spd_uuid' => $item->uuid,
                                                 ]) }}"
-                                                    class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                            @endif
-                                            @if ($item->verifikasi_wadir2 && $item->acc_ppk && $item->verifikasi_ppk == 0 && $item->details)
-                                                <form action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->uuid) }}"
+                                                    class="btn btn-sm py-2 btn-info">Detail SPD</a>
+                                            @else
+                                                <form
+                                                    action="{{ route('bendahara-keuangan.spd.store', [
+                                                        'permohonan_spd_uuid' => $item->uuid,
+                                                    ]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
-                                                    <button class="btn py-2  btn-sm btn-success" name="status">Set
-                                                        Verifikasi</button>
+                                                    <button class="btn py-2  btn-sm btn-success">Buatkan SPD</button>
                                                 </form>
                                             @endif
-                                            <a href="{{ route('ppk.permohonan-spd.show', $item->uuid) }}"
+                                            @if ($item->verifikasi_ppk)
+                                                <a href="{{ route('bendahara-keuangan.spd-uang-muka.index', [
+                                                    'spd_uuid' => $item->uuid,
+                                                ]) }}"
+                                                    class="btn btn-sm py-2 btn-primary">Uang Muka</a>
+                                            @endif
+                                            <a href="{{ route('bendahara-keuangan.permohonan-spd.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

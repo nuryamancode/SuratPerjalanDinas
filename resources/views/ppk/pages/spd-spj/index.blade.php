@@ -4,16 +4,21 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Permohonan Surat Perjalanan Dinas</h4>
+                    <div class="d-flex mb-3 justify-content-between">
+                        <h4 class="card-title mb-3">Surat Pertanggung Jawaban SPD </h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nomor Surat</th>
-                                    <th>Perihal</th>
+                                    <th>Tingkat Biaya</th>
+                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>Tempat Berangkat</th>
+                                    <th>Tempat Tujuan</th>
+                                    <th>Pelaksana</th>
+                                    <th>Draf SPJ</th>
+                                    <th>Total Biaya</th>
                                     <th>Keterangan PPK</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
@@ -23,39 +28,40 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->surat->nomor_surat }}</td>
-                                        <td>{{ $item->surat->perihal }}</td>
-                                        <td>{{ $item->keterangan_acc_ppk }}</td>
-                                        <td>{{ $item->statusSpd() }}</td>
+                                        <td>{{ $item->spd_detail->tingkat_biaya }}</td>
+                                        <td>{{ $item->spd_detail->maksud_perjalanan_dinas }}</td>
+                                        <td>{{ $item->spd_detail->tempat_berangkat }}</td>
+                                        <td>{{ $item->spd_detail->tempat_tujuan }}</td>
+                                        <td>{{ $item->spd_detail->karyawan->nama }}</td>
                                         <td>
-                                            @if ($item->acc_ppk == 0)
-                                                <form action="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
-                                                    method="post" class="d-inline" id="formAcc">
-                                                    @csrf
-                                                    <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
+                                            <a href="{{ $item->downloadFile() }}" class="btn btn-sm btn-success"
+                                                target="_blank">Lihat</a>
+                                        </td>
+                                        <td>Rp. {{ number_format($item->details()->sum('nominal')) ?? '-' }}</td>
+                                        <td>{{ $item->keterangan_ppk }}</td>
+                                        <td>{!! $item->status() !!}</td>
+                                        <td>
+                                            <form action="{{ route('ppk.spd-spj.verifikasi', $item->uuid) }}" method="post"
+                                                class="d-inline" id="formVerifikasi">
+                                                @csrf
+                                                <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
+                                                @if ($item->status == 0)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
-                                                    <button
-                                                        data-url="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
+                                                    <button data-url="{{ route('ppk.spd-spj.verifikasi', $item->uuid) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
-                                                </form>
-                                            @elseif($item->acc_ppk == 1)
-                                                <a href="{{ route('ppk.permohonan-spd-disposisi.index', [
-                                                    'permohonan_spd_uuid' => $item->uuid,
-                                                ]) }}"
-                                                    class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                            @endif
-                                            @if ($item->verifikasi_wadir2 && $item->acc_ppk && $item->verifikasi_ppk == 0 && $item->details)
-                                                <form action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->uuid) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn py-2  btn-sm btn-success" name="status">Set
-                                                        Verifikasi</button>
-                                                </form>
-                                            @endif
-                                            <a href="{{ route('ppk.permohonan-spd.show', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-warning">Detail</a>
+                                                @elseif($item->status == 1)
+                                                    <button data-url="{{ route('ppk.spd-spj.verifikasi', $item->uuid) }}"
+                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
+                                                        name="status" value="2">Tolak</button>
+                                                @else
+                                                    <button class="btn py-2  btn-sm btn-success" name="status"
+                                                        value="1">Terima</button>
+                                                @endif
+                                            </form>
+                                            <a href="{{ route('ppk.spd-spj.show', $item->uuid) }}"
+                                                class="btn btn-warning  py-2">Detail</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -66,7 +72,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modalKeterangan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -96,8 +101,8 @@
         </div>
     </div>
 @endsection
-<x-Admin.Sweetalert />
 <x-Admin.Datatable />
+<x-Admin.Sweetalert />
 @push('scripts')
     <script>
         $(function() {
@@ -111,9 +116,9 @@
                         type: 'hidden',
                         name: 'status',
                         value: 2
-                    }).appendTo('#formAcc');
-                    $('#formAcc').attr('action', url);
-                    $('#formAcc').submit();
+                    }).appendTo('#formVerifikasi');
+                    $('#formVerifikasi').attr('action', url);
+                    $('#formVerifikasi').submit();
                 })
                 $('#modalKeterangan').modal('show');
             })

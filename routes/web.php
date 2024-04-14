@@ -143,12 +143,16 @@ Route::middleware('auth')->group(function () {
 Route::name('ppk.')->prefix('ppk')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\Ppk\DashboardController::class, 'index'])->name('dashboard');
     Route::post('permohonan-spd/acc-ppk/{id}', [App\Http\Controllers\Ppk\PermohonanSpdController::class, 'acc_ppk'])->name('permohonan-spd.acc-ppk');
-
+    Route::post('permohonan-spd/verifikasi-ppk/{id}', [App\Http\Controllers\Ppk\PermohonanSpdController::class, 'verifikasi_ppk'])->name('permohonan-spd.verifikasi-ppk');
     Route::resource('permohonan-spd', App\Http\Controllers\Ppk\PermohonanSpdController::class);
     // disposisi spd
     Route::resource('permohonan-spd-disposisi', App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class);
+    Route::post('spd-spj/verifikasi/{uuid}', [App\Http\Controllers\Ppk\SpdSpjController::class, 'verifikasi'])->name('spd-spj.verifikasi');
+    Route::resource('spd-spj', App\Http\Controllers\Ppk\SpdSpjController::class);
+    Route::get('tte', [App\Http\Controllers\Ppk\TTEController::class, 'index'])->name('tte.index');
+    Route::post('tte', [App\Http\Controllers\Ppk\TTEController::class, 'update'])->name('tte.update');
+    Route::delete('tte', [App\Http\Controllers\Ppk\TTEController::class, 'destroy'])->name('tte.destroy');
 });
-
 
 Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\Pengadministrasiumum\DashboardController::class, 'index'])->name('dashboard');
@@ -168,4 +172,20 @@ Route::name('wakil-direktur-ii.')->prefix('wakil-direktur-ii')->group(function (
 
     // disposisi spd
     Route::resource('permohonan-spd-disposisi', App\Http\Controllers\Wakildirekturii\PermohonanSpdDisposisiController::class);
+});
+
+Route::name('bendahara-keuangan.')->prefix('bendahara-keuangan')->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Bendaharakeuangan\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('permohonan-spd', App\Http\Controllers\Bendaharakeuangan\PermohonanSpdController::class);
+    Route::resource('spd', App\Http\Controllers\Bendaharakeuangan\SpdController::class);
+    Route::resource('spd-detail', App\Http\Controllers\Bendaharakeuangan\SpdDetailController::class);
+    Route::resource('spd-detail-supir', App\Http\Controllers\Bendaharakeuangan\SpdDetailSupirController::class);
+    Route::resource('spd-uang-muka', App\Http\Controllers\Bendaharakeuangan\PermohonanSpdUangMukaController::class);
+});
+
+Route::name('pelaksana-spd.')->prefix('pelaksana-spd')->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Pelaksanaspd\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('spd', App\Http\Controllers\Pelaksanaspd\SpdController::class);
+    Route::resource('spd-spj', App\Http\Controllers\Pelaksanaspd\SpdSpjController::class);
+    Route::resource('spd-spj-detail', App\Http\Controllers\Pelaksanaspd\SpdSpjDetailController::class);
 });
