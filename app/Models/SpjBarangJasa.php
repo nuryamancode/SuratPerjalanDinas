@@ -19,4 +19,20 @@ class SpjBarangJasa extends Model
     {
         return asset('storage/' . $this->file);
     }
+
+    public function pelaksanaFormNonPbj()
+    {
+        return $this->belongsTo(PengajuanBarangJasaPelaksana::class, 'pengajuan_barang_jasa_pelaksana_id', 'id');
+    }
+
+    public function acc_ppk()
+    {
+        if ($this->acc_ppk == 0) {
+            return '<span class="badge badge-warning">Menunggu Persetujuan</span>';
+        } elseif ($this->acc_ppk == 1) {
+            return '<span class="badge badge-success">Disetujui</span>';
+        } else {
+            return '<span class="badge badge-danger">Ditolak</span>';
+        }
+    }
 }

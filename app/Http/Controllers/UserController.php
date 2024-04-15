@@ -12,13 +12,13 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:User Index')->only('index');
-        $this->middleware('can:User Create')->only(['create', 'store']);
-        $this->middleware('can:User Edit')->only(['edit', 'update']);
-        $this->middleware('can:User Delete')->only('destroy');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('can:User Index')->only('index');
+    //     $this->middleware('can:User Create')->only(['create', 'store']);
+    //     $this->middleware('can:User Edit')->only(['edit', 'update']);
+    //     $this->middleware('can:User Delete')->only('destroy');
+    // }
 
     public function index()
     {

@@ -50,6 +50,13 @@ class LoginController extends Controller
             return redirect()->route('bendahara-keuangan.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Perjalanan Dinas') {
             return redirect()->route('pelaksana-spd.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pengusul') {
+            return redirect()->route('pengusul.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Belanja') {
+            return redirect()->route('pelaksana-belanja.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Wakil Direktur I') {
+
+            return redirect()->route('wakil-direktur-i.dashboard');
         }
     }
 }

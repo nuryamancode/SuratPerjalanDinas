@@ -13,13 +13,13 @@ use Spatie\Permission\Models\Role;
 
 class KaryawanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:Karyawan Index')->only('index');
-        $this->middleware('can:Karyawan Create')->only(['create', 'store']);
-        $this->middleware('can:Karyawan Edit')->only(['edit', 'update']);
-        $this->middleware('can:Karyawan Delete')->only('destroy');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('can:Karyawan Index')->only('index');
+    //     $this->middleware('can:Karyawan Create')->only(['create', 'store']);
+    //     $this->middleware('can:Karyawan Edit')->only(['edit', 'update']);
+    //     $this->middleware('can:Karyawan Delete')->only('destroy');
+    // }
 
     public function index()
     {

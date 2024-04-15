@@ -25,9 +25,26 @@ class PengajuanBarangJasa extends Model
         $val->where('acc_wadir2', 1)->where('acc_ppk', 1);
     }
 
-    public function scopeAccKaryawan($val)
+    public function scopeVerifikasiPengusul($val)
     {
-        $val->where('acc_karyawan', 1);
+        $val->where('verifikasi_pengusul', 1);
+    }
+
+
+    public function scopeVerifikasiWadir1($val)
+    {
+        $val->where('verifikasi_wadir1', 1);
+    }
+
+
+    public function scopeAccPpk($val)
+    {
+        $val->where('acc_ppk', 1);
+    }
+
+    public function scopeVerifikasiUangMuka($val)
+    {
+        $val->whereHas('uang_muka');
     }
 
     public function pelaksana()
@@ -83,14 +100,21 @@ class PengajuanBarangJasa extends Model
         }
     }
 
-    public function statusAccPengusul()
+    public function statusVerifikasiPengusul()
     {
-        if ($this->acc_pengusul == 0) {
-            return 'Belum Di Cek';
-        } elseif ($this->acc_pengusul == 1) {
-            return 'Disetujui';
+        if ($this->verifikasi_pengusul == 1) {
+            return 'Telah Diverifikasi';
         } else {
-            return 'Ditolak';
+            return 'Belum Diverifikasi';
+        }
+    }
+
+    public function statusVerifikasiWadir1()
+    {
+        if ($this->verifikasi_wadir1 == 1) {
+            return 'Telah Diverifikasi';
+        } else {
+            return 'Belum Diverifikasi';
         }
     }
 
