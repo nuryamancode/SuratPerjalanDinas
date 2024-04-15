@@ -187,6 +187,16 @@ Route::name('wakil-direktur-ii.')->prefix('wakil-direktur-ii')->group(function (
 
     // disposisi spd
     Route::resource('permohonan-spd-disposisi', App\Http\Controllers\Wakildirekturii\PermohonanSpdDisposisiController::class);
+    Route::controller(\App\Http\Controllers\Wakildirekturii\PengajuanPbjController::class)->group(function () {
+        Route::get('/pengajuan-pbj', 'index')->name('pengajuan-pbj.index');
+        Route::get('/pengajuan-pbj/{uuid}', 'show')->name('pengajuan-pbj.show');
+        Route::post('pengajuan-pbj/acc/{uuid}', 'acc')->name('pengajuan-pbj.acc');
+    });
+
+    Route::get('pengajuan-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'index'])->name('pengajuan-pbj-disposisi.index');
+    Route::get('pengajuan-pbj/{uuid}/disposisi/create', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'create'])->name('pengajuan-pbj-disposisi.create');
+    Route::post('pengajuan-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'store'])->name('pengajuan-pbj-disposisi.store');
+    Route::delete('pengajuan-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'destroy'])->name('pengajuan-pbj-disposisi.destroy');
 });
 
 Route::name('bendahara-keuangan.')->prefix('bendahara-keuangan')->group(function () {
@@ -239,7 +249,6 @@ Route::name('pelaksana-belanja.')->prefix('pelaksana-belanja')->group(function (
         Route::delete('/pengajuan-form-non-pbj-spj-detail/{uuid}', 'destroy')->name('pengajuan-form-non-pbj-spj-detail.destroy');
     });
 });
-
 
 Route::name('wakil-direktur-i.')->prefix('wakil-direktur-i')->group(function () {
     Route::get('/', [\App\Http\Controllers\Wakildirekturi\DashboardController::class, 'index'])->name('dashboard');

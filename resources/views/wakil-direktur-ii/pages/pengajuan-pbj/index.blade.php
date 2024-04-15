@@ -1,11 +1,11 @@
-@extends('ppk.layouts.app')
+@extends('wakil-direktur-ii.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Pengajuan Form Non PBJ</h4>
+                        <h4 class="card-title mb-3">Pengajuan PBJ</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -18,9 +18,8 @@
                                     <th>Perihal</th>
                                     <th>Pelaksana</th>
                                     <th>Status Surat</th>
-                                    <th>Acc PPK</th>
-                                    <th>Keterangan PPK</th>
-                                    <th>Status Uang Muka</th>
+                                    <th>Verifikasi Wadir I</th>
+                                    <th>Acc Wadir 2</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -40,28 +39,27 @@
                                             </ul>
                                         </td>
                                         <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusAccPpk() }}</td>
-                                        <td>{{ $item->keterangan_ppk }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{{ $item->statusVerifikasiWadir1() }}</td>
+                                        <td>{{ $item->statusAccWadir2() }}</td>
                                         <td>
-                                            @if ($item->acc_ppk == 1)
-                                                <a href="{{ route('ppk.pengajuan-form-non-pbj-disposisi.index', $item->uuid) }}"
+                                            @if ($item->acc_wadir2 == 1)
+                                                <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $item->uuid) }}"
                                                     class="btn btn-sm py-2 btn-info">Disposisi</a>
                                             @endif
-                                            <form action="{{ route('ppk.pengajuan-form-non-pbj.acc', $item->uuid) }}"
+                                            <form action="{{ route('wakil-direktur-ii.pengajuan-pbj.acc', $item->uuid) }}"
                                                 method="post" class="d-inline" id="formAcc">
                                                 @csrf
-                                                <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
-                                                @if ($item->acc_ppk == 0)
+                                                <textarea name="keterangan_wadir2" id="keterangan_wadir2" hidden cols="30" rows="10"></textarea>
+                                                @if ($item->acc_wadir2 == 0)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
                                                     <button
-                                                        data-url="{{ route('ppk.pengajuan-form-non-pbj.acc', $item->uuid) }}"
+                                                        data-url="{{ route('wakil-direktur-ii.pengajuan-pbj.acc', $item->uuid) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_ppk == 1)
+                                                @elseif($item->acc_wadir2 == 1)
                                                     <button
-                                                        data-url="{{ route('ppk.pengajuan-form-non-pbj.acc', $item->uuid) }}"
+                                                        data-url="{{ route('wakil-direktur-ii.pengajuan-pbj.acc', $item->uuid) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
                                                 @else
@@ -69,7 +67,7 @@
                                                         value="1">Terima</button>
                                                 @endif
                                             </form>
-                                            <a href="{{ route('ppk.pengajuan-form-non-pbj.show', $item->uuid) }}"
+                                            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>
