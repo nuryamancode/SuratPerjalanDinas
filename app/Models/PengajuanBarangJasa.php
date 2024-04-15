@@ -35,6 +35,10 @@ class PengajuanBarangJasa extends Model
     {
         $val->where('verifikasi_wadir1', 1);
     }
+    public function scopeAccWadir2($val)
+    {
+        $val->where('acc_wadir2', 1);
+    }
 
 
     public function scopeAccPpk($val)

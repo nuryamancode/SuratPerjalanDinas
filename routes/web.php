@@ -165,6 +165,15 @@ Route::name('ppk.')->prefix('ppk')->group(function () {
         Route::get('/pengajuan-form-non-pbj-spj/{uuid}', 'show')->name('pengajuan-form-non-pbj-spj.show');
         Route::post('pengajuan-form-non-pbj-spj/acc/{uuid}', 'acc')->name('pengajuan-form-non-pbj-spj.acc');
     });
+
+    Route::controller(\App\Http\Controllers\Ppk\PengajuanPbjController::class)->group(function () {
+        Route::get('/pengajuan-pbj', 'index')->name('pengajuan-pbj.index');
+        Route::get('/pengajuan-pbj/{uuid}', 'show')->name('pengajuan-pbj.show');
+        Route::post('pengajuan-pbj/acc/{uuid}', 'acc')->name('pengajuan-pbj.acc');
+    });
+
+    Route::resource('pengajuan-pbj-proses', \App\Http\Controllers\Ppk\PengajuanPbjProsesController::class)->except('show');
+    // Route::get('proses-pbj/{pbj_uuid}', [ProsesPbjController::class, 'show'])->name('proses-pbj.show');
 });
 
 Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->group(function () {
