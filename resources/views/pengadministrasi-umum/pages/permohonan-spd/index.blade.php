@@ -16,12 +16,8 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
-                                    <th>Perihal</th>
-                                    <th>Tipe</th>
-                                    <th>Pembuat Disposisi</th>
-                                    <th>Tujuan Disposisi</th>
-                                    <th>Catatan</th>
-                                    {{-- <th>Status</th> --}}
+                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -30,14 +26,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->surat->nomor_surat }}</td>
-                                        <td>{{ $item->surat->perihal }}</td>
-                                        <td>{{ $item->disposisi->tipe ?? '-' }}</td>
-                                        <td>{{ $item->disposisi->pembuat->nama ?? '-' }}</td>
-                                        <td>{{ $item->disposisi->tujuan->nama ?? '-' }}</td>
-                                        <td>{{ $item->disposisi->catatan ?? '-' }}</td>
+                                        <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>
-                                            <a href="{{ route('pengadministrasi-umum.permohonan-spd.show', $item->id) }}"
-                                                class="btn btn-sm py-2 btn-warning">Detail</a>
                                             <form action="javascript:void(0)" method="post" class="d-inline"
                                                 id="formDelete">
                                                 @csrf

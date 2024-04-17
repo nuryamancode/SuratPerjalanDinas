@@ -15,7 +15,7 @@
                                 <option value='' selected disabled>Pilih Surat</option>
                                 @foreach ($data_surat as $surat)
                                     <option @selected($surat->id == old('surat_id')) value='{{ $surat->id }}'>
-                                        {{ $surat->perihal . ' | ' . $surat->nomor_surat }}
+                                        {{ $surat->nomor_surat }}
                                     </option>
                                 @endforeach
                             </select>
@@ -37,58 +37,27 @@
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='perihal' class='mb-2'>Perihal</label>
-                            <input type='text' name='' id='perihal'
-                                class='form-control @error('perihal') is-invalid @enderror' value='{{ old('perihal') }}'
-                                readonly>
-                            @error('perihal')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group'>
-                            <label for='tujuan_karyawan_id'>Diteruskan Ke</label>
-                            <select name='tujuan_karyawan_id' id='tujuan_karyawan_id'
-                                class='form-control @error('tujuan_karyawan_id') is-invalid @enderror'>
-                                <option value='' selected disabled>Pilih Diteruskan Ke</option>
-                                @foreach ($data_karyawan as $karyawan)
-                                    <option @selected($karyawan->id == old('tujuan_karyawan_id')) value='{{ $karyawan->id }}'>{{ $karyawan->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('tujuan_karyawan_id')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group'>
-                            <label for='tipe'>Tipe</label>
-                            <select name='tipe' id='tipe' class='form-control @error('tipe') is-invalid @enderror'>
-                                <option value='' selected disabled>Pilih tipe</option>
-                                <option @selected(request('tipe') === 'Rahasia') value="Rahasia">Rahasia</option>
-                                <option @selected(request('tipe') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
-                                <option @selected(request('tipe') === 'Segera') value="Segera">Segera</option>
-                                <option @selected(request('tipe') === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
-                            </select>
-                            @error('tipe')
+                            <label for='maksud_perjalanan_dinas' class='mb-2'>Maksud Perjalanan Dnas</label>
+                            <input type='text' name='' id='maksud_perjalanan_dinas'
+                                class='form-control @error('maksud_perjalanan_dinas') is-invalid @enderror'
+                                value='{{ old('maksud_perjalanan_dinas') }}' readonly>
+                            @error('maksud_perjalanan_dinas')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='catatan' class='mb-2'>Catatan</label>
-                            <textarea name='catatan' id='catatan' cols='30' rows='3'
-                                class='form-control @error('catatan') is-invalid @enderror'>{{ old('catatan') }}</textarea>
-                            @error('catatan')
+                            <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
+                            <input type='text' name='tanggal_surat' id='tanggal_surat'
+                                class='form-control @error('tanggal_surat') is-invalid @enderror'
+                                value='{{ old('tanggal_surat') }}' disabled>
+                            @error('tanggal_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
-
                         <div class="form-group text-right">
                             <a href="{{ route('pengadministrasi-umum.permohonan-spd.index') }}"
                                 class="btn btn-warning">Batal</a>
@@ -120,7 +89,9 @@
                     success: function(res) {
                         if (res) {
                             $('#nomor_surat').val(res.nomor_surat);
-                            $('#perihal').val(res.perihal);
+                            $('#maksud_perjalanan_dinas').val(res.maksud_perjalanan_dinas);
+                            $('#nomor_surat').val(res.nomor_surat);
+                            $('#tanggal_surat').val(res.tanggal_surat);
                         }
                     }
                 })

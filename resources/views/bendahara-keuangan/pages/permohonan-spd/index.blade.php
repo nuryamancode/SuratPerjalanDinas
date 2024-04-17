@@ -13,8 +13,7 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
-                                    <th>Perihal</th>
-                                    <th>Status</th>
+                                    <th>Maksud Perjalanan Dinas</th>
                                     <th>Status Uang Muka</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -24,8 +23,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->surat->nomor_surat }}</td>
-                                        <td>{{ $item->surat->perihal }}</td>
-                                        <td>{{ $item->statusAccPpk() }}</td>
+                                        <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
                                         <td>{{ $item->statusUangMuka() }}</td>
                                         <td>
                                             @if (count($item->details) > 0)
@@ -43,7 +41,7 @@
                                                     <button class="btn py-2  btn-sm btn-success">Buatkan SPD</button>
                                                 </form>
                                             @endif
-                                            @if ($item->verifikasi_ppk)
+                                            @if ($item->verifikasi_ppk == 1)
                                                 <a href="{{ route('bendahara-keuangan.spd-uang-muka.index', [
                                                     'spd_uuid' => $item->uuid,
                                                 ]) }}"

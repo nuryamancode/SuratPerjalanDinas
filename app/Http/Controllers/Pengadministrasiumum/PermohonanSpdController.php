@@ -41,22 +41,9 @@ class PermohonanSpdController extends Controller
         DB::beginTransaction();
 
         try {
-            $data = request()->only(['surat_id', 'instruksi', 'tipe']);
+            $data = request()->only(['surat_id']);
+            $data['status'] = 'Menunggu Persetujuan Wakil Direktur II';
             $spd = SuratPerjalananDinas::notActive()->create($data);
-            // create disposisi
-            $spd->disposisi()->create([
-                'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
-                'catatan' => request('catatan'),
-                'tipe' => request('tipe'),
-            ]);
-            // create histori
-            // RiwayatSuratPerjalananDinas::create([
-            //     'surat_perjalanan_dinas_id' => $spd->id,
-            //     'pengirim_karyawan_id' => auth()->user()->karyawan->id,
-            //     'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
-            //     'status' => 1
-            // ]);
 
             DB::commit();
             return redirect()->route('pengadministrasi-umum.permohonan-spd.index')->with('success', 'Surat Perjalanan Dinas berhasil dibuat.');

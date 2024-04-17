@@ -17,7 +17,8 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
-                                    <th>Perihal</th>
+                                    <th>Nomor Agenda</th>
+                                    <th>Asal Surat</th>
                                     <th>Pembuat</th>
                                     <th>Tujuan</th>
                                     <th>Aksi</th>
@@ -28,7 +29,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->spd->surat->nomor_surat }}</td>
-                                        <td>{{ $item->spd->surat->perihal }}</td>
+                                        <td>{{ $item->nomor_agenda }}</td>
+                                        <td>{{ $item->spd->surat->asal_surat }}</td>
                                         <td>{{ $item->pembuat->nama }}</td>
                                         <td>{{ $item->tujuan->nama }}</td>
                                         <td>

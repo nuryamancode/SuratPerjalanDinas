@@ -20,6 +20,10 @@ class Surat extends Model
     {
         return asset('storage/' . $this->file);
     }
+    public function getFileLampiranSuratTugas()
+    {
+        return asset('storage/' . $this->file);
+    }
 
     public function lampiran()
     {
@@ -43,5 +47,10 @@ class Surat extends Model
         } else {
             return 'Belum Didisposisikan';
         }
+    }
+
+    public function supir()
+    {
+        return $this->belongsTo(Karyawan::class, 'supir_karyawan_id', 'id');
     }
 }

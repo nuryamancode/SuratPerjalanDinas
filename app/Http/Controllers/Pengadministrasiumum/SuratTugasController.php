@@ -7,6 +7,7 @@ use App\Models\Karyawan;
 use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SuratTugasController extends Controller
 {
@@ -31,7 +32,6 @@ class SuratTugasController extends Controller
     {
         request()->validate([
             'nomor_surat' => ['required', 'unique:surat,nomor_surat'],
-            'perihal' => ['required'],
             'file' => ['required', 'mimes:pdf', 'max:2048'],
             'lampiran.*' => 'mimes:pdf|max:2048',
             'pelaksana' => ['required', 'array'],
@@ -39,14 +39,29 @@ class SuratTugasController extends Controller
 
         DB::beginTransaction();
         try {
-            $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'asal_surat', 'tanggal_surat']);
+            $data_req = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
+            $data_supir = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
+
+            if (request('antar') == 1) {
+                // jemput
+                $data = $data_supir;
+                $data['antar'] = 1;
+            } else {
+                $data = $data_req;
+                $data['antar'] = 0;
+            }
+            // dd($data);
             $data['file'] = request()->file('file')->store('surat', 'public');
+            if (request('lampiran_surat_tugas')) {
+                $data['lampiran_surat_tugas'] = request()->file('lampiran_surat_tugas')->store('surat-tugas-supir', 'public');
+            }
             $data_lampiran = request()->file('lampiran');
             $data_pelaksana = request('pelaksana');
             $data['uuid'] = \Str::uuid();
             $data['pembuat_user_id'] = auth()->id();
             $data['status'] = 'Belum Didisposisikan';
             $data['jenis_surat'] = 'tugas';
+            $data['asal_surat'] = 'Pengadministrasi Umum';
             $surat  = Surat::create($data);
 
             // create lampiran
@@ -102,34 +117,47 @@ class SuratTugasController extends Controller
     {
         request()->validate([
             'nomor_surat' => 'required|unique:surat,nomor_surat,' . $uuid . ',uuid',
-            'perihal' => ['required'],
             'file' => ['mimes:pdf', 'max:2048'],
-            'lampiran.*' => 'mimes:pdf|max:2048',
+            // 'lampiran.*' => 'mimes:pdf|max:2048',
             'pelaksana' => ['required', 'array'],
         ]);
 
         DB::beginTransaction();
         try {
-            $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'asal_surat', 'tanggal_surat']);
             $item = Surat::where('uuid', $uuid)->firstOrFail();
+            $data_req = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
+            $data_supir = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
+
+            if ($item) {
+                // jemput
+                $data = $data_supir;
+            } else {
+                $data = $data_req;
+            }
+
             if (request()->file('file')) {
                 if ($item->file)
                     Storage::disk('public')->delete($item->file);
                 $data['file'] = request()->file('file')->store('surat', 'public');
             }
-            $data_lampiran = request()->file('lampiran');
+            if (request()->file('lampiran_surat_tugas')) {
+                if ($item->file)
+                    Storage::disk('public')->delete($item->file);
+                $data['file'] = request()->file('lampiran_surat_tugas')->store('surat-tugas', 'public');
+            }
+            // $data_lampiran = request()->file('lampiran');
             $data_pelaksana = request('pelaksana');
             $item->update($data);
 
             // create lampiran
-            if (!empty($data_lampiran)) {
-                foreach ($data_lampiran as $lampiran) {
-                    $item->lampiran()->create([
-                        'uuid' => \Str::uuid(),
-                        'file' => $lampiran->store('surat-lampiran', 'public')
-                    ]);
-                }
-            }
+            // if (!empty($data_lampiran)) {
+            //     foreach ($data_lampiran as $lampiran) {
+            //         $item->lampiran()->create([
+            //             'uuid' => \Str::uuid(),
+            //             'file' => $lampiran->store('surat-lampiran', 'public')
+            //         ]);
+            //     }
+            // }
 
             // create pelaksana
             if (!empty($data_pelaksana)) {

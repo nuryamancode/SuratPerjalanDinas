@@ -13,7 +13,7 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
-                                    <th>Perihal</th>
+                                    <th>Maksud Perjalanan Dinas</th>
                                     <th>Keterangan PPK</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
@@ -24,36 +24,10 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->surat->nomor_surat }}</td>
-                                        <td>{{ $item->surat->perihal }}</td>
+                                        <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
                                         <td>{{ $item->keterangan_acc_ppk }}</td>
                                         <td>{{ $item->statusSpd() }}</td>
                                         <td>
-                                            @if ($item->acc_ppk == 0)
-                                                <form action="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
-                                                    method="post" class="d-inline" id="formAcc">
-                                                    @csrf
-                                                    <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button
-                                                        data-url="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                </form>
-                                            @elseif($item->acc_ppk == 1)
-                                                <a href="{{ route('ppk.permohonan-spd-disposisi.index', [
-                                                    'permohonan_spd_uuid' => $item->uuid,
-                                                ]) }}"
-                                                    class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                            @endif
-                                            @if ($item->verifikasi_wadir2 && $item->acc_ppk && $item->verifikasi_ppk == 0 && $item->details)
-                                                <form action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->uuid) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn py-2  btn-sm btn-success" name="status">Set
-                                                        Verifikasi</button>
-                                                </form>
-                                            @endif
                                             <a href="{{ route('ppk.permohonan-spd.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>

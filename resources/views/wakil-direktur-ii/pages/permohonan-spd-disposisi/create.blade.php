@@ -11,17 +11,67 @@
                         ]) }}"
                         method="post">
                         @csrf
-                        <div class='form-group'>
-                            <label for='tujuan_karyawan_id'>Diteruskan Ke</label>
-                            <select name='tujuan_karyawan_id[]' id='tujuan_karyawan_id'
-                                class='form-control @error('tujuan_karyawan_id') is-invalid @enderror' multiple>
-                                @foreach ($data_karyawan as $karyawan)
-                                    <option @selected($karyawan->id == old('tujuan_karyawan_id')) value='{{ $karyawan->id }}'>
-                                        {{ $karyawan->nama . ' | ' . $karyawan->jabatan->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('tujuan_karyawan_id')
+                        <input type="hidden" name="tujuan_karyawan_id" value="{{ $ppk->karyawan->id }}">
+                        <div class='form-group mb-3'>
+                            <label for='tujuan_karyawan' class='mb-2'>Tujuan Karyawan</label>
+                            <input type='text' name='tujuan_karyawan' id='tujuan_karyawan'
+                                class='form-control @error('tujuan_karyawan') is-invalid @enderror'
+                                value='{{ $ppk->karyawan->nama ?? old('tujuan_karyawan') }}' readonly>
+                            @error('tujuan_karyawan')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='nomor_surat' class='mb-2'>Nomor Surat</label>
+                            <input type='text' name='nomor_surat' id='nomor_surat'
+                                class='form-control @error('nomor_surat') is-invalid @enderror'
+                                value='{{ $permohonan->surat->nomor_surat ?? old('nomor_surat') }}' disabled>
+                            @error('nomor_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='nomor_agenda' class='mb-2'>Nomor Agenda</label>
+                            <input type='text' name='nomor_agenda' id='nomor_agenda'
+                                class='form-control @error('nomor_agenda') is-invalid @enderror'
+                                value='{{ old('nomor_agenda') }}'>
+                            @error('nomor_agenda')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
+                            <input type='text' name='tanggal_surat' id='tanggal_surat'
+                                class='form-control @error('tanggal_surat') is-invalid @enderror'
+                                value='{{ $permohonan->surat->tanggal_surat ?? old('tanggal_surat') }}' disabled>
+                            @error('tanggal_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='asal_surat' class='mb-2'>Asal Surat</label>
+                            <input type='text' name='asal_surat' id='asal_surat'
+                                class='form-control @error('asal_surat') is-invalid @enderror'
+                                value='{{ $permohonan->surat->asal_surat ?? old('asal_surat') }}' disabled>
+                            @error('asal_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='perihal' class='mb-2'>Perihal</label>
+                            <input type='text' name='perihal' id='perihal'
+                                class='form-control @error('perihal') is-invalid @enderror' value='{{ old('perihal') }}'>
+                            @error('perihal')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>

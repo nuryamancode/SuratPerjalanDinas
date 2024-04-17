@@ -13,7 +13,8 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
-                                    <th>Perihal</th>
+                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>Status</th>
                                     <th>Status Verifikasi</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -23,21 +24,25 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->surat->nomor_surat }}</td>
-                                        <td>{{ $item->surat->perihal }}</td>
+                                        <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>{{ $item->verifikasi_wadir2() }}</td>
                                         <td>
                                             @if ($item->verifikasi_wadir2 != 1)
-                                                <form
-                                                    action="{{ route('wakil-direktur-ii.permohonan-spd.verifikasi', $item->id) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn py-2  btn-sm btn-success">Set Verifikasi</button>
-                                                </form>
-                                            @elseif($item->verifikasi_wadir2 == 1)
                                                 <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
                                                     'permohonan_spd_uuid' => $item->uuid,
                                                 ]) }}"
                                                     class="btn btn-sm py-2 btn-info">Disposisi</a>
+                                            @endif
+                                            @if ($item->disposisi)
+                                                @if ($item->verifikasi_wadir2 != 1)
+                                                    <form
+                                                        action="{{ route('wakil-direktur-ii.permohonan-spd.verifikasi', $item->id) }}"
+                                                        method="post" class="d-inline">
+                                                        @csrf
+                                                        <button class="btn py-2  btn-sm btn-success">Set Verifikasi</button>
+                                                    </form>
+                                                @endif
                                             @endif
                                             <a href="{{ route('wakil-direktur-ii.permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>

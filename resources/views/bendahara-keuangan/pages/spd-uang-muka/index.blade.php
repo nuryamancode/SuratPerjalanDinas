@@ -10,10 +10,10 @@
                         @csrf
                         <input type="hidden" name="spd_uuid" value="{{ $permohonan->uuid }}">
                         <div class='form-group mb-3'>
-                            <label for='surat_perihal' class='mb-2'>Perihal</label>
+                            <label for='surat_perihal' class='mb-2'>Nomor Surat</label>
                             <input type='text' name='surat_perihal' id='surat_perihal'
                                 class='form-control @error('surat_perihal') is-invalid @enderror'
-                                value='{{ $permohonan->surat->perihal ?? old('surat_perihal') }}' readonly>
+                                value='{{ $permohonan->surat->nomor_surat ?? old('surat_perihal') }}' readonly>
                             @error('surat_perihal')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -21,10 +21,11 @@
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='surat_nomor_surat' class='mb-2'>No.Surat</label>
+                            <label for='surat_nomor_surat' class='mb-2'>Maksud Perjalanan Dinas</label>
                             <input type='text' name='surat_nomor_surat' id='surat_nomor_surat'
                                 class='form-control @error('surat_nomor_surat') is-invalid @enderror'
-                                value='{{ $permohonan->surat->nomor_surat ?? old('surat_nomor_surat') }}' readonly>
+                                value='{{ $permohonan->surat->maksud_perjalanan_dinas ?? old('surat_nomor_surat') }}'
+                                readonly>
                             @error('surat_nomor_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -32,11 +33,22 @@
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='surat_no_agenda' class='mb-2'>No. Agenda</label>
-                            <input type='text' name='surat_no_agenda' id='surat_no_agenda'
-                                class='form-control @error('surat_no_agenda') is-invalid @enderror'
-                                value='{{ $permohonan->surat->no_agenda ?? old('surat_no_agenda') }}' readonly>
-                            @error('surat_no_agenda')
+                            <label for='tempat_berangkat' class='mb-2'>Tempat Berangkat</label>
+                            <input type='text' name='tempat_berangkat' id='tempat_berangkat'
+                                class='form-control @error('tempat_berangkat') is-invalid @enderror'
+                                value='{{ $permohonan->surat->tempat_berangkat ?? old('tempat_berangkat') }}' readonly>
+                            @error('tempat_berangkat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='tempat_tujuan' class='mb-2'>Tempat Tujuan</label>
+                            <input type='text' name='tempat_tujuan' id='tempat_tujuan'
+                                class='form-control @error('tempat_tujuan') is-invalid @enderror'
+                                value='{{ $permohonan->surat->tempat_tujuan ?? old('tempat_tujuan') }}' readonly>
+                            @error('tempat_tujuan')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
