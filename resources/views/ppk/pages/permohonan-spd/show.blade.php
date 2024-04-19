@@ -101,12 +101,15 @@
                                     @endif
                                     @if (count($item->disposisis->where('pembuat_karyawan_id', auth()->user()->karyawan->id)) > 0)
                                         @if (count($item->details) > 0)
-                                            <form action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->uuid) }}"
-                                                method="post" class="d-inline">
-                                                @csrf
-                                                <button class="btn py-2  btn-sm btn-success" name="status">Set
-                                                    Verifikasi</button>
-                                            </form>
+                                            @if ($item->verifikasi_ppk == 0)
+                                                <form
+                                                    action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->uuid) }}"
+                                                    method="post" class="d-inline">
+                                                    @csrf
+                                                    <button class="btn py-2  btn-sm btn-success" name="status">Set
+                                                        Verifikasi</button>
+                                                </form>
+                                            @endif
                                         @endif
                                     @endif
                                 </div>

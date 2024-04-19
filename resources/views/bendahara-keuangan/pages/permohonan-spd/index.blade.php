@@ -14,7 +14,7 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Maksud Perjalanan Dinas</th>
-                                    <th>Status Uang Muka</th>
+                                    {{-- <th>Status Uang Muka</th> --}}
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -24,7 +24,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->surat->nomor_surat }}</td>
                                         <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
+                                        {{-- <td>{{ $item->statusUangMuka() }}</td> --}}
                                         <td>
                                             @if (count($item->details) > 0)
                                                 <a href="{{ route('bendahara-keuangan.spd.index', [
@@ -41,12 +41,12 @@
                                                     <button class="btn py-2  btn-sm btn-success">Buatkan SPD</button>
                                                 </form>
                                             @endif
-                                            @if ($item->verifikasi_ppk == 1)
+                                            {{-- @if ($item->verifikasi_ppk == 1)
                                                 <a href="{{ route('bendahara-keuangan.spd-uang-muka.index', [
                                                     'spd_uuid' => $item->uuid,
                                                 ]) }}"
                                                     class="btn btn-sm py-2 btn-primary">Uang Muka</a>
-                                            @endif
+                                            @endif --}}
                                             <a href="{{ route('bendahara-keuangan.permohonan-spd.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>

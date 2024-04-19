@@ -35,7 +35,8 @@ class PermohonanSpdController extends Controller
             return redirect()->back()->with('error', 'Silahkan upload terlebih dahulu TTE nya.');
         }
         $item->update([
-            'verifikasi_wadir2' => 1
+            'verifikasi_wadir2' => 1,
+            'status' => 'Menunggu Persetujuan PPK'
         ]);
 
         return redirect()->back()->with('success', 'Permohonan Surat Perjalanan Dinas Berhasil diverifikasi.');

@@ -26,13 +26,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
+                                    {{-- {{ dd($item->spd_detail) }} --}}
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->spd_detail->tingkat_biaya }}</td>
-                                        <td>{{ $item->spd_detail->maksud_perjalanan_dinas }}</td>
-                                        <td>{{ $item->spd_detail->tempat_berangkat }}</td>
-                                        <td>{{ $item->spd_detail->tempat_tujuan }}</td>
-                                        <td>{{ $item->spd_detail->karyawan->nama }}</td>
+                                        <td>{{ $item->spd_detail->tingkat_biaya ?? '-' }}</td>
+                                        <td>{{ $item->spd_detail->maksud_perjalanan_dinas ?? '-' }}</td>
+                                        <td>{{ $item->spd_detail->tempat_berangkat ?? '-' }}</td>
+                                        <td>{{ $item->spd_detail->tempat_tujuan ?? '-' }}</td>
+                                        <td>{{ $item->spd_detail->karyawan->nama ?? '-' }}</td>
                                         <td>
                                             <a href="{{ $item->downloadFile() }}" class="btn btn-sm btn-success"
                                                 target="_blank">Lihat</a>
@@ -41,8 +42,19 @@
                                         <td>{{ $item->keterangan_ppk }}</td>
                                         <td>{!! $item->status() !!}</td>
                                         <td>
-                                            <form action="{{ route('ppk.spd-spj.verifikasi', $item->uuid) }}" method="post"
-                                                class="d-inline" id="formVerifikasi">
+                                            @if ($item->spd_detail->karyawan_id == auth()->user()->karyawan->id)
+                                                @if ($item->spd_detail->spj)
+                                                    <a href="{{ route('ppk.spd-spj.show', $item->spd_detail->spj->uuid) }}"
+                                                        class="btn btn-info  py-2">Lihat SPJ</a>
+                                                @else
+                                                    <a href="{{ route('ppk.spd-spj.create', [
+                                                        'spd_detail_uuid' => $item->spd_detail->uuid,
+                                                    ]) }}"
+                                                        class="btn btn-primary  py-2">Buat SPJ</a>
+                                                @endif
+                                            @endif
+                                            <form action="{{ route('ppk.spd-spj.verifikasi', $item->uuid) }}"
+                                                method="post" class="d-inline" id="formVerifikasi">
                                                 @csrf
                                                 <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
                                                 @if ($item->status == 0)
@@ -51,11 +63,7 @@
                                                     <button data-url="{{ route('ppk.spd-spj.verifikasi', $item->uuid) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
-                                                @elseif($item->status == 1)
-                                                    <button data-url="{{ route('ppk.spd-spj.verifikasi', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @else
+                                                @elseif($item->status == 2)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
                                                 @endif

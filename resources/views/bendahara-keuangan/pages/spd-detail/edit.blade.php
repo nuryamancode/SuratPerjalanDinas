@@ -145,7 +145,7 @@
                                 'spd_uuid' => $item->surat_perjalanan_dinas->uuid,
                             ]) }}"
                                 class="btn btn-warning">Batal</a>
-                            <button class="btn btn-primary" name="jenis" value="">Update Data</button>
+                            {{-- <button class="btn btn-primary" name="jenis" value="">Update Data</button> --}}
                             <button class="btn btn-primary" name="jenis" value="all">Update Keseluruhan</button>
                         </div>
                     </form>

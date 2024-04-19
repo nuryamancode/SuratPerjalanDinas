@@ -31,6 +31,7 @@ class PermohonanSpdController extends Controller
         request()->validate([
             'status' => ['required']
         ]);
+        // dd(request()->all());
         $item = SuratPerjalananDinas::notActive()->where('uuid', $uuid)->firstOrFail();
         $item->update([
             'acc_ppk' => request('status'),
@@ -42,6 +43,7 @@ class PermohonanSpdController extends Controller
     public function verifikasi_ppk($uuid)
     {
         $item = SuratPerjalananDinas::where('uuid', $uuid)->firstOrFail();
+        // dd($item);
         $item->update([
             'verifikasi_ppk' => 1
         ]);

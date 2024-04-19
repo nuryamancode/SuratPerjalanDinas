@@ -50,4 +50,25 @@ class SuratPerjalananDinasDetail extends Model
             }
         });
     }
+
+    public function uang_muka()
+    {
+        return $this->hasOne(UangMuka::class, 'spd_detail_id', 'id');
+    }
+
+    public function statusUangMuka()
+    {
+        if ($this->uang_muka) {
+            return 'Sudah Didistribusikan';
+        } else {
+            return 'Belum Didistribusikan';
+        }
+    }
+
+    public function scopeVerifikasiPpk($val)
+    {
+        $val->whereHas('surat_perjalanan_dinas', function ($q) {
+            $q->where('verifikasi_ppk', 1);
+        });
+    }
 }

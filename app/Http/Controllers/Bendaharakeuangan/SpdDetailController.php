@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Bendaharakeuangan;
 
 use App\Http\Controllers\Controller;
+use App\Models\Karyawan;
 use App\Models\SuratPerjalananDinasDetail;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -31,6 +33,9 @@ class SpdDetailController extends Controller
             foreach ($spd->details as $detail) {
                 $detail->update($data);
             }
+            $spd->update([
+                'status' => 'Menunggu Verifikasi PPK'
+            ]);
         } else {
             // update satu
             $item->update($data);
@@ -39,5 +44,16 @@ class SpdDetailController extends Controller
         return redirect()->route('bendahara-keuangan.spd.index', [
             'spd_uuid' => $item->surat_perjalanan_dinas->uuid
         ])->with('success', 'Surat perjalanan dinas berhasil diupdate.');
+    }
+
+    public function print($uuid)
+    {
+        $item = SuratPerjalananDinasDetail::where('uuid', $uuid)->firstOrFail();
+        $ppk = User::role('Pejabat Pembuat Komitmen')->first()->karyawan;
+        return view('bendahara-keuangan.pages.spd-detail.print', [
+            'title' => 'Cetak SPD',
+            'item' => $item,
+            'ppk' => $ppk
+        ]);
     }
 }

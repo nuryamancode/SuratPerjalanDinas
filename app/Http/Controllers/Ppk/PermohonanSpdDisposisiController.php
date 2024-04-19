@@ -65,6 +65,10 @@ class PermohonanSpdDisposisiController extends Controller
                 }
             }
 
+            $permohonan->update([
+                'status' => 'Menunggu Bendahara Keuangan Membuatkan SPD'
+            ]);
+
             DB::commit();
             return redirect()->route('ppk.permohonan-spd-disposisi.index', [
                 'permohonan_spd_uuid' => $permohonan->uuid

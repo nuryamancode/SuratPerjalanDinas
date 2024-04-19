@@ -15,6 +15,7 @@
                                     <th>Nomor Surat</th>
                                     <th>Maksud Perjalanan Dinas</th>
                                     <th>Keterangan PPK</th>
+                                    <th>Status Verifikasi</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -27,6 +28,7 @@
                                         <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
                                         <td>{{ $item->keterangan_acc_ppk }}</td>
                                         <td>{{ $item->statusSpd() }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>
                                             <a href="{{ route('ppk.permohonan-spd.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>

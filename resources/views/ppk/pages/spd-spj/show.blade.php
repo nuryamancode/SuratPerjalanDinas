@@ -30,7 +30,7 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
-                                <a href="{{ route('pelaksana-spd.spd.index') }}" class="btn btn-sm btn-warning">Kembali</a>
+                                <a href="{{ route('ppk.spd-spj.index') }}" class="btn btn-sm btn-warning">Kembali</a>
                             </div>
                         </li>
                     </ul>
@@ -42,11 +42,6 @@
                 <div class="card-body">
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
-                        <a href="{{ route('pelaksana-spd.spd-spj-detail.create', [
-                            'spj_uuid' => $item->uuid,
-                        ]) }}"
-                            class="btn btn-primary btn-sm">Tambah
-                            Data</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -57,7 +52,6 @@
                                     <th>Nominal</th>
                                     <th>Keterangan</th>
                                     <th>File Dokumen</th>
-                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,17 +64,6 @@
                                         <td>
                                             <a href="{{ $item->downloadFile() }}" target="_blank"
                                                 class="btn btn-success btn-sm">Lihat</a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('pelaksana-spd.spd-spj-detail.edit', $detail->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Edit</a>
-                                            <form action="javascript:void(0)" method="post" class="d-inline"
-                                                id="formDelete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('pelaksana-spd.spd-spj-detail.destroy', $detail->uuid) }}">Hapus</button>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

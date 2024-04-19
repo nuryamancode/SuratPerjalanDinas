@@ -10,7 +10,8 @@ class PermohonanSpdController extends Controller
 {
     public function index()
     {
-        $items = SuratPerjalananDinas::verifikasiWadir2Ppk()->latest()->get();
+        $items = SuratPerjalananDinas::with('details')->verifikasiWadir2Ppk()->latest()->get();
+        // dd($items);
         return view('bendahara-keuangan.pages.permohonan-spd.index', [
             'title' => 'Surat Perjalanan Dinas',
             'items' => $items
