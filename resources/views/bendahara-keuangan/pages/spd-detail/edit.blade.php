@@ -35,7 +35,8 @@
                             <label for='maksud_perjalanan_dinas' class='mb-2'>Maksud Perjalanan Dinas</label>
                             <input type='text' name='maksud_perjalanan_dinas' id='maksud_perjalanan_dinas'
                                 class='form-control @error('maksud_perjalanan_dinas') is-invalid @enderror'
-                                value='{{ $item->maksud_perjalanan_dinas ?? old('maksud_perjalanan_dinas') }}'>
+                                value='{{ $item->maksud_perjalanan_dinas ?? $item->surat_perjalanan_dinas->surat->maksud_perjalanan_dinas }}'
+                                readonly>
                             @error('maksud_perjalanan_dinas')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -57,7 +58,8 @@
                             <label for='tempat_berangkat' class='mb-2'>Tempat Berangkat</label>
                             <input type='text' name='tempat_berangkat' id='tempat_berangkat'
                                 class='form-control @error('tempat_berangkat') is-invalid @enderror'
-                                value='{{ $item->tempat_berangkat ?? old('tempat_berangkat') }}'>
+                                value='{{ $item->tempat_berangkat ?? $item->surat_perjalanan_dinas->surat->tempat_berangkat }}'
+                                readonly>
                             @error('tempat_berangkat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -68,7 +70,8 @@
                             <label for='tempat_tujuan' class='mb-2'>Tempat Tujuan</label>
                             <input type='text' name='tempat_tujuan' id='tempat_tujuan'
                                 class='form-control @error('tempat_tujuan') is-invalid @enderror'
-                                value='{{ $item->tempat_tujuan ?? old('tempat_tujuan') }}'>
+                                value='{{ $item->tempat_tujuan ?? $item->surat_perjalanan_dinas->surat->tempat_tujuan }}'
+                                readonly>
                             @error('tempat_tujuan')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -79,7 +82,8 @@
                             <label for='lama_perjalanan' class='mb-2'>Lama Perjalanan</label>
                             <input type='number' name='lama_perjalanan' id='lama_perjalanan'
                                 class='form-control @error('lama_perjalanan') is-invalid @enderror'
-                                value='{{ $item->lama_perjalanan ?? old('lama_perjalanan') }}'>
+                                value='{{ $item->lama_perjalanan ?? $item->surat_perjalanan_dinas->surat->tanggal_sampai->diffInDays($item->surat_perjalanan_dinas->surat->tanggal_mulai) }}'
+                                readonly>
                             @error('lama_perjalanan')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -90,7 +94,8 @@
                             <label for='tanggal_berangkat' class='mb-2'>Tanggal Berangkat</label>
                             <input type='date' name='tanggal_berangkat' id='tanggal_berangkat'
                                 class='form-control @error('tanggal_berangkat') is-invalid @enderror'
-                                value='{{ $item->tanggal_berangkat ?? old('tanggal_berangkat') }}'>
+                                value='{{ $item->tanggal_berangkat ?? $item->surat_perjalanan_dinas->surat->tanggal_mulai->translatedFormat('Y-m-d') }}'
+                                readonly>
                             @error('tanggal_berangkat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -125,6 +130,17 @@
                                 class='form-control @error('mata_anggaran_kegiatan') is-invalid @enderror'
                                 value='{{ $item->mata_anggaran_kegiatan ?? old('mata_anggaran_kegiatan') }}'>
                             @error('mata_anggaran_kegiatan')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='dikeluarkan_di' class='mb-2'>Dikeluarkan Di</label>
+                            <input type='text' name='dikeluarkan_di' id='dikeluarkan_di'
+                                class='form-control @error('dikeluarkan_di') is-invalid @enderror'
+                                value='{{ $item->dikeluarkan_di ?? old('dikeluarkan_di') }}'>
+                            @error('dikeluarkan_di')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>

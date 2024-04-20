@@ -70,8 +70,10 @@
                                                 'spd_detail_uuid' => $item->uuid,
                                             ]) }}"
                                                 class="btn btn-primary  py-2">Supir</a> --}}
-                                            <a href="{{ route('bendahara-keuangan.spd-detail.print', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-secondary">Print</a>
+                                            @if ($item->notEmpty())
+                                                <a href="{{ route('bendahara-keuangan.spd-detail.print', $item->uuid) }}"
+                                                    class="btn btn-sm py-2 btn-secondary">Print</a>
+                                            @endif
                                             <a href="{{ route('bendahara-keuangan.spd-detail.edit', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-info">Isi SPD</a>
                                             @if ($item->karyawan_id == auth()->user()->karyawan->id)

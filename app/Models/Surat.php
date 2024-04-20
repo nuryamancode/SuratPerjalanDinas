@@ -10,6 +10,10 @@ class Surat extends Model
     use HasFactory;
     protected $table = 'surat';
     protected $guarded = ['id'];
+    public $casts  = [
+        'tanggal_mulai' => 'datetime',
+        'tanggal_sampai' => 'datetime'
+    ];
 
     public function surat_perjalanan_dinas()
     {

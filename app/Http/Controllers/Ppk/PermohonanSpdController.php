@@ -45,7 +45,8 @@ class PermohonanSpdController extends Controller
         $item = SuratPerjalananDinas::where('uuid', $uuid)->firstOrFail();
         // dd($item);
         $item->update([
-            'verifikasi_ppk' => 1
+            'verifikasi_ppk' => 1,
+            'status' => 'Menunggu Didistribusikan Uang Muka'
         ]);
         return redirect()->back()->with('success', 'Verifikasi Surat Perjalanan Dinas Berhasil disubmit.');
     }

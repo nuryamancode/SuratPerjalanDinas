@@ -49,11 +49,13 @@
                 <div class="card-body">
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
-                        <a href="{{ route('karyawan.spd-spj-detail.create', [
-                            'spj_uuid' => $item->uuid,
-                        ]) }}"
-                            class="btn btn-primary btn-sm">Tambah
-                            Data</a>
+                        @if ($item->status != 1)
+                            <a href="{{ route('karyawan.spd-spj-detail.create', [
+                                'spj_uuid' => $item->uuid,
+                            ]) }}"
+                                class="btn btn-primary btn-sm">Tambah
+                                Data</a>
+                        @endif
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -64,7 +66,9 @@
                                     <th>Nominal</th>
                                     <th>Keterangan</th>
                                     <th>File Dokumen</th>
-                                    <th>Aksi</th>
+                                    @if ($item->status != 1)
+                                        <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,17 +82,19 @@
                                             <a href="{{ $item->downloadFile() }}" target="_blank"
                                                 class="btn btn-success btn-sm">Lihat</a>
                                         </td>
-                                        <td>
-                                            <a href="{{ route('karyawan.spd-spj-detail.edit', $detail->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Edit</a>
-                                            <form action="javascript:void(0)" method="post" class="d-inline"
-                                                id="formDelete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('karyawan.spd-spj-detail.destroy', $detail->uuid) }}">Hapus</button>
-                                            </form>
-                                        </td>
+                                        @if ($item->status != 1)
+                                            <td>
+                                                <a href="{{ route('karyawan.spd-spj-detail.edit', $detail->uuid) }}"
+                                                    class="btn btn-sm py-2 btn-info">Edit</a>
+                                                <form action="javascript:void(0)" method="post" class="d-inline"
+                                                    id="formDelete">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
+                                                        data-action="{{ route('karyawan.spd-spj-detail.destroy', $detail->uuid) }}">Hapus</button>
+                                                </form>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

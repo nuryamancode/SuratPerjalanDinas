@@ -50,6 +50,7 @@
                                     <th>Tanggal Harus Pulang</th>
                                     <th>Catatan Lain-Lain</th>
                                     <th>Uang Muka</th>
+                                    <th>Status Uang Muka</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -67,6 +68,7 @@
                                         <td>{{ $item->keterangan_lain_lain ?? '-' }}</td>
                                         <td>{{ $item->uang_muka ? 'Rp. ' . number_format($item->uang_muka->nominal) : '-' }}
                                         <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{!! $item->status() !!}</td>
                                         <td>
                                             {{-- <a href="{{ route('karyawan.spd-detail-supir.index', [
                                                 'spd_detail_uuid' => $item->uuid,

@@ -45,10 +45,14 @@ class SpdSpjController extends Controller
             'status' => request('status'),
             'keterangan_ppk' => request('keterangan_ppk')
         ]);
-        $item->update([
-            'acc_ppk' => request('status'),
-            'keterangan_acc_ppk' => request('keterangan_ppk')
+
+        $item->spd_detail->surat_perjalanan_dinas->update([
+            'status' => 'Diarsipkan Oleh Bendahara'
         ]);
+        // $item->update([
+        //     'acc_ppk' => request('status'),
+        //     'keterangan_acc_ppk' => request('keterangan_ppk')
+        // ]);
         return redirect()->back()->with('success', 'Verifikasi Surat Pertanggung Jawaban Berhasil disubmit.');
     }
 

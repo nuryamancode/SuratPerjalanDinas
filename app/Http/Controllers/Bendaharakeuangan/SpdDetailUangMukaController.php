@@ -37,6 +37,9 @@ class SpdDetailUangMukaController extends Controller
                     'nominal' => request('nominal')
                 ]);
             }
+            $spd_detail->surat_perjalanan_dinas->update([
+                'status' => 'Sudah Didistribusikan dan Menunggu Proses Perjalanan Dinas'
+            ]);
             DB::commit();
             return redirect()->route('bendahara-keuangan.spd.index', [
                 'spd_uuid' => $spd_detail->surat_perjalanan_dinas->uuid

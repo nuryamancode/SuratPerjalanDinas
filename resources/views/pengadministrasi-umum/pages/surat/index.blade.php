@@ -39,15 +39,18 @@
                                         <td>
                                             <a href="{{ route('pengadministrasi-umum.surat.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            <a href="{{ route('pengadministrasi-umum.surat.edit', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Edit</a>
-                                            <form action="javascript:void(0)" method="post" class="d-inline"
-                                                id="formDelete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('pengadministrasi-umum.surat.destroy', $item->uuid) }}">Hapus</button>
-                                            </form>
+                                            @if ($item->surat_perjalanan_dinas && $item->surat_perjalanan_dinas->disposisis)
+                                            @else
+                                                <a href="{{ route('pengadministrasi-umum.surat.edit', $item->uuid) }}"
+                                                    class="btn btn-sm py-2 btn-info">Edit</a>
+                                                <form action="javascript:void(0)" method="post" class="d-inline"
+                                                    id="formDelete">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
+                                                        data-action="{{ route('pengadministrasi-umum.surat.destroy', $item->uuid) }}">Hapus</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

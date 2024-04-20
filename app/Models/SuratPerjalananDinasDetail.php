@@ -64,11 +64,29 @@ class SuratPerjalananDinasDetail extends Model
             return 'Belum Didistribusikan';
         }
     }
+    public function status()
+    {
+        if ($this->spj && $this->spj->status == 1) {
+            return 'Disetujui';
+        } elseif ($this->spj && $this->spj->status == 0) {
+            return 'Menunggu Persetujuan';
+        } else {
+            return '-';
+        }
+    }
 
     public function scopeVerifikasiPpk($val)
     {
         $val->whereHas('surat_perjalanan_dinas', function ($q) {
             $q->where('verifikasi_ppk', 1);
         });
+    }
+    public function notEmpty()
+    {
+        if ($this->tempat_berangkat && $this->tempat_tujuan && $this->lama_perjalanan && $this->tanggal_berangkat && $this->tanggal_harus_kembali && $this->tingkat_biaya && $this->maksud_perjalanan_dinas && $this->alat_angkut && $this->pembebasan_anggaran && $this->instansi && $this->mata_anggaran_kegiatan) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -73,8 +73,14 @@
         }
 
         .isian1 {
-            height: 80px;
+            height: 40px;
             border: 1px solid black;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -90,7 +96,7 @@
                 {{-- <td> <img src="{{asset('template')}}/dist/assets/images/logoPolsub.png" width="120px"> </td> --}}
                 <td style="width:50%" class = "tengah">
                     <br>
-                    <h5 style="line-height:1px">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</h5>
+                    <h5 style="line-height:18px">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</h5>
                     <h5 style="margin-top:0.2em;margin-bottom:1em">POLITEKNIK NEGERI SUBANG</h5>
                 </td>
                 <td style="width:20%">
@@ -344,7 +350,7 @@
                     <tr>
                         <td style="width: 35%">Dikeluarkan di</td>
                         <td style="width: 2%">:</td>
-                        <td>{{ $item->dikeluarkandi }}</td>
+                        <td>{{ $item->dikeluarkan_di }}</td>
                     </tr>
                     <tr>
                         <td>Pada Tanggal</td>

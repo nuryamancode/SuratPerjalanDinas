@@ -11,9 +11,51 @@
                             <span>{{ $item->surat->nomor_surat }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Perihal</span>
-                            <span>{{ $item->surat->perihal }}</span>
+                            <span>Tanggal Surat</span>
+                            <span>{{ $item->surat->tanggal_surat }}</span>
                         </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Maksud Perjalanan Dinas</span>
+                            <span>{{ $item->surat->maksud_perjalanan_dinas }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Mulai Tanggal</span>
+                            <span>{{ $item->surat->tanggal_mulai }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Sampai Tanggal</span>
+                            <span>{{ $item->surat->tanggal_sampai }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Tempat Berangkat</span>
+                            <span>{{ $item->surat->tempat_berangkat }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Tempat Tujuan</span>
+                            <span>{{ $item->surat->tempat_tujuan }}</span>
+                        </li>
+                        @if ($item->surat->antar == 1)
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span>Nomor Surat Jalan Dinas</span>
+                                <span>{{ $item->surat->no_surat_jalan_dinas }}</span>
+                            </li>
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span>Tanggal Surat Jalan</span>
+                                <span>{{ $item->surat->tanggal_surat_jalan }}</span>
+                            </li>
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span>Nama Supir</span>
+                                <span>{{ $item->surat->supir->nama }}</span>
+                            </li>
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span>Lampiran Surat Tugas</span>
+                                <span>
+                                    <a href="{{ $item->surat->getFileLampiranSuratTugas() }}" target="_blank"
+                                        class="btn btn-success btn-sm">Lihat
+                                        Surat</a>
+                                </span>
+                            </li>
+                        @endif
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Pelaksana</span>
                             <div>
@@ -29,7 +71,8 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>File</span>
                             <span>
-                                <a href="{{ $item->surat->getFile() }}" target="_blank" class="btn btn-success btn-sm">Lihat
+                                <a href="{{ $item->surat->getFile() }}" target="_blank"
+                                    class="btn btn-success btn-sm">Lihat
                                     Surat</a>
                             </span>
                         </li>
@@ -44,6 +87,21 @@
                             <div>
                                 <a href="{{ route('bendahara-keuangan.permohonan-spd.index') }}"
                                     class="btn btn-sm btn-warning">Kembali</a>
+                                @if (count($item->details) > 0)
+                                    <a href="{{ route('bendahara-keuangan.spd.index', [
+                                        'spd_uuid' => $item->uuid,
+                                    ]) }}"
+                                        class="btn btn-sm py-2 btn-info">Detail SPD</a>
+                                @else
+                                    <form
+                                        action="{{ route('bendahara-keuangan.spd.store', [
+                                            'permohonan_spd_uuid' => $item->uuid,
+                                        ]) }}"
+                                        method="post" class="d-inline">
+                                        @csrf
+                                        <button class="btn py-2  btn-sm btn-success">Buatkan SPD</button>
+                                    </form>
+                                @endif
                             </div>
                         </li>
                     </ul>

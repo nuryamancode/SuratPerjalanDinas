@@ -23,7 +23,8 @@
                         <div class='form-group mb-3'>
                             <label for='draft' class='mb-2'>Draf SPJ</label>
                             <input type='file' name='draft' id='draft'
-                                class='form-control @error('draft') is-invalid @enderror' value='{{ old('draft') }}'>
+                                class='form-control @error('draft') is-invalid @enderror' value='{{ old('draft') }}'
+                                required>
                             @error('draft')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -40,13 +41,14 @@
                                 <div class="col-md">
                                     <div class='form-group mb-3'>
                                         <label for='perincian_biaya' class='mb-2'>Perincian Biaya</label>
-                                        <input type='text' name='perincian_biaya[]' class='form-control perincian_biaya'>
+                                        <input type='text' name='perincian_biaya[]' class='form-control perincian_biaya'
+                                            required>
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class='form-group mb-3'>
                                         <label for='nominal' class='mb-2'>Nominal</label>
-                                        <input type='number' name='nominal[]' class='form-control nominal'>
+                                        <input type='number' name='nominal[]' class='form-control nominal' required>
                                     </div>
                                 </div>
                                 <div class="col-md">
@@ -58,7 +60,7 @@
                                 <div class="col-md">
                                     <div class='form-group mb-3'>
                                         <label for='file' class='mb-2'>File Dokumen</label>
-                                        <input type='file' name='file[]' class='form-control file'>
+                                        <input type='file' name='file[]' class='form-control file' required>
                                     </div>
                                 </div>
                                 <div class="col-md">

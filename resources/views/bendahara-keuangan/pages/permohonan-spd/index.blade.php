@@ -26,21 +26,7 @@
                                         <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
                                         {{-- <td>{{ $item->statusUangMuka() }}</td> --}}
                                         <td>
-                                            @if (count($item->details) > 0)
-                                                <a href="{{ route('bendahara-keuangan.spd.index', [
-                                                    'spd_uuid' => $item->uuid,
-                                                ]) }}"
-                                                    class="btn btn-sm py-2 btn-info">Detail SPD</a>
-                                            @else
-                                                <form
-                                                    action="{{ route('bendahara-keuangan.spd.store', [
-                                                        'permohonan_spd_uuid' => $item->uuid,
-                                                    ]) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn py-2  btn-sm btn-success">Buatkan SPD</button>
-                                                </form>
-                                            @endif
+
                                             {{-- @if ($item->verifikasi_ppk == 1)
                                                 <a href="{{ route('bendahara-keuangan.spd-uang-muka.index', [
                                                     'spd_uuid' => $item->uuid,

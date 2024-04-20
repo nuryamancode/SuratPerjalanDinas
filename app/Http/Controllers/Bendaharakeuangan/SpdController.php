@@ -54,9 +54,9 @@ class SpdController extends Controller
                 }
 
                 // update spd
-                $permohonan->update([
-                    'status' => 1
-                ]);
+                // $permohonan->update([
+                //     'status' => 1
+                // ]);
             }
             DB::commit();
 
