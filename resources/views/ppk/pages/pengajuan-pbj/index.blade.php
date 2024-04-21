@@ -16,7 +16,7 @@
                                     <th>Nomor Agenda</th>
                                     <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pelaksana</th>
+                                    <th>Pengusul</th>
                                     <th>Status Surat</th>
                                     <th>Acc PPK</th>
                                     <th>Aksi</th>
@@ -32,19 +32,19 @@
                                         <td>{{ $item->perihal }}</td>
                                         <td>
                                             <ul>
-                                                @foreach ($item->pelaksana as $pelaksana)
-                                                    <li>{{ $pelaksana->karyawan->nama ?? '-' }}</li>
+                                                @foreach ($item->pengusul as $pengusul)
+                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->status() }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>{{ $item->statusAccPpk() }}</td>
                                         <td>
                                             @if ($item->acc_ppk == 1)
-                                                <a href="{{ route('ppk.pengajuan-pbj-proses.index', [
+                                                <a href="{{ route('ppk.pengajuan-pbj-pelaksana.index', [
                                                     'pbj_uuid' => $item->uuid,
                                                 ]) }}"
-                                                    class="btn btn-sm py-2 btn-info">Proses PBJ</a>
+                                                    class="btn btn-sm py-2 btn-info">Pilih Pelaksana</a>
                                             @endif
                                             <form action="{{ route('ppk.pengajuan-pbj.acc', $item->uuid) }}" method="post"
                                                 class="d-inline" id="formAcc">
@@ -56,11 +56,7 @@
                                                     <button data-url="{{ route('ppk.pengajuan-pbj.acc', $item->uuid) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_ppk == 1)
-                                                    <button data-url="{{ route('ppk.pengajuan-pbj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @else
+                                                @elseif($item->acc_ppk == 2)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
                                                 @endif

@@ -16,9 +16,8 @@
                                     <th>Nomor Agenda</th>
                                     <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pelaksana</th>
+                                    <th>Pengusul</th>
                                     <th>Status Surat</th>
-                                    <th>Verifikasi Wadir I</th>
                                     <th>Acc Wadir 2</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -33,13 +32,12 @@
                                         <td>{{ $item->perihal }}</td>
                                         <td>
                                             <ul>
-                                                @foreach ($item->pelaksana as $pelaksana)
-                                                    <li>{{ $pelaksana->karyawan->nama ?? '-' }}</li>
+                                                @foreach ($item->pengusul as $pengusul)
+                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusVerifikasiWadir1() }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>{{ $item->statusAccWadir2() }}</td>
                                         <td>
                                             @if ($item->acc_wadir2 == 1)
@@ -57,12 +55,7 @@
                                                         data-url="{{ route('wakil-direktur-ii.pengajuan-pbj.acc', $item->uuid) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_wadir2 == 1)
-                                                    <button
-                                                        data-url="{{ route('wakil-direktur-ii.pengajuan-pbj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @else
+                                                @elseif($item->acc_wadir2 == 2)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
                                                 @endif

@@ -10,6 +10,9 @@ class SuratPerjalananDinasDetail extends Model
     use HasFactory;
     protected $table = 'surat_perjalanan_dinas_detail';
     protected $guarded = ['id'];
+    public $casts = [
+        'tanggal_harus_kembali' => 'datetime'
+    ];
 
     public function karyawan()
     {

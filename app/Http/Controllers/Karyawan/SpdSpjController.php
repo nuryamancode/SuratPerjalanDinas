@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Karyawan;
 use App\Http\Controllers\Controller;
 use App\Models\SuratPerjalananDinasDetail;
 use App\Models\SuratPertanggungJawaban;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -72,6 +73,20 @@ class SpdSpjController extends Controller
         return view('karyawan.pages.spd-spj.show', [
             'title' => 'Detail SPJ Perjalanan Dinas',
             'item' => $item
+        ]);
+    }
+
+    public function print($uuid)
+    {
+        $spj = SuratPertanggungJawaban::where('uuid', $uuid)->firstOrFail();
+        $bendahara = User::role('Bendahara Keuangan')->first();
+        $ppk = User::role('Pejabat Pembuat Komitmen')->first();
+        // dd($ppk);
+        return view('karyawan.pages.spd-spj.print', [
+            'title' => 'Cetak SPJ Perjalanan Dinas',
+            'spj' => $spj,
+            'bendahara' => $bendahara,
+            'ppk' => $ppk
         ]);
     }
 }

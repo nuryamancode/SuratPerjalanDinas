@@ -70,6 +70,10 @@
                                         <td>{{ $item->statusUangMuka() }}</td>
                                         <td>{!! $item->status() !!}</td>
                                         <td>
+                                            @if ($item->spj && $item->spj->status)
+                                                <a href="{{ route('karyawan.spd-spj.print', $item->spj->uuid) }}"
+                                                    class="btn btn-secondary py-2">Print Kwitansi</a>
+                                            @endif
                                             {{-- <a href="{{ route('karyawan.spd-detail-supir.index', [
                                                 'spd_detail_uuid' => $item->uuid,
                                             ]) }}"

@@ -54,6 +54,10 @@ class PengajuanPbjDisposisiController extends Controller
                 }
             }
 
+            $pengajuan->update([
+                'status' => 'Pemeriksaan PPK'
+            ]);
+
             DB::commit();
             return redirect()->route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $pengajuan->uuid)->with('success', 'Disposisi Berhasil disimpan.');
         } catch (\Throwable $th) {

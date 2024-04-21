@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Bendaharakeuangan;
 
 use App\Http\Controllers\Controller;
 use App\Models\SuratPerjalananDinas;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PermohonanSpdController extends Controller
@@ -24,6 +25,18 @@ class PermohonanSpdController extends Controller
         return view('bendahara-keuangan.pages.permohonan-spd.show', [
             'title' => 'Detail Surat Perjalanan Dinas',
             'item' => $item
+        ]);
+    }
+
+    public function print($spd_uuid)
+    {
+        $spd = SuratPerjalananDinas::where('uuid', $spd_uuid)->firstOrFail();
+        // dd($spd->disposisi);
+        $ppk = User::role('Pejabat Pembuat Komitmen')->first();
+        return view('bendahara-keuangan.pages.permohonan-spd.print', [
+            'title' => 'Cetak Disposisi',
+            'spd' => $spd,
+            'ppk' => $ppk
         ]);
     }
 }

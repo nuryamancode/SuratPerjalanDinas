@@ -177,12 +177,17 @@ Route::middleware('auth')->group(function () {
             Route::post('pengajuan-pbj/acc/{uuid}', 'acc')->name('pengajuan-pbj.acc');
         });
 
+        Route::resource('pengajuan-pbj-pelaksana', \App\Http\Controllers\Ppk\PengajuanPbjPelaksanaController::class);
+
+
         Route::resource('spd', App\Http\Controllers\Ppk\SpdController::class);
         // Route::resource('spd-spj', App\Http\Controllers\Ppk\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Ppk\SpdSpjDetailController::class);
 
         Route::resource('pengajuan-pbj-proses', \App\Http\Controllers\Ppk\PengajuanPbjProsesController::class)->except('show');
         // Route::get('proses-pbj/{pbj_uuid}', [ProsesPbjController::class, 'show'])->name('proses-pbj.show');
+
+        Route::get('permohonan-spd-disposisi-print/{uuid}', [App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
     });
 
     Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->middleware('role:Pengadministrasi Umum')->group(function () {
@@ -208,6 +213,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('tte', [App\Http\Controllers\Wakildirekturii\TTEController::class, 'destroy'])->name('tte.destroy');
 
         // disposisi spd
+        Route::get('permohonan-spd-disposisi-print/{uuid}', [App\Http\Controllers\Wakildirekturii\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
+
         Route::resource('permohonan-spd-disposisi', App\Http\Controllers\Wakildirekturii\PermohonanSpdDisposisiController::class);
         Route::controller(\App\Http\Controllers\Wakildirekturii\PengajuanPbjController::class)->group(function () {
             Route::get('/pengajuan-pbj', 'index')->name('pengajuan-pbj.index');
@@ -251,7 +258,11 @@ Route::middleware('auth')->group(function () {
         Route::controller(\App\Http\Controllers\Bendaharakeuangan\ArsipController::class)->group(function () {
             Route::get('/arsip-spd-spj', 'spd_spj')->name('arsip-spd-spj.index');
             Route::get('/arsip-spd-spj-detail/{spj_uuid}', 'spd_spj_detail')->name('arsip-spd-spj.detail');
+            Route::get('/arsip-spd-submit/{spd_uuid}', 'spd_arsip')->name('arsip-spd.submit');
         });
+
+
+        Route::get('permohonan-spd-disposisi-print/{uuid}', [App\Http\Controllers\Bendaharakeuangan\PermohonanSpdController::class, 'print'])->name('permohonan-spd.print');
     });
 
     Route::name('pelaksana-spd.')->prefix('pelaksana-spd')->middleware('role:Pelaksana Perjalanan Dinas')->group(function () {
@@ -299,7 +310,21 @@ Route::middleware('auth')->group(function () {
     Route::name('karyawan.')->prefix('karyawan')->middleware('role:Karyawan')->group(function () {
         Route::get('/', [\App\Http\Controllers\Karyawan\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('spd', App\Http\Controllers\Karyawan\SpdController::class);
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Karyawan\SpdSpjController::class, 'print'])->name('spd-spj.print');
+
         Route::resource('spd-spj', App\Http\Controllers\Karyawan\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Karyawan\SpdSpjDetailController::class);
+    });
+
+    Route::name('kabag.')->prefix('kabag')->middleware('role:Kabag')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Kabag\DashboardController::class, 'index'])->name('dashboard');
+        Route::post('pengajuan-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'verifikasi'])->name('pengajuan-pbj.verifikasi');
+        Route::resource('pengajuan-pbj', \App\Http\Controllers\Kabag\PengajuanPbjController::class);
+        Route::resource('pengajuan-pbj-detail', \App\Http\Controllers\Kabag\PengajuanPbjDetailController::class);
+    });
+
+    Route::name('timppk.')->prefix('timppk')->middleware('role:Tim PPK')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Timppk\DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('pengajuan-pbj', \App\Http\Controllers\Timppk\PengajuanPbjController::class);
     });
 });

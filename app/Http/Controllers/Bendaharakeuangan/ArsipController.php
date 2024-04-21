@@ -16,7 +16,7 @@ class ArsipController extends Controller
         $items = SuratPerjalananDinasDetail::whereHas('surat_perjalanan_dinas', function ($q) use ($spd_uuid) {
             $q->where('uuid', $spd_uuid);
         })->latest()->get();
-        $data_permohonan = SuratPerjalananDinas::verifikasiPpk()->latest()->get();
+        $data_permohonan = SuratPerjalananDinas::where('is_arsip', 1)->latest()->get();
         return view('bendahara-keuangan.pages.arsip.spd-spj', [
             'title' => 'Surat Perjalanan Dinas',
             'items' => $items,
@@ -31,5 +31,15 @@ class ArsipController extends Controller
             'title' => 'Detail SPJ Perjalanan Dinas',
             'item' => $item
         ]);
+    }
+
+    public function spd_arsip($uuid)
+    {
+        $spd = SuratPerjalananDinas::where('uuid', $uuid)->firstOrFail();
+        $spd->update([
+            'is_arsip' => 1
+        ]);
+
+        return redirect()->back()->with('success', 'SPD Berhasil diarsipkan.');
     }
 }

@@ -24,8 +24,16 @@
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary">Filter</button>
+                            @if ($spd && $spd->is_arsip == false)
+                                @if ($spd->cekVerifikasiSemuaSpj())
+                                    <a href="{{ route('bendahara-keuangan.arsip-spd.submit', $spd->uuid) }}"
+                                        class="btn btn-success">Arsipkan</a>
+                                @endif
+                            @endif
                         </div>
                     </form>
+                    {{-- {{ $spd->cekVerifikasiSemuaSpj() }} --}}
+
                 </div>
             </div>
         </div>
@@ -49,7 +57,9 @@
                                     <th>Tanggal Berangkat</th>
                                     <th>Tanggal Harus Pulang</th>
                                     <th>Catatan Lain-Lain</th>
+                                    <th>Uang Muka</th>
                                     <th>Status Uang Muka</th>
+                                    <th>Verifikasi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -64,7 +74,10 @@
                                         <td>{{ $item->tanggal_berangkat ?? '-' }}</td>
                                         <td>{{ $item->tanggal_harus_kembali ?? '-' }}</td>
                                         <td>{{ $item->keterangan_lain_lain ?? '-' }}</td>
+                                        <td>Rp. {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
+                                        </td>
                                         <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{!! $item->status() !!}</td>
                                         <td>
                                             {{-- <a href="{{ route('bendahara-keuangan.spd-detail-supir.index', [
                                                 'spd_detail_uuid' => $item->uuid,
@@ -72,10 +85,12 @@
                                                 class="btn btn-primary  py-2">Supir</a> --}}
                                             @if ($item->notEmpty())
                                                 <a href="{{ route('bendahara-keuangan.spd-detail.print', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-secondary">Print</a>
+                                                    class="btn btn-sm py-2 btn-secondary" target="_blank">Print</a>
                                             @endif
-                                            <a href="{{ route('bendahara-keuangan.spd-detail.edit', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Isi SPD</a>
+                                            @if ($item->surat_perjalanan_dinas->verifikasi_ppk == 0)
+                                                <a href="{{ route('bendahara-keuangan.spd-detail.edit', $item->uuid) }}"
+                                                    class="btn btn-sm py-2 btn-info">Isi SPD</a>
+                                            @endif
                                             @if ($item->karyawan_id == auth()->user()->karyawan->id)
                                                 @if ($item->spj)
                                                     <a href="{{ route('bendahara-keuangan.spd-spj.show', $item->spj->uuid) }}"

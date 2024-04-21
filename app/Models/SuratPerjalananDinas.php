@@ -11,6 +11,7 @@ class SuratPerjalananDinas extends Model
     protected $table = 'surat_perjalanan_dinas';
     protected $guarded = ['id'];
 
+
     protected static function boot()
     {
         parent::boot();
@@ -77,6 +78,21 @@ class SuratPerjalananDinas extends Model
             return 'Belum Diverifikasi';
         } elseif ($this->verifikasi_wadir2 == 1) {
             return 'Sudah Diverifikasi';
+        }
+    }
+
+    public function cekVerifikasiSemuaSpj()
+    {
+        $cek = $this->whereHas('details', function ($q) {
+            $q->whereHas('spj', function ($w) {
+                $w->where('status', 0);
+            });
+        })->count();
+        // dd($cek);
+        if ($cek > 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 

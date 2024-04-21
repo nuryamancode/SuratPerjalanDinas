@@ -84,4 +84,14 @@ class PermohonanSpdDisposisiController extends Controller
         $item->delete();
         return redirect()->back()->with('success', 'Disposisi Berhasil Dihapus.');
     }
+
+    public function print($spd_uuid)
+    {
+        $spd = SuratPerjalananDinas::where('uuid', $spd_uuid)->firstOrFail();
+        // dd($spd->disposisi);
+        return view('ppk.pages.permohonan-spd-disposisi.print', [
+            'title' => 'Cetak Disposisi',
+            'spd' => $spd
+        ]);
+    }
 }

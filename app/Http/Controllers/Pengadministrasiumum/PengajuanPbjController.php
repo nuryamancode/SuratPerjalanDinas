@@ -22,9 +22,15 @@ class PengajuanPbjController extends Controller
     public function create()
     {
         $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
+        $data_karyawan2 = Karyawan::whereHas('user', function ($q) {
+            $q->whereHas('roles', function ($role) {
+                $role->whereIn('name', ['Kabag', 'Wakil Direktur I']);
+            });
+        })->orderBy('nama', 'ASC')->get();
         return view('pengadministrasi-umum.pages.pengajuan-pbj.create', [
             'title' => 'Tambah Pengajuan PBj',
-            'data_karyawan' => $data_karyawan
+            'data_karyawan' => $data_karyawan,
+            'data_karyawan2' => $data_karyawan2,
         ]);
     }
 
@@ -35,25 +41,30 @@ class PengajuanPbjController extends Controller
             'nomor_agenda' => ['required', 'unique:pengajuan_barang_jasa,nomor_agenda'],
             'perihal' => ['required'],
             'pelaksana' => ['required', 'array'],
+            'file' => ['file'],
+            'karyawan_id' => ['required']
             // 'tujuan_karyawan_id' => ['required']
         ]);
 
         DB::beginTransaction();
         try {
-            $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'tanggal', 'nomor_agenda', 'tujuan_karyawan_id']);
-            $data_pelaksana = request('pelaksana');
+            $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'tanggal', 'nomor_agenda', 'karyawan_id']);
+            $data_pengusul = request('pelaksana');
             $data['uuid'] = \Str::uuid();
+            if (request()->file('file')) {
+                $data['file'] = request()->file('file')->store('pbj', 'public');
+            }
             // $data['pembuat_karyawan_id'] = auth()->id();
             $data['status'] = 'Belum Didisposisikan';
             $data['jenis'] = 'pbj';
             $item  = PengajuanBarangJasa::pbj()->create($data);
 
-            // create pelaksana
-            if (!empty($data_pelaksana)) {
-                foreach ($data_pelaksana as $pelaksana) {
-                    $item->pelaksana()->create([
+            // create pengusul
+            if (!empty($data_pengusul)) {
+                foreach ($data_pengusul as $pengusul) {
+                    $item->pengusul()->create([
                         'uuid' => \Str::uuid(),
-                        'karyawan_id' => $pelaksana
+                        'karyawan_id' => $pengusul
                     ]);
                 }
             }
@@ -100,14 +111,14 @@ class PengajuanPbjController extends Controller
             $data = request()->only(['nomor_surat', 'perihal', 'nomor_agenda', 'tanggal_surat']);
             $item = PengajuanBarangJasa::pbj()->where('uuid', $uuid)->firstOrFail();
             $data_lampiran = request()->file('lampiran');
-            $data_pelaksana = request('pelaksana');
+            $data_pengusul = request('pelaksana');
             $item->update($data);
 
             // create pelaksana
-            if (!empty($data_pelaksana)) {
+            if (!empty($data_pengusul)) {
                 // hapus pelaksana
                 $item->pelaksana()->delete();
-                foreach ($data_pelaksana as $pelaksana) {
+                foreach ($data_pengusul as $pelaksana) {
                     $item->pelaksana()->create([
                         'uuid' => \Str::uuid(),
                         'karyawan_id' => $pelaksana

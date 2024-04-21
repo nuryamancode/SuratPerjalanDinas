@@ -50,11 +50,21 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class='form-group mb-3'>
+                            <label for='file' class='mb-2'>File</label>
+                            <input type='file' name='file' id='file'
+                                class='form-control @error('file') is-invalid @enderror' value='{{ old('file') }}'>
+                            @error('file')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         <div class='form-group'>
-                            <label for='pelaksana'>Pelaksana</label>
+                            <label for='pelaksana'>Pengusul</label>
                             <select name='pelaksana[]' id='pelaksana'
-                                class='form-control @error('pelaksana') is-invalid @enderror' multiple>
-                                <option value='' disabled>Pilih Pelaksana</option>
+                                class='form-control @error('pelaksana') is-invalid @enderror' multiple required>
+                                <option value='' disabled>Pilih Pengusul</option>
                                 @foreach ($data_karyawan as $karyawan)
                                     <option @selected($karyawan->id == old('pelaksana')) value='{{ $karyawan->id }}'>
                                         {{ $karyawan->nama . ' - ' . $karyawan->jabatan->nama }}
@@ -62,6 +72,23 @@
                                 @endforeach
                             </select>
                             @error('pelaksana')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group'>
+                            <label for='karyawan_id'>Diteruskan Ke</label>
+                            <select name='karyawan_id' id='karyawan_id'
+                                class='form-control @error('karyawan_id') is-invalid @enderror' required>
+                                <option value='' disabled>Pilih Karyawan</option>
+                                @foreach ($data_karyawan2 as $karyawan)
+                                    <option @selected($karyawan->id == old('karyawan_id')) value='{{ $karyawan->id }}'>
+                                        {{ $karyawan->nama . ' - ' . $karyawan->jabatan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('karyawan_id')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
@@ -87,7 +114,7 @@
     <script>
         $(function() {
             $('#pelaksana').select2({
-                placeholder: 'Pilih Pelaksana'
+                placeholder: 'Pilih Pengusul'
             });
         })
     </script>

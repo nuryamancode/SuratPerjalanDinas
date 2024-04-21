@@ -46,6 +46,11 @@ class PengajuanBarangJasa extends Model
         $val->where('acc_ppk', 1);
     }
 
+    public function scopeVerifikasiWadirKabag($val)
+    {
+        $val->where('verifikasi_wadir1', 1)->orWhere('verifikasi_kabag', 1);
+    }
+
     public function scopeVerifikasiUangMuka($val)
     {
         $val->whereHas('uang_muka');
@@ -54,6 +59,11 @@ class PengajuanBarangJasa extends Model
     public function pelaksana()
     {
         return $this->hasMany(PengajuanBarangJasaPelaksana::class);
+    }
+
+    public function pengusul()
+    {
+        return $this->hasMany(PengajuanBarangJasaPengusul::class);
     }
 
     // public function statusSpjFormNonPbj()
@@ -116,6 +126,15 @@ class PengajuanBarangJasa extends Model
     public function statusVerifikasiWadir1()
     {
         if ($this->verifikasi_wadir1 == 1) {
+            return 'Telah Diverifikasi';
+        } else {
+            return 'Belum Diverifikasi';
+        }
+    }
+
+    public function statusVerifikasiKabag()
+    {
+        if ($this->verifikasi_kabag == 1) {
             return 'Telah Diverifikasi';
         } else {
             return 'Belum Diverifikasi';

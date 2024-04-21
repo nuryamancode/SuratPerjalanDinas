@@ -456,7 +456,8 @@
                             <td style="width:40%">Pada tanggal</td>
                             <td style="width:3%">:</td>
                             <td><input type="text" style="border:1px solid black;width:175px"
-                                    {{ $item->tempat_tujuan }}></td>
+                                    value="{{ $item->surat_perjalanan_dinas->surat->tanggal_sampai->translatedFormat('d F Y') }}">
+                            </td>
                         </tr>
                     </table>
                     <table style="color: black">
@@ -495,21 +496,25 @@
                         <tr style="width:5%;border-left:1px solid white;vertical-align:top;height:35px">
                             <td style="width:40%">Berangkat Dari</td>
                             <td style="width:3%">:</td>
-                            <td><input type="text" style="border:1px solid black;width:175px"></td>
+                            <td><input type="text" style="border:1px solid black;width:175px"
+                                    value="{{ $item->surat_perjalanan_dinas->surat->tempat_tujuan }}"></td>
                         </tr>
                     </table>
                     <table style="color: black">
                         <tr style="width:5%;border-left:1px solid white;vertical-align:top;height:35px">
                             <td style="width:40%">Ke</td>
                             <td style="width:3%">:</td>
-                            <td><input type="text" style="border:1px solid black;width:175px"></td>
+                            <td><input type="text" style="border:1px solid black;width:175px"
+                                    value="{{ $item->surat_perjalanan_dinas->surat->tempat_berangkat }}">
+                            </td>
                         </tr>
                     </table>
                     <table style="color: black">
                         <tr style="width:5%;border-left:1px solid white;vertical-align:top;height:35px">
                             <td style="width:40%">Pada tanggal</td>
                             <td style="width:3%">:</td>
-                            <td><input type="text" style="border:1px solid black;width:175px"></td>
+                            <td><input type="text" style="border:1px solid black;width:175px"
+                                    value="{{ $item->tanggal_harus_kembali->translatedFormat('d F Y') }}"></td>
                         </tr>
                     </table>
                     <table style="color: black">
@@ -733,7 +738,8 @@
                             <td style="width:6%;border-left:1px solid white;vertical-align:top">V</td>
                             <td style="width:40%">Tiba kembali di</td>
                             <td style="width:3%">:</td>
-                            <td><input type="text" style="border:1px solid black;width:175px"></td>
+                            <td><input type="text" style="border:1px solid black;width:175px"
+                                    value="{{ $item->tempat_berangkat }}"></td>
                         </tr>
                     </table>
                     <table style="color: black">
@@ -741,7 +747,8 @@
                             <td style="width:6%;border-left:1px solid white;vertical-align:top"></td>
                             <td style="width:40%">Pada tanggal</td>
                             <td style="width:3%">:</td>
-                            <td><input type="text" style="border:1px solid black;width:175px"></td>
+                            <td><input type="text" style="border:1px solid black;width:175px"
+                                    value="{{ $item->tanggal_harus_kembali->translatedFormat('d F Y') }}"></td>
                         </tr>
                     </table>
                 </td>

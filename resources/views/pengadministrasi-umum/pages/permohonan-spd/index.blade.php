@@ -29,13 +29,17 @@
                                         <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
                                         <td>{{ $item->status }}</td>
                                         <td>
-                                            <form action="javascript:void(0)" method="post" class="d-inline"
-                                                id="formDelete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('pengadministrasi-umum.permohonan-spd.destroy', $item->id) }}">Hapus</button>
-                                            </form>
+                                            @if (!$item->disposisi)
+                                                <form action="javascript:void(0)" method="post" class="d-inline"
+                                                    id="formDelete">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
+                                                        data-action="{{ route('pengadministrasi-umum.permohonan-spd.destroy', $item->id) }}">Hapus</button>
+                                                </form>
+                                            @else
+                                                -
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

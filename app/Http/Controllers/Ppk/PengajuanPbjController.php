@@ -35,7 +35,7 @@ class PengajuanPbjController extends Controller
 
         $item->update([
             'acc_ppk' => request('status'),
-            'keterangan_ppk' => request('keterangan_ppk')
+            'keterangan_ppk' => request('keterangan_ppk'),
         ]);
         return redirect()->back()->with('success', 'Pengajuan Barang Jasa Berhasil ditanggapi.');
     }

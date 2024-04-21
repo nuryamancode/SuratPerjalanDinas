@@ -10,7 +10,7 @@ class PengajuanPbjController extends Controller
 {
     public function index()
     {
-        $items = PengajuanBarangJasa::pbj()->verifikasiWadir1()->latest()->get();
+        $items = PengajuanBarangJasa::pbj()->verifikasiWadirKabag()->latest()->get();
         return view('wakil-direktur-ii.pages.pengajuan-pbj.index', [
             'title' => 'Pengajuan PBJ',
             'items' => $items
@@ -35,7 +35,7 @@ class PengajuanPbjController extends Controller
 
         $item->update([
             'acc_wadir2' => request('status'),
-            'keterangan_wadir2' => request('keterangan_wadir2')
+            'keterangan_wadir2' => request('keterangan_wadir2'),
         ]);
         return redirect()->back()->with('success', 'Pengajuan Barang Jasa Berhasil ditanggapi.');
     }

@@ -42,6 +42,9 @@
                                                         @csrf
                                                         <button class="btn py-2  btn-sm btn-success">Set Verifikasi</button>
                                                     </form>
+                                                @else
+                                                    <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.print', $item->uuid) }}"
+                                                        class="btn btn-sm py-2 btn-secondary">Print</a>
                                                 @endif
                                             @endif
                                             <a href="{{ route('wakil-direktur-ii.permohonan-spd.show', $item->id) }}"

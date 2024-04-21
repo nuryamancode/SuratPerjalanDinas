@@ -12,7 +12,8 @@ class Surat extends Model
     protected $guarded = ['id'];
     public $casts  = [
         'tanggal_mulai' => 'datetime',
-        'tanggal_sampai' => 'datetime'
+        'tanggal_sampai' => 'datetime',
+        'tanggal_surat' => 'datetime'
     ];
 
     public function surat_perjalanan_dinas()
