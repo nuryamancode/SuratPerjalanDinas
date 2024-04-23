@@ -21,6 +21,7 @@
                                     <th>Verifikasi Kabag</th>
                                     <th>Status Uang Muka</th>
                                     <th>Status</th>
+                                    <th>Tahapan Terakhir</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -43,6 +44,7 @@
                                         <td>{{ $item->statusVerifikasiKabag() }}</td>
                                         <td>{{ $item->statusUangMuka() }}</td>
                                         <td>{{ $item->status }}</td>
+                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama ?? '-' : '-' }}</td>
                                         <td>
                                             @if ($item->verifikasi_kabag == 0)
                                                 <form action="{{ route('kabag.pengajuan-pbj.verifikasi', $item->uuid) }}"

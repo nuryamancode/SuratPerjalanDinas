@@ -62,6 +62,8 @@ class LoginController extends Controller
             return redirect()->route('kabag.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Tim PPK') {
             return redirect()->route('timppk.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'superadmin ') {
+            return redirect()->route('dashboard');
         }
     }
 }

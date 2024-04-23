@@ -8,13 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class JabatanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:jabatan Index')->only('index');
-        $this->middleware('can:jabatan Create')->only(['create', 'store']);
-        $this->middleware('can:jabatan Edit')->only(['edit', 'update']);
-        $this->middleware('can:jabatan Delete')->only('destroy');
-    }
 
     public function index()
     {

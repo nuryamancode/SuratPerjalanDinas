@@ -20,6 +20,7 @@
                                     <th>Status Surat</th>
                                     <th>Verifikasi Wadir I</th>
                                     <th>Status Uang Muka</th>
+                                    <th>Tahapan Terakhir</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -41,6 +42,7 @@
                                         <td>{{ $item->status() }}</td>
                                         <td>{{ $item->statusVerifikasiWadir1() }}</td>
                                         <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama ?? '-' : '-' }}</td>
                                         <td>
                                             @if ($item->verifikasi_wadir1 == 0)
                                                 <form

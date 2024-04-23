@@ -186,4 +186,9 @@ class PengajuanBarangJasa extends Model
             return 'Belum Didistribusikan';
         }
     }
+
+    public function proses()
+    {
+        return $this->hasMany(ProsesPbj::class, 'pengajuan_barang_jasa_id', 'id')->latest();
+    }
 }

@@ -24,12 +24,6 @@
                 <span class="menu-title">SPD</span>
             </a>
         </li>
-        {{-- <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.index') }}">
-                <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                <span class="menu-title">Form Non PBJ</span>
-            </a>
-        </li> --}}
         <li class="nav-item">
             <a class="nav-link py-2" href="{{ route('pengadministrasi-umum.pengajuan-pbj.index') }}">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>

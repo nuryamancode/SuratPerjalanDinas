@@ -8,13 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class GolonganController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:Golongan Index')->only('index');
-        $this->middleware('can:Golongan Create')->only(['create', 'store']);
-        $this->middleware('can:Golongan Edit')->only(['edit', 'update']);
-        $this->middleware('can:Golongan Delete')->only('destroy');
-    }
 
     public function index()
     {

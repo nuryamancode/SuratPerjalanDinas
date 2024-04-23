@@ -6,10 +6,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Karyawan</h4>
-                        @can('Karyawan Create')
-                            <a href="{{ route('karyawan.create') }}" class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
-                                Karyawan</a>
-                        @endcan
+                        <a href="{{ route('karyawan.create') }}" class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
+                            Karyawan</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -23,9 +21,7 @@
                                     <th>Jabatan</th>
                                     <th>Golongan</th>
                                     <th>Akun</th>
-                                    @canany(['Karyawan Edit', 'Karyawan Delete'])
-                                        <th>Aksi</th>
-                                    @endcanany
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,23 +35,17 @@
                                         <td>{{ $item->jabatan->nama }}</td>
                                         <td>{{ $item->golongan->nama }}</td>
                                         <td>{{ $item->statusAkun() }} </td>
-                                        @canany(['Karyawan Edit', 'Karyawan Delete'])
-                                            <td>
-                                                @can('Karyawan Edit')
-                                                    <a href="{{ route('karyawan.edit', $item->id) }}"
-                                                        class="btn btn-sm py-2 btn-info">Edit</a>
-                                                @endcan
-                                                @can('Karyawan Delete')
-                                                    <form action="javascript:void(0)" method="post" class="d-inline"
-                                                        id="formDelete">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                            data-action="{{ route('karyawan.destroy', $item->id) }}">Hapus</button>
-                                                    </form>
-                                                @endcan
-                                            </td>
-                                        @endcanany
+                                        <td>
+                                            <a href="{{ route('karyawan.edit', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-info">Edit</a>
+                                            <form action="javascript:void(0)" method="post" class="d-inline"
+                                                id="formDelete">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
+                                                    data-action="{{ route('karyawan.destroy', $item->id) }}">Hapus</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

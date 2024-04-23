@@ -19,6 +19,7 @@
                                     <th>Pengusul</th>
                                     <th>Status Surat</th>
                                     <th>Acc PPK</th>
+                                    <th>Tahapan Terakhir</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -39,6 +40,7 @@
                                         </td>
                                         <td>{{ $item->status }}</td>
                                         <td>{{ $item->statusAccPpk() }}</td>
+                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama ?? '-' : '-' }}</td>
                                         <td>
                                             @if ($item->acc_ppk == 1)
                                                 <a href="{{ route('ppk.pengajuan-pbj-pelaksana.index', [

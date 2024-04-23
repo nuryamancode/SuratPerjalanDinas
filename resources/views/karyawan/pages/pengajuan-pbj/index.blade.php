@@ -1,4 +1,4 @@
-@extends('wakil-direktur-ii.layouts.app')
+@extends('karyawan.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -16,11 +16,7 @@
                                     <th>Nomor Agenda</th>
                                     <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pengusul</th>
-                                    <th>Status Surat</th>
-                                    <th>Acc Wadir 2</th>
                                     <th>Tahapan Terakhir</th>
-                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,40 +27,7 @@
                                         <td>{{ $item->nomor_agenda }}</td>
                                         <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
-                                        <td>
-                                            <ul>
-                                                @foreach ($item->pengusul as $pengusul)
-                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>{{ $item->statusAccWadir2() }}</td>
-                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama ?? '-' : '-' }}</td>
-                                        <td>
-                                            @if ($item->acc_wadir2 == 1)
-                                                <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                            @endif
-                                            <form action="{{ route('wakil-direktur-ii.pengajuan-pbj.acc', $item->uuid) }}"
-                                                method="post" class="d-inline" id="formAcc">
-                                                @csrf
-                                                <textarea name="keterangan_wadir2" id="keterangan_wadir2" hidden cols="30" rows="10"></textarea>
-                                                @if ($item->acc_wadir2 == 0)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button
-                                                        data-url="{{ route('wakil-direktur-ii.pengajuan-pbj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_wadir2 == 2)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                @endif
-                                            </form>
-                                            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj.show', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-warning">Detail</a>
-                                        </td>
+                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama : '-' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

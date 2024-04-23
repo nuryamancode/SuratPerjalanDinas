@@ -6,10 +6,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Golongan</h4>
-                        @can('Golongan Create')
-                            <a href="{{ route('golongan.create') }}" class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
-                                Golongan</a>
-                        @endcan
+                        <a href="{{ route('golongan.create') }}" class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
+                            Golongan</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -17,9 +15,7 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama</th>
-                                    @canany(['Golongan Edit', 'Golongan Delete'])
-                                        <th>Aksi</th>
-                                    @endcanany
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -27,23 +23,17 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nama }}</td>
-                                        @canany(['Golongan Edit', 'Golongan Delete'])
-                                            <td>
-                                                @can('Golongan Edit')
-                                                    <a href="{{ route('golongan.edit', $item->id) }}"
-                                                        class="btn btn-sm py-2 btn-info">Edit</a>
-                                                @endcan
-                                                @can('Golongan Delete')
-                                                    <form action="javascript:void(0)" method="post" class="d-inline"
-                                                        id="formDelete">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                            data-action="{{ route('golongan.destroy', $item->id) }}">Hapus</button>
-                                                    </form>
-                                                @endcan
-                                            </td>
-                                        @endcanany
+                                        <td>
+                                            <a href="{{ route('golongan.edit', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-info">Edit</a>
+                                            <form action="javascript:void(0)" method="post" class="d-inline"
+                                                id="formDelete">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
+                                                    data-action="{{ route('golongan.destroy', $item->id) }}">Hapus</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

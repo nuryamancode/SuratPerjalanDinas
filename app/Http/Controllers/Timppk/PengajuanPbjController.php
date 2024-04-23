@@ -12,7 +12,7 @@ class PengajuanPbjController extends Controller
     public function index()
     {
         $items = PengajuanBarangJasaPelaksana::where('karyawan_id', auth()->user()->karyawan->id)->latest()->get();
-        dd($items);
+        // dd($items);
         return view('timppk.pages.pengajuan-pbj.index', [
             'title' => 'Pengajuan PBJ',
             'items' => $items

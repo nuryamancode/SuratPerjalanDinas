@@ -51,11 +51,15 @@ class PengajuanPbjPelaksanaController extends Controller
             $data_tujuan = request('karyawan_id');
             if ($data_tujuan) {
                 foreach ($data_tujuan as $tujuan) {
-                    $permohonan->pelaksana()->create([
-                        'uuid' => \Str::uuid(),
-                        'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                        'karyawan_id' => $tujuan
-                    ]);
+
+                    $cek = PengajuanBarangJasaPelaksana::where('karyawan_id', $tujuan)->count();
+                    if ($cek < 1) {
+                        $permohonan->pelaksana()->create([
+                            'uuid' => \Str::uuid(),
+                            'pembuat_karyawan_id' => auth()->user()->karyawan->id,
+                            'karyawan_id' => $tujuan
+                        ]);
+                    }
                 }
             }
 
@@ -77,5 +81,19 @@ class PengajuanPbjPelaksanaController extends Controller
         $item = PengajuanBarangJasaPelaksana::findOrFail($id);
         $item->delete();
         return redirect()->back()->with('success', 'Disposisi Berhasil Dihapus.');
+    }
+
+    public function setPelaksana($pengajuan_uuid)
+    {
+        $pengajuan = PengajuanBarangJasa::where('uuid', $pengajuan_uuid)->firstOrFail();
+        $pengajuan->pelaksana()->update([
+            'is_penanggung_jawab' => 0
+        ]);
+
+        $pengajuan->pelaksana()->where('karyawan_id', request('karyawan_id'))->update([
+            'is_penanggung_jawab' => 1
+        ]);
+
+        return redirect()->back()->with('success', 'Penanggung Jawab berhasil diverifikasi');
     }
 }

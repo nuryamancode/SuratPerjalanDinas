@@ -16,11 +16,6 @@
                                     <th>Nomor Agenda</th>
                                     <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pengusul</th>
-                                    <th>Status Surat</th>
-                                    <th>Verifikasi Kabag</th>
-                                    <th>Status Uang Muka</th>
-                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -28,22 +23,17 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
-                                        <td>{{ $item->perihal }}</td>
+                                        <td>{{ $item->pengajuan->nomor_surat }}</td>
+                                        <td>{{ $item->pengajuan->nomor_agenda }}</td>
+                                        <td>{{ $item->pengajuan->tanggal }}</td>
+                                        <td>{{ $item->pengajuan->perihal }}</td>
                                         <td>
-                                            <ul>
-                                                @foreach ($item->pengusul as $pengusul)
-                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </td>
-                                        <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusVerifikasiKabag() }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>
+                                            @if ($item->is_penanggung_jawab == 1)
+                                                <a href="{{ route('timppk.pengajuan-pbj-proses.index', [
+                                                    'pbj_uuid' => $item->pengajuan->uuid,
+                                                ]) }}"
+                                                    class="btn btn-sm py-2 btn-info">Proses PBJ</a>
+                                            @endif
                                             <a href="{{ route('kabag.pengajuan-pbj.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>

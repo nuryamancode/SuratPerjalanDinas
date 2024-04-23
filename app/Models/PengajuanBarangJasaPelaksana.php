@@ -25,4 +25,13 @@ class PengajuanBarangJasaPelaksana extends Model
     {
         return $this->hasOne(SpjBarangJasa::class, 'pengajuan_barang_jasa_pelaksana_id', 'id');
     }
+
+    public function isPenanggungJawab()
+    {
+        if ($this->is_penanggung_jawab == 1) {
+            return 'Ya';
+        } else {
+            return 'Tidak';
+        }
+    }
 }

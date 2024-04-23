@@ -12,15 +12,9 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nomor Surat</th>
-                                    <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
-                                    <th>Perihal</th>
-                                    <th>Pelaksana</th>
-                                    <th>Status Surat</th>
-                                    <th>Acc PPK</th>
-                                    <th>Keterangan PPK</th>
-                                    <th>Status Uang Muka</th>
+                                    <th>Tanggal</th>
+                                    <th>File</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -28,21 +22,12 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
-                                        <td>{{ $item->perihal }}</td>
+                                        <td>{{ $item->created_at->translatedFormat('d F Y') }}</td>
                                         <td>
-                                            <ul>
-                                                @foreach ($item->pelaksana as $pelaksana)
-                                                    <li>{{ $pelaksana->karyawan->nama ?? '-' }}</li>
-                                                @endforeach
-                                            </ul>
+                                            <a href="{{ $item->getFile() }}" target="_blank"
+                                                class="btn btn-secondary py-2">Lihat</a>
                                         </td>
-                                        <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusAccPpk() }}</td>
-                                        <td>{{ $item->keterangan_ppk }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>
                                             @if ($item->acc_ppk == 1)
                                                 <a href="{{ route('ppk.pengajuan-form-non-pbj-disposisi.index', $item->uuid) }}"
@@ -68,9 +53,6 @@
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
                                                 @endif
-                                            </form>
-                                            <a href="{{ route('ppk.pengajuan-form-non-pbj.show', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>
                                 @endforeach

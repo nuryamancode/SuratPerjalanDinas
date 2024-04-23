@@ -24,6 +24,7 @@
                                     <th>Acc Pengusul</th>
                                     <th>Acc PPK</th>
                                     <th>Status Uang Muka</th>
+                                    <th>Tahapan Terakhir</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -46,6 +47,7 @@
                                         <td>{{ $item->statusVerifikasiPengusul() }}</td>
                                         <td>{{ $item->statusAccPpk() }}</td>
                                         <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama ?? '-' : '-' }}</td>
                                         <td>
                                             <a href="{{ route('pengadministrasi-umum.pengajuan-pbj.show', $item->uuid) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
