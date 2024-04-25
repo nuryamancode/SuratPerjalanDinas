@@ -5,27 +5,16 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Uang Muka Form Non PBJ</h4>
-                    <form action="{{ route('bendahara-keuangan.pengajuan-form-non-pbj-uang-muka.store') }}" method="post"
+                    <form action="{{ route('bendahara-keuangan.form-non-pbj-uang-muka.store') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="pengajuan_uuid" value="{{ $pengajuan->uuid }}">
+                        <input type="hidden" name="form_non_pbj_uuid" value="{{ $formNonPbj->uuid }}">
                         <div class='form-group mb-3'>
                             <label for='surat_perihal' class='mb-2'>Perihal</label>
                             <input type='text' name='surat_perihal' id='surat_perihal'
                                 class='form-control @error('surat_perihal') is-invalid @enderror'
-                                value='{{ $pengajuan->perihal ?? old('surat_perihal') }}' readonly>
+                                value='{{ $formNonPbj->disposisi->perihal ?? old('surat_perihal') }}' readonly>
                             @error('surat_perihal')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group mb-3'>
-                            <label for='surat_nomor_surat' class='mb-2'>No.Surat</label>
-                            <input type='text' name='surat_nomor_surat' id='surat_nomor_surat'
-                                class='form-control @error('surat_nomor_surat') is-invalid @enderror'
-                                value='{{ $pengajuan->nomor_surat ?? old('surat_nomor_surat') }}' readonly>
-                            @error('surat_nomor_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
@@ -35,8 +24,25 @@
                             <label for='surat_no_agenda' class='mb-2'>No. Agenda</label>
                             <input type='text' name='surat_no_agenda' id='surat_no_agenda'
                                 class='form-control @error('surat_no_agenda') is-invalid @enderror'
-                                value='{{ $pengajuan->nomor_agenda ?? old('surat_no_agenda') }}' readonly>
+                                value='{{ $formNonPbj->disposisi->nomor_agenda ?? old('surat_no_agenda') }}' readonly>
                             @error('surat_no_agenda')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group'>
+                            <label for='karyawan_id'>Pelaksana</label>
+                            <select name='karyawan_id' id='karyawan_id'
+                                class='form-control @error('karyawan_id') is-invalid @enderror'>
+                                <option value='' selected disabled>Pilih Pelaksana</option>
+                                @foreach ($data_tim_ppk as $timppk)
+                                    <option @selected($timppk->karyawan->id == $formNonPbj->uang_muka1 ? $formNonPbj->uang_muka1->karyawan_id : old('karyawan_id')) value='{{ $timppk->karyawan->id }}'>
+                                        {{ $timppk->karyawan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('karyawan_id')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
@@ -46,7 +52,7 @@
                             <label for='nominal' class='mb-2'>Nominal</label>
                             <input type='number' name='nominal' id='nominal'
                                 class='form-control @error('nominal') is-invalid @enderror'
-                                value='{{ $pengajuan->uang_muka->nominal ?? old('nominal') }}'>
+                                value='{{ $formNonPbj->uang_muka1->nominal ?? old('nominal') }}'>
                             @error('nominal')
                                 <div class='invalid-feedback'>
                                     {{ $message }}

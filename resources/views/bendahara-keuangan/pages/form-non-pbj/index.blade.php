@@ -1,4 +1,4 @@
-@extends('ppk.layouts.app')
+@extends('bendahara-keuangan.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -34,25 +34,23 @@
                                         <td>Rp. {{ $item->uang_muka1 ? number_format($item->uang_muka1->nominal) : '-' }}
                                         </td>
                                         <td>
-                                            @if ($item->acc_ppk == 1)
-                                                <a href="{{ route('ppk.form-non-pbj-disposisi.index', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                            @endif
-                                            <form action="{{ route('ppk.form-non-pbj.acc', $item->uuid) }}" method="post"
-                                                class="d-inline" id="formAcc">
-                                                @csrf
-                                                <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
-                                                @if ($item->acc_ppk == 0)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button data-url="{{ route('ppk.form-non-pbj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_ppk == 2)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
+                                            @if ($item->acc_ppk == 1 && $item->disposisi)
+                                                @if ($item->uang_muka1)
+                                                @else
+                                                    <a href="{{ route('bendahara-keuangan.form-non-pbj-uang-muka.index', $item->uuid) }}"
+                                                        class="btn btn-sm py-2 btn-info">Uang Muka</a>
                                                 @endif
-                                            </form>
+                                            @endif
+                                            @if ($item->is_arsip == 0 && $item->spj->acc_ppk == 1)
+                                                <form
+                                                    action="{{ route('bendahara-keuangan.form-non-pbj.arsip', $item->uuid) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <button class="btn btn-success py-2">Arsipkan</button>
+                                                </form>
+                                            @else
+                                                -
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

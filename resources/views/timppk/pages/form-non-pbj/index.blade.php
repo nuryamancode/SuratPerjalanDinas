@@ -1,4 +1,4 @@
-@extends('ppk.layouts.app')
+@extends('timppk.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -30,29 +30,20 @@
                                                 class="btn btn-secondary py-2">Lihat</a>
                                         </td>
                                         <td>{{ $item->status }}</td>
+                                        {{-- <td>{{ $item->uang_muka1 }}</td> --}}
                                         <td>{{ $item->uang_muka1 ? $item->uang_muka1->karyawan->nama : '-' }}</td>
                                         <td>Rp. {{ $item->uang_muka1 ? number_format($item->uang_muka1->nominal) : '-' }}
                                         </td>
                                         <td>
-                                            @if ($item->acc_ppk == 1)
-                                                <a href="{{ route('ppk.form-non-pbj-disposisi.index', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                            @endif
-                                            <form action="{{ route('ppk.form-non-pbj.acc', $item->uuid) }}" method="post"
-                                                class="d-inline" id="formAcc">
-                                                @csrf
-                                                <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
-                                                @if ($item->acc_ppk == 0)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button data-url="{{ route('ppk.form-non-pbj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_ppk == 2)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
+                                            @if ($item->uang_muka1)
+                                                @if ($item->spj)
+                                                    <a href="{{ route('timppk.form-non-pbj-spj.show', $item->spj->uuid) }}"
+                                                        class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
+                                                @else
+                                                    <a href="{{ route('timppk.form-non-pbj-spj.index', $item->uuid) }}"
+                                                        class="btn btn-sm py-2 btn-info">Buat SPJ</a>
                                                 @endif
-                                            </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

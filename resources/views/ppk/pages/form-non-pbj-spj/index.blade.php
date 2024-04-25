@@ -12,11 +12,11 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nomor Surat</th>
+                                    <th>Perihal</th>
                                     <th>Nomor Agenda</th>
                                     <th>Pelaksana</th>
-                                    <th>Keterangan PPK</th>
                                     <th>Acc PPK</th>
+                                    <th>Keterangan PPK</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -24,35 +24,29 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->pelaksanaFormNonPbj->pengajuan->nomor_surat }}</td>
-                                        <td>{{ $item->pelaksanaFormNonPbj->pengajuan->nomor_agenda }}</td>
-                                        <td>{{ $item->pelaksanaFormNonPbj->karyawan->nama }}</td>
-                                        <td>{{ $item->keterangan_ppk ?? '-' }}</td>
+                                        <td>{{ $item->formNonPbj->disposisi->perihal }}</td>
+                                        <td>{{ $item->formNonPbj->disposisi->nomor_agenda }}</td>
+                                        <td>{{ $item->formNonPbj->uang_muka1->karyawan->nama ?? '-' }}</td>
                                         <td>{!! $item->acc_ppk() !!}</td>
+                                        <td>{{ $item->keterangan_ppk ?? '-' }}</td>
                                         <td>
-                                            <form action="{{ route('ppk.pengajuan-form-non-pbj-spj.acc', $item->uuid) }}"
-                                                method="post" class="d-inline" id="formAcc">
+                                            <form action="{{ route('ppk.form-non-pbj-spj.acc', $item->uuid) }}" method="post"
+                                                class="d-inline" id="formAcc">
                                                 @csrf
                                                 <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
                                                 @if ($item->acc_ppk == 0)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
-                                                    <button
-                                                        data-url="{{ route('ppk.pengajuan-form-non-pbj-spj.acc', $item->uuid) }}"
+                                                    <button data-url="{{ route('ppk.form-non-pbj-spj.acc', $item->uuid) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_ppk == 1)
-                                                    <button
-                                                        data-url="{{ route('ppk.pengajuan-form-non-pbj-spj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @else
+                                                @elseif($item->acc_ppk == 2)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
                                                 @endif
                                             </form>
-                                            <a href="{{ route('ppk.pengajuan-form-non-pbj-spj.show', $item->uuid) }}"
-                                                class="btn btn-warning  py-2">Detail</a>
+                                            <a target="_blank" href="{{ route('ppk.form-non-pbj-spj.print', $item->uuid) }}"
+                                                class="btn btn-secondary  py-2">Print</a>
                                         </td>
                                     </tr>
                                 @endforeach

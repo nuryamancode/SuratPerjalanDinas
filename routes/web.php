@@ -49,11 +49,40 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-Route::redirect('/', '/login');
+Route::get('/', function () {
+    if (Auth::check()) {
+        if (auth()->user()->getRoleNames()->first() === 'Pengadministrasi Umum') {
+            return redirect()->route('pengadministrasi-umum.dashboard');
+        } else if (auth()->user()->getRoleNames()->first() === 'Wakil Direktur II') {
+            return redirect()->route('wakil-direktur-ii.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
+            return redirect()->route('ppk.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
+            return redirect()->route('bendahara-keuangan.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Perjalanan Dinas') {
+            return redirect()->route('pelaksana-spd.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pengusul') {
+            return redirect()->route('pengusul.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Belanja') {
+            return redirect()->route('pelaksana-belanja.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Wakil Direktur I') {
+            return redirect()->route('wakil-direktur-i.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Karyawan') {
+            return redirect()->route('karyawan.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Kabag') {
+            return redirect()->route('kabag.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Tim PPK') {
+            return redirect()->route('timppk.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'superadmin ') {
+            return redirect()->route('dashboard');
+        }
+    }
+    return redirect()->route('login');
+});
 Route::middleware('auth')->group(function () {
 
     // admin
-    Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::prefix('admin')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('users', UserController::class);
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -159,7 +188,7 @@ Route::middleware('auth')->group(function () {
         Route::get('tte', [App\Http\Controllers\Ppk\TTEController::class, 'index'])->name('tte.index');
         Route::post('tte', [App\Http\Controllers\Ppk\TTEController::class, 'update'])->name('tte.update');
         Route::delete('tte', [App\Http\Controllers\Ppk\TTEController::class, 'destroy'])->name('tte.destroy');
-        Route::post('pengajuan-form-non-pbj/acc/{uuid}', [App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class, 'acc'])->name('pengajuan-form-non-pbj.acc');
+        Route::post('form-non-pbj/acc/{uuid}', [App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class, 'acc'])->name('form-non-pbj.acc');
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class);
 
         Route::get('pengajuan-form-non-pbj/{uuid}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'index'])->name('pengajuan-form-non-pbj-disposisi.index');
@@ -193,7 +222,28 @@ Route::middleware('auth')->group(function () {
 
         Route::get('permohonan-spd-disposisi-print/{uuid}', [App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
 
-        Route::resource('form-non-pbj', \App\Http\Controllers\Ppk\FormNonPbjController::class);
+        Route::controller(\App\Http\Controllers\Ppk\FormNonPbjController::class)->group(function () {
+            Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
+            Route::get('/form-non-pbj/{uuid}', 'show')->name('form-non-pbj.show');
+            Route::post('form-non-pbj/acc/{uuid}', 'acc')->name('form-non-pbj.acc');
+        });
+
+        Route::controller(\App\Http\Controllers\Ppk\FormNonPbjDisposisiController::class)->group(function () {
+            Route::get('/form-non-pbj-disposisi/{uuid}', 'index')->name('form-non-pbj-disposisi.index');
+            Route::get('/form-non-pbj-disposisi/{uuid}/create', 'create')->name('form-non-pbj-disposisi.create');
+            Route::post('form-non-pbj-disposisi/{uuid}/create', 'store')->name('form-non-pbj-disposisi.store');
+            // Route::post('form-non-pbj-disposisi/acc/{uuid}', 'acc')->name('form-non-pbj.acc');
+            Route::delete('form-non-pbj-disposisi/{uuid}', 'destroy')->name('form-non-pbj-disposisi.destroy');
+        });
+
+        // Route::resource('form-non-pbj', \App\Http\Controllers\Ppk\FormNonPbjController::class);
+
+        Route::controller(\App\Http\Controllers\Ppk\FormNonPbjSpjController::class)->group(function () {
+            Route::get('/form-non-pbj-spj', 'index')->name('form-non-pbj-spj.index');
+            Route::get('/form-non-pbj-spj/{uuid}/print', 'print')->name('form-non-pbj-spj.print');
+            Route::get('/form-non-pbj-spj/{uuid}/show', 'show')->name('form-non-pbj-spj.show');
+            Route::post('form-non-pbj-spj/acc/{uuid}', 'acc')->name('form-non-pbj-spj.acc');
+        });
     });
 
     Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->middleware('role:Pengadministrasi Umum')->group(function () {
@@ -269,6 +319,15 @@ Route::middleware('auth')->group(function () {
 
 
         Route::get('permohonan-spd-disposisi-print/{uuid}', [App\Http\Controllers\Bendaharakeuangan\PermohonanSpdController::class, 'print'])->name('permohonan-spd.print');
+
+        Route::controller(\App\Http\Controllers\Bendaharakeuangan\FormNonPbjController::class)->group(function () {
+            Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
+            Route::post('/form-non-pbj/{uuid}', 'arsip')->name('form-non-pbj.arsip');
+        });
+        Route::controller(\App\Http\Controllers\Bendaharakeuangan\FormNonPbjUangMukaController::class)->group(function () {
+            Route::get('/form-non-pbj-uang-muka/{uuid}', 'index')->name('form-non-pbj-uang-muka.index');
+            Route::post('/form-non-pbj-uang-muka', 'store')->name('form-non-pbj-uang-muka.store');
+        });
     });
 
     Route::name('pelaksana-spd.')->prefix('pelaksana-spd')->middleware('role:Pelaksana Perjalanan Dinas')->group(function () {
@@ -335,5 +394,24 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [\App\Http\Controllers\Timppk\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Timppk\PengajuanPbjController::class);
         Route::resource('pengajuan-pbj-proses', \App\Http\Controllers\Timppk\ProsesPbjController::class)->except('show');
+
+        Route::controller(\App\Http\Controllers\Timppk\FormNonPbjController::class)->group(function () {
+            Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
+        });
+
+        Route::controller(\App\Http\Controllers\Timppk\FormNonPbjSpjController::class)->group(function () {
+            Route::get('/form-non-pbj-spj/{uuid}', 'index')->name('form-non-pbj-spj.index');
+            Route::get('/form-non-pbj-spj/{uuid}/show', 'show')->name('form-non-pbj-spj.show');
+            Route::post('/form-non-pbj-spj', 'store')->name('form-non-pbj-spj.store');
+        });
+
+        Route::controller(\App\Http\Controllers\Timppk\FormNonPbjSpjDetailController::class)->group(function () {
+            Route::get('/form-non-pbj-spj-detail', 'index')->name('form-non-pbj-spj-detail.index');
+            Route::get('/form-non-pbj-spj-detail/create', 'create')->name('form-non-pbj-spj-detail.create');
+            Route::post('/form-non-pbj-spj-detail/create', 'store')->name('form-non-pbj-spj-detail.store');
+            Route::get('/form-non-pbj-spj-detail/{uuid}/edit', 'edit')->name('form-non-pbj-spj-detail.edit');
+            Route::patch('/form-non-pbj-spj-detail/{uuid}/edit', 'update')->name('form-non-pbj-spj-detail.update');
+            Route::delete('/form-non-pbj-spj-detail/{uuid}', 'destroy')->name('form-non-pbj-spj-detail.destroy');
+        });
     });
 });
