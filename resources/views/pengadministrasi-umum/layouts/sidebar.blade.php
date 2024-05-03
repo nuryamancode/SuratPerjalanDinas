@@ -30,5 +30,11 @@
                 <span class="menu-title">Pengajuan PBJ</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link py-2" href="{{ route('pengadministrasi-umum.surat-non-pbj.index') }}">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Pengajuan Surat Non PBJ</span>
+            </a>
+        </li>
     </ul>
 </nav>

@@ -19,15 +19,27 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link py-2" href="{{ route('bendahara-keuangan.form-non-pbj.index') }}">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Form Non PBJ</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link py-2" href="{{ route('bendahara-keuangan.surat-non-pbj.index') }}">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Surat Non PBJ</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link py-2" href="{{ route('bendahara-keuangan.arsip-spd-spj.index') }}">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Arsip SPD</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('bendahara-keuangan.form-non-pbj.index') }}">
+            <a class="nav-link py-2" href="{{ route('bendahara-keuangan.arsip-form-non-pbj.index') }}">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                <span class="menu-title">Form Non PBJ</span>
+                <span class="menu-title">Arsip Form Non PBJ</span>
             </a>
         </li>
     </ul>

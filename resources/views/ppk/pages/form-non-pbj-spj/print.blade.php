@@ -219,14 +219,30 @@
                                 <td style="width:40%">Tanggal,
                                     {{ $item->created_at->translatedFormat('d F Y') }}<br>Bendahara Pengeluaran</td>
                             </tr>
-                            <tr style="height:100px;vertical-align:top;">
+                            <tr style="vertical-align:top;">
                                 <td>An Kuasa Pengguna Anggaran
                                     <br>
                                     Pejabat Pembuat Komitmen
                                 </td>
                             </tr>
-
-
+                            <tr>
+                                <td class="text-center">
+                                    <div style="text-align: center;margin-right:40px">
+                                        @if ($ppk->tte_file)
+                                            <img src="{{ $ppk->tte() }}" style="height:70px; width:70px"
+                                                alt="">
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div style="text-align: center;margin-right:40px">
+                                        @if ($bendahara->tte_file)
+                                            <img src="{{ $ppk->tte() }}" style="height:70px; width:70px"
+                                                alt="">
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>{{ $ppk->nama }} <br>NIP {{ $ppk->nip }}</td>
                                 <td>{{ $bendahara->nama }} <br>NIP {{ $bendahara->nip }}</td>

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('form_non_pbj', function (Blueprint $table) {
-            $table->integer('is_arsip');
+            $table->integer('is_arsip')->default(0);
         });
     }
 
