@@ -55,14 +55,6 @@ class SuratNonPbjDisposisiController extends Controller
                 }
             }
 
-            $pengajuan->update([
-                'status' => 'Pemeriksaan PPK'
-            ]);
-
-            $pengajuan->update([
-                'acc_ppk' => 0
-            ]);
-
             DB::commit();
             return redirect()->route('ppk.surat-non-pbj-disposisi.index', $pengajuan->uuid)->with('success', 'Disposisi Berhasil disimpan.');
         } catch (\Throwable $th) {

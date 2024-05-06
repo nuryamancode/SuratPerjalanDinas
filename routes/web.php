@@ -256,6 +256,14 @@ Route::middleware('auth')->group(function () {
         Route::get('surat-non-pbj/{uuid}/disposisi/create', [App\Http\Controllers\Ppk\SuratNonPbjDisposisiController::class, 'create'])->name('surat-non-pbj-disposisi.create');
         Route::post('surat-non-pbj/{uuid}/disposisi', [App\Http\Controllers\Ppk\SuratNonPbjDisposisiController::class, 'store'])->name('surat-non-pbj-disposisi.store');
         Route::delete('surat-non-pbj/{uuid}/disposisi', [App\Http\Controllers\Ppk\SuratNonPbjDisposisiController::class, 'destroy'])->name('surat-non-pbj-disposisi.destroy');
+
+        // surat non pbj spj
+        Route::controller(\App\Http\Controllers\Ppk\SuratNonPbjSpjController::class)->group(function () {
+            Route::get('/surat-non-pbj-spj', 'index')->name('surat-non-pbj-spj.index');
+            Route::get('/surat-non-pbj-spj/{uuid}/print', 'print')->name('surat-non-pbj-spj.print');
+            Route::get('/surat-non-pbj-spj/{uuid}/show', 'show')->name('surat-non-pbj-spj.show');
+            Route::post('surat-non-pbj-spj/acc/{uuid}', 'acc')->name('surat-non-pbj-spj.acc');
+        });
     });
 
     Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->middleware('role:Pengadministrasi Umum')->group(function () {
@@ -357,7 +365,13 @@ Route::middleware('auth')->group(function () {
             Route::post('/surat-non-pbj-uang-muka', 'store')->name('surat-non-pbj-uang-muka.store');
         });
 
+
         Route::resource('surat-non-pbj', \App\Http\Controllers\Bendaharakeuangan\SuratNonPbjController::class)->only(['index', 'show']);
+        Route::controller(\App\Http\Controllers\Bendaharakeuangan\SuratNonPbjController::class)->group(function () {
+            Route::post('/surat-non-pbj-submit/{uuid}',  'submit_arsip')->name('surat-non-pbj.submit-arsip');
+            Route::get('/arsip-surat-non-pbj', 'arsip_index')->name('surat-non-pbj.arsip-index');
+            Route::get('/arsip-surat-non-pbj-spj/{uuid}', 'arsip_spj')->name('surat-non-pbj.arsip-spj');
+        });
     });
 
     Route::name('pelaksana-spd.')->prefix('pelaksana-spd')->middleware('role:Pelaksana Perjalanan Dinas')->group(function () {
@@ -400,6 +414,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('spd', App\Http\Controllers\Wakildirekturi\SpdController::class);
         Route::resource('spd-spj', App\Http\Controllers\Wakildirekturi\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Wakildirekturi\SpdSpjDetailController::class);
+
+        // surat non pbj
+        Route::post('surat-non-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Wakildirekturi\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
+        Route::resource('surat-non-pbj', \App\Http\Controllers\Wakildirekturi\SuratNonPbjController::class)->only(['index', 'show']);
+        Route::resource('surat-non-pbj-detail', \App\Http\Controllers\Wakildirekturi\SuratNonPbjDetailController::class);
     });
 
     Route::name('karyawan.')->prefix('karyawan')->middleware('role:Karyawan')->group(function () {

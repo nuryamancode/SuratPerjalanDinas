@@ -46,7 +46,7 @@
                                         <td>{!! $item->statusAccPpk() !!}</td>
                                         <td>{{ $item->status }}</td>
                                         <td>
-                                            @if ($item->acc_ppk == 1)
+                                            @if ($item->acc_ppk == 1 || ($item->spj && $item->spj->acc_ppk != 1))
                                                 <a href="{{ route('ppk.surat-non-pbj-disposisi.index', $item->uuid) }}"
                                                     class="btn btn-sm py-2 btn-info">Disposisi</a>
                                             @endif

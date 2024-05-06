@@ -56,7 +56,7 @@ class SuratNonPbjController extends Controller
             }
             // $data['pembuat_karyawan_id'] = auth()->id();
             $karyawan =  Karyawan::find(request('karyawan_id'));
-            if ($karyawan->user->getRoleNames()->first === 'Kabag') {
+            if ($karyawan->user->getRoleNames()->first() === 'Kabag') {
                 $diteruskan = 'Kabag';
             } else {
                 $diteruskan = 'Wakil Direktur I';

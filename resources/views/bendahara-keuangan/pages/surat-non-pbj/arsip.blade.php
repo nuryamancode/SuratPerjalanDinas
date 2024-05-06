@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Pengajuan Surat Non PBJ</h4>
+                        <h4 class="card-title mb-3">Arsip Pengajuan Surat Non PBJ</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -16,11 +16,8 @@
                                     <th>Nomor Agenda</th>
                                     <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pengusul</th>
                                     <th>Taksiran</th>
                                     <th>Uang Muka</th>
-                                    <th>Acc PPK</th>
-                                    <th>Status Surat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -33,37 +30,15 @@
                                         <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
                                         <td>
-                                            <ul>
-                                                @foreach ($item->pengusul as $pengusul)
-                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </td>
-                                        <td>
+                                            Rp.
                                             {{ $item->details ? number_format($item->details()->sum('harga_satuan')) : '0' }}
                                         </td>
                                         <td>
-                                            {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
+                                            Rp. {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
                                         </td>
-                                        <td>{!! $item->statusAccPpk() !!}</td>
-                                        <td>{{ $item->status }}</td>
                                         <td>
-                                            <a href="{{ route('bendahara-keuangan.surat-non-pbj.show', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            {{-- {{ $item->spj }} --}}
-                                            @if ($item->spj && $item->spj->acc_ppk == 1)
-                                            @else
-                                                <a href="{{ route('bendahara-keuangan.surat-non-pbj-uang-muka.index', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Uang Muka</a>
-                                            @endif
-                                            @if ($item->is_arsip == 0 && $item->spj && $item->spj->acc_ppk == 1)
-                                                <form
-                                                    action="{{ route('bendahara-keuangan.surat-non-pbj.submit-arsip', $item->uuid) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn btn-success py-2">Arsipkan</button>
-                                                </form>
-                                            @endif
+                                            <a href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-spj', $item->spj->uuid) }}"
+                                                class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
                                         </td>
                                     </tr>
                                 @endforeach

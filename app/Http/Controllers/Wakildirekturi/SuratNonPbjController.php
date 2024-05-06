@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Kabag;
+namespace App\Http\Controllers\Wakildirekturi;
 
 use App\Http\Controllers\Controller;
 use App\Models\SuratNonPbj;
@@ -12,7 +12,7 @@ class SuratNonPbjController extends Controller
     {
         $items = SuratNonPbj::where('karyawan_id', auth()->user()->karyawan->id)->latest()->get();
         // dd($items);
-        return view('kabag.pages.surat-non-pbj.index', [
+        return view('wakil-direktur-i.pages.surat-non-pbj.index', [
             'title' => 'Pengajuan Surat Non PBJ',
             'items' => $items
         ]);
@@ -21,7 +21,7 @@ class SuratNonPbjController extends Controller
     public function show($uuid)
     {
         $item = SuratNonPbj::where('karyawan_id', auth()->user()->karyawan->id)->where('uuid', $uuid)->firstOrFail();
-        return view('kabag.pages.surat-non-pbj.show', [
+        return view('wakil-direktur-i.pages.surat-non-pbj.show', [
             'title' => 'Detail Pengajuan Surat Non PBJ',
             'item' => $item
         ]);
@@ -31,10 +31,10 @@ class SuratNonPbjController extends Controller
     {
         $item = SuratNonPbj::where('uuid', $uuid)->firstorFail();
         $item->update([
-            'verifikasi_kabag' => 1,
+            'verifikasi_wadir1' => 1,
             'status' => 'Pemeriksaan Wakil Direktur II'
         ]);
 
-        return redirect()->route('kabag.surat-non-pbj.index')->with('success', 'Surat Non PBJ berhasil disetujui.');
+        return redirect()->route('wakil-direktur-i.surat-non-pbj.index')->with('success', 'Surat Non PBJ berhasil disetujui.');
     }
 }

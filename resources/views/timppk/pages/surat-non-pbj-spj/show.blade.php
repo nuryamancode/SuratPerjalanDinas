@@ -10,7 +10,14 @@
                             <span class="font-weight-bold">Pembayaran</span>
                             <span>{{ $suratNonPbj->untuk_pembayaran }}</span>
                         </li>
-
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span class="font-weight-bold">Uang Muka </span>
+                            <span>Rp. {{ number_format($suratNonPbj->suratNonPbj->uang_muka->nominal) }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span class="font-weight-bold">Status </span>
+                            <span>{!! $suratNonPbj->acc_ppk() !!}</span>
+                        </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
@@ -27,7 +34,7 @@
                 <div class="card-body">
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
-                        @if ($suratNonPbj->acc_ppk == 0)
+                        @if ($suratNonPbj->acc_ppk != 1)
                             <a href="{{ route('timppk.surat-non-pbj-spj-detail.create', [
                                 'spj_uuid' => $suratNonPbj->uuid,
                             ]) }}"
@@ -59,7 +66,7 @@
                                                 class="btn btn-success btn-sm">Lihat</a>
                                         </td>
                                         <td>
-                                            @if ($suratNonPbj->acc_ppk == 0)
+                                            @if ($suratNonPbj->acc_ppk != 1)
                                                 <a href="{{ route('timppk.surat-non-pbj-spj-detail.edit', $detail->uuid) }}"
                                                     class="btn btn-sm py-2 btn-info">Edit</a>
                                                 <form action="javascript:void(0)" method="post" class="d-inline"

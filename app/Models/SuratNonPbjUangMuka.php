@@ -15,4 +15,9 @@ class SuratNonPbjUangMuka extends Model
     {
         return $this->belongsTo(SuratNonPbj::class);
     }
+
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class);
+    }
 }

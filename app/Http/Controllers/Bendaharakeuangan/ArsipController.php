@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Bendaharakeuangan;
 
 use App\Http\Controllers\Controller;
+use App\Models\SuratNonPbj;
 use App\Models\SuratPerjalananDinas;
 use App\Models\SuratPerjalananDinasDetail;
 use App\Models\SuratPertanggungJawaban;

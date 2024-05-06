@@ -13,7 +13,7 @@ class SuratNonPbjSpj extends Model
 
     public function suratNonPbj()
     {
-        return $this->belongsTo(suratNonPbj::class, 'surat_non_pbj_id', 'id');
+        return $this->belongsTo(SuratNonPbj::class, 'surat_non_pbj_id', 'id');
     }
 
     public function details()

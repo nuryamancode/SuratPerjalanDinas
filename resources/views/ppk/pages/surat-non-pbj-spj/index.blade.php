@@ -1,26 +1,22 @@
-@extends('bendahara-keuangan.layouts.app')
+@extends('ppk.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Pengajuan Surat Non PBJ</h4>
+                        <h4 class="card-title mb-3">Pengajuan SPJ Surat Non PBJ</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nomor Surat</th>
-                                    <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pengusul</th>
-                                    <th>Taksiran</th>
-                                    <th>Uang Muka</th>
+                                    <th>Nomor Agenda</th>
+                                    <th>Pelaksana</th>
                                     <th>Acc PPK</th>
-                                    <th>Status Surat</th>
+                                    <th>Keterangan PPK</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -28,42 +24,30 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
-                                        <td>{{ $item->perihal }}</td>
+                                        <td>{{ $item->suratNonPbj->perihal }}</td>
+                                        <td>{{ $item->suratNonPbj->nomor_agenda }}</td>
+                                        <td>{{ $item->suratNonPbj->uang_muka->karyawan->nama ?? '-' }}</td>
+                                        <td>{!! $item->acc_ppk() !!}</td>
+                                        <td>{{ $item->keterangan_ppk ?? '-' }}</td>
                                         <td>
-                                            <ul>
-                                                @foreach ($item->pengusul as $pengusul)
-                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            {{ $item->details ? number_format($item->details()->sum('harga_satuan')) : '0' }}
-                                        </td>
-                                        <td>
-                                            {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
-                                        </td>
-                                        <td>{!! $item->statusAccPpk() !!}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>
-                                            <a href="{{ route('bendahara-keuangan.surat-non-pbj.show', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            {{-- {{ $item->spj }} --}}
-                                            @if ($item->spj && $item->spj->acc_ppk == 1)
-                                            @else
-                                                <a href="{{ route('bendahara-keuangan.surat-non-pbj-uang-muka.index', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Uang Muka</a>
-                                            @endif
-                                            @if ($item->is_arsip == 0 && $item->spj && $item->spj->acc_ppk == 1)
-                                                <form
-                                                    action="{{ route('bendahara-keuangan.surat-non-pbj.submit-arsip', $item->uuid) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn btn-success py-2">Arsipkan</button>
-                                                </form>
-                                            @endif
+                                            <form action="{{ route('ppk.surat-non-pbj-spj.acc', $item->uuid) }}"
+                                                method="post" class="d-inline" id="formAcc">
+                                                @csrf
+                                                <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
+                                                @if ($item->acc_ppk == 0)
+                                                    <button class="btn py-2  btn-sm btn-success" name="status"
+                                                        value="1">Terima</button>
+                                                    <button data-url="{{ route('ppk.surat-non-pbj-spj.acc', $item->uuid) }}"
+                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
+                                                        name="status" value="2">Tolak</button>
+                                                @elseif($item->acc_ppk == 2)
+                                                    <button class="btn py-2  btn-sm btn-success" name="status"
+                                                        value="1">Terima</button>
+                                                @endif
+                                            </form>
+                                            <a target="_blank"
+                                                href="{{ route('ppk.surat-non-pbj-spj.print', $item->uuid) }}"
+                                                class="btn btn-secondary  py-2">Print</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -119,6 +103,7 @@
                         name: 'status',
                         value: 2
                     }).appendTo('#formAcc');
+                    console.log(url);
                     $('#formAcc').attr('action', url);
                     $('#formAcc').submit();
                 })
