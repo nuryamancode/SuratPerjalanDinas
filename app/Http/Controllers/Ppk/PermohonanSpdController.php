@@ -19,7 +19,7 @@ class PermohonanSpdController extends Controller
 
     public function show($uuid)
     {
-        $item = SuratPerjalananDinas::where('uuid', $uuid)->firstOrFail();
+        $item = SuratPerjalananDinas::where('id', $uuid)->firstOrFail();
         return view('ppk.pages.permohonan-spd.show', [
             'title' => 'Detail Surat Perjalanan Dinas',
             'item' => $item
@@ -31,23 +31,23 @@ class PermohonanSpdController extends Controller
         request()->validate([
             'status' => ['required']
         ]);
-        // dd(request()->all());
-        $item = SuratPerjalananDinas::notActive()->where('uuid', $uuid)->firstOrFail();
+        dd(request()->all());
+        $item = SuratPerjalananDinas::notActive()->where('id', $uuid)->firstOrFail();
         $item->update([
             'acc_ppk' => request('status'),
-            'keterangan_acc_ppk' => request('keterangan_ppk')
+            'keterangan_ppk' => request('keterangan_ppk')
         ]);
-        return redirect()->back()->with('success', 'Verifikasi Surat Perjalanan Dinas Berhasil disubmit.');
+        return redirect()->back()->with('success', 'Verifikasi Surat Pe');
     }
 
     public function verifikasi_ppk($uuid)
     {
-        $item = SuratPerjalananDinas::where('uuid', $uuid)->firstOrFail();
-        // dd($item);
+        $item = SuratPerjalananDinas::where('id', $uuid)->firstOrFail();
+        dd($item);
         $item->update([
             'verifikasi_ppk' => 1,
             'status' => 'Menunggu Didistribusikan Uang Muka'
         ]);
-        return redirect()->back()->with('success', 'Verifikasi Surat Perjalanan Dinas Berhasil disubmit.');
+        return redirect()->back()->with('success', 'Verifikasi ');
     }
 }

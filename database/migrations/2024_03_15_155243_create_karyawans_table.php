@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('jabatan_id')->constrained('jabatan');
             $table->foreignId('golongan_id')->constrained('golongan');
             $table->string('nomor_hp')->nullable();
+            $table->string("tte_file")->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->timestamps();
         });

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('catatan')->nullable();
             $table->foreignId('pembuat_karyawan_id')->constrained('karyawan');
             $table->foreignId('tujuan_karyawan_id')->constrained('karyawan');
+            $table->string('nomor_agenda')->nullable();
+            $table->string('perihal')->nullable();
             $table->timestamps();
         });
         Schema::create('disposisi_detail', function (Blueprint $table) {

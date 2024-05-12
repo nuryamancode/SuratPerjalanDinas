@@ -14,9 +14,11 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Tahapan Terakhir</th>
+                                    <th>Tanggal Surat</th>
+                                    <th>Pengusul</th>
+                                    <th>Status Surat</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -25,9 +27,20 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
                                         <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
-                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama : '-' }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
+                                        <td>
+                                            <ul>
+                                                @foreach ($item->pengusul as $pengusul)
+                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td>{{ $item->status_surat }}</td>
+                                        <td>
+                                            <a href="{{ route('karyawan.riwayat-pbj.show', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-warning">Detail</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

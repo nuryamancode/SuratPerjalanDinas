@@ -29,13 +29,13 @@
 
                                             {{-- @if ($item->verifikasi_ppk == 1)
                                                 <a href="{{ route('bendahara-keuangan.spd-uang-muka.index', [
-                                                    'spd_uuid' => $item->uuid,
+                                                    'spd_uuid' => $item->id,
                                                 ]) }}"
                                                     class="btn btn-sm py-2 btn-primary">Uang Muka</a>
                                             @endif --}}
-                                            <a href="{{ route('bendahara-keuangan.permohonan-spd.print', $item->uuid) }}"
+                                            <a href="{{ route('bendahara-keuangan.permohonan-spd.print', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-secondary">Print</a>
-                                            <a href="{{ route('bendahara-keuangan.permohonan-spd.show', $item->uuid) }}"
+                                            <a href="{{ route('bendahara-keuangan.permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

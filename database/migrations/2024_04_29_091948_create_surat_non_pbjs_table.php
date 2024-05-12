@@ -30,6 +30,8 @@ return new class extends Migration
             $table->integer('verifikasi_wadir2')->nullable();
             $table->string('file');
             $table->integer('verifikasi_kabag')->nullable();
+            $table->text('keterangan_wadir2')->nullable();
+            $table->integer('is_arsip')->default(0);
             $table->timestamps();
         });
     }

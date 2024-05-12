@@ -5,10 +5,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Pengajuan Form Non PBJ</h4>
+                        <h4 class="card-title mb-3">Pengajuan Non PBJ Formulir</h4>
                         <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.create') }}"
                             class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
-                            Pengajuan Form Non PBJ</a>
+                            Pengajuan Non PBJ Formulir</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">

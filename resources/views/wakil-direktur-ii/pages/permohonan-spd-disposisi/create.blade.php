@@ -7,7 +7,7 @@
                     <h4 class="card-title mb-5">Disposisi Permohonan SPD</h4>
                     <form
                         action="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.store', [
-                            'permohonan_spd_uuid' => $permohonan->uuid,
+                            'permohonan_spd_uuid' => $permohonan->id,
                         ]) }}"
                         method="post">
                         @csrf
@@ -104,7 +104,7 @@
                         </div>
                         <div class="form-group text-right">
                             <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
-                                'permohonan_spd_uuid' => $permohonan->uuid,
+                                'permohonan_spd_uuid' => $permohonan->id,
                             ]) }}"
                                 class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Submit</button>

@@ -21,7 +21,7 @@ class PermohonanSpdController extends Controller
 
     public function show($uuid)
     {
-        $item = SuratPerjalananDinas::notActive()->where('uuid', $uuid)->firstOrFail();
+        $item = SuratPerjalananDinas::notActive()->where('id', $uuid)->firstOrFail();
         return view('bendahara-keuangan.pages.permohonan-spd.show', [
             'title' => 'Detail Surat Perjalanan Dinas',
             'item' => $item
@@ -30,7 +30,7 @@ class PermohonanSpdController extends Controller
 
     public function print($spd_uuid)
     {
-        $spd = SuratPerjalananDinas::where('uuid', $spd_uuid)->firstOrFail();
+        $spd = SuratPerjalananDinas::where('id', $spd_uuid)->firstOrFail();
         // dd($spd->disposisi);
         $ppk = User::role('Pejabat Pembuat Komitmen')->first();
         return view('bendahara-keuangan.pages.permohonan-spd.print', [

@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('form_non_pbj', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
             $table->string('file');
             $table->foreignId('pengusul_karyawan_id')->constrained('karyawan');
             $table->string('status');
             $table->integer('acc_ppk')->default(0);
+            $table->text('keterangan_ppk')->nullable();
             $table->bigInteger('uang_muka')->nullable();
+            $table->integer('is_arsip')->default(0);
             $table->timestamps();
         });
     }

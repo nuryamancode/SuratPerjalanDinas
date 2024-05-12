@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('spd_detail_id')->constrained('surat_perjalanan_dinas_detail')->cascadeOnDelete();
             $table->string('file');
             $table->integer('status');
+            $table->text('keterangan_ppk')->nullable();
             $table->timestamps();
         });
         Schema::create('surat_pertanggung_jawaban_detail', function (Blueprint $table) {

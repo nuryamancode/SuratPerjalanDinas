@@ -11,40 +11,37 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengajuan_barang_jasa', function (Blueprint $table) {
+        Schema::create('pbj', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->string('perihal');
             $table->string('nomor_surat');
             $table->string('nomor_agenda');
-            $table->string('status');
-            $table->enum('jenis', ['pbj', 'surat non pbj', 'formulir non pbj']);
-            $table->foreignId('pembuat_karyawan_id')->constrained('karyawan');
-            $table->date('tanggal');
+            $table->string('perihal');
+            $table->string('dokumen_surat');
+            $table->foreignId('diteruskan_ke')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->foreignId('asal_surat')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->string('status_surat');
+            $table->boolean('acc_kabag')->nullable()->default(0);
+            $table->string('nilai_taksiran')->nullable();
+            $table->boolean('acc_wadir1')->nullable()->default(0);
+            $table->enum('acc_wadir2', [0, 1, 2])->nullable()->default(0);
+            $table->enum('acc_ppk', [0, 1, 2])->nullable()->default(0);
+            $table->boolean('verifikasi_wadir2')->default(0);
+            $table->boolean('verifikasi_ppk')->default(0);
+            $table->boolean('acc_pengusul')->nullable()->default(0);
+            $table->text('keterangan_ppk')->nullable();
+            $table->text('keterangan_wadir2')->nullable();
+            $table->enum('jenis', ['pbj', 'non pbj surat', 'non pbj formulir']);
             $table->timestamps();
         });
-
-        Schema::create('pengajuan_barang_jasa_pelaksana', function (Blueprint $table) {
+        Schema::create('lampiran_pbj', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->foreignId('pengajuan_barang_jasa_id')->constrained('pengajuan_barang_jasa')->cascadeOnDelete();
-            $table->foreignId('karyawan_id')->constrained('karyawan');
-            $table->string('keterangan')->nullable();
-            $table->string('status')->nullable();
+            $table->string('file');
+            $table->foreignId('pbj_id')->nullable()->constrained('pbj')->cascadeOnDelete();
             $table->timestamps();
         });
-
-        Schema::create('pengajuan_barang_jasa_detail', function (Blueprint $table) {
+        Schema::create('tahapan_pbj', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->foreignId('pengajuan_barang_jasa_id')->constrained('pengajuan_barang_jasa')->cascadeOnDelete();
-            $table->string('kebutuhan_barang');
-            $table->string('volume')->nullable();
-            $table->string('satuan');
-            $table->bigInteger('harga_satuan');
-            $table->integer('jumlah');
-            $table->bigInteger('total_harga');
-            $table->string('keterangan')->nullable();
+            $table->string('nama');
             $table->timestamps();
         });
     }
@@ -54,16 +51,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pengajuan_barang_jasa_pelaksana', function (Blueprint $table) {
-            $table->dropForeign(['pengajuan_barang_jasa_id']);
-        });
 
-        Schema::table('pengajuan_barang_jasa_detail', function (Blueprint $table) {
-            $table->dropForeign(['pengajuan_barang_jasa_id']);
-        });
-
-        Schema::dropIfExists('pengajuan_barang_jasa');
-        Schema::dropIfExists('pengajuan_barang_jasa_pelaksana');
-        Schema::dropIfExists('pengajuan_barang_jasa_detail');
+        Schema::dropIfExists('pbj');
+        Schema::dropIfExists('lampiran_pbj');
     }
 };

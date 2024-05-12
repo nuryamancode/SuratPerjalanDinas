@@ -11,7 +11,7 @@
                                 class='form-control @error('spd_uuid') is-invalid @enderror'>
                                 <option value='' selected disabled>Pilih Surat Perjalanan Dinas</option>
                                 @foreach ($data_permohonan as $permohonan)
-                                    <option @selected($permohonan->uuid == request('spd_uuid')) value='{{ $permohonan->uuid }}'>
+                                    <option @selected($permohonan->id == request('spd_uuid')) value='{{ $permohonan->id }}'>
                                         {{ $permohonan->surat->nomor_surat }}
                                     </option>
                                 @endforeach
@@ -26,7 +26,7 @@
                             <button class="btn btn-primary">Filter</button>
                             @if ($spd && $spd->is_arsip == false)
                                 @if ($spd->cekVerifikasiSemuaSpj())
-                                    <a href="{{ route('bendahara-keuangan.arsip-spd.submit', $spd->uuid) }}"
+                                    <a href="{{ route('bendahara-keuangan.arsip-spd.submit', $spd->id) }}"
                                         class="btn btn-success">Arsipkan</a>
                                 @endif
                             @endif
@@ -80,31 +80,31 @@
                                         <td>{!! $item->status() !!}</td>
                                         <td>
                                             {{-- <a href="{{ route('bendahara-keuangan.spd-detail-supir.index', [
-                                                'spd_detail_uuid' => $item->uuid,
+                                                'spd_detail_uuid' => $item->id,
                                             ]) }}"
                                                 class="btn btn-primary  py-2">Supir</a> --}}
                                             @if ($item->notEmpty())
-                                                <a href="{{ route('bendahara-keuangan.spd-detail.print', $item->uuid) }}"
+                                                <a href="{{ route('bendahara-keuangan.spd-detail.print', $item->id) }}"
                                                     class="btn btn-sm py-2 btn-secondary" target="_blank">Print</a>
                                             @endif
                                             @if ($item->surat_perjalanan_dinas->verifikasi_ppk == 0)
-                                                <a href="{{ route('bendahara-keuangan.spd-detail.edit', $item->uuid) }}"
+                                                <a href="{{ route('bendahara-keuangan.spd-detail.edit', $item->id) }}"
                                                     class="btn btn-sm py-2 btn-info">Isi SPD</a>
                                             @endif
                                             @if ($item->karyawan_id == auth()->user()->karyawan->id)
                                                 @if ($item->spj)
-                                                    <a href="{{ route('bendahara-keuangan.spd-spj.show', $item->spj->uuid) }}"
+                                                    <a href="{{ route('bendahara-keuangan.spd-spj.show', $item->spj->id) }}"
                                                         class="btn btn-info  py-2">Lihat SPJ</a>
                                                 @else
                                                     <a href="{{ route('bendahara-keuangan.spd-spj.create', [
-                                                        'spd_detail_uuid' => $item->uuid,
+                                                        'spd_detail_uuid' => $item->id,
                                                     ]) }}"
                                                         class="btn btn-primary  py-2">Buat SPJ</a>
                                                 @endif
                                             @endif
                                             @if (!$item->uang_muka && $item->surat_perjalanan_dinas->verifikasi_ppk)
                                                 <a href="{{ route('bendahara-keuangan.spd-detail-uang-muka.index', [
-                                                    'spd_detail_uuid' => $item->uuid,
+                                                    'spd_detail_uuid' => $item->id,
                                                 ]) }}"
                                                     class="btn btn-primary  py-2">Input Uang Muka</a>
                                             @endif

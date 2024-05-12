@@ -7,7 +7,7 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Disposisi Permohonan SPD</h4>
                         <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.create', [
-                            'permohonan_spd_uuid' => $permohonan->uuid,
+                            'permohonan_spd_uuid' => $permohonan->id,
                         ]) }}"
                             class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
                     </div>

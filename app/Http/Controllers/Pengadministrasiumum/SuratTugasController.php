@@ -52,12 +52,12 @@ class SuratTugasController extends Controller
             }
             // dd($data);
             $data['file'] = request()->file('file')->store('surat', 'public');
-            if (request('lampiran_surat_tugas')) {
-                $data['lampiran_surat_tugas'] = request()->file('lampiran_surat_tugas')->store('surat-tugas-supir', 'public');
-            }
+            // if (request('lampiran_surat_tugas')) {
+            //     $datauuid['lampiran_surat_tugas'] = request()->file('lampiran_surat_tugas')->store('surat-tugas-supir', 'public');
+            // }
             $data_lampiran = request()->file('lampiran');
             $data_pelaksana = request('pelaksana');
-            $data['uuid'] = \Str::uuid();
+            $data[''] = \Str::uuid();
             $data['pembuat_user_id'] = auth()->id();
             $data['status'] = 'Belum Didisposisikan';
             $data['jenis_surat'] = 'tugas';
@@ -78,7 +78,7 @@ class SuratTugasController extends Controller
             if (!empty($data_pelaksana)) {
                 foreach ($data_pelaksana as $pelaksana) {
                     $surat->pelaksana()->create([
-                        'uuid' => \Str::uuid(),
+                        'id' => \Str::uuid(),
                         'karyawan_id' => $pelaksana
                     ]);
                 }
@@ -95,7 +95,7 @@ class SuratTugasController extends Controller
 
     public function show($uuid)
     {
-        $item = Surat::where('uuid', $uuid)->firstOrFail();
+        $item = Surat::where('id', $uuid)->firstOrFail();
         return view('pengadministrasi-umum.pages.surat.show', [
             'title' => 'Detail Surat',
             'item' => $item

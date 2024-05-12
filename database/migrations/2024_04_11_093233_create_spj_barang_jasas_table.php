@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('spj_barang_jasa', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->foreignId('pengajuan_barang_jasa_pelaksana_id')->constrained('pengajuan_barang_jasa_pelaksana')->cascadeOnDelete();
-            $table->string('file');
+            // $table->foreignId('pengajuan_barang_jasa_pelaksana_id')->constrained('pengajuan_barang_jasa_pelaksana')->cascadeOnDelete();
             $table->integer('status');
+            $table->string('via')->nullable();
+            $table->dropColumn('status');
+            $table->integer('acc_ppk')->default(0);
+            $table->text('keterangan_ppk')->nullable();
             $table->timestamps();
         });
         Schema::create('spj_barang_jasa_detail', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->foreignId('spj_barang_jasa_id')->constrained('spj_barang_jasa')->cascadeOnDelete();
+            // $table->foreignId('spj_barang_jasa_id')->constrained('spj_barang_jasa')->cascadeOnDelete();
             $table->string('perincian_biaya');
             $table->bigInteger('nominal');
             $table->text('keterangan')->nullable();

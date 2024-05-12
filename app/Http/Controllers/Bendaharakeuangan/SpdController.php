@@ -15,10 +15,10 @@ class SpdController extends Controller
     {
         $spd_uuid = request('spd_uuid');
         $items = SuratPerjalananDinasDetail::whereHas('surat_perjalanan_dinas', function ($q) use ($spd_uuid) {
-            $q->where('uuid', $spd_uuid);
+            $q->where('id', $spd_uuid);
         })->latest()->get();
 
-        $spd = SuratPerjalananDinas::where('uuid', request('spd_uuid'))->first();
+        $spd = SuratPerjalananDinas::where('id', request('spd_uuid'))->first();
         // $items  = SuratPerjalananDinasDetail::where('karyawan_id', auth()->user()->karyawan->id)->get();
 
         $data_permohonan = SuratPerjalananDinas::accPpk()->latest()->get();
@@ -37,7 +37,7 @@ class SpdController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            $permohonan = SuratPerjalananDinas::where('uuid', request('permohonan_spd_uuid'))->firstOrFail();
+            $permohonan = SuratPerjalananDinas::where('id', request('permohonan_spd_uuid'))->firstOrFail();
             // dd($permohonan->surat);
 
             if ($permohonan) {

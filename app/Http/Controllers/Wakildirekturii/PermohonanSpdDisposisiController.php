@@ -15,7 +15,7 @@ class PermohonanSpdDisposisiController extends Controller
     public function index()
     {
         $permohonan_spd_uuid = request('permohonan_spd_uuid');
-        $permohonan = SuratPerjalananDinas::where('uuid', $permohonan_spd_uuid)->firstOrFail();
+        $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
         $items = Disposisi::where('surat_perjalanan_dinas_id', $permohonan->id)->where('pembuat_karyawan_id', auth()->user()->karyawan->id)->latest()->get();
         return view('wakil-direktur-ii.pages.permohonan-spd-disposisi.index', [
             'title' => 'Permohonan SPD Disposisi',
@@ -28,7 +28,7 @@ class PermohonanSpdDisposisiController extends Controller
         $ppk = User::role('Pejabat Pembuat Komitmen')->first();
         $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
         $permohonan_spd_uuid = request('permohonan_spd_uuid');
-        $permohonan = SuratPerjalananDinas::where('uuid', $permohonan_spd_uuid)->firstOrFail();
+        $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
         return view('wakil-direktur-ii.pages.permohonan-spd-disposisi.create', [
             'title' => 'Permohonan SPD Disposisi',
             'permohonan' => $permohonan,
@@ -47,7 +47,7 @@ class PermohonanSpdDisposisiController extends Controller
         DB::beginTransaction();
         try {
             $permohonan_spd_uuid = request('permohonan_spd_uuid');
-            $permohonan = SuratPerjalananDinas::where('uuid', $permohonan_spd_uuid)->firstOrFail();
+            $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
             $tujuan = request('tujuan_karyawan_id');
             if ($tujuan) {
                 // cek terlebih dahulu datanya sudah ada atau belum
@@ -66,15 +66,13 @@ class PermohonanSpdDisposisiController extends Controller
                     ]);
                 } else {
                     return redirect()->route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
-                        'permohonan_spd_uuid' => $permohonan->uuid
+                        'permohonan_spd_uuid' => $permohonan->id
                     ])->with('error', 'Disposisi tidak bisa dibuatkan lagi.');
                 }
             }
 
             DB::commit();
-            return redirect()->route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
-                'permohonan_spd_uuid' => $permohonan->uuid
-            ])->with('success', 'Disposisi Berhasil disimpan.');
+            return redirect()->route('wakil-direktur-ii.pages.permohonan-spd.index')->with('success', 'Disposisi Berhasil disimpan.');
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -89,7 +87,7 @@ class PermohonanSpdDisposisiController extends Controller
 
     public function print($spd_uuid)
     {
-        $spd = SuratPerjalananDinas::where('uuid', $spd_uuid)->firstOrFail();
+        $spd = SuratPerjalananDinas::where('id', $spd_uuid)->firstOrFail();
 
         // dd($spd->disposisi);
         return view('wakil-direktur-ii.pages.permohonan-spd-disposisi.print', [

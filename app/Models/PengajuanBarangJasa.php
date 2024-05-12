@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PengajuanBarangJasa extends Model
 {
     use HasFactory;
-    protected $table = 'pengajuan_barang_jasa';
+    protected $table = 'pbj';
     protected $guarded = ['id'];
 
     public function scopePbj($val)
@@ -18,7 +18,11 @@ class PengajuanBarangJasa extends Model
 
     public function scopeFormNonPbj($val)
     {
-        $val->where('jenis', 'formulir non pbj');
+        $val->where('jenis', 'non pbj formulir');
+    }
+    public function scopeSuratNonPbj($val)
+    {
+        $val->where('jenis', 'non pbj surat');
     }
     public function scopeAccAll($val)
     {
@@ -46,9 +50,9 @@ class PengajuanBarangJasa extends Model
         $val->where('acc_ppk', 1);
     }
 
-    public function scopeVerifikasiWadirKabag($val)
+    public function scopeVerifikasiWadir2($val)
     {
-        $val->where('verifikasi_wadir1', 1)->orWhere('verifikasi_kabag', 1);
+        $val->where('verifikasi_wadir2', 1);
     }
 
     public function scopeVerifikasiUangMuka($val)
@@ -56,14 +60,23 @@ class PengajuanBarangJasa extends Model
         $val->whereHas('uang_muka');
     }
 
+    public function lampiranpbj()
+    {
+        return $this->hasMany(LampiranPBJ::class, 'pbj_id', 'id');
+    }
+
     public function pelaksana()
     {
         return $this->hasMany(PengajuanBarangJasaPelaksana::class);
     }
+    public function karyawan()
+    {
+        return $this->hasOne(Karyawan::class, 'id');
+    }
 
     public function pengusul()
     {
-        return $this->hasMany(PengajuanBarangJasaPengusul::class);
+        return $this->hasMany(PengajuanBarangJasaPengusul::class,'pbj_id', 'id');
     }
 
     // public function statusSpjFormNonPbj()
@@ -71,6 +84,10 @@ class PengajuanBarangJasa extends Model
     //     return $this->pelaksana()->where('karyawan_id', auth()->user()->karyawan->id)->spjFormNonPbj->exists();
     // }
 
+    public function getFileDokumen()
+    {
+        return asset('storage/' . $this->dokumen_surat);
+    }
     public function status()
     {
         if ($this->disposisi) {
@@ -146,15 +163,19 @@ class PengajuanBarangJasa extends Model
         return $this->hasMany(PengajuanBarangJasaDetail::class);
     }
 
-    public function disposisi()
+    public function disposisi_pbj()
     {
-        return $this->hasOne(PengajuanBarangJasaDisposisi::class, 'pengajuan_barang_jasa_id', 'id')->latest();
+        return $this->hasOne(PengajuanBarangJasaDisposisi::class, 'pbj_id', 'id')->latest();
+    }
+    public function scopedisposisi_pbj()
+    {
+        return $this->hasOne(PengajuanBarangJasaDisposisi::class, 'pbj_id', 'id')->latest();
     }
 
-    public function disposisis()
-    {
-        return $this->hasMany(PengajuanBarangJasaDisposisi::class, 'pengajuan_barang_jasa_id', 'id');
-    }
+    // public function disposisis()
+    // {
+    //     return $this->hasMany(PengajuanBarangJasaDisposisi::class, 'pengajuan_barang_jasa_id', 'id');
+    // }
 
     public function scopeFormNonPbjAccAll($val)
     {
@@ -173,19 +194,19 @@ class PengajuanBarangJasa extends Model
         }
     }
 
-    public function uang_muka()
-    {
-        return $this->hasOne(UangMukaBarangjasa::class, 'pengajuan_barang_jasa_id', 'id');
-    }
+    // public function uang_muka()
+    // {
+    //     return $this->hasOne(UangMukaBarangjasa::class, 'pengajuan_barang_jasa_id', 'id');
+    // }
 
-    public function statusUangMuka()
-    {
-        if ($this->uang_muka) {
-            return 'Sudah Didistribusikan';
-        } else {
-            return 'Belum Didistribusikan';
-        }
-    }
+    // public function statusUangMuka()
+    // {
+    //     if ($this->uang_muka) {
+    //         return 'Sudah Didistribusikan';
+    //     } else {
+    //         return 'Belum Didistribusikan';
+    //     }
+    // }
 
     public function proses()
     {

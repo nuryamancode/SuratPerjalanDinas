@@ -53,4 +53,28 @@
             })
         })
     </script>
+    <script>
+        $(function() {
+            $('body').on('click', '.btnAcc', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "Ingin menyetujui pengajuan ini?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let action = $(this).data('action');
+                        $('#formAcc').attr('action', action);
+                        $('#formAcc').submit();
+                    }
+                })
+            })
+        })
+    </script>
 @endpush

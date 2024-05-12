@@ -44,15 +44,15 @@ class SuratPerjalananDinasDetail extends Model
         $val->where('karyawan_id', auth()->user()->karyawan->id);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (!$model->uuid) {
-                $model->uuid = \Str::uuid();
-            }
-        });
-    }
+    // protected static function boot()
+    // {
+    //     parent::boot();
+    //     static::creating(function ($model) {
+    //         if (!$model->uuid) {
+    //             $model->uuid = \Str::uuid();
+    //         }
+    //     });
+    // }
 
     public function uang_muka()
     {

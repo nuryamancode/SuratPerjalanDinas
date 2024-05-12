@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->foreignId('surat_non_pbj_id')->constrained('surat_non_pbj')->cascadeOnDelete();
             $table->string('tipe');
-            $table->text('catatan');
+            $table->text('catatan')->nullable()->change();
             $table->foreignId('pembuat_karyawan_id')->constrained('karyawan')->cascadeOnDelete();
             $table->foreignId('tujuan_karyawan_id')->constrained('karyawan')->cascadeOnDelete();
             $table->timestamps();

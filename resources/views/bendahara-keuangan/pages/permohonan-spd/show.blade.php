@@ -89,13 +89,13 @@
                                     class="btn btn-sm btn-warning">Kembali</a>
                                 @if (count($item->details) > 0)
                                     <a href="{{ route('bendahara-keuangan.spd.index', [
-                                        'spd_uuid' => $item->uuid,
+                                        'spd_uuid' => $item->id,
                                     ]) }}"
                                         class="btn btn-sm py-2 btn-info">Detail SPD</a>
                                 @else
                                     <form
                                         action="{{ route('bendahara-keuangan.spd.store', [
-                                            'permohonan_spd_uuid' => $item->uuid,
+                                            'permohonan_spd_uuid' => $item->id,
                                         ]) }}"
                                         method="post" class="d-inline">
                                         @csrf

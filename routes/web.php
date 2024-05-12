@@ -33,7 +33,7 @@ use App\Http\Controllers\SuratPertanggungJawabanDetailController;
 use App\Http\Controllers\TTEController;
 use App\Http\Controllers\UangMukaController;
 use App\Http\Controllers\UserController;
-use App\Models\PengajuanPbj;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,29 +55,28 @@ Route::get('/', function () {
             return redirect()->route('pengadministrasi-umum.dashboard');
         } else if (auth()->user()->getRoleNames()->first() === 'Wakil Direktur II') {
             return redirect()->route('wakil-direktur-ii.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
-            return redirect()->route('ppk.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
-            return redirect()->route('bendahara-keuangan.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Perjalanan Dinas') {
-            return redirect()->route('pelaksana-spd.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pengusul') {
-            return redirect()->route('pengusul.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Belanja') {
-            return redirect()->route('pelaksana-belanja.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Wakil Direktur I') {
             return redirect()->route('wakil-direktur-i.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
+            return redirect()->route('bendahara-keuangan.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pengelola Keuangan') {
+            return redirect()->route('pengelola-keuangan.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Supir') {
+            return redirect()->route('supir.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Karyawan') {
             return redirect()->route('karyawan.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Kabag') {
+        } elseif (auth()->user()->getRoleNames()->first() === 'Kepala Bagian') {
             return redirect()->route('kabag.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
+            return redirect()->route('ppk.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Tim PPK') {
             return redirect()->route('timppk.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'superadmin ') {
+        } elseif (auth()->user()->getRoleNames()->first() === 'Admin') {
             return redirect()->route('dashboard');
         }
+    } else {
+        return redirect()->route('login');
     }
-    return redirect()->route('login');
 });
 Route::middleware('auth')->group(function () {
 
@@ -204,8 +203,12 @@ Route::middleware('auth')->group(function () {
 
         Route::controller(\App\Http\Controllers\Ppk\PengajuanPbjController::class)->group(function () {
             Route::get('/pengajuan-pbj', 'index')->name('pengajuan-pbj.index');
-            Route::get('/pengajuan-pbj/{uuid}', 'show')->name('pengajuan-pbj.show');
-            Route::post('pengajuan-pbj/acc/{uuid}', 'acc')->name('pengajuan-pbj.acc');
+            Route::get('/pengajuan-pbj/{id}', 'show')->name('pengajuan-pbj.show');
+            Route::get('/pengajuan-pbj/print/{id}', 'print_disposisi')->name('pengajuan-pbj.print');
+            Route::get('pengajuan-pbj/disposisi/{id}', 'disposisi')->name('pengajuan-pbj-disposisi.index');
+            Route::get('pengajuan-pbj/disposisi/edit/{id}', 'edit_disposisi')->name('pengajuan-pbj-disposisi.edit');
+            Route::put('pengajuan-pbj/disposisi/store/{id}', 'update_disposisi')->name('pengajuan-pbj-disposisi.store');
+            Route::post('pengajuan-pbj/verifikasi/{id}', 'verifikasi')->name('pengajuan-pbj.verifikasi');
         });
 
 
@@ -273,6 +276,7 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('permohonan-spd', PermohonanSpdController::class);
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Pengadministrasiumum\PengajuanFormNonPbjController::class);
+        Route::resource('pengajuan-surat-non-pbj', \App\Http\Controllers\Pengadministrasiumum\PengajuanSuratNonPbjController::class);
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Pengadministrasiumum\PengajuanPbjController::class);
 
         Route::resource('spd', App\Http\Controllers\Pengadministrasiumum\SpdController::class);
@@ -294,16 +298,22 @@ Route::middleware('auth')->group(function () {
         Route::get('permohonan-spd-disposisi-print/{uuid}', [App\Http\Controllers\Wakildirekturii\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
 
         Route::resource('permohonan-spd-disposisi', App\Http\Controllers\Wakildirekturii\PermohonanSpdDisposisiController::class);
+        Route::get('pengajuan-pbj/detail', [\App\Http\Controllers\Wakildirekturii\PengajuanPbjController::class, 'detail'])->name('pengajuan-pbj.detail');
         Route::controller(\App\Http\Controllers\Wakildirekturii\PengajuanPbjController::class)->group(function () {
             Route::get('/pengajuan-pbj', 'index')->name('pengajuan-pbj.index');
-            Route::get('/pengajuan-pbj/{uuid}', 'show')->name('pengajuan-pbj.show');
-            Route::post('pengajuan-pbj/acc/{uuid}', 'acc')->name('pengajuan-pbj.acc');
+            Route::get('/pengajuan-pbj-lampiran/{lampiran}', 'getFile')->name('pengajuan-pbj.lampiran');
+            Route::get('/pengajuan-pbj/{id}', 'show')->name('pengajuan-pbj.show');
+            Route::put('pengajuan-pbj/acc/{id}', 'acc')->name('pengajuan-pbj.acc');
+            Route::post('pengajuan-pbj/verifikasi/{id}', 'verifikasi')->name('pengajuan-pbj.verifikasi');
+            // Route::get('pengajuan-pbj/print/{id}', 'print')->name('pengajuan-pbj.print');
+            Route::put('pengajuan-pbj/tolak/{id}', 'tolak')->name('pengajuan-pbj.tolak');
         });
+        Route::get('permohonan-pbj-print/{id}', [App\Http\Controllers\Wakildirekturii\PengajuanPbjController::class, 'print_disposisi'])->name('pengajuan-pbj.print');
 
-        Route::get('pengajuan-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'index'])->name('pengajuan-pbj-disposisi.index');
-        Route::get('pengajuan-pbj/{uuid}/disposisi/create', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'create'])->name('pengajuan-pbj-disposisi.create');
-        Route::post('pengajuan-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'store'])->name('pengajuan-pbj-disposisi.store');
-        Route::delete('pengajuan-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'destroy'])->name('pengajuan-pbj-disposisi.destroy');
+        Route::get('pengajuan-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'index'])->name('pengajuan-pbj-disposisi.index');
+        Route::get('pengajuan-pbj/{id}/disposisi/create', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'create'])->name('pengajuan-pbj-disposisi.create');
+        Route::post('pengajuan-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'store'])->name('pengajuan-pbj-disposisi.store');
+        Route::delete('pengajuan-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'destroy'])->name('pengajuan-pbj-disposisi.destroy');
 
         Route::resource('spd', App\Http\Controllers\Wakildirekturii\SpdController::class);
         Route::resource('spd-spj', App\Http\Controllers\Wakildirekturii\SpdSpjController::class);
@@ -320,6 +330,7 @@ Route::middleware('auth')->group(function () {
     Route::name('bendahara-keuangan.')->prefix('bendahara-keuangan')->middleware('role:Bendahara Keuangan')->group(function () {
         Route::get('/', [\App\Http\Controllers\Bendaharakeuangan\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('permohonan-spd', App\Http\Controllers\Bendaharakeuangan\PermohonanSpdController::class);
+        Route::resource('pengajuan-pbj', App\Http\Controllers\Bendaharakeuangan\PengajuanPbjController::class);
         Route::resource('spd-detail', App\Http\Controllers\Bendaharakeuangan\SpdDetailController::class);
         Route::resource('spd-detail-supir', App\Http\Controllers\Bendaharakeuangan\SpdDetailSupirController::class);
         Route::resource('spd-detail-uang-muka', App\Http\Controllers\Bendaharakeuangan\SpdDetailUangMukaController::class);
@@ -429,15 +440,18 @@ Route::middleware('auth')->group(function () {
         Route::resource('spd-spj', App\Http\Controllers\Karyawan\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Karyawan\SpdSpjDetailController::class);
         Route::get('riwayat-pbj', [\App\Http\Controllers\Karyawan\PengajuanPbjController::class, 'index'])->name('riwayat-pbj.index');
+        Route::get('riwayat-pbj/show/{id}', [\App\Http\Controllers\Karyawan\PengajuanPbjController::class, 'show'])->name('riwayat-pbj.show');
         Route::resource('form-non-pbj', \App\Http\Controllers\Karyawan\FormNonPbjController::class);
     });
 
-    Route::name('kabag.')->prefix('kabag')->middleware('role:Kabag')->group(function () {
+    Route::name('kabag.')->prefix('kabag')->middleware('role:Kepala Bagian')->group(function () {
         Route::get('/', [\App\Http\Controllers\Kabag\DashboardController::class, 'index'])->name('dashboard');
-        Route::post('pengajuan-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'verifikasi'])->name('pengajuan-pbj.verifikasi');
+        Route::get('pengajuan-pbj/taksiran/{id}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'taksiran'])->name('taksiran');
+        Route::post('pengajuan-pbj/taksiran/{id}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'store'])->name('taksiran.store');
+        Route::post('pengajuan-pbj/verifikasi/{id}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'verifikasi'])->name('pengajuan-pbj.verifikasi');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Kabag\PengajuanPbjController::class);
         Route::resource('pengajuan-pbj-detail', \App\Http\Controllers\Kabag\PengajuanPbjDetailController::class);
-        Route::post('surat-non-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Kabag\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
+        Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Kabag\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
         Route::resource('surat-non-pbj', \App\Http\Controllers\Kabag\SuratNonPbjController::class)->only(['index', 'show']);
         Route::resource('surat-non-pbj-detail', \App\Http\Controllers\Kabag\SuratNonPbjDetailController::class);
     });
@@ -446,6 +460,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [\App\Http\Controllers\Timppk\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Timppk\PengajuanPbjController::class);
         Route::resource('pengajuan-pbj-proses', \App\Http\Controllers\Timppk\ProsesPbjController::class)->except('show');
+        Route::put('pengajuan-pbj/update-proses/{id}', [\App\Http\Controllers\Timppk\PengajuanPbjController::class,'update_proses'])->name('pengajuan-pbj.update-proses');
 
         Route::controller(\App\Http\Controllers\Timppk\FormNonPbjController::class)->group(function () {
             Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
@@ -481,4 +496,14 @@ Route::middleware('auth')->group(function () {
             Route::delete('/surat-non-pbj-spj-detail/{uuid}', 'destroy')->name('surat-non-pbj-spj-detail.destroy');
         });
     });
+    Route::name('supir.')->prefix('supir')->middleware('role:Supir')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Supir\DashboardController::class, 'index'])->name('dashboard');
+    });
+
+
+    Route::name('pengelola-keuangan.')->prefix('pengelola-keuangan')->middleware('role:Pengelola Keuangan')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Pengelolakeuangan\DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('pengajuan-pbj', \App\Http\Controllers\Pengelolakeuangan\PbjController::class)->only('index', 'show');
+    });
+
 });

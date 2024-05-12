@@ -2,43 +2,67 @@
 @section('content')
     <div class="row">
         <div class="col-md">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('pengadministrasi-umum.pengajuan-pbj.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Detail Pengajuan Form Non PBJ</h4>
+                    <h4 class="card-title mb-5">Detail Pengajuan PBJ</h4>
                     <ul class="list-inline">
-                        <li class="list-item mb-4 d-flex justify-content-between">
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
                             <span>Nomor Surat</span>
                             <span>{{ $item->nomor_surat }}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
                             <span>Nomor Agenda</span>
                             <span>{{ $item->nomor_agenda }}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
                             <span>Tanggal</span>
-                            <span>{{ $item->tanggal }}</span>
+                            <span>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
                             <span>Perihal</span>
                             <span>{{ $item->perihal }}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Pelaksana</span>
-                            <div>
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
+                            <span>Dokumen surat</span>
+                            <span>
+                                <a href="{{ $item->getFileDokumen() }}" target="_blank" class="btn btn-success btn-sm">Lihat
+                                    Dokumen</a>
+                            </span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
+                            <span>Lampiran</span>
+                            <span>
                                 <ol class="list-group">
-                                    @foreach ($item->pelaksana as $pelaksana)
+                                    @foreach ($item->lampiranpbj as $lampiranpbj)
                                         <li>
-                                            {{ $pelaksana->karyawan->nama }}
+                                            <a href="{{ $lampiranpbj->getFile() }}" target="_blank"
+                                                class="btn btn-success btn-sm mt-2">Lihat Lampiran</a>
                                         </li>
                                     @endforeach
                                 </ol>
-                            </div>
+                            </span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Aksi</span>
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
+                            <span>Pengusul</span>
                             <div>
-                                <a href="{{ route('pengadministrasi-umum.pengajuan-pbj.index') }}"
-                                    class="btn btn-sm btn-warning">Kembali</a>
+                                <ol class="list-group">
+                                    @foreach ($item->pengusul as $pengusul)
+                                        <li>
+                                            {{ $pengusul->karyawan->nama }}
+                                        </li>
+                                    @endforeach
+                                </ol>
                             </div>
                         </li>
                     </ul>

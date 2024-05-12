@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('instansi')->nullable();
             $table->string('mata_anggaran_kegiatan')->nullable();
             $table->string('keterangan_lain_lain')->nullable();
+            $table->string('dikeluarkan_di')->nullable();
             $table->timestamps();
         });
     }

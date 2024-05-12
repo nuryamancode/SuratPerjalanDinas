@@ -22,7 +22,6 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
     @stack('styles')
-    @vite(['resources/js'])
     <style>
         .icon-large {
             font-size: 1.2rem;

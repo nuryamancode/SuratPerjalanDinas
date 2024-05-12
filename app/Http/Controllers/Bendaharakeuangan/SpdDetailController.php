@@ -13,7 +13,7 @@ class SpdDetailController extends Controller
 {
     public function edit($uuid)
     {
-        $item = SuratPerjalananDinasDetail::where('uuid', $uuid)->firstOrFail();
+        $item = SuratPerjalananDinasDetail::where('id', $uuid)->firstOrFail();
         return view('bendahara-keuangan.pages.spd-detail.edit', [
             'title' => 'Edit Data',
             'item' => $item
@@ -22,7 +22,7 @@ class SpdDetailController extends Controller
 
     public function update($uuid)
     {
-        $item = SuratPerjalananDinasDetail::where('uuid', $uuid)->firstOrFail();
+        $item = SuratPerjalananDinasDetail::where('id', $uuid)->firstOrFail();
         $data = request()->all();
         if (request('lama_perjalanan')) {
             $data['tanggal_harus_kembali'] = Carbon::parse(request('tanggal_berangkat'))->addDays(request('lama_perjalanan'));
@@ -48,7 +48,7 @@ class SpdDetailController extends Controller
 
     public function print($uuid)
     {
-        $item = SuratPerjalananDinasDetail::where('uuid', $uuid)->firstOrFail();
+        $item = SuratPerjalananDinasDetail::where('id', $uuid)->firstOrFail();
         $ppk = User::role('Pejabat Pembuat Komitmen')->first()->karyawan;
         return view('bendahara-keuangan.pages.spd-detail.print', [
             'title' => 'Cetak SPD',

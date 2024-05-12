@@ -16,6 +16,14 @@ return new class extends Migration
             $table->foreignId('surat_id')->constrained('surat');
             $table->string('tipe')->nullable();
             $table->string('status')->nullable();
+            $table->text('instruksi')->nullable();
+            $table->integer('verifikasi_wadir2')->default(0);
+            $table->boolean('validasi_pemberangkatan')->default(0);
+            $table->integer('acc_ppk')->default(0);
+            $table->text('keterangan_acc_ppk')->nullable();
+            $table->integer('verifikasi_ppk')->default(0);
+            $table->boolean('is_arsip')->default(0);
+            $table->foreignId('validasi_karyawan_id')->nullable()->constrained('karyawan');
             $table->timestamps();
         });
     }

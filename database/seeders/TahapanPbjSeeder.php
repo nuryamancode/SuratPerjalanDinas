@@ -15,11 +15,11 @@ class TahapanPbjSeeder extends Seeder
     {
         TahapanPbj::create(['nama' => 'Menerima Usulan dari User']);
         TahapanPbj::create(['nama' => 'Klarifikasi Awal HPS']);
-        TahapanPbj::create(['nama' => 'Penenruan HPS']);
+        TahapanPbj::create(['nama' => 'Penentuan HPS']);
         TahapanPbj::create(['nama' => 'Tayangan Simpel']);
         TahapanPbj::create(['nama' => 'Dokumen Pengadaan']);
         TahapanPbj::create(['nama' => 'Undangan Penyedia']);
-        TahapanPbj::create(['nama' => 'Berita Acara']);
+        TahapanPbj::create(['nama' => 'Berita Acara Evaluasi']);
         TahapanPbj::create(['nama' => 'Berita Acara Klarifikasi Dan Negosiasi Teknis Dan Biaya']);
         TahapanPbj::create(['nama' => 'Berita Acara Hasil Pengadaan Langsung (BAHPL)']);
         TahapanPbj::create(['nama' => 'Penetapan Pemenang Pengadaan Barang/Jasa']);

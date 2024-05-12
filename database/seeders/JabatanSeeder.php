@@ -17,7 +17,7 @@ class JabatanSeeder extends Seeder
             'nama' => 'Pengadministrasi Umum'
         ]);
         Jabatan::create([
-            'nama' => 'Pelaksana Perjalanan Dinas'
+            'nama' => 'Karyawan POLSUB'
         ]);
         Jabatan::create([
             'nama' => 'Bendahara Keuangan'
@@ -26,7 +26,22 @@ class JabatanSeeder extends Seeder
             'nama' => 'Pejabat Pembuat Komitmen'
         ]);
         Jabatan::create([
-            'nama' => 'Wakil DIrektur II'
+            'nama' => 'TIM Pejabat Pembuat Komitmen'
+        ]);
+        Jabatan::create([
+            'nama' => 'Wakil Direktur II'
+        ]);
+        Jabatan::create([
+            'nama' => 'Wakil Direktur I'
+        ]);
+        Jabatan::create([
+            'nama' => 'Kepala Bagian'
+        ]);
+        Jabatan::create([
+            'nama' => 'Pengelola Keuangan'
+        ]);
+        Jabatan::create([
+            'nama' => 'Supir'
         ]);
     }
 }

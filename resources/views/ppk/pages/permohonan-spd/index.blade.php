@@ -30,9 +30,9 @@
                                         <td>{{ $item->statusSpd() }}</td>
                                         <td>{{ $item->status }}</td>
                                         <td>
-                                            <a href="{{ route('ppk.permohonan-spd-disposisi.print', $item->uuid) }}"
+                                            <a href="{{ route('ppk.permohonan-spd-disposisi.print', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-secondary">Print</a>
-                                            <a href="{{ route('ppk.permohonan-spd.show', $item->uuid) }}"
+                                            <a href="{{ route('ppk.permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

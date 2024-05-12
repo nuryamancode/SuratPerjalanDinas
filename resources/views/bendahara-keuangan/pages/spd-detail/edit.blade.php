@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Edit Surat Perjalanan Dinas Detail</h4>
-                    <form action="{{ route('bendahara-keuangan.spd-detail.update', $item->uuid) }}" method="post"
+                    <form action="{{ route('bendahara-keuangan.spd-detail.update', $item->id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
                         @method('patch')

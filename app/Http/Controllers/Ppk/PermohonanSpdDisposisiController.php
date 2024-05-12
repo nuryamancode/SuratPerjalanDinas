@@ -14,7 +14,7 @@ class PermohonanSpdDisposisiController extends Controller
     public function index()
     {
         $permohonan_spd_uuid = request('permohonan_spd_uuid');
-        $permohonan = SuratPerjalananDinas::where('uuid', $permohonan_spd_uuid)->firstOrFail();
+        $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
         $items = Disposisi::where('surat_perjalanan_dinas_id', $permohonan->id)->where('pembuat_karyawan_id', auth()->user()->karyawan->id)->latest()->get();
         return view('ppk.pages.permohonan-spd-disposisi.index', [
             'title' => 'Permohonan SPD Disposisi',
@@ -26,7 +26,7 @@ class PermohonanSpdDisposisiController extends Controller
     {
         $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
         $permohonan_spd_uuid = request('permohonan_spd_uuid');
-        $permohonan = SuratPerjalananDinas::where('uuid', $permohonan_spd_uuid)->firstOrFail();
+        $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
         return view('ppk.pages.permohonan-spd-disposisi.create', [
             'title' => 'Permohonan SPD Disposisi',
             'permohonan' => $permohonan,
@@ -43,13 +43,13 @@ class PermohonanSpdDisposisiController extends Controller
         DB::beginTransaction();
         try {
             $permohonan_spd_uuid = request('permohonan_spd_uuid');
-            $permohonan = SuratPerjalananDinas::where('uuid', $permohonan_spd_uuid)->firstOrFail();
+            $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
             $data_tujuan = request('tujuan_karyawan_id');
             if ($data_tujuan) {
                 foreach ($data_tujuan as $tujuan) {
                     // cek terlebih dahulu datanya sudah ada atau belum
                     $cek = Disposisi::where([
-                        'surat_perjalanan_dinas_id' => $permohonan->uuid,
+                        'surat_perjalanan_dinas_id' => $permohonan->id,
                         'tujuan_karyawan_id' => $tujuan,
                         'pembuat_karyawan_id' => auth()->user()->karyawan->id
                     ])->count();
@@ -71,7 +71,7 @@ class PermohonanSpdDisposisiController extends Controller
 
             DB::commit();
             return redirect()->route('ppk.permohonan-spd-disposisi.index', [
-                'permohonan_spd_uuid' => $permohonan->uuid
+                'permohonan_spd_uuid' => $permohonan->id
             ])->with('success', 'Disposisi Berhasil disimpan.');
         } catch (\Throwable $th) {
             throw $th;

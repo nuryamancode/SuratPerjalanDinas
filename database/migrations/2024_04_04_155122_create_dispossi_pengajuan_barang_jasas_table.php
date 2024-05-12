@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengajuan_barang_jasa_disposisi', function (Blueprint $table) {
+        Schema::create('pbj_disposisi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengajuan_barang_jasa_id')->constrained('pengajuan_barang_jasa');
-            $table->string('tipe');
-            $table->text('catatan')->nullable();
-            $table->foreignId('pembuat_karyawan_id')->constrained('karyawan');
-            $table->foreignId('tujuan_karyawan_id')->constrained('karyawan');
+            $table->foreignId('pbj_id')->constrained('pbj');
+            $table->string('tipe_disposisi')->nullable();
+            $table->text('catatan_disposisi_1')->nullable();
+            $table->text('catatan_disposisi_2')->nullable();
+            $table->foreignId('teruskan_ke_1')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->foreignId('teruskan_ke_2')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->foreignId('pelaksana_belanja')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->foreignId('pembuat_disposisi_1')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->foreignId('pembuat_disposisi_2')->nullable()->constrained('karyawan')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengajuan_barang_jasa_disposisi');
+        Schema::dropIfExists('pbj_diposisi');
     }
 };

@@ -36,8 +36,9 @@ class PermohonanSpdController extends Controller
         }
         $item->update([
             'verifikasi_wadir2' => 1,
-            'status' => 'Menunggu Persetujuan PPK'
+            'status' => 'Menunggu Persetujuan PPK',
         ]);
+
 
         return redirect()->back()->with('success', 'Permohonan Surat Perjalanan Dinas Berhasil diverifikasi.');
     }

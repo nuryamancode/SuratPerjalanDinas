@@ -14,13 +14,10 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pelaksana</th>
+                                    <th>Tanggal Surat</th>
+                                    <th>Pengusul</th>
                                     <th>Status Surat</th>
-                                    <th>Verifikasi Wadir I</th>
-                                    <th>Status Uang Muka</th>
-                                    <th>Tahapan Terakhir</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -30,29 +27,18 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
                                         <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
                                             <ul>
-                                                @foreach ($item->pelaksana as $pelaksana)
-                                                    <li>{{ $pelaksana->karyawan->nama ?? '-' }}</li>
+                                                @foreach ($item->pengusul as $pengusul)
+                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusVerifikasiWadir1() }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
-                                        <td>{{ $item->proses ? $item->proses->first()->tahapan->nama ?? '-' : '-' }}</td>
+                                        <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            @if ($item->verifikasi_wadir1 == 0)
-                                                <form
-                                                    action="{{ route('wakil-direktur-i.pengajuan-pbj.verifikasi', $item->uuid) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn btn-sm py-2 btn-success">Set Verifikasi</button>
-                                                </form>
-                                            @endif
-                                            <a href="{{ route('wakil-direktur-i.pengajuan-pbj.show', $item->uuid) }}"
+                                            <a href="{{ route('wakil-direktur-i.pengajuan-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

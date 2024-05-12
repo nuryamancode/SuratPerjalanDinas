@@ -44,26 +44,26 @@ class LoginController extends Controller
             return redirect()->route('pengadministrasi-umum.dashboard');
         } else if (auth()->user()->getRoleNames()->first() === 'Wakil Direktur II') {
             return redirect()->route('wakil-direktur-ii.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
-            return redirect()->route('ppk.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
-            return redirect()->route('bendahara-keuangan.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Perjalanan Dinas') {
-            return redirect()->route('pelaksana-spd.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pengusul') {
-            return redirect()->route('pengusul.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pelaksana Belanja') {
-            return redirect()->route('pelaksana-belanja.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Wakil Direktur I') {
             return redirect()->route('wakil-direktur-i.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
+            return redirect()->route('bendahara-keuangan.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pengelola Keuangan') {
+            return redirect()->route('pengelola-keuangan.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Supir') {
+            return redirect()->route('supir.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Karyawan') {
             return redirect()->route('karyawan.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Kabag') {
+        } elseif (auth()->user()->getRoleNames()->first() === 'Kepala Bagian') {
             return redirect()->route('kabag.dashboard');
+        } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
+            return redirect()->route('ppk.dashboard');
         } elseif (auth()->user()->getRoleNames()->first() === 'Tim PPK') {
             return redirect()->route('timppk.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'superadmin ') {
+        } elseif (auth()->user()->getRoleNames()->first() === 'Admin') {
             return redirect()->route('dashboard');
+        } else {
+            return redirect()->route('login');
         }
     }
 }

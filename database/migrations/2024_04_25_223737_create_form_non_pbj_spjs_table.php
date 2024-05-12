@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('form_non_pbj_spj', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
+            $table->integer('acc_ppk')->default(0);
+            $table->text('keterangan_ppk')->nullable();
             $table->foreignId('form_non_pbj_id')->constrained('form_non_pbj')->cascadeOnDelete();
             $table->string('untuk_pembayaran');
             $table->timestamps();

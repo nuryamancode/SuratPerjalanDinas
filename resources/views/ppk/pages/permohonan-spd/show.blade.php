@@ -83,19 +83,19 @@
                                     <a href="{{ route('ppk.permohonan-spd.index') }}"
                                         class="btn btn-sm btn-warning">Kembali</a>
                                     @if ($item->acc_ppk == 0)
-                                        <form action="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
+                                        <form action="{{ route('ppk.permohonan-spd.acc-ppk', $item->id) }}"
                                             method="post" class="d-inline" id="formAcc">
                                             @csrf
                                             <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
                                             <button class="btn py-2  btn-sm btn-success" name="status"
                                                 value="1">Terima</button>
-                                            <button data-url="{{ route('ppk.permohonan-spd.acc-ppk', $item->uuid) }}"
+                                            <button data-url="{{ route('ppk.permohonan-spd.acc-ppk', $item->id) }}"
                                                 type="button" class="btn btnTolak py-2  btn-sm btn-danger" name="status"
                                                 value="2">Tolak</button>
                                         </form>
                                     @elseif($item->acc_ppk == 1)
                                         <a href="{{ route('ppk.permohonan-spd-disposisi.index', [
-                                            'permohonan_spd_uuid' => $item->uuid,
+                                            'permohonan_spd_uuid' => $item->id,
                                         ]) }}"
                                             class="btn btn-sm py-2 btn-info">Disposisi</a>
                                     @endif
@@ -103,7 +103,7 @@
                                         @if (count($item->details) > 0)
                                             @if ($item->verifikasi_ppk == 0)
                                                 <form
-                                                    action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->uuid) }}"
+                                                    action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->id) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     <button class="btn py-2  btn-sm btn-success" name="status">Set

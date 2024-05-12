@@ -8,16 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class PengajuanBarangJasaPengusul extends Model
 {
     use HasFactory;
-    protected $table = 'pengajuan_barang_jasa_pengusul';
+    protected $table = 'pbj_pengusul';
+    protected $fillable = [
+        'pbj_id',
+        'pengusul_id',
+    ];
     protected $guarded = ['id'];
 
     public function karyawan()
     {
-        return $this->belongsTo(Karyawan::class);
+        return $this->belongsTo(Karyawan::class, 'pengusul_id','id');
     }
 
     public function pengajuan()
     {
-        return $this->belongsTo(PengajuanBarangJasa::class, 'pengajuan_barang_jasa_id', 'id');
+        return $this->belongsTo(PengajuanBarangJasa::class, 'pbj_id', 'id');
     }
 }

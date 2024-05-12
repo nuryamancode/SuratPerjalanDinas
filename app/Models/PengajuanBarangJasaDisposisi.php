@@ -8,21 +8,44 @@ use Illuminate\Database\Eloquent\Model;
 class PengajuanBarangJasaDisposisi extends Model
 {
     use HasFactory;
-    protected $table = 'pengajuan_barang_jasa_disposisi';
+    protected $table = 'pbj_disposisi';
+    protected $fillable = [
+        'pbj_id',
+        'tipe_disposisi',
+        'catatan_disposisi_1',
+        'catatan_disposisi_2',
+        'pembuat_disposisi_1',
+        'pembuat_disposisi_2',
+        'teruskan_ke_1',
+        'teruskan_ke_2',
+        'pelaksana_belanja',
+    ];
     protected $guarded = ['id'];
 
-    public function tujuan()
-    {
-        return $this->belongsTo(Karyawan::class, 'tujuan_karyawan_id', 'id');
-    }
-
-    public function pembuat()
-    {
-        return $this->belongsTo(Karyawan::class, 'pembuat_karyawan_id', 'id');
-    }
 
     public function pengajuan_barang_jasa()
     {
-        return $this->belongsTo(PengajuanBarangJasa::class, 'pengajuan_barang_jasa_id', 'id');
+        return $this->belongsTo(PengajuanBarangJasa::class, 'pbj_id', 'id');
     }
+    public function teruskan1()
+    {
+        return $this->belongsTo(Karyawan::class, 'teruskan_ke_1', 'id');
+    }
+    public function teruskan2()
+    {
+        return $this->belongsTo(Karyawan::class, 'teruskan_ke_2', 'id');
+    }
+    public function pembuat1()
+    {
+        return $this->belongsTo(Karyawan::class, 'pembuat_disposisi_1', 'id');
+    }
+    public function pembuat2()
+    {
+        return $this->belongsTo(Karyawan::class, 'pembuat_disposisi_2', 'id');
+    }
+    public function pbj()
+    {
+        return $this->hasOne(PengajuanBarangJasa::class, 'id')->latest();
+    }
+
 }

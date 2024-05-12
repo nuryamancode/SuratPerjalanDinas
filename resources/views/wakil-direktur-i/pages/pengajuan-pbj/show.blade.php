@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('wakil-direktur-i.pengajuan-pbj.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Detail Pengajuan Form Non PBJ</h4>
@@ -32,13 +43,6 @@
                                         </li>
                                     @endforeach
                                 </ol>
-                            </div>
-                        </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Aksi</span>
-                            <div>
-                                <a href="{{ route('wakil-direktur-i.pengajuan-pbj.index') }}"
-                                    class="btn btn-sm btn-warning">Kembali</a>
                             </div>
                         </li>
                     </ul>

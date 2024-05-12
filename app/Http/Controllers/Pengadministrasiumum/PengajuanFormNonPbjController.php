@@ -14,7 +14,7 @@ class PengajuanFormNonPbjController extends Controller
     {
         $items = PengajuanBarangJasa::formNonPbj()->latest()->get();
         return view('pengadministrasi-umum.pages.pengajuan-form-non-pbj.index', [
-            'title' => 'Pengajuan Form Non PBJ',
+            'title' => 'Pengajuan Non PBJ Formulir',
             'items' => $items
         ]);
     }
@@ -23,7 +23,7 @@ class PengajuanFormNonPbjController extends Controller
     {
         $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
         return view('pengadministrasi-umum.pages.pengajuan-form-non-pbj.create', [
-            'title' => 'Tambah Pengajuan Form Non PBj',
+            'title' => 'Tambah Pengajuan Non PBJ Formulir',
             'data_karyawan' => $data_karyawan
         ]);
     }

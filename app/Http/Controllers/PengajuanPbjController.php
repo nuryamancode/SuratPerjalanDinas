@@ -81,7 +81,7 @@ class PengajuanPbjController extends Controller
 
     public function show($uuid)
     {
-        $item = PengajuanBarangJasa::pbj()->where('uuid', $uuid)->firstOrFail();
+        $item = PengajuanBarangJasa::pbj()->where('id', $uuid)->firstOrFail();
         return view('pages.pengajuan-pbj.show', [
             'title' => 'Detail Pengajuan PBJ',
             'item' => $item
@@ -90,7 +90,7 @@ class PengajuanPbjController extends Controller
 
     public function edit($uuid)
     {
-        $item = PengajuanBarangJasa::pbj()->where('uuid', $uuid)->firstOrFail();
+        $item = PengajuanBarangJasa::pbj()->where('id', $uuid)->firstOrFail();
         return view('pages.pengajuan-pbj.edit', [
             'title' => 'Edit Pengajuan PBJ',
             'item' => $item,

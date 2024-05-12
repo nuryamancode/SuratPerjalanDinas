@@ -25,7 +25,7 @@
                             <p class="mb-4">Jumlah Permission</p>
                             <p class="fs-30 mb-2">{{ $count['permission'] }}</p>
                         </div>
-                    </div>u
+                    </div>
                 </div>
             </div>
         </div>

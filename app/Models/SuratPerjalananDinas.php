@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Dotenv\Util\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,18 +10,21 @@ class SuratPerjalananDinas extends Model
 {
     use HasFactory;
     protected $table = 'surat_perjalanan_dinas';
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'verifikasi_wadir2',
+        'verifikasi_ppk',
+        'status'
+    ];
 
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (!$model->uuid) {
-                $model->uuid = \Str::uuid();
-            }
-        });
-    }
+    // protected static function boot()
+    // {
+    //     parent::boot();
+    //     static::creating(function ($model) {
+    //         if (!$model->uuid) {
+    //             $model->uuid = Str::uuid();
+    //         }
+    //     });
+    // }
     public function surat()
     {
         return $this->belongsTo(Surat::class);

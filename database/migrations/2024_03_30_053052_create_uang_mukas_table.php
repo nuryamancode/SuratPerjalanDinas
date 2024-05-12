@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('uang_muka', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('surat_perjalanan_dinas_id')->constrained('surat_perjalanan_dinas')->cascadeOnDelete();
             $table->bigInteger('nominal');
+            $table->foreignId('spd_detail_id')->nullable()->constrained('surat_perjalanan_dinas_detail');
             $table->timestamps();
         });
     }
