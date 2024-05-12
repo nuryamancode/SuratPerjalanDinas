@@ -23,12 +23,12 @@ class PengajuanPbjController extends Controller
 
     public function create()
     {
-        $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
-        // $data_karyawan2 = Karyawan::whereHas('user', function ($q) {
-        //     $q->whereHas('roles', function ($role) {
-        //         $role->whereIn('name', ['Wakil Direktur II']);
-        //     });
-        // })->orderBy('nama', 'ASC')->get();
+        // $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
+        $data_karyawan = Karyawan::whereHas('user', function ($q) {
+            $q->whereHas('roles', function ($role) {
+                $role->whereNotIn('name', ['Supir']);
+            });
+        })->orderBy('nama', 'ASC')->get();
         return view('pengadministrasi-umum.pages.pengajuan-pbj.create', [
             'title' => 'Tambah Pengajuan PBj',
             'data_karyawan' => $data_karyawan,
@@ -82,7 +82,6 @@ class PengajuanPbjController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
@@ -157,7 +156,6 @@ class PengajuanPbjController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
