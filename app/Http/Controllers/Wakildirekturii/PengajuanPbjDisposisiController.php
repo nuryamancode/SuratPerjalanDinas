@@ -37,6 +37,20 @@ class PengajuanPbjDisposisiController extends Controller
         ];
         return view('wakil-direktur-ii.pages.pengajuan-pbj-disposisi.create', $data);
     }
+    public function edit($id)
+    {
+        $role = 'Pejabat Pembuat Komitmen';
+        $data_karyawan = Karyawan::whereHas('user.roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        })->get();
+        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $data = [
+            'title' => 'Pengajuan PBJ Disposisi',
+            'item' => $item,
+            'data_karyawan' => $data_karyawan,
+        ];
+        return view('wakil-direktur-ii.pages.pengajuan-pbj-disposisi.edit', $data);
+    }
     public function detail()
     {
         if (request()->ajax()) {
@@ -54,6 +68,7 @@ class PengajuanPbjDisposisiController extends Controller
             $pengajuan->disposisi_pbj()->create([
                 'pbj_id' => $pengajuan->id,
                 'catatan_disposisi_1' => request('catatan_disposisi'),
+                'tipe_disposisi_1' => request('tipe_disposisi'),
                 'teruskan_ke_1' => request('teruskan_ke'),
                 'pembuat_disposisi_1' => auth()->user()->karyawan->id,
             ]);
@@ -77,34 +92,25 @@ class PengajuanPbjDisposisiController extends Controller
         return redirect()->back()->with('success', 'Disposisi Berhasil Dihapus.');
     }
 
-    public function stosdhshre($id)
+    public function update($id)
     {
-        request()->validate([
-            'tujuan_karyawan_id' => ['array', 'min:1'],
-            'tujuan_karyawan_id.*' => ['required']
-        ]);
 
         DB::beginTransaction();
         try {
             $pengajuan  = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
-            $data_tujuan = request('tujuan_karyawan_id');
-            if ($data_tujuan) {
-                foreach ($data_tujuan as $tujuan) {
-                    $pengajuan->disposisis()->create([
-                        'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                        'tujuan_karyawan_id' => $tujuan,
-                        'tipe' => request('tipe'),
-                        'catatan' => request('catatan')
-                    ]);
-                }
-            }
-
+            $pengajuan->disposisi_pbj()->update([
+                'pbj_id'=> $pengajuan->id,
+                'catatan_disposisi_1' => request('catatan_disposisi'),
+                'tipe_disposisi_1' => request('tipe_disposisi'),
+                'teruskan_ke_1' => request('teruskan_ke'),
+            ]);
             $pengajuan->update([
-                'status' => 'Pemeriksaan PPK'
+                'status_surat' => 'Menunggu Persetujuan PPK',
+                'acc_wadir2' => '1'
             ]);
 
             DB::commit();
-            return redirect()->route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $pengajuan->uuid)->with('success', 'Disposisi Berhasil disimpan.');
+            return redirect()->route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $pengajuan->id)->with('success', 'Disposisi Berhasil diubah.');
         } catch (\Throwable $th) {
             throw $th;
         }

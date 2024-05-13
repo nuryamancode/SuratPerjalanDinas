@@ -81,8 +81,7 @@ class PengajuanPbjController extends Controller
         try {
             $items = PengajuanBarangJasaDisposisi::where('id', $id)->firstOrFail();
             $items->update([
-                'tipe_disposisi' => request('tipe_disposisi'),
-                'pelaksana_belanja' => request('pelaksana_belanja'),
+                'tipe_disposisi_2' => request('tipe_disposisi'),
                 'catatan_disposisi_2' => request('catatan_disposisi'),
                 'teruskan_ke_2' => request('teruskan_ke'),
                 'pembuat_disposisi_2' => auth()->user()->karyawan->id,

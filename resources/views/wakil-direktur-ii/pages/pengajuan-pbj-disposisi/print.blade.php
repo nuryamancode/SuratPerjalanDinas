@@ -112,14 +112,14 @@
     </div>
     <div class="line2">
         <div class="checkboxes">
-            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->disposisi_pbj->tipe_disposisi === 'Terbatas Biasa') checked @endif>
+            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->disposisi_pbj->tipe_disposisi_1 === 'Terbatas Biasa') checked @endif>
             <label for="terbatas_rahasia">Terbatas Biasa</label>
-            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->disposisi_pbj->tipe_disposisi === 'Rahasia') checked @endif>
+            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->disposisi_pbj->tipe_disposisi_1 === 'Rahasia') checked @endif>
             <label for="rahasia">Rahasia</label>
             <input type="checkbox" id="terbatas_rahasia" name="terbatas_rahasia"
-                @if ($item->disposisi_pbj->tipe_disposisi === 'Segera') checked @endif>
+                @if ($item->disposisi_pbj->tipe_disposisi_1 === 'Segera') checked @endif>
             <label for="segera">Segera</label>
-            <input type="checkbox" id="segera" name="segera" @if ($item->disposisi_pbj->tipe_disposisi === 'Sangat Segera') checked @endif>
+            <input type="checkbox" id="segera" name="segera" @if ($item->disposisi_pbj->tipe_disposisi_1 === 'Sangat Segera') checked @endif>
             <label for="sangat_segera">Sangat Segera</label>
         </div>
     </div>
@@ -163,7 +163,7 @@
                 <td>
                     <div class="checkboxes-left">
                         <input type="checkbox" checked id="arsip" name="arsip">
-                        <label for="arsip">{{ $item->disposisi_pbj->teruskan1->nama }}</label>
+                        <label for="arsip">{{ $item->disposisi_pbj->teruskan1->jabatan->nama }}</label>
                     </div>
                 </td>
             </tr>
@@ -174,7 +174,7 @@
                 <td><b>Intruksi/informasi</b></td>
             </div>
             <div>
-                <td>{{ $item->disposisi_pbj->catatan_disposisi ?? '-' }}</td>
+                <td>{{ $item->disposisi_pbj->catatan_disposisi_1 ?? '-' }}</td>
             </div>
         </div>
     </div>

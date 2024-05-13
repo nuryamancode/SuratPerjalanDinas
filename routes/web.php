@@ -305,13 +305,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/pengajuan-pbj/{id}', 'show')->name('pengajuan-pbj.show');
             Route::put('pengajuan-pbj/acc/{id}', 'acc')->name('pengajuan-pbj.acc');
             Route::post('pengajuan-pbj/verifikasi/{id}', 'verifikasi')->name('pengajuan-pbj.verifikasi');
-            // Route::get('pengajuan-pbj/print/{id}', 'print')->name('pengajuan-pbj.print');
             Route::put('pengajuan-pbj/tolak/{id}', 'tolak')->name('pengajuan-pbj.tolak');
         });
         Route::get('permohonan-pbj-print/{id}', [App\Http\Controllers\Wakildirekturii\PengajuanPbjController::class, 'print_disposisi'])->name('pengajuan-pbj.print');
 
         Route::get('pengajuan-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'index'])->name('pengajuan-pbj-disposisi.index');
         Route::get('pengajuan-pbj/{id}/disposisi/create', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'create'])->name('pengajuan-pbj-disposisi.create');
+        Route::get('pengajuan-pbj/{id}/disposisi/edit', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'edit'])->name('pengajuan-pbj-disposisi.edit');
+        Route::put('pengajuan-pbj/{id}/disposisi/update', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'update'])->name('pengajuan-pbj-disposisi.update');
         Route::post('pengajuan-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'store'])->name('pengajuan-pbj-disposisi.store');
         Route::delete('pengajuan-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\PengajuanPbjDisposisiController::class, 'destroy'])->name('pengajuan-pbj-disposisi.destroy');
 

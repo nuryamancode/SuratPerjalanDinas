@@ -16,9 +16,10 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Disposisi Pengajuan PBJ</h4>
-                    <form action="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.store', $item->id) }}" method="post"
+                    <form action="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.update', $item->id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('put')
                         <input type="hidden" name="pbj_id" value="{{ $item->id }}">
                         <div class='form-group mb-3'>
                             <label for='nomor_surat' class='mb-2'>Nomor Surat</label>
@@ -78,12 +79,26 @@
                         <div class='form-group'>
                             <label for='teruskan_ke'>Diteruskan Ke</label>
                             <select name='teruskan_ke' id='teruskan_ke' class='form-control'>
-                                <option value='' selected disabled>Pilih PPK</option>
+                                {{--  <option value='' selected disabled>
+                                    {{ $item->disposisi_pbj->teruskan1->nama ?? '-' }} -
+                                    {{ $item->disposisi_pbj->teruskan1->jabatan->nama }}
+                                </option>  --}}
                                 @foreach ($data_karyawan as $items)
-                                    <option value='{{ $items->id }}'>{{ $items->nama }} - {{ $items->jabatan->nama }}
+                                    @php
+                                        $selected = '';
+                                        if (
+                                            $items->id == old('teruskan_ke') ||
+                                            $items->id == $item->disposisi_pbj->teruskan1->id
+                                        ) {
+                                            $selected = 'selected';
+                                        }
+                                    @endphp
+                                    <option {{ $selected }} value='{{ $items->id }}'>
+                                        {{ $items->nama }} - {{ $items->jabatan->nama }}
                                     </option>
                                 @endforeach
                             </select>
+
                             @error('teruskan_ke')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -92,14 +107,14 @@
                         </div>
                         <div class='form-group'>
                             <label for='tipe_diposisi'>Tipe Disposisi</label>
-                            <select name='tipe_disposisi' id='tipe_disposisi'
-                                class='form-control @error('tipe_disposisi') is-invalid @enderror'>
-                                <option value='' selected disabled>Pilih tipe</option>
-                                <option @selected(old('tipe_disposisi') === 'Rahasia') value="Rahasia">Rahasia</option>
-                                <option @selected(old('tipe_disposisi') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
-                                <option @selected(old('tipe_disposisi') === 'Segera') value="Segera">Segera</option>
-                                <option @selected(old('tipe_disposisi') === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
+                            <select name='tipe_disposisi' id='tipe_disposisi' class='form-control @error('tipe_disposisi') is-invalid @enderror'>
+                                {{--  <option value='' selected disabled>Pilih tipe</option>  --}}
+                                <option {{ $item->disposisi_pbj->tipe_disposisi_1 === 'Rahasia' ? 'selected' : '' }} value="Rahasia">Rahasia</option>
+                                <option {{ $item->disposisi_pbj->tipe_disposisi_1 === 'Terbatas Biasa' ? 'selected' : '' }} value="Terbatas Biasa">Terbatas Biasa</option>
+                                <option {{ $item->disposisi_pbj->tipe_disposisi_1 === 'Segera' ? 'selected' : '' }} value="Segera">Segera</option>
+                                <option {{ $item->disposisi_pbj->tipe_disposisi_1 === 'Sangat Segera' ? 'selected' : '' }} value="Sangat Segera">Sangat Segera</option>
                             </select>
+
                             @error('tipe_disposisi')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -109,7 +124,7 @@
                         <div class='form-group mb-3'>
                             <label for='catatan_disposisi' class='mb-2'>Catatan Disposisi</label>
                             <textarea name='catatan_disposisi' id='catatan_disposisi' cols='30' rows='3' placeholder="isi jika ada"
-                                class='form-control @error('catatan_disposisi') is-invalid @enderror'>{{ old('catatan_disposisi') }}</textarea>
+                                class='form-control @error('catatan_disposisi') is-invalid @enderror'>{{ $item->disposisi_pbj->catatan_disposisi_1 }}</textarea>
                             @error('catatan_disposisi')
                                 <div class='invalid-feedback'>
                                     {{ $message }}

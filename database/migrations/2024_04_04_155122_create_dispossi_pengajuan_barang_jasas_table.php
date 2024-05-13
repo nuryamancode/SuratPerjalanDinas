@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('pbj_disposisi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pbj_id')->constrained('pbj');
-            $table->string('tipe_disposisi')->nullable();
+            $table->string('tipe_disposisi_1')->nullable();
+            $table->string('tipe_disposisi_2')->nullable();
             $table->text('catatan_disposisi_1')->nullable();
             $table->text('catatan_disposisi_2')->nullable();
             $table->foreignId('teruskan_ke_1')->nullable()->constrained('karyawan')->cascadeOnDelete();

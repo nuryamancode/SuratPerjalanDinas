@@ -81,6 +81,18 @@
                                 </div>
                             </li>
                         @endif
+                        @if ($item->acc_wadir2 == '1')
+                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
+                            <span>Aksi</span>
+                            <div>
+                            </div>
+                            <div>
+                                <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $item->id) }}"
+                                    class="btn btn-sm py-2 btnTolak btn-primary">Lihat Disposisi</a>
+                            </div>
+                        </li>
+
+                        @endif
                     </ul>
                 </div>
             </div>

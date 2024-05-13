@@ -76,22 +76,7 @@
                             @enderror
                         </div>
                         <div class='form-group'>
-                            <label for='pelaksana_belanja'>Pelaksana Belanja</label>
-                            <select name='pelaksana_belanja' id='pelaksana_belanja' class='form-control'>
-                                <option value='' selected disabled>Pilih Pelaksana</option>
-                                @foreach ($data_karyawan as $items)
-                                    <option value='{{ $items->id }}'>{{ $items->nama }} - {{ $items->jabatan->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('pelaksana_belanja')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group'>
-                            <label for='teruskan_ke'>Diteruskan Ke</label>
+                            <label for='teruskan_ke'>Pelaksana Belanja</label>
                             <select name='teruskan_ke' id='teruskan_ke' class='form-control'>
                                 <option value='' selected disabled>Pilih Tim PPK</option>
                                 @foreach ($data_karyawanrole as $items)

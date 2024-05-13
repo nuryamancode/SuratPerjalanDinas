@@ -77,12 +77,23 @@
                                     <div class="col-6">
                                         <div class='form-group'>
                                             <select name='tahapan' id='tahapan' class='form-control'>
-                                                <option value='' selected disabled>Pilih Tahapan Proses</option>
-                                                @foreach ($data_tahapan as $item)
+                                                @php
+                                                    $selected = '';
+                                                    if (
+                                                        $item->id == old('tahapan') ||
+                                                        $item->id == $item->pengajuan_barang_jasa->status_surat
+                                                    ) {
+                                                        $selected = 'selected';
+                                                    }
+                                                @endphp
+                                                @if ($selected != '')
+                                                    <option value='' selected disabled>Pilih Tahapan Proses</option>
+                                                @endif
+                                                @foreach ($data_tahapan as $items)
                                                     <ol>
                                                         <li>
-                                                            <option @selected($item->nama == old('tahaoan')) value="{{ $item->nama }}">
-                                                                {{ $item->nama }}
+                                                            <option {{ $selected }} value="{{ $items->nama }}">
+                                                                {{ $items->nama }}
                                                             </option>
                                                         </li>
                                                     </ol>

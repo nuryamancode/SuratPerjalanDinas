@@ -11,7 +11,8 @@ class PengajuanBarangJasaDisposisi extends Model
     protected $table = 'pbj_disposisi';
     protected $fillable = [
         'pbj_id',
-        'tipe_disposisi',
+        'tipe_disposisi_1',
+        'tipe_disposisi_2',
         'catatan_disposisi_1',
         'catatan_disposisi_2',
         'pembuat_disposisi_1',

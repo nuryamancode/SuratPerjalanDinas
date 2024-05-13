@@ -17,8 +17,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Disposisi Pengajuan PBJ</h4>
-                        <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.create', $pengajuan->id) }}"
-                            class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                        @if ($pengajuan->acc_wadir2 == '0')
+                            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.create', $pengajuan->id) }}"
+                                class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                        @endif
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -32,7 +34,9 @@
                                     <th>Diteruskan Kepada</th>
                                     {{--  <th>Tipe Disposisi</th>
                                     <th>Catatan Disposisi</th>  --}}
-                                    <th>Aksi</th>
+                                    @if ($pengajuan->verifikasi_wadir2 == 0)
+                                        <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,15 +48,12 @@
                                         <td>{{ $item->pengajuan_barang_jasa->karyawan->nama }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>{{ $item->teruskan1->nama }}</td>
-                                        <td>
-                                            <form action="javascript:void(0)" method="post" class="d-inline"
-                                                id="formDelete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.destroy', $item->id) }}">Hapus</button>
-                                            </form>
-                                        </td>
+                                        @if ($pengajuan->verifikasi_wadir2 == 0)
+                                            <td>
+                                                <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.edit', $item->id) }}"
+                                                    class="btn btn-sm py-2 btn-warning">Edit</a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
