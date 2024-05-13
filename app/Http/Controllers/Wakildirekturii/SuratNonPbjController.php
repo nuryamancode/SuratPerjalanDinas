@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Wakildirekturii;
 
 use App\Http\Controllers\Controller;
+use App\Models\PengajuanBarangJasa;
 use App\Models\SuratNonPbj;
 use Illuminate\Http\Request;
 
@@ -10,16 +11,16 @@ class SuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = SuratNonPbj::where('verifikasi_kabag', 1)->orWhere('verifikasi_wadir1', 1)->latest()->get();
+        $items = PengajuanBarangJasa::suratNonPbj()->latest()->get();
         return view('wakil-direktur-ii.pages.surat-non-pbj.index', [
             'title' => 'Pengajuan Surat Non PBJ',
             'items' => $items
         ]);
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $item = SuratNonPbj::where('uuid', $uuid)->firstOrFail();
+        $item = PengajuanBarangJasa::suratNonPbj()->where('id', $id)->firstOrFail();
         return view('wakil-direktur-ii.pages.surat-non-pbj.show', [
             'title' => 'Detail Pengajuan Surat Non PBJ',
             'item' => $item

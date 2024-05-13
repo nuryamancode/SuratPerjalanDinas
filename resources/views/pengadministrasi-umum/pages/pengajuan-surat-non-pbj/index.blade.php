@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Pengajuan Non PBJ Surat</h4>
-                        <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.create') }}"
+                        <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.create') }}"
                             class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
                             Pengajuan Non PBJ Surat</a>
                     </div>
@@ -17,13 +17,10 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pelaksana</th>
+                                    <th>Tanggal Surat</th>
+                                    <th>Pengusul</th>
                                     <th>Status Surat</th>
-                                    <th>Acc Pengusul</th>
-                                    <th>Acc PPK</th>
-                                    <th>Status Uang Muka</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -33,31 +30,30 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
                                         <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
-                                            <ul>
-                                                @foreach ($item->pelaksana as $pelaksana)
-                                                    <li>{{ $pelaksana->karyawan->nama ?? '-' }}</li>
+                                            <ol>
+                                                @foreach ($item->pengusul as $pengusul)
+                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
                                                 @endforeach
-                                            </ul>
+                                            </ol>
                                         </td>
-                                        <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusVerifikasiPengusul() }}</td>
-                                        <td>{{ $item->statusAccPpk() }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.show', $item->uuid) }}"
+                                            <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.edit', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Edit</a>
-                                            <form action="javascript:void(0)" method="post" class="d-inline"
-                                                id="formDelete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.destroy', $item->uuid) }}">Hapus</button>
-                                            </form>
+                                            @if ($item->acc_wadir2 == 0 || $item->acc_wadir2 == 2)
+                                                <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.edit', $item->id) }}"
+                                                    class="btn btn-sm py-2 btn-info">Edit</a>
+                                                <form action="javascript:void(0)" method="post" class="d-inline"
+                                                    id="formDelete">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
+                                                        data-action="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.destroy', $item->id) }}">Hapus</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

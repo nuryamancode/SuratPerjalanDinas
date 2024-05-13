@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Wakildirekturii;
 
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
+use App\Models\PengajuanBarangJasa;
+use App\Models\PengajuanBarangJasaDisposisi;
 use App\Models\SuratNonPbj;
 use App\Models\SuratNonPbjDisposisi;
 use Illuminate\Http\Request;
@@ -11,20 +13,24 @@ use Illuminate\Support\Facades\DB;
 
 class SuratNonPbjDisposisiController extends Controller
 {
-    public function index($uuid)
+    public function index($id)
     {
-        $pengajuan = SuratNonPbj::where('uuid', $uuid)->firstOrFail();
-        $items = SuratNonPbjDisposisi::where('surat_non_pbj_id', $pengajuan->id)->latest()->get();
+        $pengajuan = PengajuanBarangJasa::where('id', $id)->firstOrFail();
+        $items = PengajuanBarangJasaDisposisi::where('pbj_id', $pengajuan->id)->latest()->get();
         return view('wakil-direktur-ii.pages.surat-non-pbj-disposisi.index', [
             'title' => 'Pengajuan Surat Non PBJ Disposisi',
             'items' => $items,
             'pengajuan' => $pengajuan
         ]);
     }
-    public function create($uuid)
+    public function create($id)
     {
-        $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
-        $item = SuratNonPbj::where('uuid', $uuid)->firstOrFail();
+        $data_karyawan = Karyawan::whereHas('user', function ($q) {
+            $q->whereHas('roles', function ($role) {
+                $role->where('name', ['Pejabat Pembuat Komitmen', 'Kepala Bagian', 'Wakil Direktur I']);
+            });
+        })->orderBy('nama', 'ASC')->get();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         return view('wakil-direktur-ii.pages.surat-non-pbj-disposisi.create', [
             'title' => 'Pengajuan Surat Non PBJ Disposisi',
             'item' => $item,
@@ -32,7 +38,7 @@ class SuratNonPbjDisposisiController extends Controller
         ]);
     }
 
-    public function store($pengajuan_uuid)
+    public function store($id)
     {
         request()->validate([
             'tujuan_karyawan_id' => ['array', 'min:1'],
@@ -41,12 +47,11 @@ class SuratNonPbjDisposisiController extends Controller
 
         DB::beginTransaction();
         try {
-            $pengajuan  = SuratNonPbj::where('uuid', $pengajuan_uuid)->firstOrFail();
+            $pengajuan  = SuratNonPbj::where('id', $id)->firstOrFail();
             $data_tujuan = request('tujuan_karyawan_id');
             if ($data_tujuan) {
                 foreach ($data_tujuan as $tujuan) {
                     $pengajuan->disposisis()->create([
-                        'uuid' => \Str::uuid(),
                         'pembuat_karyawan_id' => auth()->user()->karyawan->id,
                         'tujuan_karyawan_id' => $tujuan,
                         'tipe' => request('tipe'),

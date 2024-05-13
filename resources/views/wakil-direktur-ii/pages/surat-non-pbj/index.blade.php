@@ -14,11 +14,9 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
+                                    <th>Tanggal Surat</th>
                                     <th>Pengusul</th>
-                                    <td>Taksiran</td>
-                                    <th>Acc Wakdir 2</th>
                                     <th>Status Surat</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -29,47 +27,19 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
                                         <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
-                                            <ul>
+                                            <ol>
                                                 @foreach ($item->pengusul as $pengusul)
                                                     <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
                                                 @endforeach
-                                            </ul>
+                                            </ol>
                                         </td>
+                                        <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            {{ $item->details ? number_format($item->details()->sum('harga_satuan')) : '0' }}
-                                        </td>
-                                        <td>{!! $item->statusAccWadir2() !!}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>
-                                            @if ($item->acc_wadir2 == 1)
-                                                @if ($item->acc_wadir2 == 1)
-                                                    <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.index', $item->uuid) }}"
-                                                        class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                                @endif
-                                            @endif
-                                            <a href="{{ route('wakil-direktur-ii.surat-non-pbj.show', $item->uuid) }}"
+                                            <a href="{{ route('wakil-direktur-ii.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            <form action="{{ route('wakil-direktur-ii.surat-non-pbj.acc', $item->uuid) }}"
-                                                method="post" class="d-inline" id="formAcc">
-                                                @csrf
-                                                <textarea name="keterangan_wadir2" id="keterangan_wadir2" hidden cols="30" rows="10"></textarea>
-                                                @if ($item->acc_wadir2 == 0)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button
-                                                        data-url="{{ route('wakil-direktur-ii.surat-non-pbj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_wadir2 == 2)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                @endif
-                                            </form>
-                                            {{-- <a href="{{ route('wakil-direktur-ii.surat-non-pbj.edit', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Edit</a> --}}
                                         </td>
                                     </tr>
                                 @endforeach

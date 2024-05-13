@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Tambah Pengajuan Form Non PBJ</h4>
-                    <form action="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.store') }}" method="post"
+                    <form action="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.store') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
                         <div class='form-group mb-3'>
@@ -31,16 +31,6 @@
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='tanggal' class='mb-2'>Tanggal</label>
-                            <input type='date' name='tanggal' id='tanggal'
-                                class='form-control @error('tanggal') is-invalid @enderror' value='{{ old('tanggal') }}'>
-                            @error('tanggal')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group mb-3'>
                             <label for='perihal' class='mb-2'>Perihal</label>
                             <input type='text' name='perihal' id='perihal'
                                 class='form-control @error('perihal') is-invalid @enderror' value='{{ old('perihal') }}'>
@@ -50,18 +40,41 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class='form-group mb-3'>
+                            <label for='dokumen_surat' class='mb-2'>Dokumen Surat</label>
+                            <input type='file' name='dokumen_surat' id='dokumen_surat'
+                                class='form-control @error('dokumen_surat') is-invalid @enderror'
+                                value='{{ old('dokumen_surat') }}'>
+                            @error('dokumen_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='lampiran' class='mb-2'>lampiran <span class="small">(Bisa Lebih dari
+                                    1)</span></label>
+                            <input type='file' name='lampiran[]' id='lampiran'
+                                class='form-control @error('lampiran') is-invalid @enderror' value='{{ old('lampiran') }}'
+                                multiple>
+                            @error('lampiran')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         <div class='form-group'>
-                            <label for='pelaksana'>Pelaksana</label>
-                            <select name='pelaksana[]' id='pelaksana'
-                                class='form-control @error('pelaksana') is-invalid @enderror' multiple>
-                                <option value='' disabled>Pilih Pelaksana</option>
+                            <label for='pengusul'>Pengusul</label>
+                            <select name='pengusul[]' id='pengusul'
+                                class='form-control @error('pengusul') is-invalid @enderror' multiple>
+                                <option value='' disabled>Pilih Pengusul</option>
                                 @foreach ($data_karyawan as $karyawan)
-                                    <option @selected($karyawan->id == old('pelaksana')) value='{{ $karyawan->id }}'>
+                                    <option @selected($karyawan->id == old('pengusul')) value='{{ $karyawan->id }}'>
                                         {{ $karyawan->nama . ' - ' . $karyawan->jabatan->nama }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('pelaksana')
+                            @error('pengusul')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
@@ -86,8 +99,8 @@
     <script src="{{ asset('assets/vendors/select2/select2.min.js') }}"></script>
     <script>
         $(function() {
-            $('#pelaksana').select2({
-                placeholder: 'Pilih Pelaksana'
+            $('#pengusul').select2({
+                placeholder: 'Pilih Pengusul'
             });
         })
     </script>

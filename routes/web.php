@@ -322,10 +322,10 @@ Route::middleware('auth')->group(function () {
         Route::post('surat-non-pbj/acc/{uuid}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'acc'])->name('surat-non-pbj.acc');
         Route::resource('surat-non-pbj', \App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class)->only(['index', 'show']);
 
-        Route::get('surat-non-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'index'])->name('surat-non-pbj-disposisi.index');
-        Route::get('surat-non-pbj/{uuid}/disposisi/create', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'create'])->name('surat-non-pbj-disposisi.create');
-        Route::post('surat-non-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'store'])->name('surat-non-pbj-disposisi.store');
-        Route::delete('surat-non-pbj/{uuid}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'destroy'])->name('surat-non-pbj-disposisi.destroy');
+        Route::get('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'index'])->name('surat-non-pbj-disposisi.index');
+        Route::get('surat-non-pbj/{id}/disposisi/create', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'create'])->name('surat-non-pbj-disposisi.create');
+        Route::post('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'store'])->name('surat-non-pbj-disposisi.store');
+        Route::delete('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'destroy'])->name('surat-non-pbj-disposisi.destroy');
     });
 
     Route::name('bendahara-keuangan.')->prefix('bendahara-keuangan')->middleware('role:Bendahara Keuangan')->group(function () {

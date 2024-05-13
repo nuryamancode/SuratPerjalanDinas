@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Disposisi Surat Non PBJ</h4>
-                        <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.create', $pengajuan->uuid) }}"
+                        <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.create', $pengajuan->id) }}"
                             class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
                     </div>
                     <div class="table-responsive">
@@ -14,32 +14,31 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Pembuat</th>
-                                    <th>Tujuan</th>
-                                    <th>Tipe</th>
-                                    <th>Catatan</th>
-                                    <th>Aksi</th>
+                                    <th>Nomor Surat</th>
+                                    <th>Perihal</th>
+                                    <th>Asal Surat</th>
+                                    <th>Tanggal Surat</th>
+                                    <th>Diteruskan Kepada</th>
+                                    @if ($pengajuan->verifikasi_wadir2 == 0)
+                                        <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->pembuat->nama }}</td>
-                                        <td>{{ $item->tujuan->nama }}</td>
-                                        <td>{{ $item->tipe }}</td>
-                                        <td>{{ $item->catatan }}</td>
+                                        <td>{{ $item->pengajuan_barang_jasa->nomor_surat }}</td>
+                                        <td>{{ $item->pengajuan_barang_jasa->perihal }}</td>
+                                        <td>{{ $item->pengajuan_barang_jasa->karyawan->nama }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->pengajuan_barang_jasa->created_at)->format('d F Y') }}</td>
+                                        <td>{{ $item->teruskan1->nama }}</td>
+                                        @if ($pengajuan->verifikasi_wadir2 == 0)
                                         <td>
-                                            @if ($item->pembuat_karyawan_id == auth()->user()->karyawan->id)
-                                                <form action="javascript:void(0)" method="post" class="d-inline"
-                                                    id="formDelete">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                        data-action="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.destroy', $item->id) }}">Hapus</button>
-                                                </form>
-                                            @endif
+                                            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.edit', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-warning">Edit</a>
                                         </td>
+                                    @endif
                                     </tr>
                                 @endforeach
                             </tbody>

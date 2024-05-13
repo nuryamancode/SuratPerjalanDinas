@@ -32,8 +32,6 @@
                                     <th>Asal Surat</th>
                                     <th>Tanggal Surat</th>
                                     <th>Diteruskan Kepada</th>
-                                    {{--  <th>Tipe Disposisi</th>
-                                    <th>Catatan Disposisi</th>  --}}
                                     @if ($pengajuan->verifikasi_wadir2 == 0)
                                         <th>Aksi</th>
                                     @endif
@@ -46,7 +44,7 @@
                                         <td>{{ $item->pengajuan_barang_jasa->nomor_surat }}</td>
                                         <td>{{ $item->pengajuan_barang_jasa->perihal }}</td>
                                         <td>{{ $item->pengajuan_barang_jasa->karyawan->nama }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->pengajuan_barang_jasa->created_at)->format('d F Y') }}</td>
                                         <td>{{ $item->teruskan1->nama }}</td>
                                         @if ($pengajuan->verifikasi_wadir2 == 0)
                                             <td>

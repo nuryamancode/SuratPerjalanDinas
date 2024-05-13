@@ -43,7 +43,7 @@ class PengajuanPbjController extends Controller
             'perihal' => ['required'],
             'pengusul' => ['required', 'array'],
             'lampiran.*' => 'mimes:pdf',
-            'dokumen_surat' => ['file'],
+            'dokumen_surat' => [,'file'],
         ]);
 
         DB::beginTransaction();
