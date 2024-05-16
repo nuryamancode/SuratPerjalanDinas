@@ -52,7 +52,7 @@
             <div class="collapse" id="belanja">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Surat </a>
+                        <a class="nav-link" href="{{ route('kabag.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""> Non PBJ Formulir </a>
@@ -70,7 +70,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('kabag.surat-non-pbj.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Surat Non PBJ</span>
             </a>

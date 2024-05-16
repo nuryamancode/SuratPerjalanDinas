@@ -319,8 +319,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('spd', App\Http\Controllers\Wakildirekturii\SpdController::class);
         Route::resource('spd-spj', App\Http\Controllers\Wakildirekturii\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Wakildirekturii\SpdSpjDetailController::class);
-        Route::post('surat-non-pbj/acc/{uuid}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'acc'])->name('surat-non-pbj.acc');
-        Route::resource('surat-non-pbj', \App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class)->only(['index', 'show']);
+        Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
+        Route::get('surat-non-pbj/print/{id}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'print_disposisi'])->name('surat-non-pbj.print');
+        Route::put('surat-non-pbj/tolak/{id}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'tolak'])->name('surat-non-pbj.tolak');
+        Route::resource('surat-non-pbj', \App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class);
 
         Route::get('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'index'])->name('surat-non-pbj-disposisi.index');
         Route::get('surat-non-pbj/{id}/disposisi/create', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'create'])->name('surat-non-pbj-disposisi.create');
@@ -428,7 +430,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('spd-spj-detail', App\Http\Controllers\Wakildirekturi\SpdSpjDetailController::class);
 
         // surat non pbj
-        Route::post('surat-non-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Wakildirekturi\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
+        Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Wakildirekturi\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
+        Route::put('surat-non-pbj/taksiran/{id}', [\App\Http\Controllers\Wakildirekturi\SuratNonPbjController::class, 'taksiran'])->name('surat-non-pbj.taksiran');
         Route::resource('surat-non-pbj', \App\Http\Controllers\Wakildirekturi\SuratNonPbjController::class)->only(['index', 'show']);
         Route::resource('surat-non-pbj-detail', \App\Http\Controllers\Wakildirekturi\SuratNonPbjDetailController::class);
     });
@@ -447,14 +450,13 @@ Route::middleware('auth')->group(function () {
 
     Route::name('kabag.')->prefix('kabag')->middleware('role:Kepala Bagian')->group(function () {
         Route::get('/', [\App\Http\Controllers\Kabag\DashboardController::class, 'index'])->name('dashboard');
-        Route::get('pengajuan-pbj/taksiran/{id}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'taksiran'])->name('taksiran');
-        Route::post('pengajuan-pbj/taksiran/{id}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'store'])->name('taksiran.store');
         Route::post('pengajuan-pbj/verifikasi/{id}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'verifikasi'])->name('pengajuan-pbj.verifikasi');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Kabag\PengajuanPbjController::class);
         Route::resource('pengajuan-pbj-detail', \App\Http\Controllers\Kabag\PengajuanPbjDetailController::class);
-        Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Kabag\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
         Route::resource('surat-non-pbj', \App\Http\Controllers\Kabag\SuratNonPbjController::class)->only(['index', 'show']);
         Route::resource('surat-non-pbj-detail', \App\Http\Controllers\Kabag\SuratNonPbjDetailController::class);
+        Route::put('surat-non-pbj/taksiran/{id}', [\App\Http\Controllers\Kabag\SuratNonPbjController::class, 'taksiran'])->name('taksiran.store');
+        Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Kabag\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
     });
 
     Route::name('timppk.')->prefix('timppk')->middleware('role:Tim PPK')->group(function () {

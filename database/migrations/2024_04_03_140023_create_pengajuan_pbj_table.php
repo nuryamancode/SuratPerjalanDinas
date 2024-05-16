@@ -27,6 +27,8 @@ return new class extends Migration
             $table->enum('acc_ppk', [0, 1, 2])->nullable()->default(0);
             $table->boolean('verifikasi_wadir2')->default(0);
             $table->boolean('verifikasi_ppk')->default(0);
+            $table->boolean('verifikasi_kabag')->default(0);
+            $table->boolean('verifikasi_wadir1')->default(0);
             $table->boolean('acc_pengusul')->nullable()->default(0);
             $table->text('keterangan_ppk')->nullable();
             $table->text('keterangan_wadir2')->nullable();

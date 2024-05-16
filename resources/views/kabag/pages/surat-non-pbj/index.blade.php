@@ -14,12 +14,11 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
+                                    <th>Tanggal Surat</th>
                                     <th>Pengusul</th>
-                                    <th>Taksiran</th>
                                     <th>Status Surat</th>
-                                    <th>Acc Wadir 2</th>
+                                    <th>Taksiran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -29,8 +28,8 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
                                         <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
                                             <ul>
                                                 @foreach ($item->pengusul as $pengusul)
@@ -38,22 +37,19 @@
                                                 @endforeach
                                             </ul>
                                         </td>
+                                        <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            {{ $item->details ? number_format($item->details()->sum('harga_satuan')) : '0' }}
+                                            {{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}
                                         </td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>{!! $item->statusAccWadir2() !!}</td>
-
                                         <td>
-
                                             @if ($item->verifikasi_kabag == 0)
-                                                <form action="{{ route('kabag.surat-non-pbj.verifikasi', $item->uuid) }}"
+                                                <form action="{{ route('kabag.surat-non-pbj.verifikasi', $item->id) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     <button class="btn btn-sm py-2 btn-success">Set Verifikasi</button>
                                                 </form>
                                             @endif
-                                            <a href="{{ route('kabag.surat-non-pbj.show', $item->uuid) }}"
+                                            <a href="{{ route('kabag.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

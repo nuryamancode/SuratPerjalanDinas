@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.index', $item->id) }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Disposisi Pengajuan Surat Non Pbj</h4>
@@ -64,43 +75,71 @@
                             @enderror
                         </div>
                         <div class='form-group'>
-                            <label for='penerus'>Diteruskan Ke</label>
-                            <select name='penerus[]' id='penerus'
-                                class='form-control @error('penerus') is-invalid @enderror' multiple required>
-                                <option value='' disabled>Pilih Karyawan</option>
-                                @foreach ($data_karyawan as $karyawan)
-                                    <option @selected($karyawan->id == old('penerus')) value='{{ $karyawan->id }}'>
-                                        {{ $karyawan->nama . ' - ' . $karyawan->jabatan->nama }}
-                                    </option>
-                                @endforeach
+                            <label for='tipe_disposisi_1'>Tipe Disposisi</label>
+                            <select name='tipe_disposisi_1' id='tipe_disposisi_1'
+                                class='form-control @error('tipe_disposisi_1') is-invalid @enderror'>
+                                <option value='' selected disabled>Pilih tipe</option>
+                                <option @selected(old('tipe_disposisi_1') === 'Rahasia') value="Rahasia">Rahasia</option>
+                                <option @selected(old('tipe_disposisi_1') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
+                                <option @selected(old('tipe_disposisi_1') === 'Segera') value="Segera">Segera</option>
+                                <option @selected(old('tipe_disposisi_1') === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
                             </select>
-                            @error('penerus')
+                            @error('tipe_disposisi_1')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
-                        <div class='form-group'>
-                            <label for='tipe_diposisi'>Tipe Disposisi</label>
-                            <select name='tipe_disposisi' id='tipe_disposisi'
-                                class='form-control @error('tipe_disposisi') is-invalid @enderror'>
-                                <option value='' selected disabled>Pilih tipe</option>
-                                <option @selected(old('tipe_disposisi') === 'Rahasia') value="Rahasia">Rahasia</option>
-                                <option @selected(old('tipe_disposisi') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
-                                <option @selected(old('tipe_disposisi') === 'Segera') value="Segera">Segera</option>
-                                <option @selected(old('tipe_disposisi') === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
-                            </select>
-                            @error('tipe_disposisi')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="form-group ml-4">
+                            <div class="form-check">
+                                <input type="checkbox" name="taksiran" value="1" class="form-check-input"
+                                    id="taksiran" id="taksiran">
+                                <label class="form-check-label" for="taksiran">Ada Nilai Taksiran</label>
+                            </div>
+                        </div>
+                        <div class="d-taksiran_1">
+                            <div class='form-group'>
+                                <label for='teruskan_ke'>Diteruskan</label>
+                                <select name='teruskan_ke' id='teruskan_ke'
+                                    class='form-control @error('teruskan_ke') is-invalid @enderror'>
+                                    <option value='' selected disabled>Pilih Diteruskan</option>
+                                    @foreach ($data_karyawans as $karyawan)
+                                        <option @selected($karyawan->id == old('teruskan_ke')) value='{{ $karyawan->id }}'>
+                                            {{ $karyawan->nama . ' - ' . 'Jabatan : ' . $karyawan->jabatan->nama ?? '' }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('teruskan_ke')
+                                    <div class='invalid-feedback'>
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="d-taksiran_2 d-none">
+                            <div class='form-group'>
+                                <label for='teruskan_ke'>Diteruskan</label>
+                                <select name='teruskan_ke' id='teruskan_ke'
+                                    class='form-control @error('teruskan_ke') is-invalid @enderror'>
+                                    <option value='' selected disabled>Pilih Diteruskan</option>
+                                    @foreach ($data_karyawan as $karyawan)
+                                        <option @selected($karyawan->id == old('teruskan_ke')) value='{{ $karyawan->id }}'>
+                                            {{ $karyawan->nama . ' - ' . 'Jabatan : ' . $karyawan->jabatan->nama ?? '' }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('teruskan_ke')
+                                    <div class='invalid-feedback'>
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='catatan_disposisi' class='mb-2'>Catatan Disposisi</label>
-                            <textarea name='catatan_disposisi' id='catatan_disposisi' cols='30' rows='3' placeholder="isi jika ada"
-                                class='form-control @error('catatan_disposisi') is-invalid @enderror'>{{ old('catatan_disposisi') }}</textarea>
-                            @error('catatan_disposisi')
+                            <label for='catatan_disposisi_1' class='mb-2'>Catatan Disposisi</label>
+                            <textarea name='catatan_disposisi_1' id='catatan_disposisi_1' cols='30' rows='3' placeholder="isi jika ada"
+                                class='form-control @error('catatan_disposisi_1') is-invalid @enderror'>{{ old('catatan_disposisi_1') }}</textarea>
+                            @error('catatan_disposisi_1')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
@@ -129,6 +168,18 @@
             $('#penerus').select2({
                 placeholder: 'Pilih Karyawan'
             });
+        })
+
+        $('#taksiran').on('click', function() {
+            let taksiran = $(this).prop('checked');
+            if (taksiran == 1) {
+                $('.d-taksiran_2').removeClass('d-none');
+                $('.d-taksiran_1').addClass('d-none');
+            }else {
+                $('.d-taksiran_2').addClass('d-none');
+                $('.d-taksiran_1').removeClass('d-none');
+
+            }
         })
     </script>
 @endpush

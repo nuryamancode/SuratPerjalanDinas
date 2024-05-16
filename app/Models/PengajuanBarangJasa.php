@@ -167,10 +167,6 @@ class PengajuanBarangJasa extends Model
     {
         return $this->hasOne(PengajuanBarangJasaDisposisi::class, 'pbj_id', 'id')->latest();
     }
-    public function scopedisposisi_pbj()
-    {
-        return $this->hasOne(PengajuanBarangJasaDisposisi::class, 'pbj_id', 'id')->latest();
-    }
 
     // public function disposisis()
     // {

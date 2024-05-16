@@ -128,7 +128,8 @@ class PengajuanPbjController extends Controller
                 }
             }
             $data_pengusul = request('pengusul');
-            $data['acc_wadi2'] = 0;
+            $data['acc_wadir2'] = '0';
+            $data['status_surat'] = 'Menunggu Persetujuan Direktur II';
             $item->update($data);
 
             // create pelaksana

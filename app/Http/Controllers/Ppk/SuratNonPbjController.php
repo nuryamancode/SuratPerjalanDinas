@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ppk;
 
 use App\Http\Controllers\Controller;
+use App\Models\PengajuanBarangJasa;
 use App\Models\SuratNonPbj;
 use Illuminate\Http\Request;
 
@@ -10,16 +11,18 @@ class SuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = SuratNonPbj::whereNotNull('acc_ppk')->latest()->get();
+        $items = PengajuanBarangJasa::suratNonPbj()->whereHas('disposisi_pbj', function ($q) {
+            $q->where('teruskan_ke_1', auth()->user()->karyawan->id);
+        })->latest()->get();
         return view('ppk.pages.surat-non-pbj.index', [
             'title' => 'Pengajuan Surat Non PBJ',
             'items' => $items
         ]);
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $item = SuratNonPbj::where('uuid', $uuid)->firstOrFail();
+        $item = PengajuanBarangJasa::suratNonPbj()->where('id', $id)->firstOrFail();
         return view('ppk.pages.surat-non-pbj.show', [
             'title' => 'Detail Pengajuan Surat Non PBJ',
             'item' => $item

@@ -14,12 +14,9 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
+                                    <th>Tanggal Surat</th>
                                     <th>Pengusul</th>
-                                    <th>Taksiran</th>
-                                    <th>Acc Wakdir 2</th>
-                                    <th>Acc PPK</th>
                                     <th>Status Surat</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -30,8 +27,8 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
                                         <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
                                         <td>{{ $item->perihal }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
                                             <ul>
                                                 @foreach ($item->pengusul as $pengusul)
@@ -39,34 +36,25 @@
                                                 @endforeach
                                             </ul>
                                         </td>
+                                        <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            {{ $item->details ? number_format($item->details()->sum('harga_satuan')) : '0' }}
-                                        </td>
-                                        <td>{!! $item->statusAccWadir2() !!}</td>
-                                        <td>{!! $item->statusAccPpk() !!}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>
-                                            @if ($item->acc_ppk == 1 || ($item->spj && $item->spj->acc_ppk != 1))
-                                                <a href="{{ route('ppk.surat-non-pbj-disposisi.index', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Disposisi</a>
-                                            @endif
-                                            <a href="{{ route('ppk.surat-non-pbj.show', $item->uuid) }}"
+                                            <a href="{{ route('ppk.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            <form action="{{ route('ppk.surat-non-pbj.acc', $item->uuid) }}" method="post"
+                                            {{--  <form action="{{ route('ppk.surat-non-pbj.acc', $item->id) }}" method="post"
                                                 class="d-inline" id="formAcc">
                                                 @csrf
                                                 <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
                                                 @if ($item->acc_ppk == 0)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
-                                                    <button data-url="{{ route('ppk.surat-non-pbj.acc', $item->uuid) }}"
+                                                    <button data-url="{{ route('ppk.surat-non-pbj.acc', $item->id) }}"
                                                         type="button" class="btn btnTolak py-2  btn-sm btn-danger"
                                                         name="status" value="2">Tolak</button>
                                                 @elseif($item->acc_ppk == 2)
                                                     <button class="btn py-2  btn-sm btn-success" name="status"
                                                         value="1">Terima</button>
                                                 @endif
-                                            </form>
+                                            </form>  --}}
                                         </td>
                                     </tr>
                                 @endforeach

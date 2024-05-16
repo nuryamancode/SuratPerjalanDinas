@@ -27,49 +27,49 @@ class SuratNonPbjDisposisiController extends Controller
     {
         $data_karyawan = Karyawan::whereHas('user', function ($q) {
             $q->whereHas('roles', function ($role) {
-                $role->where('name', ['Pejabat Pembuat Komitmen', 'Kepala Bagian', 'Wakil Direktur I']);
+                $role->whereIn('name', [ 'Kepala Bagian', 'Wakil Direktur I']);
             });
         })->orderBy('nama', 'ASC')->get();
+        $role = 'Pejabat Pembuat Komitmen';
+        $data_karyawans = Karyawan::whereHas('user.roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        })->get();
         $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         return view('wakil-direktur-ii.pages.surat-non-pbj-disposisi.create', [
             'title' => 'Pengajuan Surat Non PBJ Disposisi',
             'item' => $item,
-            'data_karyawan' => $data_karyawan
+            'data_karyawan' => $data_karyawan,
+            'data_karyawans' => $data_karyawans,
         ]);
     }
 
     public function store($id)
     {
-        request()->validate([
-            'tujuan_karyawan_id' => ['array', 'min:1'],
-            'tujuan_karyawan_id.*' => ['required']
-        ]);
 
         DB::beginTransaction();
         try {
-            $pengajuan  = SuratNonPbj::where('id', $id)->firstOrFail();
-            $data_tujuan = request('tujuan_karyawan_id');
-            if ($data_tujuan) {
-                foreach ($data_tujuan as $tujuan) {
-                    $pengajuan->disposisis()->create([
-                        'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                        'tujuan_karyawan_id' => $tujuan,
-                        'tipe' => request('tipe'),
-                        'catatan' => request('catatan')
-                    ]);
-                }
+            $pengajuan  = PengajuanBarangJasa::suratNonPbj()->where('id', $id)->firstOrFail();
+            $teruskan = request('teruskan_ke');
+            $data = request()->only(['catatan_disposisi_1', 'tipe_disposisi_1', 'teruskan_ke_1',]);
+            $data['pembuat_disposisi_1'] = auth()->user()->karyawan->id;
+            $data['pbj_id'] = $pengajuan
+            ->id;
+            $data['teruskan_ke_1'] = $teruskan;
+            PengajuanBarangJasaDisposisi::create($data);
+            $karyawan = Karyawan::where('id', $teruskan)->firstOrFail();
+            if ($karyawan->jabatan->nama == 'Pejabat Pembuat Komitmen') {
+                $jabatan = 'Menunggu Persetujuan PPK';
+            }elseif ($karyawan->jabatan->nama == 'Kepala Bagian') {
+                $jabatan = 'Menunggu Persetujuan Kepala Bagian';
+            }elseif ($karyawan->jabatan->nama == 'Wakil Direktur I') {
+                $jabatan = 'Menunggu Persetujuan Wakil Direktur I';
             }
-
             $pengajuan->update([
-                'status' => 'Pemeriksaan PPK'
+                'status_surat' => $jabatan,
+                'acc_wadir2' => '1',
             ]);
-
-            $pengajuan->update([
-                'acc_ppk' => 0
-            ]);
-
             DB::commit();
-            return redirect()->route('wakil-direktur-ii.surat-non-pbj-disposisi.index', $pengajuan->uuid)->with('success', 'Disposisi Berhasil disimpan.');
+            return redirect()->route('wakil-direktur-ii.surat-non-pbj-disposisi.index', $pengajuan->id)->with('success', 'Disposisi Berhasil disimpan.');
         } catch (\Throwable $th) {
             throw $th;
         }

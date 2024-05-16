@@ -33,33 +33,7 @@ class PengajuanPbjController extends Controller
             'item' => $item
         ]);
     }
-    public function taksiran($id)
-    {
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
-        return view('kabag.pages.pengajuan-pbj.taksiran', [
-            'title' => 'Tambah Taksiran',
-            'item' => $item
-        ]);
-    }
 
-    public function store($id){
-        request()->validate([
-            'nilai_taksiran'=>'required',
-        ]);
-        DB::beginTransaction();
-        try {
-            $data = request()->input('nilai_taksiran');
-            $item = PengajuanBarangJasa::pbj()->where('id',$id)->firstOrFail();
-            $item->update([
-                'nilai_taksiran'=> $data,
-            ]);
-            DB::commit();
-            return redirect()->route('kabag.pengajuan-pbj.index')->with('success','Nilai Taksiran berhasil ditambahkan.');
-        }
-        catch (Throwable $th) {
-            throw $th;
-        }
-    }
 
     public function verifikasi($id)
     {

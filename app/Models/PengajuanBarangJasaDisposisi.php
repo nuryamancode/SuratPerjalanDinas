@@ -49,4 +49,8 @@ class PengajuanBarangJasaDisposisi extends Model
         return $this->hasOne(PengajuanBarangJasa::class, 'id')->latest();
     }
 
+    public function teruskan(){
+        return $this->hasMany(SuratNonPbjPengusul::class,'pbj_disposisi_id', 'id');
+    }
+
 }

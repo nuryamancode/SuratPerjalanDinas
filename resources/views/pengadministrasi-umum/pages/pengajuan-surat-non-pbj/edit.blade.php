@@ -84,7 +84,11 @@
                         <div class="form-group text-right">
                             <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.index') }}"
                                 class="btn btn-warning">Batal</a>
-                            <button class="btn btn-primary">Update Pengajuan PBJ</button>
+                            @if ($item->acc_wadir2 == '2')
+                                <button class="btn btn-primary">Kirim Ulang Pengajuan PBJ</button>
+                            @else
+                                <button class="btn btn-primary">Update Pengajuan PBJ</button>
+                            @endif
                         </div>
                     </form>
                 </div>
