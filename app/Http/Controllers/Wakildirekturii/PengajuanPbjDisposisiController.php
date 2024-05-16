@@ -15,7 +15,7 @@ class PengajuanPbjDisposisiController extends Controller
 {
     public function index($id)
     {
-        $pengajuan = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $pengajuan = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         $items = PengajuanBarangJasaDisposisi::where('pbj_id', $pengajuan->id)->latest()->get();
         return view('wakil-direktur-ii.pages.pengajuan-pbj-disposisi.index', [
             'title' => 'Pengajuan PBJ Disposisi',
@@ -29,7 +29,7 @@ class PengajuanPbjDisposisiController extends Controller
         $data_karyawan = Karyawan::whereHas('user.roles', function ($query) use ($role) {
             $query->where('name', $role);
         })->get();
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         $data = [
             'title' => 'Pengajuan PBJ Disposisi',
             'item' => $item,
@@ -43,7 +43,7 @@ class PengajuanPbjDisposisiController extends Controller
         $data_karyawan = Karyawan::whereHas('user.roles', function ($query) use ($role) {
             $query->where('name', $role);
         })->get();
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         $data = [
             'title' => 'Pengajuan PBJ Disposisi',
             'item' => $item,
@@ -64,7 +64,7 @@ class PengajuanPbjDisposisiController extends Controller
 
         DB::beginTransaction();
         try {
-            $pengajuan  = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+            $pengajuan  = PengajuanBarangJasa::where('id', $id)->firstOrFail();
             $pengajuan->disposisi_pbj()->create([
                 'pbj_id' => $pengajuan->id,
                 'catatan_disposisi_1' => request('catatan_disposisi'),
@@ -97,7 +97,7 @@ class PengajuanPbjDisposisiController extends Controller
 
         DB::beginTransaction();
         try {
-            $pengajuan  = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+            $pengajuan  = PengajuanBarangJasa::where('id', $id)->firstOrFail();
             $pengajuan->disposisi_pbj()->update([
                 'pbj_id'=> $pengajuan->id,
                 'catatan_disposisi_1' => request('catatan_disposisi'),

@@ -33,9 +33,9 @@
                             <span>Lampiran</span>
                             <span>
                                 <ol class="list-group">
-                                    @foreach ($item->lampiranpbj as $lampiranpbj)
+                                    @foreach ($item->lampiransnpbj as $lampiransnpbj)
                                         <li>
-                                            <a href="{{ $lampiranpbj->getFile() }}" target="_blank"
+                                            <a href="{{ $lampiransnpbj->getFile() }}" target="_blank"
                                                 class="btn btn-success btn-sm mt-2">Lihat Lampiran</a>
                                         </li>
                                     @endforeach

@@ -25,36 +25,32 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->perihal }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
+                                        <td>{{ $item->surat_non_pbj->nomor_surat }}</td>
+                                        <td>{{ $item->surat_non_pbj->nomor_agenda }}</td>
+                                        <td>{{ $item->surat_non_pbj->perihal }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->surat_non_pbj->created_at)->format('d F Y') }}
+                                        </td>
                                         <td>
                                             <ul>
-                                                @foreach ($item->pengusul as $pengusul)
+                                                @foreach ($item->surat_non_pbj->pengusul as $pengusul)
                                                     <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->status_surat }}</td>
+                                        <td>{{ $item->surat_non_pbj->status_surat }}</td>
                                         <td>
+                                            @if ($item->surat_non_pbj->verifikasi_ppk == 0)
+                                                <form action="{{ route('ppk.surat-non-pbj.verifikasi', $item->id) }}"
+                                                    method="post" class="d-inline">
+                                                    @csrf
+                                                    <button class="btn py-2  btn-sm btn-success">Verifikasi</button>
+                                                </form>
+                                            @else
+                                                <a href="{{ route('ppk.surat-non-pbj.print', $item->id) }}" target="_blank"
+                                                    class="btn btn-sm py-2 btn-primary">Print</a>
+                                            @endif
                                             <a href="{{ route('ppk.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            {{--  <form action="{{ route('ppk.surat-non-pbj.acc', $item->id) }}" method="post"
-                                                class="d-inline" id="formAcc">
-                                                @csrf
-                                                <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
-                                                @if ($item->acc_ppk == 0)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button data-url="{{ route('ppk.surat-non-pbj.acc', $item->id) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_ppk == 2)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                @endif
-                                            </form>  --}}
                                         </td>
                                     </tr>
                                 @endforeach

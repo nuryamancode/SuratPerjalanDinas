@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('surat_non_pbj_pengusul', function (Blueprint $table) {
             $table->id();
             $table->foreignId('surat_non_pbj_id')->constrained('surat_non_pbj')->cascadeOnDelete();
-            $table->foreignId('karyawan_id')->constrained('karyawan')->cascadeOnDelete();
+            $table->foreignId('pengusul_id')->constrained('karyawan')->cascadeOnDelete();
             $table->timestamps();
         });
     }

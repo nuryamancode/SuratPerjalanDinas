@@ -1,4 +1,4 @@
-@extends('kabag.layouts.app')
+@extends('pengelola-keuangan.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md">
@@ -21,6 +21,10 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Perihal</span>
                             <span>{{ $item->perihal }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Nilai Taksiran</span>
+                            <span>{{ $item->nilai_taksiran ?? 'Belum ada nilai taksiran' }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Dokumen surat</span>

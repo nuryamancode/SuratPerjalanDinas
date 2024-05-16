@@ -48,7 +48,7 @@
                                         <td>{{ $item->teruskan1->nama }}</td>
                                         @if ($pengajuan->verifikasi_wadir2 == 0)
                                             <td>
-                                                <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.edit', $item->id) }}"
+                                                <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.edit', $pengajuan->id) }}"
                                                     class="btn btn-sm py-2 btn-warning">Edit</a>
                                             </td>
                                         @endif

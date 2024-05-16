@@ -13,25 +13,30 @@ return new class extends Migration
     {
         Schema::create('surat_non_pbj', function (Blueprint $table) {
             $table->id();
-            $table->uuid()->unique();
-            $table->string('perihal');
             $table->string('nomor_surat');
             $table->string('nomor_agenda');
-            $table->string('status');
-            $table->date('tanggal')->nullable();
-            $table->foreignId('karyawan_id')->constrained('karyawan')->cascadeOnDelete();
-            $table->integer('acc_karyawan_id')->nullable();
-            $table->integer('acc_wadir2')->nullable();
-            $table->integer('acc_ppk')->nullable();
-            $table->integer('acc_pengusul')->nullable();
-            $table->integer('verifikasi_pengusul')->nullable();
+            $table->string('perihal');
+            $table->string('dokumen_surat');
+            $table->foreignId('diteruskan_ke')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->foreignId('asal_surat')->nullable()->constrained('karyawan')->cascadeOnDelete();
+            $table->string('status_surat');
+            $table->boolean('acc_kabag')->nullable()->default(0);
+            $table->string('nilai_taksiran')->nullable();
+            $table->boolean('acc_wadir1')->nullable()->default(0);
+            $table->enum('acc_wadir2', [0, 1, 2])->nullable()->default(0);
+            $table->enum('acc_ppk', [0, 1, 2])->nullable()->default(0);
+            $table->boolean('verifikasi_wadir2')->default(0);
+            $table->boolean('verifikasi_ppk')->default(0);
+            $table->boolean('verifikasi_kabag')->default(0);
+            $table->boolean('verifikasi_wadir1')->default(0);
             $table->text('keterangan_ppk')->nullable();
-            $table->integer('verifikasi_wadir1')->nullable();
-            $table->integer('verifikasi_wadir2')->nullable();
-            $table->string('file');
-            $table->integer('verifikasi_kabag')->nullable();
             $table->text('keterangan_wadir2')->nullable();
-            $table->integer('is_arsip')->default(0);
+            $table->timestamps();
+        });
+        Schema::create('lampiran_surat_non_pbj', function (Blueprint $table) {
+            $table->id();
+            $table->string('file');
+            $table->foreignId('snpbj_id')->nullable()->constrained('surat_non_pbj')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -42,5 +47,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('surat_non_pbj');
+        Schema::dropIfExists('lampiran_surat_non_pbj');
     }
 };

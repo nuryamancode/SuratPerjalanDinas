@@ -11,16 +11,18 @@ class SuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = SuratNonPbj::where('acc_ppk', 1)->latest()->get();
+        $items = SuratNonPbj::whereHas('disposisi_snpbj', function ($q){
+            $q->where('teruskan_ke_2',auth()->user()->karyawan->id);
+        })->where('verifikasi_ppk', 1)->latest()->get();
         return view('bendahara-keuangan.pages.surat-non-pbj.index', [
             'title' => 'Pengajuan Surat Non PBJ',
             'items' => $items
         ]);
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $item = SuratNonPbj::where('acc_ppk', 1)->where('uuid', $uuid)->firstOrFail();
+        $item = SuratNonPbj::where('id', $id)->firstOrFail();
         return view('bendahara-keuangan.pages.surat-non-pbj.show', [
             'title' => 'Detail Pengajuan Surat Non PBJ',
             'item' => $item

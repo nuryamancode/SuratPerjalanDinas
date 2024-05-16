@@ -43,7 +43,7 @@ class PengajuanPbjController extends Controller
         DB::beginTransaction();
         try {
             $item = PengajuanBarangJasaDisposisi::where('id', $id)->firstOrFail();
-            $item->pbj()->update([
+            $item->pengajuan_barang_jasa()->update([
                 'status_surat' => request('tahapan')
             ]);
             DB::commit();

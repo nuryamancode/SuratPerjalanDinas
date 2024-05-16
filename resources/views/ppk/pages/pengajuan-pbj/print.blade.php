@@ -102,7 +102,7 @@
         <div class="header-text">
             <h2>Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi</h2>
             <h1>Politeknik Negeri Subang</h1>
-            <h3>Wakil Direktur II</h3>
+            <h3>Pejabat Pembuat Komitmen</h3>
             <h4>Jl. Brigjen Katamso No. 37, Dangdeur, Subang, Jawa Barat.</h4>
             <h4>Jl. Sukamulya, Kec. Cibogo, Kab. Subang, Jawa Barat.</h4>
         </div>

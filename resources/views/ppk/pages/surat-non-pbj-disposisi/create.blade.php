@@ -2,55 +2,122 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('ppk.surat-non-pbj-disposisi.index', $item->id) }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Disposisi Pengajuan Surat Non Pbj</h4>
-                    <form action="{{ route('ppk.surat-non-pbj-disposisi.store', $item->uuid) }}" method="post"
+                    <form action="{{ route('ppk.surat-non-pbj-disposisi.store', $item->id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <div class='form-group'>
-                            <label for='tujuan_karyawan_id'>Diteruskan Ke</label>
-                            <select name='tujuan_karyawan_id[]' id='tujuan_karyawan_id'
-                                class='form-control @error('tujuan_karyawan_id') is-invalid @enderror' multiple>
-                                @foreach ($data_karyawan as $karyawan)
-                                    <option @selected($karyawan->id == old('tujuan_karyawan_id')) value='{{ $karyawan->id }}'>
-                                        {{ $karyawan->nama . ' | ' . $karyawan->jabatan->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('tujuan_karyawan_id')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group'>
-                            <label for='tipe'>Tipe</label>
-                            <select name='tipe' id='tipe' class='form-control @error('tipe') is-invalid @enderror'>
-                                <option value='' selected disabled>Pilih tipe</option>
-                                <option @selected(old('tipe') === 'Rahasia') value="Rahasia">Rahasia</option>
-                                <option @selected(old('tipe') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
-                                <option @selected(old('tipe') === 'Segera') value="Segera">Segera</option>
-                                <option @selected(old('tipe') === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
-                            </select>
-                            @error('tipe')
+                        <div class='form-group mb-3'>
+                            <label for='nomor_surat' class='mb-2'>Nomor Surat</label>
+                            <input type='text' name='' id='nomor_surat'
+                                class='form-control @error('nomor_surat') is-invalid @enderror'
+                                value='{{ $item->surat_non_pbj->nomor_surat }}' readonly>
+                            @error('nomor_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='catatan' class='mb-2'>Catatan</label>
-                            <textarea name='catatan' id='catatan' cols='30' rows='3'
-                                class='form-control @error('catatan') is-invalid @enderror'>{{ old('catatan') }}</textarea>
-                            @error('catatan')
+                            <label for='nomor_agenda' class='mb-2'>Nomor Agenda</label>
+                            <input type='text' name='' id='nomor_agenda'
+                                class='form-control @error('nomor_agenda') is-invalid @enderror'
+                                value='{{ $item->surat_non_pbj->nomor_agenda }}' readonly>
+                            @error('nomor_agenda')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='created_at' class='mb-2'>Tanggal Surat</label>
+                            <input type='text' name='' id='created_at'
+                                class='form-control @error('created_at') is-invalid @enderror'
+                                value='{{ \Carbon\Carbon::parse($item->surat_non_pbj->created_at)->format('d F Y') }}' readonly>
+                            @error('created_at')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='created_at' class='mb-2'>Asal Surat</label>
+                            <input type='text' name='' id='created_at'
+                                class='form-control @error('created_at') is-invalid @enderror'
+                                value='{{ $item->surat_non_pbj->karyawan->nama }} - {{ $item->surat_non_pbj->karyawan->jabatan->nama }}' readonly>
+                            @error('created_at')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='perihal' class='mb-2'>Perihal</label>
+                            <input type='text' name='' id='perihal'
+                                class='form-control @error('perihal') is-invalid @enderror' value='{{ $item->surat_non_pbj->perihal }}'
+                                readonly>
+                            @error('perihal')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group'>
+                            <label for='teruskan_ke'>Diteruskan</label>
+                            <select name='teruskan_ke' id='teruskan_ke' class='form-control'>
+                                <option value='' selected disabled>Pilih Bendahara/Pengelola Keuangan</option>
+                                @foreach ($data_karyawanrole as $items)
+                                    <option value='{{ $items->id }}'>{{ $items->nama }} - {{ $items->jabatan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('teruskan_ke')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group'>
+                            <label for='tipe_diposisi'>Tipe Disposisi</label>
+                            <select name='tipe_disposisi' id='tipe_disposisi'
+                                class='form-control @error('tipe_disposisi') is-invalid @enderror'>
+                                <option value='' selected disabled>Pilih tipe</option>
+                                <option @selected(old('tipe_disposisi') === 'Rahasia') value="Rahasia">Rahasia</option>
+                                <option @selected(old('tipe_disposisi') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>
+                                <option @selected(old('tipe_disposisi') === 'Segera') value="Segera">Segera</option>
+                                <option @selected(old('tipe_disposisi') === 'Sangat Segera') value="Sangat Segera">Sangat Segera</option>
+                            </select>
+                            @error('tipe_disposisi')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='catatan_disposisi' class='mb-2'>Catatan Disposisi</label>
+                            <textarea name='catatan_disposisi' id='catatan_disposisi' cols='30' rows='3' placeholder="isi jika ada"
+                                class='form-control @error('catatan_disposisi') is-invalid @enderror'>{{ old('catatan_disposisi') }}</textarea>
+                            @error('catatan_disposisi')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('ppk.surat-non-pbj.index') }}" class="btn btn-warning">Batal</a>
+                            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj.index') }}"
+                                class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Submit</button>
                         </div>
                     </form>

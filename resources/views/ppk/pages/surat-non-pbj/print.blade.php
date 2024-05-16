@@ -102,7 +102,7 @@
         <div class="header-text">
             <h2>Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi</h2>
             <h1>Politeknik Negeri Subang</h1>
-            <h3>Wakil Direktur II</h3>
+            <h3>Pejabat Pembuat Komitmen</h3>
             <h4>Jl. Brigjen Katamso No. 37, Dangdeur, Subang, Jawa Barat.</h4>
             <h4>Jl. Sukamulya, Kec. Cibogo, Kab. Subang, Jawa Barat.</h4>
         </div>
@@ -112,14 +112,14 @@
     </div>
     <div class="line2">
         <div class="checkboxes">
-            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->disposisi_snpbj->tipe_disposisi_1 === 'Terbatas Biasa') checked @endif>
+            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->tipe_disposisi_2 === 'Terbatas Biasa') checked @endif>
             <label for="terbatas_rahasia">Terbatas Biasa</label>
-            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->disposisi_snpbj->tipe_disposisi_1 === 'Rahasia') checked @endif>
+            <input type="checkbox" id="rahasia" name="rahasia" @if ($item->tipe_disposisi_2 === 'Rahasia') checked @endif>
             <label for="rahasia">Rahasia</label>
             <input type="checkbox" id="terbatas_rahasia" name="terbatas_rahasia"
-                @if ($item->disposisi_snpbj->tipe_disposisi_1 === 'Segera') checked @endif>
+                @if ($item->tipe_disposisi_2 === 'Segera') checked @endif>
             <label for="segera">Segera</label>
-            <input type="checkbox" id="segera" name="segera" @if ($item->disposisi_snpbj->tipe_disposisi_1 === 'Sangat Segera') checked @endif>
+            <input type="checkbox" id="segera" name="segera" @if ($item->tipe_disposisi_2 === 'Sangat Segera') checked @endif>
             <label for="sangat_segera">Sangat Segera</label>
         </div>
     </div>
@@ -128,28 +128,28 @@
             <tr>
                 <td>No. Agenda</td>
                 <td>:</td>
-                <td>{{ $item->nomor_agenda ?? '-' }}</td>
+                <td>{{ $item->surat_non_jasa->nomor_agenda ?? '-' }}</td>
             </tr>
             <tr>
                 <td>No. Surat</td>
                 <td>:</td>
-                <td>{{ $item->nomor_surat ?? '-' }}</td>
+                <td>{{ $item->surat_non_jasa->nomor_surat ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Tanggal Surat</td>
                 <td>:</td>
-                <td>{{ $item->created_at->translatedFormat('d F Y') ?? '-' }}
+                <td>{{ $item->surat_non_jasa->created_at->translatedFormat('d F Y') ?? '-' }}
                 </td>
             </tr>
             <tr>
                 <td>Asal Surat</td>
                 <td>:</td>
-                <td>{{ $item->karyawan->nama ?? '-' }}</td>
+                <td>{{ $item->surat_non_jasa->karyawan->nama ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Perihal</td>
                 <td>:</td>
-                <td>{{ $item->perihal ?? '-' }}</td>
+                <td>{{ $item->surat_non_jasa->perihal ?? '-' }}</td>
             </tr>
         </table>
     </div>
@@ -159,14 +159,14 @@
                 <td>Diteruskan Kepada</td>
                 <td>:</td>
             </tr>
-                <tr>
-                    <td>
-                        <div class="checkboxes-left">
-                            <input type="checkbox" checked id="arsip" name="arsip">
-                            <label for="arsip">{{ $item->disposisi_snpbj->teruskan1->jabatan->nama }}</label>
-                        </div>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <div class="checkboxes-left">
+                        <input type="checkbox" checked id="arsip" name="arsip">
+                        <label for="arsip">{{ $item->teruskan2->jabatan->nama }}</label>
+                    </div>
+                </td>
+            </tr>
         </table>
         <br>
         <div>
@@ -174,7 +174,7 @@
                 <td><b>Intruksi/informasi</b></td>
             </div>
             <div>
-                <td>{{ $item->disposisi_snpbj->catatan_disposisi_1 ?? '-' }}</td>
+                <td>{{ $item->catatan_disposisi_2 ?? '-' }}</td>
             </div>
         </div>
     </div>
@@ -183,21 +183,20 @@
     <table class="staff" width="100%" style="position: absolute; bottom:10px">
         <tr>
             <td style="width:70%">
-
             </td>
             <td style="width: 30%">
-                <div>{{ $item->disposisi_snpbj->pembuat1->jabatan->nama }} <br>
+                <div>{{ $item->pembuat2->jabatan->nama }} <br>
                     Politeknik Negeri Subang
                 </div>
                 <div style="height:100px;margin-top:10px">
-                    @if ($item->disposisi_snpbj->pembuat1->tte_file)
-                        <img src="{{ $item->disposisi_snpbj->pembuat1->tte() }}" alt="" class="img-fluid"
+                    @if ($item->pembuat2->tte_file)
+                        <img src="{{ $item->pembuat2->tte() }}" alt="" class="img-fluid"
                             style="max-height: 80px">
                     @endif
                 </div>
                 <div>
-                    {{ $item->disposisi_snpbj->pembuat1->nama }} <br>
-                    NIP. {{ $item->disposisi_snpbj->pembuat1->nip }}
+                    {{ $item->pembuat2->nama }} <br>
+                    NIP. {{ $item->pembuat2->nip }}
                 </div>
             </td>
         </tr>

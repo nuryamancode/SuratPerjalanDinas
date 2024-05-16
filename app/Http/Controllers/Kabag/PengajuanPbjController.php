@@ -16,7 +16,7 @@ class PengajuanPbjController extends Controller
     {
         $user = auth()->user();
         $karyawan = Karyawan::where('user_id', $user->id)->first();
-        $items = PengajuanBarangJasa::pbj()->whereHas('pengusul' , function ($query) use ($karyawan) {
+        $items = PengajuanBarangJasa::whereHas('pengusul' , function ($query) use ($karyawan) {
             $query->where('pengusul_id', $karyawan->id);
         } )->latest()->get();
         return view('kabag.pages.pengajuan-pbj.index', [
@@ -27,7 +27,7 @@ class PengajuanPbjController extends Controller
 
     public function show($id)
     {
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         return view('kabag.pages.pengajuan-pbj.show', [
             'title' => 'Detail Pengajuan PBJ',
             'item' => $item
@@ -39,7 +39,7 @@ class PengajuanPbjController extends Controller
     {
         DB::beginTransaction();
         try {
-            $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+            $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
             $item->update([
                 'acc_kabag' => true,
                 'status' => 'Menunggu Persetujuan Wakil Direktur II'

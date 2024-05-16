@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengadministrasiumum;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use App\Models\PengajuanBarangJasa;
+use App\Models\SuratNonPbj;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ class PengajuanSuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = PengajuanBarangJasa::suratNonPbj()->latest()->get();
+        $items = SuratNonPbj::latest()->get();
         return view('pengadministrasi-umum.pages.pengajuan-surat-non-pbj.index', [
             'title' => 'Pengajuan Non PBJ Surat',
             'items' => $items
@@ -50,12 +51,12 @@ class PengajuanSuratNonPbjController extends Controller
             $data_pengusul = request('pengusul');
             $data_lampiran = request()->file('lampiran');
             if (request()->file('dokumen_surat')) {
-                $data['dokumen_surat'] = request()->file('dokumen_surat')->store('pbj/dokumen_surat', 'public');
+                $data['dokumen_surat'] = request()->file('dokumen_surat')->store('snpbj/dokumen_surat', 'public');
             }
             $data['status_surat'] = 'Menunggu Persetujuan Wakil Direktur II';
             $data['jenis'] = 'non pbj surat';
             $data['asal_surat'] = auth()->user()->karyawan->id;
-            $item  = PengajuanBarangJasa::suratNonPbj()->create($data);
+            $item  = SuratNonPbj::create($data);
 
             if (!empty($data_pengusul)) {
                 foreach ($data_pengusul as $pengusul) {
@@ -66,8 +67,8 @@ class PengajuanSuratNonPbjController extends Controller
             }
             if (!empty($data_lampiran)) {
                 foreach ($data_lampiran as $lampiran) {
-                    $item->lampiranpbj()->create([
-                        'file' => $lampiran->store('lampiran-pbj', 'public')
+                    $item->lampiransnpbj()->create([
+                        'file' => $lampiran->store('lampiran-snpbj', 'public')
                     ]);
                 }
             }
@@ -82,7 +83,7 @@ class PengajuanSuratNonPbjController extends Controller
 
     public function show($id)
     {
-        $item = PengajuanBarangJasa::suratNonPbj()->where('id', $id)->firstOrFail();
+        $item = SuratNonPbj::where('id', $id)->firstOrFail();
         return view('pengadministrasi-umum.pages.pengajuan-surat-non-pbj.show', [
             'title' => 'Detail Pengajuan Form Non PBJ',
             'item' => $item
@@ -91,7 +92,7 @@ class PengajuanSuratNonPbjController extends Controller
 
     public function edit($id)
     {
-        $item = PengajuanBarangJasa::suratNonPbj()->where('id', $id)->firstOrFail();
+        $item = SuratNonPbj::where('id', $id)->firstOrFail();
         return view('pengadministrasi-umum.pages.pengajuan-surat-non-pbj.edit', [
             'title' => 'Edit Pengajuan Form Non PBJ',
             'item' => $item,
@@ -115,15 +116,15 @@ class PengajuanSuratNonPbjController extends Controller
         DB::beginTransaction();
         try {
             $data = request()->only(['nomor_surat', 'perihal', 'nomor_agenda', 'created_at']);
-            $item = PengajuanBarangJasa::suratNonPbj()->where('id', $uuid)->firstOrFail();
+            $item = SuratNonPbj::where('id', $uuid)->firstOrFail();
             $data_lampiran = request()->file('lampiran');
             $data_dokumen = request()->file('dokumen_surat');
             if (!empty($data_dokumen)) {
                 if ($item->dokumen_surat) {
-                    Storage::delete('public/pbj/dokumen_surat/' . $item->dokumen_surat);
+                    Storage::delete('public/snpbj/dokumen_surat/' . $item->dokumen_surat);
                 }
                 if (request()->hasFile('dokumen_surat') && request()->file('dokumen_surat')->isValid()) {
-                    $data['dokumen_surat'] = request()->file('dokumen_surat')->store('pbj/dokumen_surat', 'public');
+                    $data['dokumen_surat'] = request()->file('dokumen_surat')->store('snpbj/dokumen_surat', 'public');
                 }
             }
             $data_pengusul = request('pengusul');
@@ -143,10 +144,10 @@ class PengajuanSuratNonPbjController extends Controller
             }
 
             if (!empty($data_lampiran)) {
-                $item->lampiranpbj()->delete();
+                $item->lampiransnpbj()->delete();
                 foreach ($data_lampiran as $lampiran) {
-                    $item->lampiranpbj()->create([
-                        'file' => $lampiran->store('lampiran-pbj', 'public')
+                    $item->lampiransnpbj()->create([
+                        'file' => $lampiran->store('lampiran-snpbj', 'public')
                     ]);
                 }
             }

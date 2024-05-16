@@ -44,11 +44,6 @@ class PengajuanBarangJasaDisposisi extends Model
     {
         return $this->belongsTo(Karyawan::class, 'pembuat_disposisi_2', 'id');
     }
-    public function pbj()
-    {
-        return $this->hasOne(PengajuanBarangJasa::class, 'id')->latest();
-    }
-
     public function teruskan(){
         return $this->hasMany(SuratNonPbjPengusul::class,'pbj_disposisi_id', 'id');
     }

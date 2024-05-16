@@ -21,42 +21,23 @@ class SuratNonPbj extends Model
         return $this->belongsTo(Karyawan::class, 'karyawan_id', 'id');
     }
 
-    public function statusAccWadir2()
+    public function karyawan()
     {
-        if ($this->acc_wadir2 == 0) {
-            return 'Belum Di Cek';
-        } elseif ($this->acc_wadir2 == 1) {
-            return 'Disetujui';
-        } else {
-            return 'Ditolak <br>' . '( ' . $this->keterangan_wadir2 . ' )';
-        }
+        return $this->hasOne(Karyawan::class, 'id');
     }
 
-
-    public function statusAccPpk()
+    public function getFileDokumen()
     {
-        if ($this->acc_ppk == 0) {
-            return 'Belum Di Cek';
-        } elseif ($this->acc_ppk == 1) {
-            return 'Disetujui';
-        } else {
-            return 'Ditolak <br>' . '( ' . $this->keterangan_ppk . ' )';
-        }
+        return asset('storage/' . $this->dokumen_surat);
     }
 
-    public function disposisis()
+    public function disposisi_snpbj()
     {
-        return $this->hasMany(SuratNonPbjDisposisi::class, 'surat_non_pbj_id', 'id');
+        return $this->hasOne(SuratNonPbjDisposisi::class, 'snpbj_id', 'id')->latest();
     }
-
-    public function getFile()
+    public function lampiransnpbj()
     {
-        return asset('storage/' . $this->file);
-    }
-
-    public function details()
-    {
-        return $this->hasMany(SuratNonPbjDetail::class);
+        return $this->hasMany(LampiranSNPBJ::class, 'snpbj_id', 'id');
     }
 
     public function uang_muka()

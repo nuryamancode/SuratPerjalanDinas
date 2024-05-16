@@ -86,7 +86,7 @@ class PengajuanPbjController extends Controller
                 'teruskan_ke_2' => request('teruskan_ke'),
                 'pembuat_disposisi_2' => auth()->user()->karyawan->id,
             ]);
-            $items->pbj()->update([
+            $items->pengajuan_barang_jasa()->update([
                 'acc_ppk' => '1',
                 'status_surat' => 'Menunggu Proses Belanja',
             ]);
@@ -106,7 +106,7 @@ class PengajuanPbjController extends Controller
         if ($item->pengajuan_barang_jasa->acc_ppk != '1') {
             return redirect()->back()->with('error', 'Anda belum menyetujui atau Disposisi kosong.');
         }
-        $item->pbj()->update([
+        $item->pengajuan_barang_jasa()->update([
             'verifikasi_ppk' => true,
         ]);
         return redirect()->back()->with('success', 'Pengajuan PBJ Berhasil diverifikasi.');

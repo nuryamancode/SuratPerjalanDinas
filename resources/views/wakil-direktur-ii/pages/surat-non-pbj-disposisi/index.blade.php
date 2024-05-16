@@ -41,10 +41,10 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->pengajuan_barang_jasa->nomor_surat }}</td>
-                                        <td>{{ $item->pengajuan_barang_jasa->perihal }}</td>
-                                        <td>{{ $item->pengajuan_barang_jasa->karyawan->nama }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->pengajuan_barang_jasa->created_at)->format('d F Y') }}
+                                        <td>{{ $item->surat_non_pbj->nomor_surat }}</td>
+                                        <td>{{ $item->surat_non_pbj->perihal }}</td>
+                                        <td>{{ $item->surat_non_pbj->karyawan->nama }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->surat_non_pbj->created_at)->format('d F Y') }}
                                         </td>
                                         <td>
                                             {{ $item->teruskan1->nama }}

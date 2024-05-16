@@ -14,7 +14,7 @@ class PengajuanPbjController extends Controller
     public function index()
     {
         $karyawan = Karyawan::where('user_id', auth()->user()->id)->first();
-        $items = PengajuanBarangJasa::pbj()->where(function ($query) {
+        $items = PengajuanBarangJasa::where(function ($query) {
             $query->where('acc_wadir2', '0')
                 ->orWhere('acc_wadir2', '1');
         })->orWhereHas('pengusul', function ($query) use ($karyawan) {
@@ -30,7 +30,7 @@ class PengajuanPbjController extends Controller
 
     public function show($id)
     {
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         $lampiran = LampiranPBJ::where('pbj_id', $item->id)->first();
         return view('wakil-direktur-ii.pages.pengajuan-pbj.show', [
             'title' => 'Detail Pengajuan PBJ',
@@ -38,19 +38,10 @@ class PengajuanPbjController extends Controller
         ]);
     }
 
-    public function acc($id)
-    {
-    //     $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
-    //     $item->update([
-    //         'acc_wadir2' => 1,
-    //     ]);
-    //     return redirect()->route('wakil-direktur-ii.pengajuan-pbj-disposisi.create', $item->id)->with('success', 'Pengajuan Barang Jasa Berhasil ditanggapi.');
-    // }
-    }
 
     public function tolak($id)
     {
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         $item->update([
             'acc_wadir2' => '2',
             'keterangan_wadir2' => request('keterangan'),
@@ -60,7 +51,7 @@ class PengajuanPbjController extends Controller
     }
 
     public function verifikasi($id){
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         if (!auth()->user()->karyawan->tte_file) {
             return redirect()->route('wakil-direktur-ii.tte.index')->with('error','Silahkan upload terlebih dahulu TTE nya.');
         }

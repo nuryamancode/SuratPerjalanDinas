@@ -13,7 +13,7 @@ class PengajuanPbjController extends Controller
 {
     public function index()
     {
-        $items = PengajuanBarangJasa::pbj()->latest()->get();
+        $items = PengajuanBarangJasa::latest()->get();
 
         return view('pengadministrasi-umum.pages.pengajuan-pbj.index', [
             'title' => 'Pengajuan PBJ',
@@ -43,7 +43,7 @@ class PengajuanPbjController extends Controller
             'perihal' => ['required'],
             'pengusul' => ['required', 'array'],
             'lampiran.*' => 'mimes:pdf',
-            'dokumen_surat' => [,'file'],
+            'dokumen_surat' => ['file'],
         ]);
 
         DB::beginTransaction();
@@ -55,12 +55,8 @@ class PengajuanPbjController extends Controller
                 $data['dokumen_surat'] = request()->file('dokumen_surat')->store('pbj/dokumen_surat', 'public');
             }
             $data['status_surat'] = 'Menunggu Persetujuan Wakil Direktur II';
-            $data['jenis'] = 'pbj';
             $data['asal_surat'] = auth()->user()->karyawan->id;
-            $item  = PengajuanBarangJasa::pbj()->create($data);
-            // $pbj_id = $item->id;
-
-            // create pengusul
+            $item  = PengajuanBarangJasa::create($data);
             if (!empty($data_pengusul)) {
                 foreach ($data_pengusul as $pengusul) {
                     $item->pengusul()->create([
@@ -87,7 +83,7 @@ class PengajuanPbjController extends Controller
 
     public function show($uuid)
     {
-        $item = PengajuanBarangJasa::pbj()->where('id', $uuid)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $uuid)->firstOrFail();
         return view('pengadministrasi-umum.pages.pengajuan-pbj.show', [
             'title' => 'Detail Pengajuan PBJ',
             'item' => $item
@@ -96,7 +92,7 @@ class PengajuanPbjController extends Controller
 
     public function edit($uuid)
     {
-        $item = PengajuanBarangJasa::pbj()->where('id', $uuid)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $uuid)->firstOrFail();
         return view('pengadministrasi-umum.pages.pengajuan-pbj.edit', [
             'title' => 'Edit Pengajuan PBJ',
             'item' => $item,
@@ -116,7 +112,7 @@ class PengajuanPbjController extends Controller
         DB::beginTransaction();
         try {
             $data = request()->only(['nomor_surat', 'perihal', 'nomor_agenda', 'created_at']);
-            $item = PengajuanBarangJasa::pbj()->where('id', $uuid)->firstOrFail();
+            $item = PengajuanBarangJasa::where('id', $uuid)->firstOrFail();
             $data_lampiran = request()->file('lampiran');
             $data_dokumen = request()->file('dokumen_surat');
             if (!empty($data_dokumen)) {
@@ -165,7 +161,7 @@ class PengajuanPbjController extends Controller
 
         DB::beginTransaction();
         try {
-            $item = PengajuanBarangJasa::pbj()->where('id', $uuid)->first();
+            $item = PengajuanBarangJasa::where('id', $uuid)->first();
             $item->delete();
             DB::commit();
             return redirect()->route('pengadministrasi-umum.pengajuan-pbj.index')->with('success', 'Pengajuan PBJ berhasil dihapus.');

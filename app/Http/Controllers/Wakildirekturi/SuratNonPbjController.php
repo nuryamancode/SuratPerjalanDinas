@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Wakildirekturi;
 
 use App\Http\Controllers\Controller;
-use App\Models\PengajuanBarangJasa;
 use App\Models\SuratNonPbj;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +12,7 @@ class SuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = PengajuanBarangJasa::suratNonPbj()->whereHas('disposisi_pbj', function ($q) {
+        $items = SuratNonPbj::whereHas('disposisi_snpbj', function ($q) {
             $q->where('teruskan_ke_1', auth()->user()->karyawan->id);
         })->where('verifikasi_wadir2' , 1)->latest()->get();
         // dd($items);
@@ -25,7 +24,7 @@ class SuratNonPbjController extends Controller
 
     public function show($id)
     {
-        $item = PengajuanBarangJasa::suratNonPbj()->where('id', $id)->firstOrFail();
+        $item = SuratNonPbj::where('id', $id)->firstOrFail();
         return view('wakil-direktur-i.pages.surat-non-pbj.show', [
             'title' => 'Detail Pengajuan Surat Non PBJ',
             'item' => $item
@@ -33,7 +32,10 @@ class SuratNonPbjController extends Controller
     }
     public function verifikasi($id)
     {
-        $item = PengajuanBarangJasa::suratNonPbj()->where('id', $id)->firstorFail();
+        $item = SuratNonPbj::where('id', $id)->firstorFail();
+        if ($item->nilai_taksiran == null) {
+            return redirect()->back()->with('error','Anda belum mengisi nilai taksiran');
+        }
         $item->update([
             'verifikasi_wadir1' => 1,
             'status_surat'=> auth()->user()->karyawan->jabatan->nama . ' Sudah Melakukan Taksiran',
@@ -48,7 +50,7 @@ class SuratNonPbjController extends Controller
         DB::beginTransaction();
         try {
             $data = request()->input('nilai_taksiran');
-            $item = PengajuanBarangJasa::suratNonPbj()->where('id',$id)->firstOrFail();
+            $item = SuratNonPbj::where('id',$id)->firstOrFail();
             $item->update([
                 'nilai_taksiran'=> $data,
             ]);
