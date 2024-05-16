@@ -51,27 +51,27 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::get('/', function () {
     if (Auth::check()) {
-        if (auth()->user()->getRoleNames()->first() === 'Pengadministrasi Umum') {
+        if (auth()->user()->roles->pluck('name')->first() === 'Pengadministrasi Umum') {
             return redirect()->route('pengadministrasi-umum.dashboard');
-        } else if (auth()->user()->getRoleNames()->first() === 'Wakil Direktur II') {
+        } else if (auth()->user()->roles->pluck('name')->first() === 'Wakil Direktur II') {
             return redirect()->route('wakil-direktur-ii.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Wakil Direktur I') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Wakil Direktur I') {
             return redirect()->route('wakil-direktur-i.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Bendahara Keuangan') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Bendahara Keuangan') {
             return redirect()->route('bendahara-keuangan.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pengelola Keuangan') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Pengelola Keuangan') {
             return redirect()->route('pengelola-keuangan.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Supir') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Supir') {
             return redirect()->route('supir.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Karyawan') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Karyawan') {
             return redirect()->route('karyawan.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Kepala Bagian') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Kepala Bagian') {
             return redirect()->route('kabag.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Pejabat Pembuat Komitmen') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Pejabat Pembuat Komitmen') {
             return redirect()->route('ppk.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Tim PPK') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Tim PPK') {
             return redirect()->route('timppk.dashboard');
-        } elseif (auth()->user()->getRoleNames()->first() === 'Admin') {
+        } elseif (auth()->user()->roles->pluck('name')->first() === 'Admin') {
             return redirect()->route('dashboard');
         }
     } else {
@@ -382,7 +382,7 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('surat-non-pbj', \App\Http\Controllers\Bendaharakeuangan\SuratNonPbjController::class)->only(['index', 'show']);
         Route::controller(\App\Http\Controllers\Bendaharakeuangan\SuratNonPbjController::class)->group(function () {
-            Route::post('/surat-non-pbj-submit/{uuid}',  'submit_arsip')->name('surat-non-pbj.submit-arsip');
+            Route::post('/surat-non-pbj-submit/{uuid}', 'submit_arsip')->name('surat-non-pbj.submit-arsip');
             Route::get('/arsip-surat-non-pbj', 'arsip_index')->name('surat-non-pbj.arsip-index');
             Route::get('/arsip-surat-non-pbj-spj/{uuid}', 'arsip_spj')->name('surat-non-pbj.arsip-spj');
         });
@@ -463,7 +463,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [\App\Http\Controllers\Timppk\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Timppk\PengajuanPbjController::class);
         Route::resource('pengajuan-pbj-proses', \App\Http\Controllers\Timppk\ProsesPbjController::class)->except('show');
-        Route::put('pengajuan-pbj/update-proses/{id}', [\App\Http\Controllers\Timppk\PengajuanPbjController::class,'update_proses'])->name('pengajuan-pbj.update-proses');
+        Route::put('pengajuan-pbj/update-proses/{id}', [\App\Http\Controllers\Timppk\PengajuanPbjController::class, 'update_proses'])->name('pengajuan-pbj.update-proses');
 
         Route::controller(\App\Http\Controllers\Timppk\FormNonPbjController::class)->group(function () {
             Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
