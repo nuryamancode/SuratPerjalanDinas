@@ -11,14 +11,19 @@ class SuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = SuratNonPbjUangMuka::where('karyawan_id', auth()->user()->karyawan->id)->latest()->get();
+        $items = SuratNonPbjUangMuka::where('karyawan_id', auth()->user()->karyawan->id)->orWhereHas('surat_non_pbj', function ($q) {
+            $q->whereHas('pengusul', function ($q) {
+                $q->where('pengusul_id', auth()->user()->karyawan->id);
+            });
+        })->latest()->get();
         return view('timppk.pages.surat-non-pbj.index', [
             'title' => 'Surat Non PBJ',
             'items' => $items
         ]);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $item = SuratNonPbjUangMuka::where('id', $id)->firstOrFail();
         return view('timppk.pages.surat-non-pbj.show', [
             'title' => 'Detail Surat Non PBJ',

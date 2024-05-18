@@ -14,8 +14,9 @@ class SuratNonPbjController extends Controller
     {
         $items = SuratNonPbj::whereHas('disposisi_snpbj', function ($q) {
             $q->where('teruskan_ke_1', auth()->user()->karyawan->id);
-        })->where('verifikasi_wadir2' , 1)->latest()->get();
-        // dd($items);
+        })->orWhereHas('pengusul', function ($q) {
+            $q->where('pengusul_id', auth()->user()->karyawan->id);
+        })->where('verifikasi_wadir2', 1)->latest()->get();
         return view('wakil-direktur-i.pages.surat-non-pbj.index', [
             'title' => 'Pengajuan Surat Non PBJ',
             'items' => $items
@@ -34,30 +35,30 @@ class SuratNonPbjController extends Controller
     {
         $item = SuratNonPbj::where('id', $id)->firstorFail();
         if ($item->nilai_taksiran == null) {
-            return redirect()->back()->with('error','Anda belum mengisi nilai taksiran');
+            return redirect()->back()->with('error', 'Anda belum mengisi nilai taksiran');
         }
         $item->update([
             'verifikasi_wadir1' => 1,
-            'status_surat'=> auth()->user()->karyawan->jabatan->nama . ' Sudah Melakukan Taksiran',
+            'status_surat' => auth()->user()->karyawan->jabatan->nama . ' Sudah Melakukan Taksiran',
         ]);
         return redirect()->route('wakil-direktur-i.surat-non-pbj.index')->with('success', 'Surat Non PBJ berhasil diverifikasi.');
     }
 
-    public function taksiran($id){
+    public function taksiran($id)
+    {
         request()->validate([
-            'nilai_taksiran'=>'required',
+            'nilai_taksiran' => 'required',
         ]);
         DB::beginTransaction();
         try {
             $data = request()->input('nilai_taksiran');
-            $item = SuratNonPbj::where('id',$id)->firstOrFail();
+            $item = SuratNonPbj::where('id', $id)->firstOrFail();
             $item->update([
-                'nilai_taksiran'=> $data,
+                'nilai_taksiran' => $data,
             ]);
             DB::commit();
-            return redirect()->route('wakil-direktur-i.surat-non-pbj.index')->with('success','Nilai Taksiran berhasil ditambahkan.');
-        }
-        catch (Throwable $th) {
+            return redirect()->route('wakil-direktur-i.surat-non-pbj.index')->with('success', 'Nilai Taksiran berhasil ditambahkan.');
+        } catch (Throwable $th) {
             throw $th;
         }
     }

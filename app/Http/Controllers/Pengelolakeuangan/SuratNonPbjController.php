@@ -14,6 +14,8 @@ class SuratNonPbjController extends Controller
     {
         $items = SuratNonPbj::whereHas("disposisi_snpbj", function ($q) {
             $q->where("teruskan_ke_2", auth()->user()->karyawan->id);
+        })->orWhereHas('pengusul', function($q){
+            $q->where('pengusul_id', auth()->user()->karyawan->id);
         })->where('verifikasi_ppk', 1)->latest()->get();
         return view('pengelola-keuangan.pages.surat-non-pbj.index', [
             'title' => 'Pengajuan Surat Non PBJ',

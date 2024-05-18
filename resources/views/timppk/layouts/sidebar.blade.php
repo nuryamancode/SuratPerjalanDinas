@@ -7,27 +7,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#pembelanjaan" aria-expanded="false"
-                aria-controls="pembelanjaan">
-                <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                <span class="menu-title">Pembelanjaan</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="pembelanjaan">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Surat </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Formulir </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> PBJ </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#surat" aria-expanded="false"
                 aria-controls="surat">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>

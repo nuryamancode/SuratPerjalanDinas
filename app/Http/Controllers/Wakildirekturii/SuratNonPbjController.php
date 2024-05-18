@@ -11,7 +11,9 @@ class SuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = SuratNonPbj::latest()->get();
+        $items = SuratNonPbj::orWhereHas('pengusul', function ($q) {
+            $q->where('pengusul_id', auth()->user()->karyawan->id);
+        })->latest()->get();
         return view('wakil-direktur-ii.pages.surat-non-pbj.index', [
             'title' => 'Pengajuan Surat Non PBJ',
             'items' => $items
@@ -38,17 +40,18 @@ class SuratNonPbjController extends Controller
         return redirect()->back()->with('success', 'Pengajuan Barang Jasa Tidak Berhasil ditanggapi.');
     }
 
-    public function verifikasi($id){
+    public function verifikasi($id)
+    {
         $item = SuratNonPbj::where('id', $id)->firstOrFail();
         if (!auth()->user()->karyawan->tte_file) {
-            return redirect()->route('wakil-direktur-ii.tte.index')->with('error','Silahkan upload terlebih dahulu TTE nya.');
+            return redirect()->route('wakil-direktur-ii.tte.index')->with('error', 'Silahkan upload terlebih dahulu TTE nya.');
         }
         if ($item->acc_wadir2 != '1') {
-            return redirect()->back()->with('error','Anda belum menyetujui atau Disposisi kosong.');
+            return redirect()->back()->with('error', 'Anda belum menyetujui atau Disposisi kosong.');
 
         }
         $item->update([
-            'verifikasi_wadir2'=> true,
+            'verifikasi_wadir2' => true,
         ]);
         return redirect()->back()->with('success', 'Pengajuan PBJ Berhasil diverifikasi.');
     }
