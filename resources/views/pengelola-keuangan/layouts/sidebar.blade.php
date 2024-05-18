@@ -55,7 +55,7 @@
                         <a class="nav-link" href=""> Perjalanan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> SPJ </a>
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.surat-non-pbj.arsip.spj') }}"> SPJ </a>
                     </li>
                 </ul>
             </div>

@@ -34,7 +34,7 @@
             <div class="collapse" id="belanja">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Surat </a>
+                        <a class="nav-link" href="{{ route('karyawan.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""> Non PBJ Formulir </a>

@@ -128,28 +128,28 @@
             <tr>
                 <td>No. Agenda</td>
                 <td>:</td>
-                <td>{{ $item->surat_non_jasa->nomor_agenda ?? '-' }}</td>
+                <td>{{ $item->surat_non_pbj->nomor_agenda ?? '-' }}</td>
             </tr>
             <tr>
                 <td>No. Surat</td>
                 <td>:</td>
-                <td>{{ $item->surat_non_jasa->nomor_surat ?? '-' }}</td>
+                <td>{{ $item->surat_non_pbj->nomor_surat ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Tanggal Surat</td>
                 <td>:</td>
-                <td>{{ $item->surat_non_jasa->created_at->translatedFormat('d F Y') ?? '-' }}
+                <td>{{ $item->surat_non_pbj->created_at->translatedFormat('d F Y') ?? '-' }}
                 </td>
             </tr>
             <tr>
                 <td>Asal Surat</td>
                 <td>:</td>
-                <td>{{ $item->surat_non_jasa->karyawan->nama ?? '-' }}</td>
+                <td>{{ $item->surat_non_pbj->karyawan->nama ?? '-' }}</td>
             </tr>
             <tr>
                 <td>Perihal</td>
                 <td>:</td>
-                <td>{{ $item->surat_non_jasa->perihal ?? '-' }}</td>
+                <td>{{ $item->surat_non_pbj->perihal ?? '-' }}</td>
             </tr>
         </table>
     </div>

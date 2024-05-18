@@ -438,6 +438,7 @@ Route::middleware('auth')->group(function () {
         Route::get('riwayat-pbj', [\App\Http\Controllers\Karyawan\PengajuanPbjController::class, 'index'])->name('riwayat-pbj.index');
         Route::get('riwayat-pbj/show/{id}', [\App\Http\Controllers\Karyawan\PengajuanPbjController::class, 'show'])->name('riwayat-pbj.show');
         Route::resource('form-non-pbj', \App\Http\Controllers\Karyawan\FormNonPbjController::class);
+        Route::resource('surat-non-pbj', \App\Http\Controllers\Karyawan\SuratNonPbjController::class);
     });
 
     Route::name('kabag.')->prefix('kabag')->middleware('role:Kepala Bagian')->group(function () {
@@ -502,6 +503,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Pengelolakeuangan\PbjController::class)->only('index', 'show');
         Route::controller(\App\Http\Controllers\Pengelolakeuangan\SuratNonPbjController::class)->group(function () {
             Route::get('/surat-non-pbj', 'index')->name('surat-non-pbj.index');
+            Route::get('/surat-non-pbj/arsip/spj', 'arsip_index')->name('surat-non-pbj.arsip.spj');
+            Route::get('/surat-non-pbj/arsip/show/{id}/spj', 'lihat_spj')->name('surat-non-pbj.lihat.spj');
             Route::get('/surat-non-pbj/detail/{id}', 'show')->name('surat-non-pbj.show');
             Route::put('/surat-non-pbj-tanggapi/{id}', 'store_tanggapi')->name('surat-non-pbj.store_tanggapi');
         });

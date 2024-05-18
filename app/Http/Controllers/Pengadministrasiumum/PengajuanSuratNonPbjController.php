@@ -14,7 +14,9 @@ class PengajuanSuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = SuratNonPbj::latest()->get();
+        $items = SuratNonPbj::orWhereHas('pengusul', function($q){
+            $q->where('pengusul_id', auth()->user()->karyawan->id);
+        })->latest()->get();
         return view('pengadministrasi-umum.pages.pengajuan-surat-non-pbj.index', [
             'title' => 'Pengajuan Non PBJ Surat',
             'items' => $items

@@ -17,6 +17,7 @@
                                     <th>Perihal</th>
                                     <th>Tanggal Surat</th>
                                     <th>Pengusul</th>
+                                    <th>Taksiran</th>
                                     <th>Status Surat</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -37,6 +38,7 @@
                                                 @endforeach
                                             </ul>
                                         </td>
+                                        <td>{{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}</td>
                                         <td>{{ $item->status_surat }}</td>
                                         <td>
                                             <a href="{{ route('bendahara-keuangan.surat-non-pbj.show', $item->id) }}"

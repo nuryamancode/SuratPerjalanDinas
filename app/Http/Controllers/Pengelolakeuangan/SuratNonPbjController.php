@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengelolakeuangan;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use App\Models\SuratNonPbj;
+use App\Models\SuratNonPbjSpj;
 use Illuminate\Http\Request;
 
 class SuratNonPbjController extends Controller
@@ -46,5 +47,39 @@ class SuratNonPbjController extends Controller
             'status_surat' => 'Sudah Di Distribusikan',
         ]);
         return redirect()->route('pengelola-keuangan.surat-non-pbj.index')->with('success', 'Disposisi Berhasil ditanggapi.');
+    }
+
+    public function arsip_index()
+    {
+        $filter = request('pilih_pbj');
+        if ($filter == 'surat_non_pbj') {
+            $items = SuratNonPbj::where('is_arsip', 1)->latest()->get();
+            $data = [
+                'title' => 'Pengajuan Surat Non PBJ',
+                'items' => $items,
+                'filter' => $filter,
+            ];
+        } elseif ($filter == 'form_non_pbj') {
+            $items = SuratNonPbj::where('is_arsip', 1)->latest()->get();
+            $data = [
+                'title' => 'Pengajuan Surat Non PBJ',
+                'items' => $items,
+                'filter' => $filter,
+            ];
+        } else {
+            $data = [
+                'title' => 'Pengajuan Surat Non PBJ',
+                'filter' => $filter
+            ];
+        }
+        return view('pengelola-keuangan.pages.arsip.arsip-spj', $data);
+    }
+    public function lihat_spj($id)
+    {
+        $item = SuratNonPbjSpj::where('acc_ppk', 1)->where('id', $id)->firstOrFail();
+        return view('pengelola-keuangan.pages.arsip.show-arsip-spj', [
+            'title' => 'Detail Pengajuan Surat Non PBJ',
+            'item' => $item
+        ]);
     }
 }

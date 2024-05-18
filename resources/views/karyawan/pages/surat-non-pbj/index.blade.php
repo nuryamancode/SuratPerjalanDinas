@@ -1,4 +1,4 @@
-@extends('pengelola-keuangan.layouts.app')
+@extends('karyawan.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -17,8 +17,8 @@
                                     <th>Perihal</th>
                                     <th>Tanggal Surat</th>
                                     <th>Pengusul</th>
-                                    <th>Taksiran</th>
                                     <th>Status Surat</th>
+                                    <th>Taksiran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -29,8 +29,7 @@
                                         <td>{{ $item->nomor_surat }}</td>
                                         <td>{{ $item->nomor_agenda }}</td>
                                         <td>{{ $item->perihal }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}
-                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
                                             <ul>
                                                 @foreach ($item->pengusul as $pengusul)
@@ -38,11 +37,12 @@
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}
-                                        </td>
                                         <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            <a href="{{ route('pengelola-keuangan.surat-non-pbj.show', $item->id) }}"
+                                            {{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('karyawan.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>
@@ -57,5 +57,3 @@
 @endsection
 <x-Admin.Sweetalert />
 <x-Admin.Datatable />
-@push('scripts')
-@endpush
