@@ -1,7 +1,19 @@
 @extends('timppk.layouts.app')
 @section('content')
+    <style>
+        .back:hover {
+            text-decoration: none;
+        }
+    </style>
+    <a href="{{ route('timppk.surat-non-pbj.index') }}" class="back">
+        <div class="d-flex align-items-center">
+            <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+            <span>Kembali</span>
+        </div>
+    </a>
     <div class="row">
         <div class="col-md-4 mb-3">
+
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Detail SPJ</h4>
@@ -12,19 +24,26 @@
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span class="font-weight-bold">Uang Muka </span>
-                            <span>Rp. {{ number_format($suratNonPbj->suratNonPbj->uang_muka->nominal) }}</span>
+                            <span>Rp. {{ number_format($suratNonPbj->nominal) }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span class="font-weight-bold">Status </span>
-                            <span>{!! $suratNonPbj->acc_ppk() !!}</span>
+                            <span>{!! $suratNonPbj->surat_non_pbj->spj->acc_ppk() !!}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Aksi</span>
-                            <div>
-                                <a href="{{ route('timppk.surat-non-pbj.index') }}"
-                                    class="btn btn-sm btn-warning">Kembali</a>
-                            </div>
-                        </li>
+                        @if ($suratNonPbj->surat_non_pbj->spj->acc_ppk == 2)
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span class="font-weight-bold">Aksi </span>
+                                <span>
+                                    <form
+                                        action="{{ route('timppk.surat-non-pbj-spj-detail.kirim.ulang', $suratNonPbj->surat_non_pbj->spj->id) }}"
+                                        method="post" class="d-inline">
+                                        @csrf
+                                        @method('put')
+                                        <button class="btn btn-sm py-2 btn-success">Kirim Ulang</button>
+                                    </form>
+                                </span>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -35,9 +54,7 @@
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
                         @if ($suratNonPbj->acc_ppk != 1)
-                            <a href="{{ route('timppk.surat-non-pbj-spj-detail.create', [
-                                'spj_uuid' => $suratNonPbj->uuid,
-                            ]) }}"
+                            <a href="{{ route('timppk.surat-non-pbj-spj-detail.create', $suratNonPbj->surat_non_pbj->spj->id) }}"
                                 class="btn btn-primary btn-sm">Tambah
                                 Data</a>
                         @endif
@@ -55,7 +72,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($suratNonPbj->details as $detail)
+                                @foreach ($suratNonPbj->surat_non_pbj->spj->details as $detail)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $detail->perincian_biaya }}</td>
@@ -67,14 +84,14 @@
                                         </td>
                                         <td>
                                             @if ($suratNonPbj->acc_ppk != 1)
-                                                <a href="{{ route('timppk.surat-non-pbj-spj-detail.edit', $detail->uuid) }}"
+                                                <a href="{{ route('timppk.surat-non-pbj-spj-detail.edit', $detail->id) }}"
                                                     class="btn btn-sm py-2 btn-info">Edit</a>
                                                 <form action="javascript:void(0)" method="post" class="d-inline"
                                                     id="formDelete">
                                                     @csrf
                                                     @method('delete')
                                                     <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                        data-action="{{ route('timppk.surat-non-pbj-spj-detail.destroy', $detail->uuid) }}">Hapus</button>
+                                                        data-action="{{ route('timppk.surat-non-pbj-spj-detail.destroy', $detail->id) }}">Hapus</button>
                                                 </form>
                                             @else
                                                 -

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->boolean('verifikasi_ppk')->default(0);
             $table->boolean('verifikasi_kabag')->default(0);
             $table->boolean('verifikasi_wadir1')->default(0);
+            $table->boolean('is_arsip')->default(0);
             $table->text('keterangan_ppk')->nullable();
             $table->text('keterangan_wadir2')->nullable();
             $table->timestamps();

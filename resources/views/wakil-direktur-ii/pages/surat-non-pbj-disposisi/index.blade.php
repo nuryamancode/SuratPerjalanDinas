@@ -18,8 +18,8 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Disposisi Surat Non PBJ</h4>
                         @if ($pengajuan->verifikasi_wadir2 == 0)
-                        <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.create', $pengajuan->id) }}"
-                            class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                            <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.create', $pengajuan->id) }}"
+                                class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
                         @endif
                     </div>
                     <div class="table-responsive">
@@ -51,8 +51,13 @@
                                         </td>
                                         @if ($pengajuan->verifikasi_wadir2 == 0)
                                             <td>
-                                                <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.destroy', $item->id) }}"
-                                                    class="btn btn-sm py-2 btn-warning">Edit</a>
+                                                @if ($pengajuan->acc_wadir2 == '2')
+                                                    <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.edit', $item->id) }}"
+                                                        class="btn btn-sm py-2 btn-warning">Kirim Ulang</a>
+                                                @else
+                                                    <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.edit', $item->id) }}"
+                                                        class="btn btn-sm py-2 btn-warning">Edit</a>
+                                                @endif
                                             </td>
                                         @endif
                                     </tr>

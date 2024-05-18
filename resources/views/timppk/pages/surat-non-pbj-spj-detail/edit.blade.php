@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Edit Biaya SPJ</h4>
-                    <form action="{{ route('timppk.surat-non-pbj-spj-detail.update', $item->uuid) }}" method="post"
+                    <form action="{{ route('timppk.surat-non-pbj-spj-detail.update', $item->id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
                         @method('patch')
@@ -52,7 +52,7 @@
                             @enderror
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('timppk.surat-non-pbj-spj.show', $item->surat_non_pbj_spj->uuid) }}"
+                            <a href="{{ route('timppk.surat-non-pbj-spj.show', $item->surat_non_pbj_spj->id) }}"
                                 class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Update Biaya SPJ</button>
                         </div>

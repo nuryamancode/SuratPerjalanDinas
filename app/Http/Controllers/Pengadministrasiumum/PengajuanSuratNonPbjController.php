@@ -160,15 +160,15 @@ class PengajuanSuratNonPbjController extends Controller
         }
     }
 
-    public function destroy($uuid)
+    public function destroy($id)
     {
 
         DB::beginTransaction();
         try {
-            $item = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->first();
+            $item = SuratNonPbj::where('id', $id)->first();
             $item->delete();
             DB::commit();
-            return redirect()->route('pengadministrasi-umum.pengajuan-form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil dihapus.');
+            return redirect()->route('pengadministrasi-umum.pengajuan-surat-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil dihapus.');
         } catch (\Throwable $th) {
             DB::rollBack();
             // throw $th;

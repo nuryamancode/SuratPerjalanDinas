@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('timppk.surat-non-pbj.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Detail Pengajuan Form Non PBJ</h4>
@@ -47,20 +58,20 @@
                                 </ol>
                             </span>
                         </li>
-                        @if ($item->spj)
+                        @if ($item->surat_non_pbj->spj == null || $item->surat_non_pbj->spj->status_spj == null)
                             <li class="list-item mb-4 d-flex justify-content-between">
-                                <span>Lampiran</span>
+                                <span>Aksi</span>
                                 <span>
-                                    <a href="{{ route('timppk.surat-non-pbj-spj.show', $item->spj->id) }}"
-                                        class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
+                                    <a href="{{ route('timppk.surat-non-pbj-spj.index', $item->id) }}"
+                                        class="btn btn-sm py-2 btn-info">Buat SPJ</a>
                                 </span>
                             </li>
                         @else
                             <li class="list-item mb-4 d-flex justify-content-between">
-                                <span>Lampiran</span>
+                                <span>Aksi</span>
                                 <span>
-                                    <a href="{{ route('timppk.surat-non-pbj-spj.index', $item->id) }}"
-                                        class="btn btn-sm py-2 btn-info">Buat SPJ</a>
+                                    <a href="{{ route('timppk.surat-non-pbj-spj.show', $item->id) }}"
+                                        class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
                                 </span>
                             </li>
                         @endif

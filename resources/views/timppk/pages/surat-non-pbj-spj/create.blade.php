@@ -2,12 +2,23 @@
 @section('content')
     <div class="row">
         <div class="col-md">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('timppk.surat-non-pbj.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Buat SPJ</h4>
                     <form action="{{ route('timppk.surat-non-pbj-spj.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="surat_non_pbj_uuid" value="{{ $suratNonPbj->id }}" hidden>
+                        <input type="text" name="surat_non_pbj_uuid" value="{{ $suratNonPbj->surat_non_pbj->id }}" hidden>
                         <div class='form-group mb-3'>
                             <label for='nominal' class='mb-2'>Nominal Uang Muka</label>
                             <input type='text' name='nominal' id='nominal'

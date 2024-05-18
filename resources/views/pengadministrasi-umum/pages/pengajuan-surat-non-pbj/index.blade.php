@@ -44,8 +44,13 @@
                                             <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                             @if ($item->acc_wadir2 == 0 || $item->acc_wadir2 == 2)
-                                                <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.edit', $item->id) }}"
-                                                    class="btn btn-sm py-2 btn-info">Edit</a>
+                                                @if ($item->acc_wadir2 == 2)
+                                                    <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.edit', $item->id) }}"
+                                                        class="btn btn-sm py-2 btn-info">Kirim Ulang</a>
+                                                @else
+                                                    <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.edit', $item->id) }}"
+                                                        class="btn btn-sm py-2 btn-info">Edit</a>
+                                                @endif
                                                 <form action="javascript:void(0)" method="post" class="d-inline"
                                                     id="formDelete">
                                                     @csrf

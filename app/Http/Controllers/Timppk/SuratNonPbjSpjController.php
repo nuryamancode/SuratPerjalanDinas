@@ -74,9 +74,9 @@ class SuratNonPbjSpjController extends Controller
         }
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $suratNonPbj = SuratNonPbjSpj::where('uuid', $uuid)->firstOrFail();
+        $suratNonPbj = SuratNonPbjUangMuka::where('id', $id)->firstOrFail();
         return view('timppk.pages.surat-non-pbj-spj.show', [
             'title' => 'Pengajuan Form Non PBJ',
             'suratNonPbj' => $suratNonPbj

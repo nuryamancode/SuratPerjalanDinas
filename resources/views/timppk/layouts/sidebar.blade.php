@@ -1,4 +1,4 @@
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas" style="width: 300px" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
             <a class="nav-link py-2" href="{{ route('timppk.dashboard') }}">

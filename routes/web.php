@@ -250,6 +250,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/surat-non-pbj/{id}', 'show')->name('surat-non-pbj.show');
             Route::post('surat-non-pbj/verifikasi/{id}', 'verifikasi')->name('surat-non-pbj.verifikasi');
             Route::get('surat-non-pbj/print/{id}', 'print_disposisi')->name('surat-non-pbj.print');
+            Route::put('surat-non-pbj/tolak/pengajuan/{id}', 'tolak')->name('surat-non-pbj.tolak');
         });
 
 
@@ -324,8 +325,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('surat-non-pbj', \App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class);
 
         Route::get('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'index'])->name('surat-non-pbj-disposisi.index');
+        Route::get('surat-non-pbj/{id}/disposisi/edit', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'edit'])->name('surat-non-pbj-disposisi.edit');
         Route::get('surat-non-pbj/{id}/disposisi/create', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'create'])->name('surat-non-pbj-disposisi.create');
         Route::post('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'store'])->name('surat-non-pbj-disposisi.store');
+        Route::post('surat-non-pbj/{id}/disposisi/update', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'update'])->name('surat-non-pbj-disposisi.update');
         Route::delete('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'destroy'])->name('surat-non-pbj-disposisi.destroy');
     });
 
@@ -481,11 +484,12 @@ Route::middleware('auth')->group(function () {
         });
         Route::controller(\App\Http\Controllers\Timppk\SuratNonPbjSpjDetailController::class)->group(function () {
             Route::get('/surat-non-pbj-spj-detail', 'index')->name('surat-non-pbj-spj-detail.index');
-            Route::get('/surat-non-pbj-spj-detail/create', 'create')->name('surat-non-pbj-spj-detail.create');
-            Route::post('/surat-non-pbj-spj-detail/create', 'store')->name('surat-non-pbj-spj-detail.store');
+            Route::get('/surat-non-pbj-spj-detail/create/data/{id}', 'create')->name('surat-non-pbj-spj-detail.create');
+            Route::post('/surat-non-pbj-spj-detail/store/{id}', 'store')->name('surat-non-pbj-spj-detail.store');
+            Route::put('/surat-non-pbj-spj-detail/kirim/{id}', 'kirim_ulang')->name('surat-non-pbj-spj-detail.kirim.ulang');
             Route::get('/surat-non-pbj-spj-detail/{uuid}/edit', 'edit')->name('surat-non-pbj-spj-detail.edit');
             Route::patch('/surat-non-pbj-spj-detail/{uuid}/edit', 'update')->name('surat-non-pbj-spj-detail.update');
-            Route::delete('/surat-non-pbj-spj-detail/{uuid}', 'destroy')->name('surat-non-pbj-spj-detail.destroy');
+            Route::delete('/surat-non-pbj-spj-detail/{id}', 'destroy')->name('surat-non-pbj-spj-detail.destroy');
         });
     });
     Route::name('supir.')->prefix('supir')->middleware('role:Supir')->group(function () {
@@ -499,7 +503,9 @@ Route::middleware('auth')->group(function () {
         Route::controller(\App\Http\Controllers\Pengelolakeuangan\SuratNonPbjController::class)->group(function () {
             Route::get('/surat-non-pbj', 'index')->name('surat-non-pbj.index');
             Route::get('/surat-non-pbj/detail/{id}', 'show')->name('surat-non-pbj.show');
+            Route::put('/surat-non-pbj-tanggapi/{id}', 'store_tanggapi')->name('surat-non-pbj.store_tanggapi');
         });
+
     });
 
 });

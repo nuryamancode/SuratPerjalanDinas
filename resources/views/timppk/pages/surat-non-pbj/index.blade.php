@@ -27,10 +27,13 @@
                                         <td>{{ $item->surat_non_pbj->nomor_surat }}</td>
                                         <td>{{ $item->surat_non_pbj->perihal }}</td>
                                         <td>
-                                            @if ($item->spj == null || $item->spj->status_spj == null)
-                                                <span>Belum dibuat</span>
+                                            @if ($item->surat_non_pbj->spj == null || $item->surat_non_pbj->spj->status_spj == null)
+                                                <span class="btn-primary btn btn-sm disabled">Belum dibuat</span>
                                             @else
-                                                <span>{{ $item->spj->status_spj }}</span>
+                                                @if ($item->surat_non_pbj->spj->acc_ppk == 2)
+                                                    <span class="btn-danger btn btn-sm disabled">SPJ ditolak</span>
+                                                @endif
+                                                <span class="btn-success btn btn-sm disabled">Sudah dibuat</span>
                                             @endif
                                         </td>
                                         <td>
@@ -38,10 +41,14 @@
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}
                                         <td>
-                                            @if ($item->surat_non_pbj->spj || $item->surat_non_pbj->spj->acc_ppk == 1)
-                                                <a target="_blank"
-                                                    href="{{ route('timppk.surat-non-pbj-spj.print', $item->id) }}"
-                                                    class="btn btn-primary py-2">Print</a>
+                                            @if (!$item->surat_non_pbj->spj)
+                                                {{ null }}
+                                            @else
+                                                @if ($item->surat_non_pbj->spj->acc_ppk == 1)
+                                                    <a target="_blank"
+                                                        href="{{ route('timppk.surat-non-pbj-spj.print', $item->surat_non_pbj->spj->id) }}"
+                                                        class="btn btn-primary py-2">Print</a>
+                                                @endif
                                             @endif
                                             <a href="{{ route('timppk.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>

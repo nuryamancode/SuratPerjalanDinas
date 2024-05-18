@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('surat_non_pbj_id')->constrained('surat_non_pbj')->cascadeOnDelete();
             $table->foreignId('karyawan_id')->constrained('karyawan')->cascadeOnDelete();
             $table->bigInteger('nominal');
+            $table->boolean('acc_bendahara')->default(0);
+            $table->boolean('acc_pengelola')->default(0);
             $table->timestamps();
         });
     }

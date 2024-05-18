@@ -48,13 +48,14 @@ class SuratNonPbjSpjController extends Controller
 
         $item->update([
             'acc_ppk' => 2,
-            'keterangan_ppk' => request('keterangan_ppk'),
+            'keterangan_ppk' => request('keterangan'),
             'status_spj' => 'Ditolak Oleh Pejabat Pembuat Komitmen',
         ]);
         $item->suratNonPbj()->update([
             'status_surat' => 'Belum Selesai'
         ]);
-        return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Berhasil ditanggapi.');
+        $item->details()->delete();
+        return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Tidak Berhasil ditanggapi.');
     }
 
     public function print($id)
@@ -73,4 +74,6 @@ class SuratNonPbjSpjController extends Controller
             'ppk' => $ppk,
         ]);
     }
+
+
 }

@@ -33,14 +33,14 @@
                             <span>Perihal</span>
                             <span>{{ $item->perihal }}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
+                        <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Dokumen surat</span>
                             <span>
                                 <a href="{{ $item->getFileDokumen() }}" target="_blank" class="btn btn-success btn-sm">Lihat
                                     Dokumen</a>
                             </span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
+                        <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Lampiran</span>
                             <span>
                                 <ol class="list-group">

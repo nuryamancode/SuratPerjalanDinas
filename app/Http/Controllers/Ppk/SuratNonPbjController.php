@@ -53,4 +53,33 @@ class SuratNonPbjController extends Controller
             'item' => $item
         ]);
     }
+
+    public function tolak($id)
+    {
+        $item = SuratNonPbjDisposisi::where('id', $id)->firstOrFail();
+        $items = $item->surat_non_pbj->nilai_taksiran;
+        if ($items == null) {
+            $item->surat_non_pbj()->update([
+                'acc_ppk' => 2,
+                'keterangan_ppk' => request('keterangan'),
+                'status_surat' => 'Pengajuan Ditolak',
+                'verifikasi_wadir2' => 0,
+                'verifikasi_wadir1' => 0,
+                'verifikasi_kabag' => 0,
+                'acc_wadir2' => '2',
+            ]);
+        }else{
+            $item->surat_non_pbj()->update([
+                'acc_ppk' => 2,
+                'keterangan_ppk' => request('keterangan'),
+                'status_surat' => 'Pengajuan Ditolak',
+                'verifikasi_wadir2' => 0,
+                'verifikasi_wadir1' => 0,
+                'verifikasi_kabag' => 0,
+                'acc_wadir2' => '2',
+                'nilai_taksiran' => null,
+            ]);
+        }
+        return redirect()->route('ppk.surat-non-pbj.index')->with('success', 'Pengajuan Surat Non PBJ Berhasil diverifikasi.');
+    }
 }

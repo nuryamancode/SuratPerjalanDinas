@@ -15,10 +15,10 @@ class SuratNonPbjDisposisiController extends Controller
 {
     public function index($id)
     {
-        $items = SuratNonPbjDisposisi::where('id', $id)->latest()->get();
+        $item = SuratNonPbjDisposisi::where('id', $id)->latest()->first();
         return view('ppk.pages.surat-non-pbj-disposisi.index', [
             'title' => 'Pengajuan Surat Non PBJ Disposisi',
-            'items' => $items,
+            'item' => $item,
         ]);
     }
     public function create($id)
