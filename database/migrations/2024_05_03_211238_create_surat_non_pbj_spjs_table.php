@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('surat_non_pbj_spj', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
             $table->foreignId('surat_non_pbj_id')->constrained('surat_non_pbj')->cascadeOnDelete();
+            $table->foreignId('pembuat_id')->constrained('karyawan')->cascadeOnDelete();
             $table->string('untuk_pembayaran');
+            $table->string('status_spj');
             $table->integer('acc_ppk')->default(0);
             $table->text('keterangan_ppk')->nullable();
             $table->timestamps();

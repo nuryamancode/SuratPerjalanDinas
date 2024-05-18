@@ -7,12 +7,12 @@
                     <h4 class="card-title mb-5">Buat SPJ</h4>
                     <form action="{{ route('timppk.surat-non-pbj-spj.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="surat_non_pbj_uuid" value="{{ $suratNonPbj->uuid }}" hidden>
+                        <input type="text" name="surat_non_pbj_uuid" value="{{ $suratNonPbj->id }}" hidden>
                         <div class='form-group mb-3'>
                             <label for='nominal' class='mb-2'>Nominal Uang Muka</label>
                             <input type='text' name='nominal' id='nominal'
                                 class='form-control @error('nominal') is-invalid @enderror'
-                                value='{{ $suratNonPbj->uang_muka ? 'Rp. ' . number_format($suratNonPbj->uang_muka->nominal) : old('nominal') }}'
+                                value='{{ $suratNonPbj->nominal ? 'Rp. ' . number_format($suratNonPbj->nominal) : old('nominal') }}'
                                 disabled>
                             @error('nominal')
                                 <div class='invalid-feedback'>

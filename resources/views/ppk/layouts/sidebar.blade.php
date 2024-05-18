@@ -37,16 +37,7 @@
                         <a class="nav-link" href=""> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat PertanggungJawaban </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan Non PBJ Surat </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan Non PBJ Formulir </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan PBJ </a>
+                        <a class="nav-link" href="{{ route('ppk.surat-non-pbj-spj.index') }}"> Surat PertanggungJawaban </a>
                     </li>
                 </ul>
             </div>
@@ -140,7 +131,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('ppk.surat-non-pbj-spj.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">SPJ Surat Non PBJ</span>
             </a>

@@ -18,29 +18,48 @@ class SuratNonPbjSpjController extends Controller
             'items' => $items
         ]);
     }
-
-    public function acc($uuid)
+    public function show($id)
     {
-        request()->validate([
-            'status' => ['required']
+        $item = SuratNonPbjSpj::where('id', $id)->firstOrFail();
+        // dd($item);
+        return view('ppk.pages.surat-non-pbj-spj.show', [
+            'title' => 'Detail Surat Non PBJ SPJ',
+            'item' => $item
         ]);
-        $item = SuratNonPbjSpj::where('uuid', $uuid)->firstOrFail();
-
-        $item->update([
-            'acc_ppk' => request('status'),
-            'keterangan_ppk' => request('keterangan_ppk'),
-        ]);
-        if (request('status') == 1) {
-            $item->suratNonPbj()->update([
-                'status' => 'Selesai'
-            ]);
-        }
-        return redirect()->back()->with('success', 'SPJ Berhasil ditanggapi.');
     }
 
-    public function print($uuid)
+    public function acc($id)
     {
-        $item = SuratNonPbjSpj::where('uuid', $uuid)->firstOrFail();
+        $item = SuratNonPbjSpj::where('id', $id)->firstOrFail();
+
+        $item->update([
+            'acc_ppk' => 1,
+            'status_spj' => 'Disetujui Oleh Pejabat Pembuat Komitmen',
+        ]);
+        $item->suratNonPbj()->update([
+            'status_surat' => 'Selesai',
+            'is_arsip' => 1
+        ]);
+        return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Berhasil ditanggapi.');
+    }
+    public function tolak($id)
+    {
+        $item = SuratNonPbjSpj::where('id', $id)->firstOrFail();
+
+        $item->update([
+            'acc_ppk' => 2,
+            'keterangan_ppk' => request('keterangan_ppk'),
+            'status_spj' => 'Ditolak Oleh Pejabat Pembuat Komitmen',
+        ]);
+        $item->suratNonPbj()->update([
+            'status_surat' => 'Belum Selesai'
+        ]);
+        return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Berhasil ditanggapi.');
+    }
+
+    public function print($id)
+    {
+        $item = SuratNonPbjSpj::where('id', $id)->firstOrFail();
         $bendahara = Karyawan::whereHas('user', function ($user) {
             $user->role('Bendahara Keuangan');
         })->firstOrFail();

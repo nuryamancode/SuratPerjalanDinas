@@ -5,43 +5,87 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Arsip Pengajuan Surat Non PBJ</h4>
+                        <h4 class="card-title mb-3">Arsip</h4>
                     </div>
+                    <form action="{{ route('bendahara-keuangan.surat-non-pbj.arsip-index') }}" method="GET" class="mb-3">
+                        <div class="filter">
+                            <label for="pilih_pbj" class="form-label">Filter</label>
+                            <select name="pilih_pbj" id="" class="form-control" onchange="this.form.submit()">
+                                <option value="" selected disabled>Pilih Filter</option>
+                                <option value="surat_non_pbj">SURAT NON PBJ</option>
+                                <option value="form_non_pbj">FORMULIR NON PBJ</option>
+                            </select>
+                        </div>
+                    </form>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
                             <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Nomor Surat</th>
-                                    <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
-                                    <th>Perihal</th>
-                                    <th>Taksiran</th>
-                                    <th>Uang Muka</th>
-                                    <th>Aksi</th>
-                                </tr>
+                                @if ($filter == 'surat_non_pbj')
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nomor Surat</th>
+                                        <th>Nomor Agenda</th>
+                                        <th>Tanggal Surat</th>
+                                        <th>Perihal</th>
+                                        <th>Taksiran</th>
+                                        <th>Uang Muka</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                @elseif($filter == 'form_non_pbj')
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nomor Surat</th>
+                                        <th>Nomor Agenda</th>
+                                        <th>Tanggal Surat</th>
+                                        <th>Perihal</th>
+                                        <th>Formulir</th>
+                                        <th>Uang Muka</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                @endif
                             </thead>
                             <tbody>
-                                @foreach ($items as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
-                                        <td>{{ $item->perihal }}</td>
-                                        <td>
-                                            Rp.
-                                            {{ $item->details ? number_format($item->details()->sum('harga_satuan')) : '0' }}
-                                        </td>
-                                        <td>
-                                            Rp. {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-spj', $item->spj->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @if ($filter == 'surat_non_pbj')
+                                    @foreach ($items as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->nomor_surat }}</td>
+                                            <td>{{ $item->nomor_agenda }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
+                                            <td>{{ $item->perihal }}</td>
+                                            <td>
+                                                {{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}
+                                            </td>
+                                            <td>
+                                                Rp. {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-spj', $item->spj->id) }}"
+                                                    class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @elseif ($filter == 'form_non_pbj')
+                                    @foreach ($items as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->nomor_surat }}</td>
+                                            <td>{{ $item->nomor_agenda }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
+                                            <td>{{ $item->perihal }}</td>
+                                            <td>
+                                                {{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}
+                                            </td>
+                                            <td>
+                                                Rp. {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-spj', $item->spj->id) }}"
+                                                    class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

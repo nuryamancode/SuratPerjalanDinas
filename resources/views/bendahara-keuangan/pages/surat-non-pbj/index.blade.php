@@ -39,7 +39,7 @@
                                         </td>
                                         <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            <a href="{{ route('ppk.surat-non-pbj.show', $item->id) }}"
+                                            <a href="{{ route('bendahara-keuangan.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

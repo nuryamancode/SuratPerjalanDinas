@@ -15,6 +15,10 @@ class SuratNonPbjSpj extends Model
     {
         return $this->belongsTo(SuratNonPbj::class, 'surat_non_pbj_id', 'id');
     }
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class, 'pembuat_id', 'id');
+    }
 
     public function details()
     {
@@ -29,6 +33,16 @@ class SuratNonPbjSpj extends Model
             return '<span class="badge badge-success">Disetujui</span>';
         } else {
             return '<span class="badge badge-danger">Ditolak</span>';
+        }
+    }
+    public function status()
+    {
+        if ($this->acc_ppk == 0) {
+            return 'Menunggu Persetujuan';
+        } elseif ($this->acc_ppk == 1) {
+            return 'Disetujui';
+        } else {
+            return 'Ditolak';
         }
     }
 }

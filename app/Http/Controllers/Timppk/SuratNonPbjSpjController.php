@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Timppk;
 
 use App\Http\Controllers\Controller;
+use App\Models\Karyawan;
 use App\Models\SuratNonPbj;
 use App\Models\SuratNonPbjSpj;
+use App\Models\SuratNonPbjUangMuka;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class SuratNonPbjSpjController extends Controller
 {
-    public function index($uuid)
+    public function index($id)
     {
-        $suratNonPbj = SuratNonPbj::where('uuid', $uuid)->firstOrFail();
+        $suratNonPbj = SuratNonPbjUangMuka::where('id', $id)->firstOrFail();
         return view('timppk.pages.surat-non-pbj-spj.create', [
             'title' => 'Pengajuan Form Non PBJ',
             'suratNonPbj' => $suratNonPbj
@@ -23,7 +26,6 @@ class SuratNonPbjSpjController extends Controller
     {
         request()->validate([
             'untuk_pembayaran' => ['required'],
-            'surat_non_pbj_uuid' => ['required']
         ]);
 
         DB::beginTransaction();
@@ -35,23 +37,25 @@ class SuratNonPbjSpjController extends Controller
 
 
             // dd(request()->all());
-            $suratNonPbj = SuratNonPbj::where('uuid', request('surat_non_pbj_uuid'))->firstOrFail();
+            $suratNonPbj = SuratNonPbj::where('id', request('surat_non_pbj_uuid'))->firstOrFail();
             // cek spj
             if ($suratNonPbj->spj) {
                 // update spj
             } else {
                 // create spj
                 $spj = $suratNonPbj->spj()->create([
-                    'uuid' => \Str::uuid(),
                     'untuk_pembayaran' => request('untuk_pembayaran'),
-                    'status' => 0
+                    'status_spj' => 'SPJ Terkirim Ke Pejabat Pembuat Komitmen',
+                    'pembuat_id' => auth()->user()->karyawan->id
+                ]);
+                $suratNonPbj->update([
+                    'status_surat' => 'SPJ Terkirim Ke Pejabat Pembuat Komitmen',
                 ]);
 
                 foreach ($data_perincian_biaya as $key => $perincian) {
                     // harus ada isi
                     if ($perincian && isset($data_nominal[$key]) && isset($data_file[$key])) {
                         $spj->details()->create([
-                            'uuid' => \Str::uuid(),
                             'perincian_biaya' => $perincian,
                             'nominal' => $data_nominal[$key],
                             'keterangan' => $data_keterangan[$key],
@@ -63,7 +67,7 @@ class SuratNonPbjSpjController extends Controller
 
             DB::commit();
             return redirect()->route('timppk.surat-non-pbj.index')->with('success', 'SPJ Berhasil dibuat.');
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             throw $th;
             DB::rollBack();
             return redirect()->route('timppk.surat-non-pbj.index')->with('error', $th->getMessage());
@@ -76,6 +80,23 @@ class SuratNonPbjSpjController extends Controller
         return view('timppk.pages.surat-non-pbj-spj.show', [
             'title' => 'Pengajuan Form Non PBJ',
             'suratNonPbj' => $suratNonPbj
+        ]);
+    }
+
+    public function print($id)
+    {
+        $item = SuratNonPbjSpj::where('id', $id)->firstOrFail();
+        $bendahara = Karyawan::whereHas('user', function ($user) {
+            $user->role('Bendahara Keuangan');
+        })->firstOrFail();
+        $ppk = Karyawan::whereHas('user', function ($user) {
+            $user->role('Pejabat Pembuat Komitmen');
+        })->firstOrFail();
+        return view('ppk.pages.surat-non-pbj-spj.print', [
+            'title' => 'Cetak Kwitansi',
+            'item' => $item,
+            'bendahara' => $bendahara,
+            'ppk' => $ppk,
         ]);
     }
 }

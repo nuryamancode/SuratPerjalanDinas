@@ -42,7 +42,7 @@ class SuratNonPbj extends Model
 
     public function uang_muka()
     {
-        return $this->hasOne(SuratNonPbjUangMuka::class);
+        return $this->hasOne(SuratNonPbjUangMuka::class, 'surat_non_pbj_id', 'id');
     }
 
     public function spj()

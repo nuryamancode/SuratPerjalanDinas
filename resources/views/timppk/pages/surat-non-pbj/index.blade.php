@@ -13,12 +13,10 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
-                                    <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Pengusul</th>
+                                    <th>Status SPJ</th>
                                     <th>Uang Muka</th>
-                                    <th>Status Surat</th>
+                                    <th>Tanggal Distribusi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -26,29 +24,27 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
-                                        <td>{{ $item->perihal }}</td>
+                                        <td>{{ $item->surat_non_pbj->nomor_surat }}</td>
+                                        <td>{{ $item->surat_non_pbj->perihal }}</td>
                                         <td>
-                                            <ul>
-                                                @foreach ($item->pengusul as $pengusul)
-                                                    <li>{{ $pengusul->karyawan->nama ?? '-' }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
-                                        </td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>
-                                            @if ($item->spj)
-                                                <a href="{{ route('timppk.surat-non-pbj-spj.show', $item->spj->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
+                                            @if ($item->spj == null || $item->spj->status_spj == null)
+                                                <span>Belum dibuat</span>
                                             @else
-                                                <a href="{{ route('timppk.surat-non-pbj-spj.index', $item->uuid) }}"
-                                                    class="btn btn-sm py-2 btn-info">Buat SPJ</a>
+                                                <span>{{ $item->spj->status_spj }}</span>
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{ $item->nominal ? 'Rp. ' . number_format($item->nominal, 0, ',', '.') : '-' }}
+                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}
+                                        <td>
+                                            @if ($item->surat_non_pbj->spj || $item->surat_non_pbj->spj->acc_ppk == 1)
+                                                <a target="_blank"
+                                                    href="{{ route('timppk.surat-non-pbj-spj.print', $item->id) }}"
+                                                    class="btn btn-primary py-2">Print</a>
+                                            @endif
+                                            <a href="{{ route('timppk.surat-non-pbj.show', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>
                                 @endforeach

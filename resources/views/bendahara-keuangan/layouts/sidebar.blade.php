@@ -37,7 +37,7 @@
                         <a class="nav-link" href=""> Perjalanan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Belanja </a>
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.disposisi-belanja.index') }}"> Belanja </a>
                     </li>
                 </ul>
             </div>
@@ -55,7 +55,7 @@
                         <a class="nav-link" href=""> Perjalanan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> SPJ </a>
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-index') }}"> SPJ </a>
                     </li>
                 </ul>
             </div>
@@ -136,7 +136,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Arsip Surat Non PBJ</span>
             </a>

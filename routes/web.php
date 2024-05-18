@@ -264,6 +264,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/surat-non-pbj-spj/{id}/print', 'print')->name('surat-non-pbj-spj.print');
             Route::get('/surat-non-pbj-spj/{id}/show', 'show')->name('surat-non-pbj-spj.show');
             Route::post('surat-non-pbj-spj/acc/{id}', 'acc')->name('surat-non-pbj-spj.acc');
+            Route::put('surat-non-pbj-spj/tolak/{id}', 'tolak')->name('surat-non-pbj-spj.tolak');
         });
     });
 
@@ -381,8 +382,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('surat-non-pbj', \App\Http\Controllers\Bendaharakeuangan\SuratNonPbjController::class)->only(['index', 'show']);
         Route::controller(\App\Http\Controllers\Bendaharakeuangan\SuratNonPbjController::class)->group(function () {
             Route::post('/surat-non-pbj-submit/{uuid}', 'submit_arsip')->name('surat-non-pbj.submit-arsip');
+            Route::put('/surat-non-pbj-tanggapi/{id}', 'store_tanggapi')->name('surat-non-pbj.store_tanggapi');
             Route::get('/arsip-surat-non-pbj', 'arsip_index')->name('surat-non-pbj.arsip-index');
             Route::get('/arsip-surat-non-pbj-spj/{uuid}', 'arsip_spj')->name('surat-non-pbj.arsip-spj');
+        });
+        Route::controller(\App\Http\Controllers\Bendaharakeuangan\DistribusiBelanjaController::class)->group(function () {
+            Route::get('disposisi-belanja', 'index')->name('disposisi-belanja.index');
         });
     });
 
@@ -472,6 +477,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/surat-non-pbj-spj/{uuid}', 'index')->name('surat-non-pbj-spj.index');
             Route::get('/surat-non-pbj-spj/{uuid}/show', 'show')->name('surat-non-pbj-spj.show');
             Route::post('/surat-non-pbj-spj', 'store')->name('surat-non-pbj-spj.store');
+            Route::get('/surat-non-pbj-spj/print/{id}', 'print')->name('surat-non-pbj-spj.print');
         });
         Route::controller(\App\Http\Controllers\Timppk\SuratNonPbjSpjDetailController::class)->group(function () {
             Route::get('/surat-non-pbj-spj-detail', 'index')->name('surat-non-pbj-spj-detail.index');

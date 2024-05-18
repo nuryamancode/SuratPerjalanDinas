@@ -1,5 +1,56 @@
 @extends('bendahara-keuangan.layouts.app')
 @section('content')
+<style>
+    .back:hover {
+        text-decoration: none;
+    }
+</style>
+<a href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-index') }}" class="back">
+    <div class="d-flex align-items-center">
+        <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+        <span>Kembali</span>
+    </div>
+</a>
+<div class="card mb-3">
+    <h1 class="card-title mt-3 text-center">Detail Surat Non PBJ SPJ</h1>
+    <div class="card-body">
+        <form action="">
+            <div class='form-group mb-3'>
+                <label for='nomor_surat' class='mb-2'>Pengirim</label>
+                <input type='text' name='' id='nomor_surat'
+                    class='form-control @error('nomor_surat') is-invalid @enderror' value='{{ $item->karyawan->nama }}'
+                    readonly>
+                @error('nomor_surat')
+                    <div class='invalid-feedback'>
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class='form-group mb-3'>
+                <label for='nomor_surat' class='mb-2'>Tanggal SPJ</label>
+                <input type='text' name='' id='nomor_surat'
+                    class='form-control @error('nomor_surat') is-invalid @enderror'
+                    value='{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}' readonly>
+                @error('nomor_surat')
+                    <div class='invalid-feedback'>
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class='form-group mb-3'>
+                <label for='nomor_surat' class='mb-2'>Status SPJ</label>
+                <input type='text' name='' id='nomor_surat'
+                    class='form-control @error('nomor_surat') is-invalid @enderror' value='{!! $item->status() !!}'
+                    readonly>
+                @error('nomor_surat')
+                    <div class='invalid-feedback'>
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </form>
+    </div>
+</div>
     <div class="row">
         <div class="col-md-3 mb-3">
             <div class="card">

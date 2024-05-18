@@ -12,11 +12,9 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Perihal</th>
-                                    <th>Nomor Agenda</th>
-                                    <th>Pelaksana</th>
-                                    <th>Acc PPK</th>
-                                    <th>Keterangan PPK</th>
+                                    <th>Pembuat</th>
+                                    <th>Tanggal Dibuat SPJ</th>
+                                    <th>Status SPJ</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -24,30 +22,17 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->suratNonPbj->perihal }}</td>
-                                        <td>{{ $item->suratNonPbj->nomor_agenda }}</td>
-                                        <td>{{ $item->suratNonPbj->uang_muka->karyawan->nama ?? '-' }}</td>
+                                        <td>{{ $item->karyawan->nama }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}
                                         <td>{!! $item->acc_ppk() !!}</td>
-                                        <td>{{ $item->keterangan_ppk ?? '-' }}</td>
                                         <td>
-                                            <form action="{{ route('ppk.surat-non-pbj-spj.acc', $item->uuid) }}"
-                                                method="post" class="d-inline" id="formAcc">
-                                                @csrf
-                                                <textarea name="keterangan_ppk" id="keterangan_ppk" hidden cols="30" rows="10"></textarea>
-                                                @if ($item->acc_ppk == 0)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                    <button data-url="{{ route('ppk.surat-non-pbj-spj.acc', $item->uuid) }}"
-                                                        type="button" class="btn btnTolak py-2  btn-sm btn-danger"
-                                                        name="status" value="2">Tolak</button>
-                                                @elseif($item->acc_ppk == 2)
-                                                    <button class="btn py-2  btn-sm btn-success" name="status"
-                                                        value="1">Terima</button>
-                                                @endif
-                                            </form>
-                                            <a target="_blank"
-                                                href="{{ route('ppk.surat-non-pbj-spj.print', $item->uuid) }}"
-                                                class="btn btn-secondary  py-2">Print</a>
+                                            @if ($item->acc_ppk == 1)
+                                                <a target="_blank"
+                                                    href="{{ route('ppk.surat-non-pbj-spj.print', $item->id) }}"
+                                                    class="btn btn-secondary  py-2">Print</a>
+                                            @endif
+                                            <a href="{{ route('ppk.surat-non-pbj-spj.show', $item->id) }}"
+                                                class="btn btn-warning py-2">Detail</a>
                                         </td>
                                     </tr>
                                 @endforeach
