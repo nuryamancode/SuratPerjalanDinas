@@ -9,8 +9,6 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\LampiranController;
 use App\Http\Controllers\Pengadministrasiumum\PermohonanSpdController;
-// use App\Http\Controllers\Pengadministrasiumum\SuratTugasController;
-use App\Http\Controllers\PengajuanBarangJasaController;
 use App\Http\Controllers\PengajuanFormNonPbjController;
 use App\Http\Controllers\PengajuanFormNonPbjDetailController;
 use App\Http\Controllers\PengajuanFormNonPbjDisposisiController;
@@ -175,6 +173,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('spj-form-non-pbj-detail', SuratPertanggungJawabanDetailController::class);
     });
 
+
+    // ppk
     Route::name('ppk.')->prefix('ppk')->group(function () {
         Route::get('/', [\App\Http\Controllers\Ppk\DashboardController::class, 'index'])->name('dashboard');
         Route::post('permohonan-spd/acc-ppk/{id}', [App\Http\Controllers\Ppk\PermohonanSpdController::class, 'acc_ppk'])->name('permohonan-spd.acc-ppk');
@@ -187,9 +187,13 @@ Route::middleware('auth')->group(function () {
         Route::get('tte', [App\Http\Controllers\Ppk\TTEController::class, 'index'])->name('tte.index');
         Route::post('tte', [App\Http\Controllers\Ppk\TTEController::class, 'update'])->name('tte.update');
         Route::delete('tte', [App\Http\Controllers\Ppk\TTEController::class, 'destroy'])->name('tte.destroy');
+        Route::resource('spd', App\Http\Controllers\Ppk\SpdController::class);
+        Route::resource('spd-spj-detail', App\Http\Controllers\Ppk\SpdSpjDetailController::class);
+        Route::get('permohonan-spd-disposisi-print/{id}', [App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
+
+        // pembelanjaan
         Route::post('form-non-pbj/acc/{id}', [App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class, 'acc'])->name('form-non-pbj.acc');
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class);
-
         Route::get('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'index'])->name('pengajuan-form-non-pbj-disposisi.index');
         Route::get('pengajuan-form-non-pbj/{id}/disposisi/create', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'create'])->name('pengajuan-form-non-pbj-disposisi.create');
         Route::post('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'store'])->name('pengajuan-form-non-pbj-disposisi.store');
@@ -210,18 +214,6 @@ Route::middleware('auth')->group(function () {
             Route::put('pengajuan-pbj/disposisi/store/{id}', 'update_disposisi')->name('pengajuan-pbj-disposisi.store');
             Route::post('pengajuan-pbj/verifikasi/{id}', 'verifikasi')->name('pengajuan-pbj.verifikasi');
         });
-
-
-
-
-        Route::resource('spd', App\Http\Controllers\Ppk\SpdController::class);
-        // Route::resource('spd-spj', App\Http\Controllers\Ppk\SpdSpjController::class);
-        Route::resource('spd-spj-detail', App\Http\Controllers\Ppk\SpdSpjDetailController::class);
-
-        // Route::get('proses-pbj/{pbj_uuid}', [ProsesPbjController::class, 'show'])->name('proses-pbj.show');
-
-        Route::get('permohonan-spd-disposisi-print/{id}', [App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
-
         Route::controller(\App\Http\Controllers\Ppk\FormNonPbjController::class)->group(function () {
             Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
             Route::get('/form-non-pbj/{id}', 'show')->name('form-non-pbj.show');
