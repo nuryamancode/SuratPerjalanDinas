@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('form_non_pbj_disposisi', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
+            $table->string('no_surat')->nullable();
+            $table->string('no_agenda')->nullable();
             $table->foreignId('form_non_pbj_id')->constrained('form_non_pbj')->cascadeOnDelete();
-            $table->string('tipe');
-            $table->text('catatan');
-            $table->foreignId('pembuat_karyawan_id')->constrained('karyawan')->cascadeOnDelete();
-            $table->foreignId('tujuan_karyawan_id')->constrained('karyawan')->cascadeOnDelete();
-            $table->string('nomor_agenda')->nullable();
+            $table->string('tipe_disposisi');
+            $table->text('catatan_disposisi');
+            $table->foreignId('asal_surat_id')->constrained('karyawan')->cascadeOnDelete();
             $table->string('perihal')->nullable();
             $table->timestamps();
         });

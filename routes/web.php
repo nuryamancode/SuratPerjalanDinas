@@ -192,6 +192,10 @@ Route::middleware('auth')->group(function () {
         Route::get('permohonan-spd-disposisi-print/{id}', [App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
 
         // pembelanjaan
+        Route::controller(App\Http\Controllers\Ppk\FormNonPbjController::class)->group(function () {
+            Route::get('form-non-pbj', 'index')->name('form-non-pbj.index');
+            Route::get('form-non-pbj/detail/{id}', 'show')->name('form-non-pbj.show');
+        });
         Route::post('form-non-pbj/acc/{id}', [App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class, 'acc'])->name('form-non-pbj.acc');
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class);
         Route::get('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'index'])->name('pengajuan-form-non-pbj-disposisi.index');

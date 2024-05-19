@@ -10,10 +10,18 @@ class FormNonPbjController extends Controller
 {
     public function index()
     {
-        $items = FormNonPbj::with('uang_muka1')->latest()->get();
+        $items = FormNonPbj::latest()->get();
         return view('ppk.pages.form-non-pbj.index', [
             'title' => 'Pengajuan Form Non PBJ',
             'items' => $items
+        ]);
+    }
+    public function show($id)
+    {
+        $item = FormNonPbj::where('id', $id)->firstOrFail();
+        return view('ppk.pages.form-non-pbj.show', [
+            'title' => 'Pengajuan Form Non PBJ',
+            'item' => $item
         ]);
     }
 

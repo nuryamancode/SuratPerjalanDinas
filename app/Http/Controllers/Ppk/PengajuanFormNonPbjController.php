@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ppk;
 
 use App\Http\Controllers\Controller;
+use App\Models\FormNonPbj;
 use App\Models\PengajuanBarangJasa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,16 +12,16 @@ class PengajuanFormNonPbjController extends Controller
 {
     public function index()
     {
-        $items = PengajuanBarangJasa::formNonPbj()->verifikasiPengusul()->latest()->get();
+        $items = FormNonPbj::latest()->get();
         return view('ppk.pages.pengajuan-form-non-pbj.index', [
             'title' => 'Pengajuan Form Non PBJ',
             'items' => $items
         ]);
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $item = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->firstOrFail();
+        $item = FormNonPbj::where('id', $id)->firstOrFail();
         return view('ppk.pages.pengajuan-form-non-pbj.show', [
             'title' => 'Detail Pengajuan Form Non PBJ',
             'item' => $item

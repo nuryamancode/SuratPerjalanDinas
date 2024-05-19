@@ -39,6 +39,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('ppk.surat-non-pbj-spj.index') }}"> Surat PertanggungJawaban </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ppk.form-non-pbj.index') }}"> Form Non PBJ </a>
+                    </li>
                 </ul>
             </div>
         </li>
@@ -73,7 +76,7 @@
                         <a class="nav-link" href="{{ route('ppk.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ppk.form-non-pbj.index') }}"> Non PBJ Formulir </a>
+                        <a class="nav-link" href="{{ route('ppk.pengajuan-form-non-pbj.index') }}"> Non PBJ Formulir </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('ppk.pengajuan-pbj.index')  }}"> PBJ </a>

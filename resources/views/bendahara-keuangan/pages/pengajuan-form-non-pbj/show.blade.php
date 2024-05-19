@@ -1,5 +1,16 @@
-@extends('ppk.layouts.app')
+@extends('bendahara-keuangan.layouts.app')
 @section('content')
+<style>
+    .back:hover {
+        text-decoration: none;
+    }
+</style>
+<a href="{{ route('bendahara-keuangan.pengajuan-form-non-pbj.index') }}" class="back">
+    <div class="d-flex align-items-center">
+        <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+        <span>Kembali</span>
+    </div>
+</a>
     <div class="row">
         <div class="col-md">
             <div class="card">
@@ -7,78 +18,25 @@
                     <h4 class="card-title mb-5">Detail Pengajuan Form Non PBJ</h4>
                     <ul class="list-inline">
                         <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Nomor Surat</span>
-                            <span>{{ $item->nomor_surat }}</span>
+                            <span>Formulir</span>
+                            <span>
+                                <a href="{{ $item->getFile() }}" target="_blank" class="btn btn-success btn-sm">Lihat
+                                    Formulir</a>
+                            </span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Nomor Agenda</span>
-                            <span>{{ $item->nomor_agenda }}</span>
+                            <span>Tanggal Pembuatan</span>
+                            <span>
+                                {{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}
+                            </span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Tanggal</span>
-                            <span>{{ $item->tanggal }}</span>
-                        </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Perihal</span>
-                            <span>{{ $item->perihal }}</span>
-                        </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Pelaksana</span>
-                            <div>
-                                <ol class="list-group">
-                                    @foreach ($item->pelaksana as $pelaksana)
-                                        <li>
-                                            {{ $pelaksana->karyawan->nama }}
-                                        </li>
-                                    @endforeach
-                                </ol>
-                            </div>
-                        </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Aksi</span>
-                            <div>
-                                <a href="{{ route('ppk.pengajuan-form-non-pbj.index') }}"
-                                    class="btn btn-sm btn-warning">Kembali</a>
-                            </div>
+                            <span>Status Pengajuan</span>
+                            <span>
+                                {{ $item->status }}
+                            </span>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md mt-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Detail </h4>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table dtTable table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Kebutuhan Barang</th>
-                                    <th>Volume</th>
-                                    <th>Satuan</th>
-                                    <th>Harga Satuan</th>
-                                    <th>Jumlah</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($item->details as $detail)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $detail->kebutuhan_barang }}</td>
-                                        <td>{{ $detail->volume }}</td>
-                                        <td>{{ $detail->satuan }}</td>
-                                        <td>Rp. {{ number_format($detail->harga_satuan) }}</td>
-                                        <td>{{ $detail->jumlah }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>

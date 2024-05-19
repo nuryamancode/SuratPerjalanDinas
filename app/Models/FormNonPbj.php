@@ -32,4 +32,8 @@ class FormNonPbj extends Model
     {
         return $this->hasOne(FormNonPbjSpj::class, 'form_non_pbj_id', 'id');
     }
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class, 'pengusul_karyawan_id', 'id');
+    }
 }

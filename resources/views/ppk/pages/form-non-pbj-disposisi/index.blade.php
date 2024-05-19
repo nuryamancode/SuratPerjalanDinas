@@ -14,38 +14,27 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Form Non PBJ</th>
-                                    <th>Pembuat</th>
-                                    <th>Tujuan</th>
-                                    <th>Nomor Agenda</th>
+                                    <th>No Surat</th>
+                                    <th>No Agenda</th>
+                                    <th>Asal Surat</th>
+                                    <th>Tipe Disposisi</th>
+                                    <th>Tanggal Surat</th>
                                     <th>Perihal</th>
-                                    <th>Tipe</th>
-                                    <th>Catatan</th>
-                                    <th>Aksi</th>
+                                    <th>Catatan Disposiisi</th>
+                                    {{--  <th>Aksi</th>  --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->no_surat }}</td>
+                                        <td>{{ $item->no_agenda }}</td>
+                                        <td>{{ $item->asal_surat_id }}</td>
+                                        <td>{{ $item->tipe_disposisi }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->perihal }}</td>
-                                        <td>{{ $item->pembuat->nama }}</td>
-                                        <td>{{ $item->tujuan->nama }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->perihal }}</td>
-                                        <td>{{ $item->tipe }}</td>
-                                        <td>{{ $item->catatan }}</td>
-                                        <td>
-                                            @if ($item->pembuat_karyawan_id == auth()->user()->karyawan->id)
-                                                <form action="javascript:void(0)" method="post" class="d-inline"
-                                                    id="formDelete">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                        data-action="{{ route('ppk.form-non-pbj-disposisi.destroy', $item->id) }}">Hapus</button>
-                                                </form>
-                                            @endif
-                                        </td>
+                                        <td>{{ $item->catatan_disposisi }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

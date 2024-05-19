@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Ppk;
 
 use App\Http\Controllers\Controller;
+use App\Models\FormNonPbj;
+use App\Models\FormNonPbjDisposisi;
 use App\Models\Karyawan;
 use App\Models\PengajuanBarangJasa;
 use App\Models\PengajuanBarangJasaDisposisi;
@@ -11,11 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class PengajuanFormNonPbjDisposisiController extends Controller
 {
-    public function index($uuid)
+    public function index($id)
     {
-        $pengajuan = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->firstOrFail();
-        $items = PengajuanBarangJasaDisposisi::where('pengajuan_barang_jasa_id', $pengajuan->id)->latest()->get();
-        return view('ppk.pages.pengajuan-form-non-pbj-disposisi.index', [
+        $pengajuan = FormNonPbj::formNonPbj()->where('id', $id)->firstOrFail();
+        $items = FormNonPbjDisposisi::where('form_non_pbj_id', $pengajuan->id)->latest()->get();
+        return view('ppk.pages.form-non-pbj-disposisi.index', [
             'title' => 'Pengajuan Form Non PBJ Disposisi',
             'items' => $items,
             'pengajuan' => $pengajuan

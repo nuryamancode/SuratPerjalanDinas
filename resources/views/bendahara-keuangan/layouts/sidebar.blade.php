@@ -91,7 +91,7 @@
                         <a class="nav-link" href="{{ route('bendahara-keuangan.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Formulir </a>
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.pengajuan-form-non-pbj.index') }}"> Non PBJ Formulir </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('bendahara-keuangan.pengajuan-pbj.index') }}"> PBJ </a>
@@ -112,7 +112,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('bendahara-keuangan.form-non-pbj.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Form Non PBJ</span>
             </a>
