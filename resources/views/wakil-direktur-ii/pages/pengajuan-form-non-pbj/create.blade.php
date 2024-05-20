@@ -1,11 +1,11 @@
-@extends('pengadministrasi-umum.layouts.app')
+@extends('wakil-direktur-ii.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Tambah Pengajuan Form Non PBJ</h4>
-                    <form action="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('wakil-direktur-ii.pengajuan-form-non-pbj.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class='form-group mb-3'>
                             <label for='form_file' class='mb-2'>File</label>

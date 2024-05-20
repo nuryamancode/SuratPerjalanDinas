@@ -73,7 +73,7 @@
                         <a class="nav-link" href="{{ route('wakil-direktur-ii.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Formulir </a>
+                        <a class="nav-link" href="{{ route('wakil-direktur-ii.pengajuan-form-non-pbj.index') }}"> Non PBJ Formulir </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('wakil-direktur-ii.pengajuan-pbj.index') }}"> PBJ </a>

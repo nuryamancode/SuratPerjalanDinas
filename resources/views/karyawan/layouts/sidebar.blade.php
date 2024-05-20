@@ -37,7 +37,7 @@
                         <a class="nav-link" href="{{ route('karyawan.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Formulir </a>
+                        <a class="nav-link" href="{{ route('karyawan.form-non-pbj.index') }}"> Non PBJ Formulir </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('karyawan.riwayat-pbj.index') }}"> PBJ </a>
@@ -58,7 +58,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('karyawan.form-non-pbj.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Pengajuan Form Non PBJ</span>
             </a>

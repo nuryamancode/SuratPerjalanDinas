@@ -1,14 +1,15 @@
-@extends('pengadministrasi-umum.layouts.app')
+@extends('ppk.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Tambah Pengajuan Form Non PBJ</h4>
-                    <form action="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('kabag.form-non-pbj.store') }}" method="post"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class='form-group mb-3'>
-                            <label for='form_file' class='mb-2'>File</label>
+                            <label for='form_file' class='mb-2'>Formulir</label>
                             <input type='file' name='form_file' id='form_file'
                                 class='form-control @error('form_file') is-invalid @enderror' value='{{ old('form_file') }}'>
                             @error('form_file')
@@ -16,10 +17,12 @@
                                     {{ $message }}
                                 </div>
                             @enderror
+                            <span><small>Silahkan untuk mengisi formulir dengan format PDF</small></span>
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('karyawan.form-non-pbj.index') }}" class="btn btn-warning">Batal</a>
-                            <button class="btn btn-primary">Tambah Pengajuan Form Non PBJ</button>
+                            <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.index') }}"
+                                class="btn btn-warning">Batal</a>
+                            <button class="btn btn-primary">Tambah Pengajuan PBJ</button>
                         </div>
                     </form>
                 </div>

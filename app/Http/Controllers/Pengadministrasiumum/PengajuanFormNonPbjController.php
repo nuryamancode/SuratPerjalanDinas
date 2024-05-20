@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pengadministrasiumum;
 
 use App\Http\Controllers\Controller;
+use App\Models\FormNonPbj;
 use App\Models\Karyawan;
 use App\Models\PengajuanBarangJasa;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class PengajuanFormNonPbjController extends Controller
 {
     public function index()
     {
-        $items = PengajuanBarangJasa::formNonPbj()->latest()->get();
+        $items = FormNonPbj::where('pengusul_karyawan_id', auth()->user()->karyawan->id)->latest()->get();
         return view('pengadministrasi-umum.pages.pengajuan-form-non-pbj.index', [
             'title' => 'Pengajuan Non PBJ Formulir',
             'items' => $items
@@ -21,49 +22,33 @@ class PengajuanFormNonPbjController extends Controller
 
     public function create()
     {
-        $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
         return view('pengadministrasi-umum.pages.pengajuan-form-non-pbj.create', [
             'title' => 'Tambah Pengajuan Non PBJ Formulir',
-            'data_karyawan' => $data_karyawan
         ]);
     }
 
     public function store()
     {
         request()->validate([
-            'nomor_surat' => ['required', 'unique:pengajuan_barang_jasa,nomor_surat'],
-            'nomor_agenda' => ['required', 'unique:pengajuan_barang_jasa,nomor_agenda'],
-            'perihal' => ['required'],
-            'pelaksana' => ['required', 'array'],
-            // 'tujuan_karyawan_id' => ['required']
+            'form_file' => ['required', 'file', 'mimes:pdf'],
         ]);
 
         DB::beginTransaction();
         try {
-            $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'tanggal', 'nomor_agenda', 'tujuan_karyawan_id']);
-            $data_pelaksana = request('pelaksana');
-            $data['uuid'] = \Str::uuid();
-            // $data['pembuat_karyawan_id'] = auth()->id();
-            $data['status'] = 'Belum Didisposisikan';
-            $data['jenis'] = 'formulir non pbj';
-            $item  = PengajuanBarangJasa::formNonPbj()->create($data);
-
-            // create pelaksana
-            if (!empty($data_pelaksana)) {
-                foreach ($data_pelaksana as $pelaksana) {
-                    $item->pelaksana()->create([
-                        'uuid' => \Str::uuid(),
-                        'karyawan_id' => $pelaksana
-                    ]);
-                }
+            if (request()->file('form_file')) {
+                $formulir = request()->file('form_file')->store('formulir_non_pbj', 'public');
             }
+            FormNonPbj::create([
+                'file' => $formulir,
+                'pengusul_karyawan_id' => auth()->user()->karyawan->id,
+                'status' => 'Pemeriksaan PPK'
+            ]);
 
             DB::commit();
-            return redirect()->route('pengadministrasi-umum.pengajuan-form-non-pbj.show', $item->uuid)->with('success', 'Pengajuan Form Non PBJ berhasil ditambahkan.');
+            return redirect()->route('pengadministrasi-umum.pengajuan-form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil ditambahkan.');
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 

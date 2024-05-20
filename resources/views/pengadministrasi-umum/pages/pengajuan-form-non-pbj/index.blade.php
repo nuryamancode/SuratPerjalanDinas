@@ -5,25 +5,21 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Pengajuan Non PBJ Formulir</h4>
-                        <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.create') }}"
-                            class="btn my-2 mb-3 btn-sm py-2 btn-primary">Tambah
-                            Pengajuan Non PBJ Formulir</a>
+                        <h4 class="card-title mb-3">Pengajuan Form Non PBJ</h4>
+                    </div>
+                    <div class="text-right">
+                        <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.create') }}" class="btn btn-primary btn-sm">
+                            Buat Pengajuan
+                        </a>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nomor Surat</th>
-                                    <th>Nomor Agenda</th>
-                                    <th>Tanggal Surat</th>
-                                    <th>Perihal</th>
-                                    <th>Pelaksana</th>
-                                    <th>Status Surat</th>
-                                    <th>Acc Pengusul</th>
-                                    <th>Acc PPK</th>
-                                    <th>Status Uang Muka</th>
+                                    <th>Pembuat</th>
+                                    <th>Tanggal Pengiriman</th>
+                                    <th>Status Pengajuan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -31,33 +27,14 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->nomor_agenda }}</td>
-                                        <td>{{ $item->tanggal }}</td>
-                                        <td>{{ $item->perihal }}</td>
+                                        <td>{{ $item->karyawan->nama }} - {{ $item->karyawan->jabatan->nama }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
-                                            <ul>
-                                                @foreach ($item->pelaksana as $pelaksana)
-                                                    <li>{{ $pelaksana->karyawan->nama ?? '-' }}</li>
-                                                @endforeach
-                                            </ul>
+                                            {{ $item->status }}
                                         </td>
-                                        <td>{{ $item->status() }}</td>
-                                        <td>{{ $item->statusVerifikasiPengusul() }}</td>
-                                        <td>{{ $item->statusAccPpk() }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
                                         <td>
-                                            <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.show', $item->uuid) }}"
+                                            <a href="{{ route('ppk.pengajuan-form-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
-                                            <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.edit', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Edit</a>
-                                            <form action="javascript:void(0)" method="post" class="d-inline"
-                                                id="formDelete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                    data-action="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.destroy', $item->uuid) }}">Hapus</button>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -71,3 +48,5 @@
 @endsection
 <x-Admin.Sweetalert />
 <x-Admin.Datatable />
+@push('scripts')
+@endpush

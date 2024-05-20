@@ -28,29 +28,31 @@ class FormNonPbjController extends Controller
     public function store()
     {
         request()->validate([
-            'file' => ['required', 'file']
+            'form_file' => ['required', 'file', 'mimes:pdf'],
         ]);
 
         DB::beginTransaction();
         try {
+            if (request()->file('form_file')) {
+                $formulir = request()->file('form_file')->store('formulir_non_pbj', 'public');
+            }
             FormNonPbj::create([
-                'uuid' => \Str::uuid(),
-                'file' => request()->file('file')->store('form-non-pbj', 'public'),
-                'status' => 'Menunggu Pemeriksaan PPK',
-                'pengusul_karyawan_id' => auth()->user()->karyawan->id
+                'file' => $formulir,
+                'pengusul_karyawan_id' => auth()->user()->karyawan->id,
+                'status' => 'Pemeriksaan PPK'
             ]);
+
             DB::commit();
             return redirect()->route('karyawan.form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil ditambahkan.');
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $item = FormNonPbj::where('uuid', $uuid)->firstOrFail();
+        $item = FormNonPbj::where('id', $id)->firstOrFail();
         return view('karyawan.pages.form-non-pbj.show', [
             'title' => 'Detail Pengajuan Form Non PBJ',
             'item' => $item

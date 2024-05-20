@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Ppk;
+namespace App\Http\Controllers\Pengelolakeuangan;
 
 use App\Http\Controllers\Controller;
 use App\Models\FormNonPbj;
-use App\Models\PengajuanBarangJasa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,25 +11,17 @@ class PengajuanFormNonPbjController extends Controller
 {
     public function index()
     {
-        $items = FormNonPbj::where('pengusul_karyawan_id' , auth()->user()->karyawan->id)->latest()->get();
-        return view('ppk.pages.pengajuan-form-non-pbj.index', [
-            'title' => 'Pengajuan Form Non PBJ',
+        $items = FormNonPbj::where('pengusul_karyawan_id', auth()->user()->karyawan->id)->latest()->get();
+        return view('pengelola-keuangan.pages.form-non-pbj.index', [
+            'title' => 'Pengajuan Non PBJ Formulir',
             'items' => $items
         ]);
     }
 
-    public function show($id)
+    public function create()
     {
-        $item = FormNonPbj::where('id', $id)->firstOrFail();
-        return view('ppk.pages.pengajuan-form-non-pbj.show', [
-            'title' => 'Detail Pengajuan Form Non PBJ',
-            'item' => $item
-        ]);
-    }
-
-    public function create(){
-        return view('ppk.pages.pengajuan-form-non-pbj.create', [
-            'title'=> 'Pengajuan Form Non PBJ'
+        return view('pengelola-keuangan.pages.form-non-pbj.create', [
+            'title' => 'Tambah Pengajuan Non PBJ Formulir',
         ]);
     }
 
@@ -52,7 +43,7 @@ class PengajuanFormNonPbjController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('ppk.pengajuan-form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil ditambahkan.');
+            return redirect()->route('pengelola-keuangan.pengajuan-form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil ditambahkan.');
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;

@@ -1,4 +1,4 @@
-@extends('karyawan.layouts.app')
+@extends('wakil-direktur-i.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -8,7 +8,7 @@
                         <h4 class="card-title mb-3">Pengajuan Form Non PBJ</h4>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('karyawan.form-non-pbj.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('wakil-direktur-i.pengajuan-form-non-pbj.create') }}" class="btn btn-primary btn-sm">
                             Buat Pengajuan
                         </a>
                     </div>

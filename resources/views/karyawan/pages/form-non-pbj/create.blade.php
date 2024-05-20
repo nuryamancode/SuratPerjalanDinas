@@ -8,10 +8,10 @@
                     <form action="{{ route('karyawan.form-non-pbj.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class='form-group mb-3'>
-                            <label for='file' class='mb-2'>File</label>
-                            <input type='file' name='file' id='file'
-                                class='form-control @error('file') is-invalid @enderror' value='{{ old('file') }}'>
-                            @error('file')
+                            <label for='form_file' class='mb-2'>File</label>
+                            <input type='file' name='form_file' id='form_file'
+                                class='form-control @error('form_file') is-invalid @enderror' value='{{ old('form_file') }}'>
+                            @error('form_file')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>

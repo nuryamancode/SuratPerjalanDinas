@@ -55,7 +55,7 @@
                         <a class="nav-link" href="{{ route('kabag.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Non PBJ Formulir </a>
+                        <a class="nav-link" href="{{ route('kabag.form-non-pbj.index') }}"> Non PBJ Formulir </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('kabag.pengajuan-pbj.index') }}"> PBJ </a>

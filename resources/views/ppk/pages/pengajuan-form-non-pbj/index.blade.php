@@ -7,6 +7,11 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Pengajuan Form Non PBJ</h4>
                     </div>
+                    <div class="text-right">
+                        <a href="{{ route('ppk.pengajuan-form-non-pbj.create') }}" class="btn btn-primary btn-sm">
+                            Buat Pengajuan
+                        </a>
+                    </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
                             <thead>
