@@ -10,7 +10,7 @@ class FormNonPbjController extends Controller
 {
     public function index()
     {
-        $items = FormNonPbj::latest()->get();
+        $items = FormNonPbj::where('acc_ppk' , 0)->latest()->get();
         return view('ppk.pages.form-non-pbj.index', [
             'title' => 'Pengajuan Form Non PBJ',
             'items' => $items

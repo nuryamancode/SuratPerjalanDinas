@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('no_agenda')->nullable();
             $table->foreignId('form_non_pbj_id')->constrained('form_non_pbj')->cascadeOnDelete();
             $table->string('tipe_disposisi');
-            $table->text('catatan_disposisi');
-            $table->foreignId('asal_surat_id')->constrained('karyawan')->cascadeOnDelete();
+            $table->text('catatan_disposisi')->nullable();
+            $table->foreignId('diteruskan_ke')->constrained('karyawan')->cascadeOnDelete();
             $table->string('perihal')->nullable();
             $table->timestamps();
         });

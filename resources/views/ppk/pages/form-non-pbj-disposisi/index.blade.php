@@ -6,8 +6,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Disposisi Form Non PBJ</h4>
-                        <a href="{{ route('ppk.form-non-pbj-disposisi.create', $formNonPbj->uuid) }}"
-                            class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                        @if ($pengajuan->acc_ppk == 0)
+                            <a href="{{ route('ppk.pengajuan-form-non-pbj-disposisi.create', $pengajuan->id) }}"
+                                class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                        @endif
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -30,7 +32,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->no_surat }}</td>
                                         <td>{{ $item->no_agenda }}</td>
-                                        <td>{{ $item->asal_surat_id }}</td>
+                                        <td>{{ $item->form_non_pbj->karyawan->nama }}</td>
                                         <td>{{ $item->tipe_disposisi }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->perihal }}</td>

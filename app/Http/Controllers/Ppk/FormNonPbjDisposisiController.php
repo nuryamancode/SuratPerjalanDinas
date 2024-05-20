@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 class FormNonPbjDisposisiController extends Controller
 {
-    public function index($uuid)
+    public function index($id)
     {
-        $formNonPbj = FormNonPbj::where('uuid', $uuid)->firstOrFail();
+        $formNonPbj = FormNonPbj::where('id', $id)->firstOrFail();
         $items = FormNonPbjDisposisi::where('form_non_pbj_id', $formNonPbj->id)->latest()->get();
         return view('ppk.pages.form-non-pbj-disposisi.index', [
             'title' => 'Pengajuan Form Non PBJ Disposisi',
@@ -32,31 +32,31 @@ class FormNonPbjDisposisiController extends Controller
         ]);
     }
 
-    public function store($pengajuan_uuid)
-    {
-        request()->validate([
-            'tujuan_karyawan_id' => ['required'],
-        ]);
+    // public function store($pengajuan_uuid)
+    // {
+    //     request()->validate([
+    //         'tujuan_karyawan_id' => ['required'],
+    //     ]);
 
-        DB::beginTransaction();
-        try {
-            $pengajuan  = FormNonPbj::where('uuid', $pengajuan_uuid)->firstOrFail();
-            $pengajuan->disposisis()->create([
-                'uuid' => \Str::uuid(),
-                'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
-                'tipe' => request('tipe'),
-                'catatan' => request('catatan'),
-                'nomor_agenda' => request('nomor_agenda'),
-                'perihal' => request('perihal'),
-            ]);
+    //     DB::beginTransaction();
+    //     try {
+    //         $pengajuan  = FormNonPbj::where('uuid', $pengajuan_uuid)->firstOrFail();
+    //         $pengajuan->disposisis()->create([
+    //             'uuid' => \Str::uuid(),
+    //             'pembuat_karyawan_id' => auth()->user()->karyawan->id,
+    //             'tujuan_karyawan_id' => request('tujuan_karyawan_id'),
+    //             'tipe' => request('tipe'),
+    //             'catatan' => request('catatan'),
+    //             'nomor_agenda' => request('nomor_agenda'),
+    //             'perihal' => request('perihal'),
+    //         ]);
 
-            DB::commit();
-            return redirect()->route('ppk.form-non-pbj-disposisi.index', $pengajuan->uuid)->with('success', 'Disposisi Berhasil disimpan.');
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
+    //         DB::commit();
+    //         return redirect()->route('ppk.form-non-pbj-disposisi.index', $pengajuan->uuid)->with('success', 'Disposisi Berhasil disimpan.');
+    //     } catch (\Throwable $th) {
+    //         throw $th;
+    //     }
+    // }
 
     public function destroy($id)
     {

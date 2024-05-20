@@ -196,11 +196,11 @@ Route::middleware('auth')->group(function () {
             Route::get('form-non-pbj', 'index')->name('form-non-pbj.index');
             Route::get('form-non-pbj/detail/{id}', 'show')->name('form-non-pbj.show');
         });
-        Route::post('form-non-pbj/acc/{id}', [App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class, 'acc'])->name('form-non-pbj.acc');
+        Route::post('pengajuan-form-non-pbj/store/{id}', [App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class, 'store'])->name('pengajuan-form-non-pbj.store');
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class);
         Route::get('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'index'])->name('pengajuan-form-non-pbj-disposisi.index');
         Route::get('pengajuan-form-non-pbj/{id}/disposisi/create', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'create'])->name('pengajuan-form-non-pbj-disposisi.create');
-        Route::post('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'store'])->name('pengajuan-form-non-pbj-disposisi.store');
+        Route::post('pengajuan-form-non-pbj/{id}/disposisi/store', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'store'])->name('pengajuan-form-non-pbj-disposisi.store');
         Route::delete('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'destroy'])->name('pengajuan-form-non-pbj-disposisi.destroy');
 
         Route::controller(\App\Http\Controllers\Ppk\PengajuanFormNonPbjSpjController::class)->group(function () {
@@ -227,7 +227,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(\App\Http\Controllers\Ppk\FormNonPbjDisposisiController::class)->group(function () {
             Route::get('/form-non-pbj-disposisi/{id}', 'index')->name('form-non-pbj-disposisi.index');
             Route::get('/form-non-pbj-disposisi/{id}/create', 'create')->name('form-non-pbj-disposisi.create');
-            Route::post('form-non-pbj-disposisi/{id}/create', 'store')->name('form-non-pbj-disposisi.store');
+            Route::post('form-non-pbj-disposisi/{id}/store', 'store')->name('form-non-pbj-disposisi.store');
             // Route::post('form-non-pbj-disposisi/acc/{id}', 'acc')->name('form-non-pbj.acc');
             Route::delete('form-non-pbj-disposisi/{id}', 'destroy')->name('form-non-pbj-disposisi.destroy');
         });

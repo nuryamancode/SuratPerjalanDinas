@@ -19,7 +19,7 @@ class FormNonPbj extends Model
     {
         return $this->hasOne(FormNonPbjUangMuka::class, 'form_non_pbj_id', 'id');
     }
-    public function disposisi()
+    public function disposisi_form()
     {
         return $this->hasOne(FormNonPbjDisposisi::class, 'form_non_pbj_id', 'id')->latest();
     }

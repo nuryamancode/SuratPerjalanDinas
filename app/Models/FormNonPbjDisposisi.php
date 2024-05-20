@@ -9,6 +9,15 @@ class FormNonPbjDisposisi extends Model
 {
     use HasFactory;
     protected $table = 'form_non_pbj_disposisi';
+    protected $fillable = [
+        'form_non_pbj_id',
+        'no_surat',
+        'no_agenda',
+        'tipe_disposisi',
+        'catatan_disposisi',
+        'diteruskan_ke',
+        'perihal',
+    ];
     protected $guarded = ['id'];
 
     public function form_non_pbj()
