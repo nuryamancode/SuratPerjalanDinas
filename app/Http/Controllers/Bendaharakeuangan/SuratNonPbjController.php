@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Bendaharakeuangan;
 
 use App\Http\Controllers\Controller;
+use App\Models\FormNonPbj;
+use App\Models\FormNonPbjSpj;
 use App\Models\Karyawan;
 use App\Models\SuratNonPbj;
 use App\Models\SuratNonPbjSpj;
@@ -76,9 +78,9 @@ class SuratNonPbjController extends Controller
                 'filter' => $filter,
             ];
         } elseif ($filter == 'form_non_pbj') {
-            $items = SuratNonPbj::where('is_arsip', 1)->latest()->get();
+            $items = FormNonPbj::where('is_arsip', 1)->latest()->get();
             $data = [
-                'title' => 'Pengajuan Surat Non PBJ',
+                'title' => 'Pengajuan Form Non PBJ',
                 'items' => $items,
                 'filter' => $filter,
             ];
@@ -94,6 +96,14 @@ class SuratNonPbjController extends Controller
     public function arsip_spj($id)
     {
         $item = SuratNonPbjSpj::where('acc_ppk', 1)->where('id', $id)->firstOrFail();
+        return view('bendahara-keuangan.pages.surat-non-pbj.arsip-spj', [
+            'title' => 'Detail Pengajuan Surat Non PBJ',
+            'item' => $item
+        ]);
+    }
+    public function arsip_spj_form($id)
+    {
+        $item = FormNonPbjSpj::where('acc_ppk', 1)->where('id', $id)->firstOrFail();
         return view('bendahara-keuangan.pages.surat-non-pbj.arsip-spj', [
             'title' => 'Detail Pengajuan Surat Non PBJ',
             'item' => $item

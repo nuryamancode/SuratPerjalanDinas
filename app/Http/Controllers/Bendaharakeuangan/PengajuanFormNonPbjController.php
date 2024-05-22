@@ -12,7 +12,7 @@ class PengajuanFormNonPbjController extends Controller
 {
     public function index()
     {
-        $items = FormNonPbj::where('pengusul_karyawam_id' , auth()->user()->karyawan->id)->latest()->get();
+        $items = FormNonPbj::where('pengusul_karyawan_id' , auth()->user()->karyawan->id)->latest()->get();
         return view('bendahara-keuangan.pages.pengajuan-form-non-pbj.index', [
             'title' => 'Pengajuan Form Non PBJ',
             'items' => $items

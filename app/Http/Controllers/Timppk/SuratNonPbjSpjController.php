@@ -68,9 +68,8 @@ class SuratNonPbjSpjController extends Controller
             DB::commit();
             return redirect()->route('timppk.surat-non-pbj.index')->with('success', 'SPJ Berhasil dibuat.');
         } catch (Throwable $th) {
-            throw $th;
             DB::rollBack();
-            return redirect()->route('timppk.surat-non-pbj.index')->with('error', $th->getMessage());
+            throw $th;
         }
     }
 

@@ -18,22 +18,27 @@ class FormNonPbjSpjController extends Controller
             'items' => $items
         ]);
     }
-
-    public function acc($uuid)
+    public function show($id)
     {
-        request()->validate([
-            'status' => ['required']
+        $item = FormNonPbjSpj::where('id', $id)->firstOrFail();
+        return view('ppk.pages.form-non-pbj-spj.show', [
+            'title' => 'Pengajuan Form Non PBJ',
+            'item' => $item
         ]);
-        $item = FormNonPbjSpj::where('uuid', $uuid)->firstOrFail();
+    }
+
+    public function acc($id)
+    {
+        $item = FormNonPbjSpj::where('id', $id)->firstOrFail();
 
         $item->update([
-            'acc_ppk' => request('status'),
-            'keterangan_ppk' => request('keterangan_ppk'),
+            'acc_ppk' => 1,
         ]);
         $item->formNonPbj()->update([
-            'status' => 'Selesai'
+            'status' => 'Selesai',
+            'is_arsip' => 1,
         ]);
-        return redirect()->back()->with('success', 'SPJ Berhasil ditanggapi.');
+        return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Berhasil ditanggapi.');
     }
 
     public function print($uuid)

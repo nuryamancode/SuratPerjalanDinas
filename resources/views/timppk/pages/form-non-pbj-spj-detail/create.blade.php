@@ -6,9 +6,7 @@
                 <div class="card-body">
                     <h4 class="card-title mb-5">Buat Biaya SPJ</h4>
                     <form
-                        action="{{ route('timppk.form-non-pbj-spj-detail.store', [
-                            'spj_uuid' => $spj->uuid,
-                        ]) }}"
+                        action="{{ route('timppk.form-non-pbj-spj-detail.store', $spj->id) }}"
                         method="post" enctype="multipart/form-data">
                         @csrf
                         <div class='form-group mb-3'>

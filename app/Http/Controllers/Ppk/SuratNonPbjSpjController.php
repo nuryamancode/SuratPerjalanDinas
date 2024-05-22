@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ppk;
 
 use App\Http\Controllers\Controller;
+use App\Models\FormNonPbjSpj;
 use App\Models\Karyawan;
 use App\Models\SuratNonPbjSpj;
 use Illuminate\Http\Request;
@@ -12,10 +13,12 @@ class SuratNonPbjSpjController extends Controller
     public function index()
     {
         $items = SuratNonPbjSpj::latest()->get();
+        $item = FormNonPbjSpj::latest()->get();
         // dd($items);
         return view('ppk.pages.surat-non-pbj-spj.index', [
-            'title' => 'Surat Non PBJ SPJ',
-            'items' => $items
+            'title' => 'Permohonan SPJ',
+            'items' => $items,
+            'item' => $item,
         ]);
     }
     public function show($id)

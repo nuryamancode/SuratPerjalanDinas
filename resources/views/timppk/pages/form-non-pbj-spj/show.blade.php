@@ -14,7 +14,7 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
-                                <a href="{{ route('timppk.form-non-pbj.index') }}" class="btn btn-sm btn-warning">Kembali</a>
+                                <a href="{{ route('timppk.pembelanjaan-form-non-pbj.index') }}" class="btn btn-sm btn-warning">Kembali</a>
                             </div>
                         </li>
                     </ul>
@@ -26,10 +26,8 @@
                 <div class="card-body">
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
-                        @if ($formNonPbj->acc_ppk == 0)
-                            <a href="{{ route('timppk.form-non-pbj-spj-detail.create', [
-                                'spj_uuid' => $formNonPbj->uuid,
-                            ]) }}"
+                        @if ($formNonPbj->spj->acc_ppk == 0)
+                            <a href="{{ route('timppk.form-non-pbj-spj-detail.create', $formNonPbj->id) }}"
                                 class="btn btn-primary btn-sm">Tambah
                                 Data</a>
                         @endif
@@ -47,7 +45,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($formNonPbj->details as $detail)
+                                @foreach ($formNonPbj->spj->details as $detail)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $detail->perincian_biaya }}</td>
@@ -58,15 +56,15 @@
                                                 class="btn btn-success btn-sm">Lihat</a>
                                         </td>
                                         <td>
-                                            @if ($formNonPbj->acc_ppk == 0)
-                                                <a href="{{ route('timppk.form-non-pbj-spj-detail.edit', $detail->uuid) }}"
+                                            @if ($formNonPbj->spj->acc_ppk == 0)
+                                                <a href="{{ route('timppk.form-non-pbj-spj-detail.edit', $detail->id) }}"
                                                     class="btn btn-sm py-2 btn-info">Edit</a>
                                                 <form action="javascript:void(0)" method="post" class="d-inline"
                                                     id="formDelete">
                                                     @csrf
                                                     @method('delete')
                                                     <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                        data-action="{{ route('timppk.form-non-pbj-spj-detail.destroy', $detail->uuid) }}">Hapus</button>
+                                                        data-action="{{ route('timppk.form-non-pbj-spj-detail.destroy', $detail->id) }}">Hapus</button>
                                                 </form>
                                             @else
                                                 -

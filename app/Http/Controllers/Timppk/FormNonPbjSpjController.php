@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class FormNonPbjSpjController extends Controller
 {
-    public function index($uuid)
+    public function index($id)
     {
-        $formNonPbj = FormNonPbj::where('uuid', $uuid)->firstOrFail();
+        $formNonPbj = FormNonPbj::where('id', $id)->firstOrFail();
         return view('timppk.pages.form-non-pbj-spj.create', [
             'title' => 'Pengajuan Form Non PBJ',
             'formNonPbj' => $formNonPbj
@@ -35,23 +35,22 @@ class FormNonPbjSpjController extends Controller
 
 
             // dd(request()->all());
-            $formNonPbj = FormNonPbj::where('uuid', request('form_non_pbj_uuid'))->firstOrFail();
+            $formNonPbj = FormNonPbj::where('id', request('form_non_pbj_uuid'))->firstOrFail();
             // cek spj
             if ($formNonPbj->spj) {
                 // update spj
             } else {
                 // create spj
                 $spj = $formNonPbj->spj()->create([
-                    'uuid' => \Str::uuid(),
                     'untuk_pembayaran' => request('untuk_pembayaran'),
-                    'status' => 0
+                    'status_spj' => 'Sudah Dibuat',
+                    'karyawan_id' => auth()->user()->karyawan->id,
                 ]);
 
                 foreach ($data_perincian_biaya as $key => $perincian) {
                     // harus ada isi
                     if ($perincian && isset($data_nominal[$key]) && isset($data_file[$key])) {
                         $spj->details()->create([
-                            'uuid' => \Str::uuid(),
                             'perincian_biaya' => $perincian,
                             'nominal' => $data_nominal[$key],
                             'keterangan' => $data_keterangan[$key],
@@ -62,17 +61,16 @@ class FormNonPbjSpjController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('timppk.form-non-pbj.index')->with('success', 'SPJ Berhasil dibuat.');
+            return redirect()->route('timppk.pembelanjaan-form-non-pbj.index')->with('success', 'SPJ Berhasil dibuat.');
         } catch (\Throwable $th) {
-            throw $th;
             DB::rollBack();
-            return redirect()->route('timppk.form-non-pbj.index')->with('error', $th->getMessage());
+            throw $th;
         }
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $formNonPbj = FormNonPbjSpj::where('uuid', $uuid)->firstOrFail();
+        $formNonPbj = FormNonPbj::where('id', $id)->firstOrFail();
         return view('timppk.pages.form-non-pbj-spj.show', [
             'title' => 'Pengajuan Form Non PBJ',
             'formNonPbj' => $formNonPbj

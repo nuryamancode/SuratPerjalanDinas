@@ -19,7 +19,7 @@
                         <a class="nav-link" href=""> Permohonan SPD </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan Belanja </a>
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.permohonan-belanja.index') }}"> Permohonan Belanja </a>
                     </li>
                 </ul>
             </div>

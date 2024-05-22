@@ -7,7 +7,7 @@
                     <h4 class="card-title mb-5">Buat SPJ</h4>
                     <form action="{{ route('timppk.form-non-pbj-spj.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="form_non_pbj_uuid" value="{{ $formNonPbj->uuid }}" hidden>
+                        <input type="text" name="form_non_pbj_uuid" value="{{ $formNonPbj->id }}" hidden>
                         <div class='form-group mb-3'>
                             <label for='nominal' class='mb-2'>Nominal Uang Muka</label>
                             <input type='text' name='nominal' id='nominal'

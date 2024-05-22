@@ -31,8 +31,8 @@ class FormNonPbjDisposisi extends Model
         return $this->belongsTo(Karyawan::class, 'pembuat_karyawan_id', 'id');
     }
 
-    public function tujuan()
+    public function karyawan()
     {
-        return $this->belongsTo(Karyawan::class, 'tujuan_karyawan_id', 'id');
+        return $this->belongsTo(Karyawan::class, 'diteruskan_ke', 'id');
     }
 }

@@ -16,7 +16,9 @@ return new class extends Migration
             $table->integer('acc_ppk')->default(0);
             $table->text('keterangan_ppk')->nullable();
             $table->foreignId('form_non_pbj_id')->constrained('form_non_pbj')->cascadeOnDelete();
+            $table->foreignId('karyawan_id')->constrained('karyawan')->cascadeOnDelete();
             $table->string('untuk_pembayaran');
+            $table->string('status_spj');
             $table->timestamps();
         });
     }
