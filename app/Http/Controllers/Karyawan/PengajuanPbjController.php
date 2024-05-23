@@ -11,7 +11,7 @@ class PengajuanPbjController extends Controller
 {
     public function index()
     {
-        $items = PengajuanBarangJasa::pbj()->whereHas('pengusul', function ($q) {
+        $items = PengajuanBarangJasa::whereHas('pengusul', function ($q) {
             $q->where('pengusul_id', auth()->user()->karyawan->id);
         })->latest()->get();
         return view('karyawan.pages.pengajuan-pbj.index', [
@@ -22,7 +22,7 @@ class PengajuanPbjController extends Controller
 
     public function show($id)
     {
-        $item = PengajuanBarangJasa::pbj()->where('id', $id)->firstOrFail();
+        $item = PengajuanBarangJasa::where('id', $id)->firstOrFail();
         return view('karyawan.pages.pengajuan-pbj.show', [
             'title' => 'Detail Pengajuan PBJ',
             'item' => $item

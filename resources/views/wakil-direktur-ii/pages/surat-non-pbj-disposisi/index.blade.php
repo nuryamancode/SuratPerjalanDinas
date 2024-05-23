@@ -51,7 +51,7 @@
                                         </td>
                                         @if ($pengajuan->verifikasi_wadir2 == 0)
                                             <td>
-                                                @if ($pengajuan->acc_wadir2 == '2')
+                                                @if ($pengajuan->acc_ppk == '2')
                                                     <a href="{{ route('wakil-direktur-ii.surat-non-pbj-disposisi.edit', $item->id) }}"
                                                         class="btn btn-sm py-2 btn-warning">Kirim Ulang</a>
                                                 @else

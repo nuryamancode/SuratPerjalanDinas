@@ -9,14 +9,20 @@ use Illuminate\Http\Request;
 
 class DistribusiBelanjaController extends Controller
 {
-    public function index()
+    public function form_non_pbj()
+    {
+        $item = FormNonPbjUangMuka::latest()->get();
+        return view('bendahara-keuangan.pages.distribusi-belanja.form-non-pbj.index', [
+            'title' => 'Distribusi Belanja',
+            'item' => $item,
+        ]);
+    }
+    public function surat_non_pbj()
     {
         $items = SuratNonPbjUangMuka::where('acc_bendahara', 1)->latest()->get();
-        $item = FormNonPbjUangMuka::latest()->get();
-        return view('bendahara-keuangan.pages.distribusi-belanja.index', [
+        return view('bendahara-keuangan.pages.distribusi-belanja.surat-non-pbj.index', [
             'title' => 'Distribusi Belanja',
             'items' => $items,
-            'item' => $item,
         ]);
     }
 }

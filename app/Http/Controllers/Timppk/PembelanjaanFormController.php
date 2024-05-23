@@ -27,6 +27,14 @@ class PembelanjaanFormController extends Controller
         ]);
     }
 
+    public function kirim_ulang($id){
+        $item = FormNonPbj::where('id',$id)->firstOrFail();
+        $item->spj->update([
+            'acc_ppk' => 0,
+        ]);
+        return redirect()->route('timppk.form-non-pbj-spj.show', $item->id)->with('success', 'Berhasil Dikirim Ulang');
+    }
+
     public function print($id)
     {
         $item = FormNonPbjSpj::where('id', $id)->firstOrFail();

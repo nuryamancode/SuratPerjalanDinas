@@ -13,12 +13,9 @@ class SuratNonPbjSpjController extends Controller
     public function index()
     {
         $items = SuratNonPbjSpj::latest()->get();
-        $item = FormNonPbjSpj::latest()->get();
-        // dd($items);
         return view('ppk.pages.surat-non-pbj-spj.index', [
             'title' => 'Permohonan SPJ',
             'items' => $items,
-            'item' => $item,
         ]);
     }
     public function show($id)
@@ -57,7 +54,7 @@ class SuratNonPbjSpjController extends Controller
         $item->suratNonPbj()->update([
             'status_surat' => 'Belum Selesai'
         ]);
-        $item->details()->delete();
+        // $item->details()->delete();
         return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Tidak Berhasil ditanggapi.');
     }
 

@@ -11,7 +11,7 @@ class SuratNonPbjController extends Controller
 {
     public function index()
     {
-        $items = SuratNonPbj::orWhereHas('pengusul', function ($q) {
+        $items = SuratNonPbj::whereNotNull('nomor_surat')->orWhereHas('pengusul', function ($q) {
             $q->where('pengusul_id', auth()->user()->karyawan->id);
         })->latest()->get();
         return view('wakil-direktur-ii.pages.surat-non-pbj.index', [
@@ -51,7 +51,8 @@ class SuratNonPbjController extends Controller
 
         }
         $item->update([
-            'verifikasi_wadir2' => true,
+            'verifikasi_wadir2' => 1,
+            // 'acc_wadir2' => 1,
         ]);
         return redirect()->back()->with('success', 'Pengajuan PBJ Berhasil diverifikasi.');
     }

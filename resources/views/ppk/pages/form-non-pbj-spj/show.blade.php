@@ -1,5 +1,16 @@
 @extends('ppk.layouts.app')
 @section('content')
+    <style>
+        .back:hover {
+            text-decoration: none;
+        }
+    </style>
+    <a href="{{ route('ppk.form-non-pbj-spj.index') }}" class="back">
+        <div class="d-flex align-items-center">
+            <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+            <span>Kembali</span>
+        </div>
+    </a>
     <div class="card mb-3">
         <h1 class="card-title mt-3 text-center">Detail Surat Non PBJ SPJ</h1>
         <div class="card-body">
@@ -108,7 +119,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('ppk.surat-non-pbj-spj.tolak', $item->id) }}" method="post">
+                <form action="{{ route('ppk.form-non-pbj-spj.tolak', $item->id) }}" method="post">
                     @csrf
                     @method('put')
                     <div class="modal-body">

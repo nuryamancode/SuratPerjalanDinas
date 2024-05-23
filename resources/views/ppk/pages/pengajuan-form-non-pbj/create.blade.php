@@ -20,7 +20,7 @@
                             <span><small>Silahkan untuk mengisi formulir dengan format PDF</small></span>
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.index') }}"
+                            <a href="{{ route('ppk.pengajuan-form-non-pbj.index') }}"
                                 class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Tambah Pengajuan PBJ</button>
                         </div>

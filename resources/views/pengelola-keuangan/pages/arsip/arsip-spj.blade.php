@@ -34,12 +34,9 @@
                                 @elseif($filter == 'form_non_pbj')
                                     <tr>
                                         <th>No.</th>
-                                        <th>Nomor Surat</th>
-                                        <th>Nomor Agenda</th>
-                                        <th>Tanggal Surat</th>
-                                        <th>Perihal</th>
-                                        <th>Formulir</th>
-                                        <th>Uang Muka</th>
+                                        <th>Pembuat</th>
+                                        <th>Tanggal Masuk</th>
+                                        <th>Status SPJ</th>
                                         <th>Aksi</th>
                                     </tr>
                                 @endif
@@ -69,18 +66,17 @@
                                     @foreach ($items as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->nomor_surat }}</td>
-                                            <td>{{ $item->nomor_agenda }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
-                                            <td>{{ $item->perihal }}</td>
+                                            <td>{{ $item->spj->karyawan->nama }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->spj->created_at)->format('d F Y') }}</td>
                                             <td>
-                                                {{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}
+                                                @if ($item->spj->acc_ppk == 0)
+                                                    <span class="btn-primary btn btn-sm disabled">Belum diperiksa</span>
+                                                @else
+                                                    <span class="btn-success btn btn-sm disabled">Sudah diperiksa</span>
+                                                @endif
                                             </td>
                                             <td>
-                                                Rp. {{ $item->uang_muka ? number_format($item->uang_muka->nominal) : '-' }}
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('pengelola-keuangan.surat-non-pbj.lihat.spj', $item->spj->id) }}"
+                                                <a href="{{ route('pengelola-keuangan.form-non-pbj.arsip_spj_form-spj', $item->spj->id) }}"
                                                     class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
                                             </td>
                                         </tr>

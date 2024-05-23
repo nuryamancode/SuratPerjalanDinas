@@ -40,11 +40,13 @@
                                         <td>{{ $item->surat_non_pbj->status_surat }}</td>
                                         <td>
                                             @if ($item->surat_non_pbj->verifikasi_ppk == 0)
+                                                @if ($item->surat_non_pbj->acc_ppk == 0 || $item->surat_non_pbj->acc_ppk == 1)
                                                 <form action="{{ route('ppk.surat-non-pbj.verifikasi', $item->id) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     <button class="btn py-2  btn-sm btn-success">Verifikasi</button>
                                                 </form>
+                                                @endif
                                             @else
                                                 <a href="{{ route('ppk.surat-non-pbj.print', $item->id) }}" target="_blank"
                                                     class="btn btn-sm py-2 btn-primary">Print</a>

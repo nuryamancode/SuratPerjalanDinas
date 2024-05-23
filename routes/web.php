@@ -195,18 +195,22 @@ Route::middleware('auth')->group(function () {
         Route::controller(App\Http\Controllers\Ppk\FormNonPbjController::class)->group(function () {
             Route::get('form-non-pbj', 'index')->name('form-non-pbj.index');
             Route::get('form-non-pbj/detail/{id}', 'show')->name('form-non-pbj.show');
+            Route::put('form-non-pbj/tolak/{id}', 'tolak')->name('form-non-pbj.tolak');
         });
         Route::post('pengajuan-form-non-pbj/store/{id}', [App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class, 'store'])->name('pengajuan-form-non-pbj.store');
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Ppk\PengajuanFormNonPbjController::class);
         Route::get('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'index'])->name('pengajuan-form-non-pbj-disposisi.index');
         Route::get('pengajuan-form-non-pbj/{id}/disposisi/create', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'create'])->name('pengajuan-form-non-pbj-disposisi.create');
+        Route::get('pengajuan-form-non-pbj/{id}/disposisi/edit', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'edit'])->name('pengajuan-form-non-pbj-disposisi.edit');
         Route::post('pengajuan-form-non-pbj/{id}/disposisi/store', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'store'])->name('pengajuan-form-non-pbj-disposisi.store');
+        Route::put('pengajuan-form-non-pbj/{id}/disposisi/update', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'update'])->name('pengajuan-form-non-pbj-disposisi.update');
         Route::delete('pengajuan-form-non-pbj/{id}/disposisi', [App\Http\Controllers\Ppk\PengajuanFormNonPbjDisposisiController::class, 'destroy'])->name('pengajuan-form-non-pbj-disposisi.destroy');
 
         Route::controller(\App\Http\Controllers\Ppk\PengajuanFormNonPbjSpjController::class)->group(function () {
             Route::get('/pengajuan-form-non-pbj-spj', 'index')->name('pengajuan-form-non-pbj-spj.index');
             Route::get('/pengajuan-form-non-pbj-spj/{id}', 'show')->name('pengajuan-form-non-pbj-spj.show');
             Route::post('pengajuan-form-non-pbj-spj/acc/{id}', 'acc')->name('pengajuan-form-non-pbj-spj.acc');
+            Route::put('pengajuan-form-non-pbj-spj/tolak/{id}', 'tolak')->name('pengajuan-form-non-pbj-spj.tolak');
         });
 
         Route::controller(\App\Http\Controllers\Ppk\PengajuanPbjController::class)->group(function () {
@@ -239,6 +243,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/form-non-pbj-spj/{id}/print', 'print')->name('form-non-pbj-spj.print');
             Route::get('/form-non-pbj-spj/{id}/show', 'show')->name('form-non-pbj-spj.show');
             Route::post('form-non-pbj-spj/acc/{id}', 'acc')->name('form-non-pbj-spj.acc');
+            Route::put('form-non-pbj-spj/tolak/{id}', 'tolak')->name('form-non-pbj-spj.tolak');
         });
 
         Route::controller(\App\Http\Controllers\Ppk\SuratNonPbjController::class)->group(function () {
@@ -397,7 +402,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/arsip-form-non-pbj-spj/{id}/form', 'arsip_spj_form')->name('form-non-pbj.arsip_spj_form-spj');
         });
         Route::controller(\App\Http\Controllers\Bendaharakeuangan\DistribusiBelanjaController::class)->group(function () {
-            Route::get('disposisi-belanja', 'index')->name('disposisi-belanja.index');
+            Route::get('disposisi-belanja-form-non-pbj', 'form_non_pbj')->name('disposisi-belanja.form-non-pbj');
+            Route::get('disposisi-belanja-surat-non-pbj', 'surat_non_pbj')->name('disposisi-belanja.surat-non-pbj');
         });
     });
 
@@ -467,11 +473,15 @@ Route::middleware('auth')->group(function () {
         Route::put('pengajuan-pbj/update-proses/{id}', [\App\Http\Controllers\Timppk\PengajuanPbjController::class, 'update_proses'])->name('pengajuan-pbj.update-proses');
         Route::resource('pembelanjaan-form-non-pbj', \App\Http\Controllers\Timppk\PembelanjaanFormController::class);
         Route::get('/pembelanjaan-form-non-pbj/print/{id}', [\App\Http\Controllers\Timppk\PembelanjaanFormController::class, 'print'])->name('pembelanjaan-form-non-pbj.print', );
+        Route::get('/pembelanjaan-form-non-pbj/kirim-ulang/{id}', [\App\Http\Controllers\Timppk\PembelanjaanFormController::class, 'kirim_ulang'])->name('pembelanjaan-form-non-pbj.kirim-ulang', );
 
         Route::controller(\App\Http\Controllers\Timppk\FormNonPbjController::class)->group(function () {
             Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
             Route::get('/form-non-pbj/create', 'create')->name('form-non-pbj.create');
+            Route::get('/form-non-pbj/edit/{id}', 'edit')->name('form-non-pbj.edit');
+            Route::get('/form-non-pbj/show/{id}', 'show')->name('form-non-pbj.show');
             Route::post('/form-non-pbj/store', 'store')->name('form-non-pbj.store');
+            Route::put('/form-non-pbj/update/{id}', 'update')->name('form-non-pbj.update');
         });
 
         Route::controller(\App\Http\Controllers\Timppk\FormNonPbjSpjController::class)->group(function () {
@@ -517,6 +527,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(\App\Http\Controllers\Pengelolakeuangan\SuratNonPbjController::class)->group(function () {
             Route::get('/surat-non-pbj', 'index')->name('surat-non-pbj.index');
             Route::get('/surat-non-pbj/arsip/spj', 'arsip_index')->name('surat-non-pbj.arsip.spj');
+            Route::get('/arsip-form-non-pbj-spj/{id}/form', 'arsip_spj_form')->name('form-non-pbj.arsip_spj_form-spj');
             Route::get('/surat-non-pbj/arsip/show/{id}/spj', 'lihat_spj')->name('surat-non-pbj.lihat.spj');
             Route::get('/surat-non-pbj/detail/{id}', 'show')->name('surat-non-pbj.show');
             Route::put('/surat-non-pbj-tanggapi/{id}', 'store_tanggapi')->name('surat-non-pbj.store_tanggapi');
@@ -525,6 +536,19 @@ Route::middleware('auth')->group(function () {
             Route::get('/pengajuan-form-non-pbj', 'index')->name('pengajuan-form-non-pbj.index');
             Route::get('/pengajuan-form-non-pbj/create', 'create')->name('pengajuan-form-non-pbj.create');
             Route::post('/pengajuan-form-non-pbj/store', 'store')->name('pengajuan-form-non-pbj.store');
+        });
+        Route::controller(\App\Http\Controllers\Pengelolakeuangan\PermohonanBelanjaController::class)->group(function () {
+            Route::get('/permohonan-form-non-pbj', 'index')->name('permohonan-form-non-pbj.index');
+            Route::get('/permohonan-form-non-pbj/show/{id}', 'show')->name('permohonan-form-non-pbj.show');
+        });
+        Route::controller(\App\Http\Controllers\Pengelolakeuangan\PermohonanBelanjaDisposisiController::class)->group(function () {
+            Route::get('/permohonan-form-non-pbj-disposisi/{id}', 'index')->name('permohonan-form-non-pbj-disposisi.index');
+            Route::get('/permohonan-form-non-pbj-disposisi/show/{id}', 'show')->name('permohonan-form-non-pbj-disposisi.show');
+            Route::put('/permohonan-form-non-pbj-disposisi/tanggapi/{id}', 'tanggapi')->name('permohonan-form-non-pbj-disposisi.tanggapi');
+        });
+        Route::controller(\App\Http\Controllers\Pengelolakeuangan\DistribusiBelanjaController::class)->group(function () {
+            Route::get('/distribusi-belanja-form-non-pbj','form_non_pbj')->name('distribusi-belanja.form-non-pbj');
+            Route::get('/distribusi-belanja-surat-non-pbj','surat_non_pbj')->name('distribusi-belanja.surat-non-pbj');
         });
 
     });

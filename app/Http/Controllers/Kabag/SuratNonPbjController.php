@@ -40,6 +40,7 @@ class SuratNonPbjController extends Controller
         }
         $item->update([
             'verifikasi_kabag' => 1,
+            'acc_ppk' => '0',
             'status_surat'=> auth()->user()->karyawan->jabatan->nama . ' Sudah Melakukan Taksiran',
         ]);
         return redirect()->route('kabag.surat-non-pbj.index')->with('success', 'Surat Non PBJ berhasil diverifikasi.');

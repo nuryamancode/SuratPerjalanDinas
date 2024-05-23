@@ -19,7 +19,8 @@
                         <a class="nav-link" href=""> Permohonan SPD </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan Belanja </a>
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.permohonan-form-non-pbj.index') }}">
+                            Permohonan Form Non PBJ </a>
                     </li>
                 </ul>
             </div>
@@ -37,14 +38,18 @@
                         <a class="nav-link" href=""> Perjalanan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Belanja </a>
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.distribusi-belanja.form-non-pbj') }}">
+                            Belanja Form Non PBJ </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.distribusi-belanja.surat-non-pbj') }}">
+                            Belanja Surat Non PBJ </a>
                     </li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#arsip" aria-expanded="false"
-                aria-controls="arsip">
+            <a class="nav-link" data-toggle="collapse" href="#arsip" aria-expanded="false" aria-controls="arsip">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Arsip Surat</span>
                 <i class="menu-arrow"></i>
@@ -61,8 +66,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#surat" aria-expanded="false"
-                aria-controls="surat">
+            <a class="nav-link" data-toggle="collapse" href="#surat" aria-expanded="false" aria-controls="surat">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Surat</span>
                 <i class="menu-arrow"></i>
@@ -79,8 +83,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#belanja" aria-expanded="false"
-                aria-controls="belanja">
+            <a class="nav-link" data-toggle="collapse" href="#belanja" aria-expanded="false" aria-controls="belanja">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Permohonan Belanja</span>
                 <i class="menu-arrow"></i>
@@ -88,10 +91,12 @@
             <div class="collapse" id="belanja">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pengelola-keuangan.surat-non-pbj.index') }}"> Non PBJ Surat </a>
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.surat-non-pbj.index') }}"> Non PBJ Surat
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pengelola-keuangan.pengajuan-form-non-pbj.index') }}"> Non PBJ Formulir </a>
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.pengajuan-form-non-pbj.index') }}"> Non
+                            PBJ Formulir </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pengelola-keuangan.pengajuan-pbj.index') }}"> PBJ </a>

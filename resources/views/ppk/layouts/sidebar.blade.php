@@ -6,7 +6,7 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item">
+        {{--  <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#disposisi" aria-expanded="false"
                 aria-controls="disposisi">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
@@ -23,7 +23,7 @@
                     </li>
                 </ul>
             </div>
-        </li>
+        </li>  --}}
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#approval" aria-expanded="false"
                 aria-controls="approval">
@@ -37,7 +37,10 @@
                         <a class="nav-link" href=""> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ppk.surat-non-pbj-spj.index') }}"> Surat PertanggungJawaban </a>
+                        <a class="nav-link" href="{{ route('ppk.surat-non-pbj-spj.index') }}"> SPJ Surat Non PBJ </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ppk.form-non-pbj-spj.index') }}"> SPJ Form Non PBJ </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('ppk.form-non-pbj.index') }}"> Form Non PBJ </a>

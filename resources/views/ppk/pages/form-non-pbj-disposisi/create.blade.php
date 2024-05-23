@@ -1,5 +1,16 @@
 @extends('ppk.layouts.app')
 @section('content')
+    <style>
+        .back:hover {
+            text-decoration: none;
+        }
+    </style>
+    <a href="{{ route('ppk.pengajuan-form-non-pbj-disposisi.index', $item->id) }}" class="back">
+        <div class="d-flex align-items-center">
+            <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+            <span>Kembali</span>
+        </div>
+    </a>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -11,8 +22,7 @@
                         <div class='form-group mb-3'>
                             <label for='no_surat' class='mb-2'>Nomor Surat</label>
                             <input type='text' name='no_surat' id='no_surat'
-                                class='form-control @error('no_surat') is-invalid @enderror'
-                                value='{{ old('no_surat') }}'>
+                                class='form-control @error('no_surat') is-invalid @enderror' value='{{ old('no_surat') }}'>
                             @error('no_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -59,7 +69,8 @@
                         </div>
                         <div class='form-group'>
                             <label for='tipe_disposisi'>Tipe Disposisi</label>
-                            <select name='tipe_disposisi' id='tipe_disposisi' class='form-control @error('tipe_disposisi') is-invalid @enderror'>
+                            <select name='tipe_disposisi' id='tipe_disposisi'
+                                class='form-control @error('tipe_disposisi') is-invalid @enderror'>
                                 <option value='' selected disabled>Pilih Tipe Disposisi</option>
                                 <option @selected(old('tipe_disposisi') === 'Rahasia') value="Rahasia">Rahasia</option>
                                 <option @selected(old('tipe_disposisi') === 'Terbatas Biasa') value="Terbatas Biasa">Terbatas Biasa</option>

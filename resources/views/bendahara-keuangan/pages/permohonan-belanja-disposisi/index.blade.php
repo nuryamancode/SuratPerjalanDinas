@@ -34,9 +34,11 @@
                                         <td>{{ $item->perihal }}</td>
                                         <td>{{ $item->catatan_disposisi }}</td>
                                         <td>
-                                            <a href="#" data-toggle="modal"
-                                                data-target="#modalTanggapi{{ $item->id }}"
-                                                class="btn btn-sm py-2 btn-primary">Tanggapi Disposisi</a>
+                                            @if ($item->form_non_pbj->uang_muka1 == null)
+                                                <a href="#" data-toggle="modal"
+                                                    data-target="#modalTanggapi{{ $item->id }}"
+                                                    class="btn btn-sm py-2 btn-primary">Tanggapi Disposisi</a>
+                                            @endif
                                             <a href="{{ route('bendahara-keuangan.permohonan-belanja-disposisi.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>

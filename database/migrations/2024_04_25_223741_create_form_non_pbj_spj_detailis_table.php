@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('form_non_pbj_spj_detail', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
             $table->foreignId('form_non_pbj_spj_id')->constrained('form_non_pbj_spj')->cascadeOnDelete();
             $table->string('perincian_biaya');
             $table->bigInteger('nominal');

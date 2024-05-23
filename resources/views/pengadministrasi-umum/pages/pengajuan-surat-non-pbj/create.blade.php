@@ -2,7 +2,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <style>
+            {{--  <style>
                 .back:hover {
                     text-decoration: none;
                 }
@@ -12,7 +12,7 @@
                     <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
                     <span>Kembali</span>
                 </div>
-            </a>
+            </a>  --}}
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Tambah Pengajuan Form Non PBJ</h4>
@@ -92,7 +92,7 @@
                             @enderror
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.index') }}"
+                            <a href="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.index') }}"
                                 class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Tambah Pengajuan PBJ</button>
                         </div>

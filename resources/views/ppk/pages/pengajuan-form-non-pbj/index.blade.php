@@ -33,6 +33,10 @@
                                             {{ $item->status }}
                                         </td>
                                         <td>
+                                            @if ($item->acc_ppk == 2)
+                                                <a href="{{ route('ppk.pengajuan-form-non-pbj.edit', $item->id) }}"
+                                                    class="btn btn-sm py-2 btn-danger">Edit</a>
+                                            @endif
                                             <a href="{{ route('ppk.pengajuan-form-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>

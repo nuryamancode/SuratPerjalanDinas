@@ -10,7 +10,7 @@ class FormNonPbjController extends Controller
 {
     public function index()
     {
-        $items = FormNonPbj::where('acc_ppk' , 0)->latest()->get();
+        $items = FormNonPbj::where('acc_ppk', 0)->latest()->get();
         return view('ppk.pages.form-non-pbj.index', [
             'title' => 'Pengajuan Form Non PBJ',
             'items' => $items
@@ -25,18 +25,30 @@ class FormNonPbjController extends Controller
         ]);
     }
 
-    public function acc($uuid)
+    public function tolak($id)
     {
-        request()->validate([
-            'status' => ['required']
-        ]);
-        $item = FormNonPbj::where('uuid', $uuid)->firstOrFail();
+        $item = FormNonPbj::where('id', $id)->firstOrFail();
 
         $item->update([
-            'acc_ppk' => request('status'),
-            'keterangan_ppk' => request('keterangan_ppk'),
-            'status' => 'Menunggu Bendahara Memberikan Uang Muka'
+            'acc_ppk' => 2,
+            'keterangan_ppk' => request('keterangan'),
+            'status' => 'Pengajuan Ditolak'
         ]);
-        return redirect()->back()->with('success', 'Verifikasi Surat Perjalanan Dinas Berhasil disubmit.');
+        return redirect()->back()->with('success', 'Pengajuan Ditolak.');
     }
+
+    // public function acc($uuid)
+    // {
+    //     request()->validate([
+    //         'status' => ['required']
+    //     ]);
+    //     $item = FormNonPbj::where('uuid', $uuid)->firstOrFail();
+
+    //     $item->update([
+    //         'acc_ppk' => request('status'),
+    //         'keterangan_ppk' => request('keterangan_ppk'),
+    //         'status' => 'Menunggu Bendahara Memberikan Uang Muka'
+    //     ]);
+    //     return redirect()->back()->with('success', 'Verifikasi Surat Perjalanan Dinas Berhasil disubmit.');
+    // }
 }

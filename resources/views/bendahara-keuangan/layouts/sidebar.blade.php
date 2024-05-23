@@ -19,7 +19,7 @@
                         <a class="nav-link" href=""> Permohonan SPD </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('bendahara-keuangan.permohonan-belanja.index') }}"> Permohonan Belanja </a>
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.permohonan-belanja.index') }}"> Permohonan Form Non PBJ </a>
                     </li>
                 </ul>
             </div>
@@ -37,7 +37,10 @@
                         <a class="nav-link" href=""> Perjalanan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('bendahara-keuangan.disposisi-belanja.index') }}"> Belanja </a>
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.disposisi-belanja.form-non-pbj') }}"> Belanja Form Non PBJ </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.disposisi-belanja.surat-non-pbj') }}"> Belanja Surat Non PBJ </a>
                     </li>
                 </ul>
             </div>

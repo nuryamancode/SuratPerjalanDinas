@@ -75,7 +75,7 @@ class SuratNonPbjSpjDetailController extends Controller
             return redirect()->back()->with('error', 'Detail Biaya Kosong.');
         }
         $item->update([
-            'acc_ppk' => 0,
+            'acc_ppk' => '0',
         ]);
         return redirect()->route('timppk.surat-non-pbj-spj.show', $item->suratNonPbj->uang_muka->id)->with('success', 'SPJ Berhasil dikirim.');
     }

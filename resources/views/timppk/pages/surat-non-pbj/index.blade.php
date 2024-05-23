@@ -32,8 +32,9 @@
                                             @else
                                                 @if ($item->surat_non_pbj->spj->acc_ppk == 2)
                                                     <span class="btn-danger btn btn-sm disabled">SPJ ditolak</span>
+                                                @else
+                                                    <span class="btn-success btn btn-sm disabled">Sudah dibuat</span>
                                                 @endif
-                                                <span class="btn-success btn btn-sm disabled">Sudah dibuat</span>
                                             @endif
                                         </td>
                                         <td>

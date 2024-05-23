@@ -23,6 +23,14 @@ class PengajuanFormNonPbjController extends Controller
             'title' => 'Pengajuan Form Non PBJ'
         ]);
     }
+    public function show($id)
+    {
+        $item = FormNonPbj::where('id', $id)->firstOrFail();
+        return view('wakil-direktur-i.pages.pengajuan-form-non-pbj.show', [
+            'title' => 'Detail Pengajuan Form Non PBJ',
+            'item' => $item
+        ]);
+    }
 
     public function store()
     {
@@ -43,6 +51,42 @@ class PengajuanFormNonPbjController extends Controller
 
             DB::commit();
             return redirect()->route('wakil-direktur-i.pengajuan-form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil ditambahkan.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
+    public function edit($id)
+    {
+        $item = FormNonPbj::where('id', $id)->firstOrFail();
+        return view('wakil-direktur-i.pages.pengajuan-form-non-pbj.edit', [
+            'title' => 'Edit Pengajuan Form Non PBJ',
+            'item' => $item,
+        ]);
+    }
+
+    public function update($id)
+    {
+        request()->validate([
+            'form_file' => ['required', 'file', 'mimes:pdf'],
+        ]);
+
+        DB::beginTransaction();
+        try {
+            if (request()->file('form_file')) {
+                $formulir = request()->file('form_file')->store('formulir_non_pbj', 'public');
+            }
+            $form = FormNonPbj::where('id', $id)->firstOrFail();
+            $form->update([
+                'file' => $formulir,
+                'pengusul_karyawan_id' => auth()->user()->karyawan->id,
+                'status' => 'Pemeriksaan PPK',
+                'acc_ppk' => 0,
+                'keterangan_ppk' => null,
+            ]);
+
+            DB::commit();
+            return redirect()->route('wakil-direktur-i.pengajuan-form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil diubah.');
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;

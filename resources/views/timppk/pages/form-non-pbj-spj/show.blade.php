@@ -14,8 +14,15 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
-                                <a href="{{ route('timppk.pembelanjaan-form-non-pbj.index') }}" class="btn btn-sm btn-warning">Kembali</a>
+                                <a href="{{ route('timppk.pembelanjaan-form-non-pbj.index') }}"
+                                    class="btn btn-sm btn-warning">Kembali</a>
                             </div>
+                            @if ($formNonPbj->spj->acc_ppk == 2)
+                                <div>
+                                    <a href="{{ route('timppk.pembelanjaan-form-non-pbj.kirim-ulang', $formNonPbj->id) }}"
+                                        class="btn btn-sm btn-warning">Kirim Ulang</a>
+                                </div>
+                            @endif
                         </li>
                     </ul>
                 </div>
@@ -26,7 +33,7 @@
                 <div class="card-body">
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
-                        @if ($formNonPbj->spj->acc_ppk == 0)
+                        @if ($formNonPbj->spj->acc_ppk == 0 || $formNonPbj->spj->acc_ppk == 2)
                             <a href="{{ route('timppk.form-non-pbj-spj-detail.create', $formNonPbj->id) }}"
                                 class="btn btn-primary btn-sm">Tambah
                                 Data</a>
@@ -56,7 +63,7 @@
                                                 class="btn btn-success btn-sm">Lihat</a>
                                         </td>
                                         <td>
-                                            @if ($formNonPbj->spj->acc_ppk == 0)
+                                            @if ($formNonPbj->spj->acc_ppk == 0 || $formNonPbj->spj->acc_ppk == 2)
                                                 <a href="{{ route('timppk.form-non-pbj-spj-detail.edit', $detail->id) }}"
                                                     class="btn btn-sm py-2 btn-info">Edit</a>
                                                 <form action="javascript:void(0)" method="post" class="d-inline"

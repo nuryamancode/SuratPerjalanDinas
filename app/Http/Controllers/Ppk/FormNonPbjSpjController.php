@@ -40,6 +40,20 @@ class FormNonPbjSpjController extends Controller
         ]);
         return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Berhasil ditanggapi.');
     }
+    public function tolak($id)
+    {
+        $item = FormNonPbjSpj::where('id', $id)->firstOrFail();
+
+        $item->update([
+            'acc_ppk' => 2,
+            'keterangan_ppk' => request('keterangan'),
+            'status_spj' => 'Pengajuan SPJ Ditolak',
+        ]);
+        $item->formNonPbj()->update([
+            'status' => 'Pengajuan SPJ Ditolak',
+        ]);
+        return redirect()->route('ppk.surat-non-pbj-spj.index')->with('success', 'SPJ Ditolak.');
+    }
 
     public function print($uuid)
     {

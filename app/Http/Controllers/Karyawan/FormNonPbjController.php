@@ -59,67 +59,56 @@ class FormNonPbjController extends Controller
         ]);
     }
 
-    public function edit($uuid)
+    public function edit($id)
     {
-        $item = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->firstOrFail();
+        $item = FormNonPbj::where('id', $id)->firstOrFail();
         return view('karyawan.pages.form-non-pbj.edit', [
             'title' => 'Edit Pengajuan Form Non PBJ',
             'item' => $item,
-            'data_karyawan' => Karyawan::orderBy('nama', 'ASC')->get(),
-            'selectedKaryawan' => $item->pelaksana->pluck('karyawan.id')->toArray()
         ]);
     }
 
-    public function update($uuid)
+    public function update($id)
     {
         request()->validate([
-            'nomor_surat' => 'required|unique:surat,nomor_surat,' . $uuid . ',uuid',
-            'perihal' => ['required'],
-            'pelaksana' => ['required', 'array'],
+            'form_file' => ['required', 'file', 'mimes:pdf'],
         ]);
 
         DB::beginTransaction();
         try {
-            $data = request()->only(['nomor_surat', 'perihal', 'nomor_agenda', 'tanggal_surat']);
-            $item = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->firstOrFail();
-            $data_lampiran = request()->file('lampiran');
-            $data_pelaksana = request('pelaksana');
-            $item->update($data);
-
-            // create pelaksana
-            if (!empty($data_pelaksana)) {
-                // hapus pelaksana
-                $item->pelaksana()->delete();
-                foreach ($data_pelaksana as $pelaksana) {
-                    $item->pelaksana()->create([
-                        'uuid' => \Str::uuid(),
-                        'karyawan_id' => $pelaksana
-                    ]);
-                }
+            if (request()->file('form_file')) {
+                $formulir = request()->file('form_file')->store('formulir_non_pbj', 'public');
             }
+            $form = FormNonPbj::where('id', $id)->firstOrFail();
+            $form->update([
+                'file' => $formulir,
+                'pengusul_karyawan_id' => auth()->user()->karyawan->id,
+                'status' => 'Pemeriksaan PPK',
+                'acc_ppk' => 0,
+                'keterangan_ppk' => null,
+            ]);
 
             DB::commit();
-            return redirect()->route('karyawan.form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil diupdate.');
+            return redirect()->route('karyawan.form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil diubah.');
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
-    public function destroy($uuid)
-    {
+    // public function destroy($uuid)
+    // {
 
-        DB::beginTransaction();
-        try {
-            $item = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->first();
-            $item->delete();
-            DB::commit();
-            return redirect()->route('karyawan.form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil dihapus.');
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            // throw $th;
-            return redirect()->back()->with('error', 'Surat Tidak bisa dihapus, dikarenakan berada di transaksi lain.');
-        }
-    }
+    //     DB::beginTransaction();
+    //     try {
+    //         $item = PengajuanBarangJasa::formNonPbj()->where('uuid', $uuid)->first();
+    //         $item->delete();
+    //         DB::commit();
+    //         return redirect()->route('karyawan.form-non-pbj.index')->with('success', 'Pengajuan Form Non PBJ berhasil dihapus.');
+    //     } catch (\Throwable $th) {
+    //         DB::rollBack();
+    //         // throw $th;
+    //         return redirect()->back()->with('error', 'Surat Tidak bisa dihapus, dikarenakan berada di transaksi lain.');
+    //     }
+    // }
 }

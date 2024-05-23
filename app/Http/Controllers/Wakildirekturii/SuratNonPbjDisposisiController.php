@@ -123,6 +123,7 @@ class SuratNonPbjDisposisiController extends Controller
             $pengajuan->update([
                 'status_surat' => $jabatan,
                 'acc_wadir2' => '1',
+                'acc_ppk' => '0',
             ]);
             DB::commit();
             return redirect()->route('wakil-direktur-ii.surat-non-pbj-disposisi.index', $pengajuan->id)->with('success', 'Disposisi Berhasil disimpan.');

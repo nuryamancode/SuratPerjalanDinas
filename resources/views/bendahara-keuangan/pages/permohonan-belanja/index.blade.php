@@ -15,6 +15,7 @@
                                     <th>Pembuat</th>
                                     <th>Tanggal Pembuatan</th>
                                     <th>Status Pengajuan</th>
+                                    <th>Uang Muka</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -26,6 +27,13 @@
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
                                             {{ $item->form_non_pbj->status }}
+                                        </td>
+                                        <td>
+                                            @if ($item->form_non_pbj->uang_muka1 == null)
+                                                <span>-</span>
+                                            @else
+                                                {{ $item->form_non_pbj->uang_muka1->nominal ? 'Rp. ' . number_format($item->form_non_pbj->uang_muka1->nominal, 0, ',', '.') : '-' }}
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ route('bendahara-keuangan.permohonan-belanja.show', $item->id) }}"

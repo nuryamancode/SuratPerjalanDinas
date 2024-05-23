@@ -1,5 +1,16 @@
 @extends('ppk.layouts.app')
 @section('content')
+    <style>
+        .back:hover {
+            text-decoration: none;
+        }
+    </style>
+    <a href="{{ route('ppk.form-non-pbj.index') }}" class="back">
+        <div class="d-flex align-items-center">
+            <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+            <span>Kembali</span>
+        </div>
+    </a>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -23,7 +34,7 @@
                                     <th>Tanggal Surat</th>
                                     <th>Perihal</th>
                                     <th>Catatan Disposiisi</th>
-                                    {{--  <th>Aksi</th>  --}}
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +48,10 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->perihal }}</td>
                                         <td>{{ $item->catatan_disposisi }}</td>
+                                        <td>
+                                            <a href="{{ route('ppk.pengajuan-form-non-pbj-disposisi.edit', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-warning">Edit</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

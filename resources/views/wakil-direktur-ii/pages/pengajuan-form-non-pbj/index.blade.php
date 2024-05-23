@@ -8,7 +8,8 @@
                         <h4 class="card-title mb-3">Pengajuan Form Non PBJ</h4>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('wakil-direktur-ii.pengajuan-form-non-pbj.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('wakil-direktur-ii.pengajuan-form-non-pbj.create') }}"
+                            class="btn btn-primary btn-sm">
                             Buat Pengajuan
                         </a>
                     </div>
@@ -33,7 +34,11 @@
                                             {{ $item->status }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('ppk.pengajuan-form-non-pbj.show', $item->id) }}"
+                                            @if ($item->acc_ppk == 2)
+                                                <a href="{{ route('wakil-direktur-ii.pengajuan-form-non-pbj.edit', $item->id) }}"
+                                                    class="btn btn-sm py-2 btn-danger">Edit</a>
+                                            @endif
+                                            <a href="{{ route('wakil-direktur-ii.pengajuan-form-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

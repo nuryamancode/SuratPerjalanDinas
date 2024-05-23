@@ -37,6 +37,20 @@ class PengajuanFormNonPbjDisposisiController extends Controller
             'data_karyawan' => $data_karyawan
         ]);
     }
+    public function edit($id)
+    {
+        $data_karyawan = Karyawan::whereHas('user', function ($q) {
+            $q->whereHas('roles', function ($q) {
+                $q->whereIn('name', ['Pengelola Keuangan', 'Bendahara Keuangan']);
+            });
+        })->get();
+        $item = FormNonPbjDisposisi::where('id', $id)->firstOrFail();
+        return view('ppk.pages.form-non-pbj-disposisi.edit', [
+            'title' => 'Pengajuan PBJ Disposisi',
+            'item' => $item,
+            'data_karyawan' => $data_karyawan
+        ]);
+    }
 
     public function store($id)
     {
@@ -66,7 +80,40 @@ class PengajuanFormNonPbjDisposisiController extends Controller
                 'status' => $status,
             ]);
             DB::commit();
-            return redirect()->route('ppk.pengajuan-form-non-pbj-disposisi.index', $items->id)->with('success', 'Disposisi berhasil ditambahkan');
+            return redirect()->route('ppk.pengajuan-form-non-pbj-disposisi.index', $items->id)->with('success', 'Disposisi berhasil ditambahkan.');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function update($id)
+    {
+        request()->validate([
+            'tipe_disposisi' => ['required'],
+        ]);
+        DB::beginTransaction();
+        try {
+            $items = FormNonPbjDisposisi::where('id', $id)->firstOrFail();
+            $diteruskan = request('teruskan_ke');
+            $items->update([
+                'no_surat' => request('no_surat'),
+                'no_agenda' => request('no_agenda'),
+                'perihal' => request('perihal'),
+                'catatan_disposisi' => request('catatan_disposisi'),
+                'tipe_disposisi' => request('tipe_disposisi'),
+                'diteruskan_ke' => $diteruskan,
+            ]);
+            $karyawan = Karyawan::where('id', $diteruskan)->firstOrFail();
+            if ($karyawan->jabatan->nama == 'Pengelola Keuangan') {
+                $status = 'Pemeriksaan Pengelola Keuangan';
+            } elseif ($karyawan->jabatan->nama == 'Bendahara Keuangan') {
+                $status = 'Pemeriksaan Bendahara Keuangan';
+            }
+            $items->form_non_pbj()->update([
+                'acc_ppk' => 1,
+                'status' => $status,
+            ]);
+            DB::commit();
+            return redirect()->route('ppk.pengajuan-form-non-pbj-disposisi.index', $items->form_non_pbj->id)->with('success', 'Disposisi berhasil diubah.');
         } catch (\Throwable $th) {
             throw $th;
         }

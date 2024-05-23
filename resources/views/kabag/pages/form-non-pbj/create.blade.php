@@ -1,4 +1,4 @@
-@extends('ppk.layouts.app')
+@extends('kabag.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-12">

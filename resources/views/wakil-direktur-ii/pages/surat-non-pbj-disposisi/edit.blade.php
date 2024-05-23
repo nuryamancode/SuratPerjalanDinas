@@ -112,7 +112,6 @@
                                             {{ $karyawans->nama . ' - ' . 'Jabatan : ' . ($karyawans->jabatan->nama ?? '') }}
                                         </option>
                                     @endforeach
-
                                 </select>
                                 @error('teruskan_ke')
                                     <div class='invalid-feedback'>
@@ -132,7 +131,6 @@
                                             {{ $karyawan->nama . ' - ' . 'Jabatan : ' . ($karyawan->jabatan->nama ?? '') }}
                                         </option>
                                     @endforeach
-
                                 </select>
                                 @error('teruskan_ke')
                                     <div class='invalid-feedback'>
@@ -154,7 +152,11 @@
                         <div class="form-group text-right">
                             <a href="{{ route('wakil-direktur-ii.pengajuan-pbj.index') }}"
                                 class="btn btn-warning">Batal</a>
-                            <button class="btn btn-primary">Submit</button>
+                            @if ($item->surat_non_pbj->acc_ppk == 2)
+                                <button class="btn btn-primary">Kirim Ulang</button>
+                            @else
+                                <button class="btn btn-primary">Submit</button>
+                            @endif
                         </div>
                     </form>
                 </div>

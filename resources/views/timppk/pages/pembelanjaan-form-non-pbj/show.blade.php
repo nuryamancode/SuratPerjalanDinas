@@ -65,7 +65,7 @@
                             <div>
                             </div>
                             <div>
-                                @if ($item->spj == null || $item->spj->acc_ppk == 0)
+                                @if ($item->spj === null)
                                     <a href="{{ route('timppk.form-non-pbj-spj.index', $item->id) }}"
                                         class="btn btn-sm py-2 btnTolak btn-primary">Buat SPJ</a>
                                 @else

@@ -4,71 +4,24 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Edit Pengajuan PBJ</h4>
-                    <form action="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.update', $item->uuid) }}"
+                    <h4 class="card-title mb-5">Edit Pengajuan Form Non PBJ</h4>
+                    <form action="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.update', $item->id) }}"
                         method="post" enctype="multipart/form-data">
                         @csrf
-                        @method('patch')
+                        @method('put')
                         <div class='form-group mb-3'>
-                            <label for='nomor_surat' class='mb-2'>Nomor Surat</label>
-                            <input type='text' name='nomor_surat' id='nomor_surat'
-                                class='form-control @error('nomor_surat') is-invalid @enderror'
-                                value='{{ $item->nomor_surat ?? old('nomor_surat') }}'>
-                            @error('nomor_surat')
+                            <label for='form_file' class='mb-2'>File</label>
+                            <input type='file' name='form_file' id='form_file'
+                                class='form-control @error('form_file') is-invalid @enderror'
+                                value='{{ old('form_file') }}'>
+                            @error('form_file')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
-                        <div class='form-group mb-3'>
-                            <label for='nomor_agenda' class='mb-2'>Nomor Agenda</label>
-                            <input type='text' name='nomor_agenda' id='nomor_agenda'
-                                class='form-control @error('nomor_agenda') is-invalid @enderror'
-                                value='{{ $item->nomor_agenda ?? old('nomor_agenda') }}'>
-                            @error('nomor_agenda')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group mb-3'>
-                            <label for='tanggal' class='mb-2'>Tanggal</label>
-                            <input type='date' name='tanggal' id='tanggal'
-                                class='form-control @error('tanggal') is-invalid @enderror'
-                                value='{{ $item->tanggal ?? old('tanggal') }}'>
-                            @error('tanggal')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group mb-3'>
-                            <label for='perihal' class='mb-2'>Perihal</label>
-                            <input type='text' name='perihal' id='perihal'
-                                class='form-control @error('perihal') is-invalid @enderror'
-                                value='{{ $item->perihal ?? old('perihal') }}'>
-                            @error('perihal')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class='form-group'>
-                            <label for='pelaksana'>Pelaksana</label>
-                            <select name='pelaksana[]' id='pelaksana'
-                                class='form-control @error('pelaksana') is-invalid @enderror' multiple>
-                                <option value='' disabled>Pilih Pelaksana</option>
-                                @foreach ($data_karyawan as $karyawan)
-                                    <option value='{{ $karyawan->id }}' @selected(in_array($karyawan->id, old('pelaksana', $selectedKaryawan ?? [])))>{{ $karyawan->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('pelaksana')
-                                <div class='invalid-feedback'>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
+                        <a href="{{ $item->getFile() }}" target="_blank" class="btn btn-success btn-sm">Lihat
+                            Formulir</a>
                         <div class="form-group text-right">
                             <a href="{{ route('pengadministrasi-umum.pengajuan-form-non-pbj.index') }}"
                                 class="btn btn-warning">Batal</a>

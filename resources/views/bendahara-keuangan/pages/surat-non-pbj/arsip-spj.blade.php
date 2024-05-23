@@ -12,7 +12,7 @@
     </div>
 </a>
 <div class="card mb-3">
-    <h1 class="card-title mt-3 text-center">Detail Surat Non PBJ SPJ</h1>
+    <h1 class="card-title mt-3 text-center">Detail Form Non PBJ SPJ</h1>
     <div class="card-body">
         <form action="">
             <div class='form-group mb-3'>
