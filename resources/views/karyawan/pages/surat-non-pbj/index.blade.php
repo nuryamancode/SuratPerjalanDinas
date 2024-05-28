@@ -18,7 +18,6 @@
                                     <th>Tanggal Surat</th>
                                     <th>Pengusul</th>
                                     <th>Status Surat</th>
-                                    <th>Taksiran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -38,9 +37,6 @@
                                             </ul>
                                         </td>
                                         <td>{{ $item->status_surat }}</td>
-                                        <td>
-                                            {{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '-' }}
-                                        </td>
                                         <td>
                                             <a href="{{ route('karyawan.surat-non-pbj.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>

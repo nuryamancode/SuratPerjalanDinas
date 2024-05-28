@@ -46,6 +46,9 @@ class FormNonPbjSpjController extends Controller
                     'status_spj' => 'Sudah Dibuat',
                     'karyawan_id' => auth()->user()->karyawan->id,
                 ]);
+                $formNonPbj->update([
+                    'status'=> 'Menunggu Persetujuan PPK'
+                ]);
 
                 foreach ($data_perincian_biaya as $key => $perincian) {
                     // harus ada isi

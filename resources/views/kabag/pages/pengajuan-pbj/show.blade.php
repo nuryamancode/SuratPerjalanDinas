@@ -43,8 +43,14 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Lampiran</span>
                             <span>
-                                <a href="{{ $item->getFileLampiran() }}" target="_blank"
-                                    class="btn btn-success btn-sm">Lihat Lampiran</a>
+                                <ol class="list-group">
+                                    @foreach ($item->lampiranpbj as $lampiranpbj)
+                                        <li>
+                                            <a href="{{ $lampiranpbj->getFile() }}" target="_blank"
+                                                class="btn btn-success btn-sm mt-2">Lihat Lampiran</a>
+                                        </li>
+                                    @endforeach
+                                </ol>
                             </span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">

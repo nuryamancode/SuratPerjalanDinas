@@ -5,7 +5,7 @@
             text-decoration: none;
         }
     </style>
-    <a href="{{ route('bendahara-keuangan.permohonan-belanja.index') }}" class="back">
+    <a href="{{ route('timppk.pembelanjaan-form-non-pbj.index') }}" class="back">
         <div class="d-flex align-items-center">
             <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
             <span>Kembali</span>

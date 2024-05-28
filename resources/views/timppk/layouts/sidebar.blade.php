@@ -7,12 +7,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('timppk.pembelanjaan-form-non-pbj.index') }}">
-                <i class="mdi mdi-chart-line  pr-2 icon-large"></i>
-                <span class="menu-title">Pembelanjaan</span>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#surat" aria-expanded="false"
                 aria-controls="surat">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
@@ -43,7 +37,10 @@
                         <a class="nav-link" href="{{ route('timppk.surat-non-pbj.index') }}"> Non PBJ Surat </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('timppk.form-non-pbj.index') }}"> Non PBJ Formulir </a>
+                        <a class="nav-link" href="{{ route('timppk.pembelanjaan-form-non-pbj.index') }}"> Non PBJ Formulir </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('timppk.form-non-pbj.index') }}"> Pengajuan Non PBJ Formulir </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('timppk.pengajuan-pbj.index') }}"> PBJ </a>

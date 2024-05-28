@@ -65,55 +65,8 @@
                                 </ol>
                             </div>
                         </li>
-                        @if ($item->nilai_taksiran == null)
-                            <li class="list-item mb-4 d-flex justify-content-between">
-                                <span>Aksi</span>
-                                <div>
-                                </div>
-                                <div>
-                                    <a href="#" data-toggle="modal" data-target="#modalTaksiran{{ $item->id }}"
-                                        class="btn btn-sm py-2 btnTolak btn-primary">Tambah Taksiran</a>
-                                </div>
-                            </li>
-                        @endif
                     </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modalTaksiran{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Taksiran</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('kabag.taksiran.store', $item->id) }}" method="post">
-                    @csrf
-                    @method('put')
-                    <div class="modal-body">
-                        <div class='form-group mb-3'>
-                            <div class='form-group mb-3'>
-                                <label for='nilai_taksiran' class='mb-2'>Nilai Taksiran</label>
-                                <input type='number' name='nilai_taksiran' id='nilai_taksiran'
-                                    class='form-control @error('nilai_taksiran') is-invalid @enderror'
-                                    value='{{ old('nilai_taksiran') }}'>
-                                @error('nilai_taksiran')
-                                    <div class='invalid-feedback'>
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btnSubmit">Submit</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

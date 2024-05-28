@@ -27,7 +27,9 @@
                                     <th>Asal Surat</th>
                                     <th>Tanggal Surat</th>
                                     <th>Diteruskan Kepada</th>
+                                    @if ($items->pengajuan_barang_jasa->acc_ppk == 0)
                                     <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,12 +51,6 @@
                                             <a href="{{ route('ppk.pengajuan-pbj-disposisi.edit', $items->id) }}"
                                                 class="btn btn-sm py-2 btnTolak btn-primary">Tambahkan</a>
                                         @endif
-                                        <form action="javascript:void(0)" method="post" class="d-inline" id="formDelete">
-                                            @csrf
-                                            @method('delete')
-                                            <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                data-action="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.destroy', $items->id) }}">Hapus</button>
-                                        </form>
                                     </td>
                                 </tr>
                             </tbody>
