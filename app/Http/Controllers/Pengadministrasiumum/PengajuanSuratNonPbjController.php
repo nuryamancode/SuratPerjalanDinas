@@ -39,8 +39,8 @@ class PengajuanSuratNonPbjController extends Controller
     public function store()
     {
         request()->validate([
-            'nomor_surat' => ['required', 'unique:pbj,nomor_surat'],
-            'nomor_agenda' => ['required', 'unique:pbj,nomor_agenda'],
+            'nomor_surat' => ['required', 'unique:surat_non_pbj,nomor_surat'],
+            'nomor_agenda' => ['required', 'unique:surat_non_pbj,nomor_agenda'],
             'perihal' => ['required'],
             'pengusul' => ['required', 'array'],
             'lampiran.*' => 'mimes:pdf',
