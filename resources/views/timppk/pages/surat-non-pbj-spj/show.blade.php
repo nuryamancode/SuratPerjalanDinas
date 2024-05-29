@@ -53,7 +53,7 @@
                 <div class="card-body">
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
-                        @if ($suratNonPbj->acc_ppk != 1)
+                        @if ($suratNonPbj->surat_non_pbj->spj->acc_ppk != 1)
                             <a href="{{ route('timppk.surat-non-pbj-spj-detail.create', $suratNonPbj->surat_non_pbj->spj->id) }}"
                                 class="btn btn-primary btn-sm">Tambah
                                 Data</a>
@@ -83,7 +83,7 @@
                                                 class="btn btn-success btn-sm">Lihat</a>
                                         </td>
                                         <td>
-                                            @if ($suratNonPbj->acc_ppk != 1)
+                                            @if ($suratNonPbj->surat_non_pbj->spj->acc_ppk != 1)
                                                 <a href="{{ route('timppk.surat-non-pbj-spj-detail.edit', $detail->id) }}"
                                                     class="btn btn-sm py-2 btn-info">Edit</a>
                                                 <form action="javascript:void(0)" method="post" class="d-inline"
