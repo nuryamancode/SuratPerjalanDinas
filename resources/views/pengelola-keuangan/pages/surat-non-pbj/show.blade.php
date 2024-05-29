@@ -15,7 +15,7 @@
             </a>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Detail Pengajuan Form Non PBJ</h4>
+                    <h4 class="card-title mb-5">Detail Pengajuan Surat Non PBJ</h4>
                     <ul class="list-inline">
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Nomor Surat</span>
@@ -33,10 +33,12 @@
                             <span>Perihal</span>
                             <span>{{ $item->perihal }}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Nilai Taksiran</span>
-                            <span>{{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : 'Belum ada nilai taksiran' }}</span>
-                        </li>
+                        @if ($item->nilai_taksiran != 0)
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span>Nilai Taksiran</span>
+                                <span>{{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '' }}</span>
+                            </li>
+                        @endif
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Dokumen surat</span>
                             <span>
