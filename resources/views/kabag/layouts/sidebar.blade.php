@@ -6,24 +6,6 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        {{--  <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#permohonan" aria-expanded="false"
-                aria-controls="permohonan">
-                <i class="mdi mdi-folder  pr-2 icon-large"></i>
-                <span class="menu-title">Surat Permohonan</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="permohonan">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""> Taksiran Permohonan </a>
-                    </li>
-                </ul>
-            </div>
-        </li>  --}}
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#surat" aria-expanded="false"
                 aria-controls="surat">

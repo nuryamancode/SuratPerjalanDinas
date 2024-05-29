@@ -16,10 +16,10 @@
             <div class="collapse" id="master_data">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat Tugas </a>
+                        <a class="nav-link" href="{{ route('pengadministrasi-umum.surat.index') }}"> Surat Tugas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan SPD </a>
+                        <a class="nav-link" href="{{ route('pengadministrasi-umum.permohonan-spd.index') }}"> Permohonan SPD </a>
                     </li>
                 </ul>
             </div>
@@ -34,7 +34,7 @@
             <div class="collapse" id="surat">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat Perjalan Dinas </a>
+                        <a class="nav-link" href="{{ route('pengadministrasi-umum.spd.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""> Surat Pertanggung Jawaban </a>
@@ -64,19 +64,19 @@
             </div>
         </li>
         {{--  <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('pengadministrasi-umum.surat.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Surat</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('pengadministrasi-umum.permohonan-spd.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">Permohonan SPD</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('pengadministrasi-umum.spd.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">SPD</span>
             </a>

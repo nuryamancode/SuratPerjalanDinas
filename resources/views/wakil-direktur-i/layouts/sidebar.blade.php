@@ -34,7 +34,7 @@
             <div class="collapse" id="surat">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat Perjalan Dinas </a>
+                        <a class="nav-link" href="{{ route('wakil-direktur-i.spd.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""> Surat PertanggungJawaban </a>
@@ -64,7 +64,7 @@
             </div>
         </li>
         {{--  <li class="nav-item">
-            <a class="nav-link py-2" href="{{ route('wakil-direktur-i.spd.index') }}">
+            <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
                 <span class="menu-title">SPD</span>
             </a>
