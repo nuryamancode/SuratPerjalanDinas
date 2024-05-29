@@ -37,7 +37,7 @@
                         <a class="nav-link" href=""> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Pengajuan Belanja </a>
+                        <a class="nav-link" href="{{ route('wakil-direktur-ii.pengajuan-belanja.index') }}"> Pengajuan Belanja </a>
                     </li>
                 </ul>
             </div>

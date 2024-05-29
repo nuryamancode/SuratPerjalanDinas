@@ -33,10 +33,12 @@
                             <span>Perihal</span>
                             <span>{{ $item->perihal }}</span>
                         </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Nilai Taksiran</span>
-                            <span>{{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : 'Belum ada nilai taksiran' }}</span>
-                        </li>
+                        @if ($item->nilai_taksiran != null)
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span>Nilai Taksiran</span>
+                                <span>{{ $item->nilai_taksiran ? 'Rp. ' . number_format($item->nilai_taksiran, 0, ',', '.') : '' }}</span>
+                            </li>
+                        @endif
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Dokumen surat</span>
                             <span>
@@ -69,7 +71,7 @@
                                 </ol>
                             </div>
                         </li>
-                        @if ($item->uang_muka == null || $item->uang_muka->acc_bendahara == 0 )
+                        @if ($item->uang_muka == null || $item->uang_muka->acc_bendahara == 0)
                             <li class="list-item mb-4 d-flex justify-content-between">
                                 <span>Aksi</span>
                                 <div>

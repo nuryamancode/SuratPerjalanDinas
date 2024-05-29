@@ -7,7 +7,7 @@
                     text-decoration: none;
                 }
             </style>
-            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj.index', $item->id) }}" class="back">
+            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $item->id) }}" class="back">
                 <div class="d-flex align-items-center">
                     <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
                     <span>Kembali</span>

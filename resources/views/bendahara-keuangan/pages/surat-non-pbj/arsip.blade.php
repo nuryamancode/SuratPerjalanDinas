@@ -58,7 +58,7 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('bendahara-keuangan.surat-non-pbj.arsip-spj', $item->spj->id) }}"
-                                                    class="btn btn-sm py-2 btn-info">Lihat SPJ</a>
+                                                    class="btn btn-sm py-2 btn-info">Lihat SPJ a</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -6,7 +6,7 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item">
+        {{--  <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#permohonan" aria-expanded="false"
                 aria-controls="permohonan">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
@@ -23,7 +23,7 @@
                     </li>
                 </ul>
             </div>
-        </li>
+        </li>  --}}
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#surat" aria-expanded="false"
                 aria-controls="surat">

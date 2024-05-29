@@ -332,6 +332,12 @@ Route::middleware('auth')->group(function () {
         Route::post('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'store'])->name('surat-non-pbj-disposisi.store');
         Route::post('surat-non-pbj/{id}/disposisi/update', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'update'])->name('surat-non-pbj-disposisi.update');
         Route::delete('surat-non-pbj/{id}/disposisi', [App\Http\Controllers\Wakildirekturii\SuratNonPbjDisposisiController::class, 'destroy'])->name('surat-non-pbj-disposisi.destroy');
+
+        Route::controller(\App\Http\Controllers\Wakildirekturii\PengajuanBelanja::class)->group(function () {
+            Route::get('pengajuan-belanja/','index')->name('pengajuan-belanja.index');
+            Route::get('pengajuan-belanja/show/pbj/{id}','show_pbj')->name('pengajuan-belanja.show.pbj');
+            Route::get('pengajuan-belanja/show/suratnonpbj/{id}','show_suratnonpbj')->name('pengajuan-belanja.show.suratnonpbj');
+        });
     });
 
     Route::name('bendahara-keuangan.')->prefix('bendahara-keuangan')->middleware('role:Bendahara Keuangan')->group(function () {

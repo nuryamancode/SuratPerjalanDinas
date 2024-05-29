@@ -38,14 +38,7 @@
                                         </td>
                                         <td>{{ $item->status_surat }}</td>
                                         <td>
-                                            @if ($item->verifikasi_wadir2 == 0)
-                                                <form
-                                                    action="{{ route('wakil-direktur-ii.pengajuan-pbj.verifikasi', $item->id) }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    <button class="btn py-2  btn-sm btn-success">Verifikasi</button>
-                                                </form>
-                                            @else
+                                            @if ($item->verifikasi_wadir2 != 0)
                                                 <a href="{{ route('wakil-direktur-ii.pengajuan-pbj.print', $item->id) }}" target="_blank"
                                                     class="btn btn-sm py-2 btn-primary">Print</a>
                                             @endif

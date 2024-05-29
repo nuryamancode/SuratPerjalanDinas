@@ -7,7 +7,7 @@
                     text-decoration: none;
                 }
             </style>
-            <a href="{{ route('wakil-direktur-ii.pengajuan-pbj.index') }}" class="back">
+            <a href="{{ route('wakil-direktur-ii.pengajuan-belanja.index') }}" class="back">
                 <div class="d-flex align-items-center">
                     <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
                     <span>Kembali</span>
@@ -65,6 +65,22 @@
                                 </ol>
                             </div>
                         </li>
+                        @if ($item->acc_wadir2 == '0')
+                            <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
+                                <span>Aksi</span>
+                                <div>
+                                </div>
+                                <div>
+                                    <form action="javascript:void(0)" class="d-inline" id="formAcc">
+                                        @csrf
+                                        <button class="btn btnAcc btn-sm py-2 btn-success"
+                                            data-action="{{ route('wakil-direktur-ii.pengajuan-pbj-disposisi.index', $item->id) }}">Terima</button>
+                                    </form>
+                                    <a href="#" data-toggle="modal" data-target="#modalKeterangan{{ $item->id }}"
+                                        class="btn btn-sm py-2 btnTolak btn-danger">Tolak</a>
+                                </div>
+                            </li>
+                        @endif
                         @if ($item->acc_wadir2 == '1')
                         <li class="list-item mb-4 d-flex justify-content-between p-1" style="border: 1px solid black">
                             <span>Aksi</span>
@@ -75,6 +91,7 @@
                                     class="btn btn-sm py-2 btnTolak btn-primary">Lihat Disposisi</a>
                             </div>
                         </li>
+
                         @endif
                     </ul>
                 </div>
