@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('pengadministrasi-umum.surat.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Detail Surat</h4>
@@ -12,7 +23,7 @@
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Tanggal Surat</span>
-                            <span>{{ $item->tanggal_surat }}</span>
+                            <span>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Maksud Perjalanan Dinas</span>
@@ -20,11 +31,11 @@
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Mulai Tanggal</span>
-                            <span>{{ $item->tanggal_mulai }}</span>
+                            <span>{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d F Y') }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Sampai Tanggal</span>
-                            <span>{{ $item->tanggal_sampai }}</span>
+                            <span>{{ \Carbon\Carbon::parse($item->tanggal_sampai)->format('d F Y') }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Tempat Berangkat</span>
@@ -34,28 +45,6 @@
                             <span>Tempat Tujuan</span>
                             <span>{{ $item->tempat_tujuan }}</span>
                         </li>
-                        @if ($item->antar == 1)
-                            <li class="list-item mb-4 d-flex justify-content-between">
-                                <span>Nomor Surat Jalan Dinas</span>
-                                <span>{{ $item->no_surat_jalan_dinas }}</span>
-                            </li>
-                            <li class="list-item mb-4 d-flex justify-content-between">
-                                <span>Tanggal Surat Jalan</span>
-                                <span>{{ $item->tanggal_surat_jalan }}</span>
-                            </li>
-                            <li class="list-item mb-4 d-flex justify-content-between">
-                                <span>Nama Supir</span>
-                                <span>{{ $item->supir->nama }}</span>
-                            </li>
-                            <li class="list-item mb-4 d-flex justify-content-between">
-                                <span>Lampiran Surat Tugas</span>
-                                <span>
-                                    <a href="{{ $item->getFileLampiranSuratTugas() }}" target="_blank"
-                                        class="btn btn-success btn-sm">Lihat
-                                        Surat</a>
-                                </span>
-                            </li>
-                        @endif
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Pelaksana</span>
                             <div>
@@ -74,13 +63,6 @@
                                 <a href="{{ $item->getFile() }}" target="_blank" class="btn btn-success btn-sm">Lihat
                                     Surat</a>
                             </span>
-                        </li>
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Aksi</span>
-                            <div>
-                                <a href="{{ route('pengadministrasi-umum.surat.index') }}"
-                                    class="btn btn-sm btn-warning">Kembali</a>
-                            </div>
                         </li>
                     </ul>
                 </div>
@@ -104,6 +86,35 @@
                     </ul>
                 </div>
             </div>
+            @if ($item->antar == 1)
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-5">Keterangan Supir</h4>
+                    <ul class="list-unstyled">
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Nomor Surat Jalan Dinas</span>
+                            <span>{{ $item->no_surat_jalan_dinas }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Tanggal Surat Jalan</span>
+                            <span>{{ \Carbon\Carbon::parse($item->tanggal_surat_jalan)->format('d F Y') }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Nama Supir</span>
+                            <span>{{ $item->supir->nama }}</span>
+                        </li>
+                        <li class="list-item mb-4 d-flex justify-content-between">
+                            <span>Lampiran Surat Tugas</span>
+                            <span>
+                                <a href="{{ $item->getFileLampiranSuratTugas() }}" target="_blank"
+                                    class="btn btn-success btn-sm">Lihat
+                                    Surat</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 @endsection

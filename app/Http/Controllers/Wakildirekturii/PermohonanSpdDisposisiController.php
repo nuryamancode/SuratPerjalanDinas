@@ -16,7 +16,7 @@ class PermohonanSpdDisposisiController extends Controller
     {
         $permohonan_spd_uuid = request('permohonan_spd_uuid');
         $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
-        $items = Disposisi::where('surat_perjalanan_dinas_id', $permohonan->id)->where('pembuat_karyawan_id', auth()->user()->karyawan->id)->latest()->get();
+        $items = Disposisi::where('surat_perjalanan_dinas_id', $permohonan->id)->where('pembuat_karyawan_id_1', auth()->user()->karyawan->id)->latest()->get();
         return view('wakil-direktur-ii.pages.permohonan-spd-disposisi.index', [
             'title' => 'Permohonan SPD Disposisi',
             'items' => $items,
@@ -57,12 +57,12 @@ class PermohonanSpdDisposisiController extends Controller
 
                 if ($cek < 1) {
                     $permohonan->disposisis()->create([
-                        'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                        'tujuan_karyawan_id' => $tujuan,
-                        'tipe' => request('tipe'),
-                        'catatan' => request('catatan'),
-                        'nomor_agenda' => request('nomor_agenda'),
-                        'perihal' => request('perihal')
+                        'pembuat_karyawan_id_1' => auth()->user()->karyawan->id,
+                        'tujuan_karyawan_id_1' => $tujuan,
+                        'tipe_1' => request('tipe'),
+                        'catatan_1' => request('catatan'),
+                        'nomor_agenda_1' => request('nomor_agenda'),
+                        'perihal_1' => request('perihal')
                     ]);
                 } else {
                     return redirect()->route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
@@ -72,7 +72,7 @@ class PermohonanSpdDisposisiController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('wakil-direktur-ii.pages.permohonan-spd.index')->with('success', 'Disposisi Berhasil disimpan.');
+            return redirect()->route('wakil-direktur-ii.permohonan-spd.index')->with('success', 'Disposisi Berhasil disimpan.');
         } catch (\Throwable $th) {
             throw $th;
         }

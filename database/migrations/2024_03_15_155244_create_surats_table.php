@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('surat', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pembuat_user_id')->constrained('users');
+            $table->string('nomor_surat');
             $table->string('status');
             $table->string('jenis_surat');
             $table->text('maksud_perjalanan_dinas')->nullable();
+            $table->integer('lama_hari')->nullable();
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_sampai')->nullable();
             $table->string('tempat_berangkat')->nullable();
@@ -27,6 +29,7 @@ return new class extends Migration
             $table->foreignId('supir_karyawan_id')->nullable()->constrained('karyawan')->nullOnDelete();
             $table->string('lampiran_surat_tugas')->nullable();
             $table->string('uraian_tugas')->nullable();
+            $table->integer('lama_hari_tugas')->nullable();
             $table->date('mulai_tanggal_tugas')->nullable();
             $table->date('sampai_tanggal_tugas')->nullable();
             $table->string('asal_surat')->nullable();

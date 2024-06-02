@@ -42,14 +42,14 @@ class PermohonanSpdController extends Controller
 
         try {
             $data = request()->only(['surat_id']);
+            // dd($data);
             $data['status'] = 'Menunggu Persetujuan Wakil Direktur II';
-            $spd = SuratPerjalananDinas::notActive()->create($data);
+            SuratPerjalananDinas::notActive()->create($data);
 
             DB::commit();
             return redirect()->route('pengadministrasi-umum.permohonan-spd.index')->with('success', 'Surat Perjalanan Dinas berhasil dibuat.');
         } catch (\Throwable $th) {
             throw $th;
-            DB::rollBack();
         }
     }
 

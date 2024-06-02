@@ -39,15 +39,25 @@ class PermohonanSpdController extends Controller
         ]);
         return redirect()->back()->with('success', 'Verifikasi Surat Pe');
     }
-
     public function verifikasi_ppk($uuid)
     {
         $item = SuratPerjalananDinas::where('id', $uuid)->firstOrFail();
-        dd($item);
+        if (!auth()->user()->karyawan->tte_file) {
+            return redirect()->back()->with('error', 'Silahkan upload terlebih dahulu TTE nya.');
+        }
         $item->update([
             'verifikasi_ppk' => 1,
-            'status' => 'Menunggu Didistribusikan Uang Muka'
+            'acc_ppk' => 1,
         ]);
         return redirect()->back()->with('success', 'Verifikasi ');
+    }
+    public function print($spd_uuid)
+    {
+        $spd = SuratPerjalananDinas::where('id', $spd_uuid)->firstOrFail();
+        // dd($spd->disposisi);
+        return view('wakil-direktur-ii.pages.permohonan-spd-disposisi.print', [
+            'title' => 'Cetak Disposisi',
+            'spd' => $spd
+        ]);
     }
 }

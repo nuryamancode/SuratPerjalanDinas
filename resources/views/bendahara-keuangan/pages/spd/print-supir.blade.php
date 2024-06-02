@@ -144,7 +144,8 @@
                         Dinas</td>
                     <td style="width:2%">:</td>
                     <td colspan="3" style="width:40%;border-right:1px solid white">
-                        {{ $item->karyawan->nama }}/{{ $item->karyawan->nip }}</td>
+                        {{ $item->spd->surat->supir->nama }}/{{ $item->spd->surat->supir->nip }}
+                    </td>
                 </tr>
                 <tr class="isian1" style="vertical-align: middle">
                     <td style="width:5%;vertical-align:right;border-left:1px solid white">3</td>
@@ -169,11 +170,15 @@
                         <table style="color: black">
                             <tr>
                                 <td>a.</td>
-                                <td> {{ $item->karyawan->golongan->nama }}</td>
+                                <td>
+                                    {{ $item->spd->surat->supir->golongan->nama }}
+                                </td>
                             </tr>
                             <tr>
                                 <td>b.</td>
-                                <td> {{ $item->karyawan->jabatan->nama }}</td>
+                                <td>
+                                    {{ $item->spd->surat->supir->jabatan->nama }}
+                                </td>
                             </tr>
                             <tr>
                                 <td>c.</td>
@@ -235,10 +240,6 @@
                                 <td>b.</td>
                                 <td> Tanggal berangkat</td>
                             </tr>
-                            <tr style="vertical-align:top;">
-                                <td>c.</td>
-                                <td> Tanggal harus kembali/tiba di tempat baru*</td>
-                            </tr>
                         </table>
                     </td>
                     <td style="width:2%">:</td>
@@ -251,10 +252,6 @@
                             <tr>
                                 <td>b.</td>
                                 <td> {{ $item->tanggal_berangkat }}</td>
-                            </tr>
-                            <tr>
-                                <td>c.</td>
-                                <td> {{ $item->tanggal_harus_kembali }}</td>
                             </tr>
                         </table>
                     </td>
@@ -364,7 +361,14 @@
                         <td colspan="3">Pejabat Pembuat Komitmen <br> Politeknik Negeri Subang</td>
                     </tr>
                     <tr>
-                        <td style="height:50px"></td>
+                        <td style="height:50px">
+                            @if ($item->verifikasi_ppk == 1)
+                                @if ($ppk->tte_file)
+                                    <img src="{{ $ppk->tte() }}" alt="" class="img-fluid"
+                                        style="max-height: 50px">
+                                @endif
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="3">{{ $ppk->nama }} <br>NIP {{ $ppk->nip }}</td>
@@ -430,7 +434,15 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td style="height:50px"></td>
+                            <td></td>
+                            <td colspan="2" style="height:50px;">
+                                @if ($item->verifikasi_ppk == 1)
+                                    @if ($ppk->tte_file)
+                                        <img src="{{ $ppk->tte() }}" alt="" class="img-fluid"
+                                            style="max-height: 50px">
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -456,7 +468,7 @@
                             <td style="width:40%">Pada tanggal</td>
                             <td style="width:3%">:</td>
                             <td><input type="text" style="border:1px solid black;width:175px"
-                                    value="{{ $item->surat_perjalanan_dinas->surat->tanggal_sampai->translatedFormat('d F Y') }}">
+                                    value="{{ $item->spd->surat->tanggal_sampai->translatedFormat('d F Y') }}">
                             </td>
                         </tr>
                     </table>
@@ -497,7 +509,7 @@
                             <td style="width:40%">Berangkat Dari</td>
                             <td style="width:3%">:</td>
                             <td><input type="text" style="border:1px solid black;width:175px"
-                                    value="{{ $item->surat_perjalanan_dinas->surat->tempat_tujuan }}"></td>
+                                    value="{{ $item->spd->surat->tempat_tujuan }}"></td>
                         </tr>
                     </table>
                     <table style="color: black">
@@ -505,7 +517,7 @@
                             <td style="width:40%">Ke</td>
                             <td style="width:3%">:</td>
                             <td><input type="text" style="border:1px solid black;width:175px"
-                                    value="{{ $item->surat_perjalanan_dinas->surat->tempat_berangkat }}">
+                                    value="{{ $item->spd->surat->tempat_berangkat }}">
                             </td>
                         </tr>
                     </table>
@@ -513,8 +525,8 @@
                         <tr style="width:5%;border-left:1px solid white;vertical-align:top;height:35px">
                             <td style="width:40%">Pada tanggal</td>
                             <td style="width:3%">:</td>
-                            <td><input type="text" style="border:1px solid black;width:175px"
-                                    value="{{ $item->tanggal_harus_kembali->translatedFormat('d F Y') }}"></td>
+                            {{--  <td><input type="text" style="border:1px solid black;width:175px"
+                                    value="{{ $item->tanggal_harus_kembali->translatedFormat('d F Y') }}"></td>  --}}
                         </tr>
                     </table>
                     <table style="color: black">
@@ -747,8 +759,8 @@
                             <td style="width:6%;border-left:1px solid white;vertical-align:top"></td>
                             <td style="width:40%">Pada tanggal</td>
                             <td style="width:3%">:</td>
-                            <td><input type="text" style="border:1px solid black;width:175px"
-                                    value="{{ $item->tanggal_harus_kembali->translatedFormat('d F Y') }}"></td>
+                            {{--  <td><input type="text" style="border:1px solid black;width:175px"
+                                    value="{{ $item->tanggal_harus_kembali->translatedFormat('d F Y') }}"></td>  --}}
                         </tr>
                     </table>
                 </td>
@@ -767,14 +779,23 @@
                             <td style="width:20%"></td>
                         </tr>
                         <tr style="border-left:1px solid white;vertical-align:top;height:35px">
-                            <td style="height:65px" colspan="3"></td>
+                            <td style=""></td>
+                            <td style="height:65px" colspan="3">
+                                @if ($item->verifikasi_ppk == 1)
+                                    @if ($ppk->tte_file)
+                                        <img src="{{ $ppk->tte() }}" alt="" class="img-fluid"
+                                            style="max-height: 80px">
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
                         <tr style="border-left:1px solid white;vertical-align:top;height:35px">
                             <td style="width:20%"></td>
                             <td style="width:40%">{{ $ppk->nama }} <br>NIP {{ $ppk->nip }}</td>
                             <td style="width:20%"></td>
                         </tr>
-
+                    </table>
+                </td>
             </tr>
 
         </table>
@@ -787,7 +808,15 @@
                     <td style="width:10%"></td>
                 </tr>
                 <tr style="border-left:1px solid white;vertical-align:top;height:35px">
-                    <td style="height:65px" colspan="3"></td>
+                    <td style=""></td>
+                    <td style="height:65px" colspan="3">
+                        @if ($item->verifikasi_ppk == 1)
+                            @if ($ppk->tte_file)
+                                <img src="{{ $ppk->tte() }}" alt="" class="img-fluid"
+                                    style="max-height: 80px">
+                            @endif
+                        @endif
+                    </td>
                 </tr>
                 <tr style="border-left:1px solid white;vertical-align:top;height:35px">
                     <td style="width:0%"></td>
@@ -801,6 +830,11 @@
     </div>
 
 
+
+
+
+
+    {{--  supir  --}}
 
 </body>
 

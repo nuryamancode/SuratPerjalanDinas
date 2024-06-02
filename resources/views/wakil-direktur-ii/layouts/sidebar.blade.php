@@ -6,6 +6,12 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link py-2" href="{{ route('wakil-direktur-ii.permohonan-spd.index') }}">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Disposisi SPD</span>
+            </a>
+        </li>
         {{--  <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#disposisi" aria-expanded="false"
                 aria-controls="disposisi">
@@ -34,7 +40,7 @@
             <div class="collapse" id="approval">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('wakil-direktur-ii.permohonan-spd.index') }}"> Surat Perjalan Dinas </a>
+                        <a class="nav-link" href=""> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('wakil-direktur-ii.pengajuan-belanja.index') }}"> Pengajuan Belanja </a>

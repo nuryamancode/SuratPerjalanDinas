@@ -11,11 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class PermohonanSpdDisposisiController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $permohonan_spd_uuid = request('permohonan_spd_uuid');
-        $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
-        $items = Disposisi::where('surat_perjalanan_dinas_id', $permohonan->id)->where('pembuat_karyawan_id', auth()->user()->karyawan->id)->latest()->get();
+        $permohonan = SuratPerjalananDinas::where('id', $id)->firstOrFail();
+        $items = Disposisi::where('surat_perjalanan_dinas_id', $permohonan->id)->where('pembuat_karyawan_id_2', auth()->user()->karyawan->id)->latest()->get();
         return view('ppk.pages.permohonan-spd-disposisi.index', [
             'title' => 'Permohonan SPD Disposisi',
             'items' => $items,
@@ -24,7 +23,11 @@ class PermohonanSpdDisposisiController extends Controller
     }
     public function create()
     {
-        $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
+        $data_karyawan = Karyawan::whereHas('user', function ($q) {
+            $q->whereHas('roles', function ($role) {
+                $role->whereIn('name', ['Pengelola Keuangan', 'Bendahara Keuangan']);
+            });
+        })->orderBy('nama', 'ASC')->get();
         $permohonan_spd_uuid = request('permohonan_spd_uuid');
         $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
         return view('ppk.pages.permohonan-spd-disposisi.create', [
@@ -37,42 +40,30 @@ class PermohonanSpdDisposisiController extends Controller
     public function store()
     {
         request()->validate([
-            'tujuan_karyawan_id' => ['array', 'min:1'],
-            'tujuan_karyawan_id.*' => ['required']
+            'teruskan_ke' => ['required']
         ]);
         DB::beginTransaction();
         try {
             $permohonan_spd_uuid = request('permohonan_spd_uuid');
             $permohonan = SuratPerjalananDinas::where('id', $permohonan_spd_uuid)->firstOrFail();
-            $data_tujuan = request('tujuan_karyawan_id');
-            if ($data_tujuan) {
-                foreach ($data_tujuan as $tujuan) {
-                    // cek terlebih dahulu datanya sudah ada atau belum
-                    $cek = Disposisi::where([
-                        'surat_perjalanan_dinas_id' => $permohonan->id,
-                        'tujuan_karyawan_id' => $tujuan,
-                        'pembuat_karyawan_id' => auth()->user()->karyawan->id
-                    ])->count();
-
-                    if ($cek < 1) {
-                        $permohonan->disposisis()->create([
-                            'pembuat_karyawan_id' => auth()->user()->karyawan->id,
-                            'tujuan_karyawan_id' => $tujuan,
-                            'tipe' => request('tipe'),
-                            'catatan' => request('catatan')
-                        ]);
-                    }
-                }
+            $data_tujuan = request('teruskan_ke');
+            if (!empty($data_tujuan)) {
+                $permohonan->disposisis()->update([
+                    'pembuat_karyawan_id_2' => auth()->user()->karyawan->id,
+                    'tujuan_karyawan_id_2' => $data_tujuan,
+                    'tipe_2' => request('tipe'),
+                    'catatan_2' => request('catatan'),
+                    'perihal_2' => request('perihal')
+                ]);
             }
 
             $permohonan->update([
-                'status' => 'Menunggu Bendahara Keuangan Membuatkan SPD'
+                'status' => 'Menunggu Bendahara Keuangan Membuatkan SPD',
+                'acc_ppk' => 1,
             ]);
 
             DB::commit();
-            return redirect()->route('ppk.permohonan-spd-disposisi.index', [
-                'permohonan_spd_uuid' => $permohonan->id
-            ])->with('success', 'Disposisi Berhasil disimpan.');
+            return redirect()->route('ppk.permohonan-spd-disposisi.index', $permohonan_spd_uuid)->with('success', 'Disposisi Berhasil disimpan.');
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -87,7 +78,7 @@ class PermohonanSpdDisposisiController extends Controller
 
     public function print($spd_uuid)
     {
-        $spd = SuratPerjalananDinas::where('uuid', $spd_uuid)->firstOrFail();
+        $spd = SuratPerjalananDinas::where('id', $spd_uuid)->firstOrFail();
         // dd($spd->disposisi);
         return view('ppk.pages.permohonan-spd-disposisi.print', [
             'title' => 'Cetak Disposisi',

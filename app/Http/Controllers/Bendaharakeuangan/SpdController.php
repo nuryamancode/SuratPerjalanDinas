@@ -19,8 +19,6 @@ class SpdController extends Controller
         })->latest()->get();
 
         $spd = SuratPerjalananDinas::where('id', request('spd_uuid'))->first();
-        // $items  = SuratPerjalananDinasDetail::where('karyawan_id', auth()->user()->karyawan->id)->get();
-
         $data_permohonan = SuratPerjalananDinas::accPpk()->latest()->get();
         return view('bendahara-keuangan.pages.spd.index', [
             'title' => 'Surat Perjalanan Dinas',

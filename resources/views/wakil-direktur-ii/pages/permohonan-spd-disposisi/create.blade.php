@@ -49,7 +49,7 @@
                             <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
                             <input type='text' name='tanggal_surat' id='tanggal_surat'
                                 class='form-control @error('tanggal_surat') is-invalid @enderror'
-                                value='{{ $permohonan->surat->tanggal_surat ?? old('tanggal_surat') }}' disabled>
+                                value='{{ \Carbon\Carbon::parse($permohonan->surat->created_at ?? old('tanggal_surat'))->format('Y-m-d') }}' disabled>
                             @error('tanggal_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}

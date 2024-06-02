@@ -12,7 +12,7 @@ class SpdSpjController extends Controller
 {
     public function create()
     {
-        $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+        $spd_detail = SuratPerjalananDinasDetail::where('id', request('spd_detail_uuid'))->firstOrFail();
         return view('bendahara-keuangan.pages.spd-spj.create', [
             'title' => 'Buat SPJ Perjalanan Dinas',
             'spd_detail' => $spd_detail
@@ -23,7 +23,7 @@ class SpdSpjController extends Controller
     {
         request()->validate([
             'draft' => ['required', 'mimes:pdf'],
-            'spd_detail_uuid' => ['required']
+            // 'spd_detail_uuid' => ['required']
         ]);
 
         DB::beginTransaction();
@@ -33,7 +33,7 @@ class SpdSpjController extends Controller
             $data_keterangan = request('keterangan');
             $data_file = request('file');
 
-            $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+            $spd_detail = SuratPerjalananDinasDetail::where('id', request('spd_detail_uuid'))->firstOrFail();
             // cek spj
             if ($spd_detail->spj) {
                 // update spj
@@ -58,11 +58,11 @@ class SpdSpjController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('pelaksana-spd.spd.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
+            return redirect()->route('bendahara-keuangan.permohonan-spd.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
-            return redirect()->route('pelaksana-spd.spd.index')->with('error', $th->getMessage());
+            return redirect()->route('bendahara-keuangan.permohonan-spd.index')->with('error', $th->getMessage());
         }
     }
 

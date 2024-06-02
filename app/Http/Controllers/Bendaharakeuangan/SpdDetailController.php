@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Bendaharakeuangan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
+use App\Models\SPDPelaksana;
+use App\Models\SPDSupir;
 use App\Models\SuratPerjalananDinasDetail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -48,11 +50,13 @@ class SpdDetailController extends Controller
 
     public function print($uuid)
     {
-        $item = SuratPerjalananDinasDetail::where('id', $uuid)->firstOrFail();
+        $item = SPDPelaksana::where('id', $uuid)->firstOrFail();
+        $items = SPDSupir::where('id', $uuid)->firstOrFail();
         $ppk = User::role('Pejabat Pembuat Komitmen')->first()->karyawan;
         return view('bendahara-keuangan.pages.spd-detail.print', [
             'title' => 'Cetak SPD',
             'item' => $item,
+            'items' => $items,
             'ppk' => $ppk
         ]);
     }

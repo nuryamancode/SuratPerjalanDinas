@@ -11,7 +11,7 @@ class SpdDetailUangMukaController extends Controller
 {
     public function index()
     {
-        $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+        $spd_detail = SuratPerjalananDinasDetail::where('id', request('spd_detail_uuid'))->firstOrFail();
         return view('bendahara-keuangan.pages.spd-detail-uang-muka.index', [
             'title' => 'Input Uang Muka ',
             'spd_detail' => $spd_detail
@@ -26,7 +26,7 @@ class SpdDetailUangMukaController extends Controller
 
         DB::beginTransaction();
         try {
-            $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+            $spd_detail = SuratPerjalananDinasDetail::where('id', request('spd_detail_uuid'))->firstOrFail();
             if ($spd_detail->uang_muka) {
                 // update
                 $spd_detail->uang_muka()->update([
@@ -41,15 +41,11 @@ class SpdDetailUangMukaController extends Controller
                 'status' => 'Sudah Didistribusikan dan Menunggu Proses Perjalanan Dinas'
             ]);
             DB::commit();
-            return redirect()->route('bendahara-keuangan.spd.index', [
-                'spd_uuid' => $spd_detail->surat_perjalanan_dinas->uuid
-            ])->with('success', 'Uang Muka berhasil disubmit.');
+            return redirect()->route('bendahara-keuangan.spd.index', $spd_detail->id)->with('success', 'Uang Muka berhasil disubmit.');
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollBack();
-            return redirect()->route('bendahara-keuangan.spd.index', [
-                'spd_uuid' => $spd_detail->surat_perjalanan_dinas->uuid
-            ])->with('error', $th->getMessage());
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 }

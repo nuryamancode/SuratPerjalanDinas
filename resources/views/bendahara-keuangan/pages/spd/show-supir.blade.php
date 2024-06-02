@@ -4,19 +4,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Detail SPD Pelaksana Dinas</h4>
+                    <h4 class="card-title mb-5">Detail SPD Supir</h4>
                     <ul class="list-inline">
                         <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Pelaksana Dinas</span>
-                            <div>
-                                <ol class="list-group">
-                                    @foreach ($item->surat->pelaksana as $pelaksana)
-                                        <li>
-                                            {{ $pelaksana->karyawan->nama }}
-                                        </li>
-                                    @endforeach
-                                </ol>
-                            </div>
+                            <span>Supir</span>
+                            <span>{{ $item->surat->supir->nama }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Nomor Surat</span>
@@ -31,51 +23,51 @@
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Tingakat Biaya</span>
-                            <span>{{ $item->spd_pelaksana_dinas->tingkat_biaya }}</span>
+                            <span>{{ $item->spd_supir->tingkat_biaya }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Maksud Perjalanan Dinas</span>
-                            <span>{{ $item->spd_pelaksana_dinas->maksud_perjalanan_dinas }}</span>
+                            <span>{{ $item->spd_supir->maksud_perjalanan_dinas }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Alat Angkut</span>
-                            <span>{{ $item->spd_pelaksana_dinas->alat_angkut }}</span>
+                            <span>{{ $item->spd_supir->alat_angkut }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Tempat Berangkat</span>
-                            <span>{{ $item->spd_pelaksana_dinas->tempat_berangkat }}</span>
+                            <span>{{ $item->spd_supir->tempat_berangkat }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Tempat Tujuan</span>
-                            <span>{{ $item->spd_pelaksana_dinas->tempat_tujuan }}</span>
+                            <span>{{ $item->spd_supir->tempat_tujuan }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Lama Perjalanan</span>
-                            <span>{{ $item->spd_pelaksana_dinas->lama_perjalanan }}</span>
+                            <span>{{ $item->spd_supir->lama_perjalanan }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Tanggal Berangkat</span>
-                            <span>{{ $item->spd_pelaksana_dinas->tanggal_berangkat }}</span>
+                            <span>{{ $item->spd_supir->tanggal_berangkat }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Pembebanan Anggaran</span>
-                            <span>{{ $item->spd_pelaksana_dinas->pembebanan_anggaran }}</span>
+                            <span>{{ $item->spd_supir->pembebanan_anggaran }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Instansi</span>
-                            <span>{{ $item->spd_pelaksana_dinas->instansi }}</span>
+                            <span>{{ $item->spd_supir->instansi }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Mata Anggaran Kegiatan</span>
-                            <span>{{ $item->spd_pelaksana_dinas->mata_anggaran_kegiatan }}</span>
+                            <span>{{ $item->spd_supir->mata_anggaran_kegiatan }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Dikeluarkan Di</span>
-                            <span>{{ $item->spd_pelaksana_dinas->dikeluarkan_di }}</span>
+                            <span>{{ $item->spd_supir->dikeluarkan_di }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Keterangan Lain Lain</span>
-                            <span>{{ $item->spd_pelaksana_dinas->keterangan_lain_lain ?? '-' }}</span>
+                            <span>{{ $item->spd_supir->keterangan_lain_lain ?? '-' }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>

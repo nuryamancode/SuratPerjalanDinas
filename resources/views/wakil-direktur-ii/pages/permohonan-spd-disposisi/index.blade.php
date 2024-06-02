@@ -6,10 +6,12 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Disposisi Permohonan SPD</h4>
-                        <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.create', [
-                            'permohonan_spd_uuid' => $permohonan->id,
-                        ]) }}"
-                            class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                        @if ($permohonan->disposisi == null || $permohonan->disposisi->pembuat_karyawan_id_1 == null)
+                            <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.create', [
+                                'permohonan_spd_uuid' => $permohonan->id,
+                            ]) }}"
+                                class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                        @endif
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">

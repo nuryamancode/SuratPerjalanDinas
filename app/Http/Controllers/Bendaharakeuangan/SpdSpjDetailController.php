@@ -12,7 +12,7 @@ class SpdSpjDetailController extends Controller
 {
     public function create()
     {
-        $spj = SuratPertanggungJawaban::where('uuid', request('spj_uuid'))->firstOrFail();
+        $spj = SuratPertanggungJawaban::where('id', request('spj_uuid'))->firstOrFail();
         return view('bendahara-keuangan.pages.spd-spj-detail.create', [
             'title' => 'Buat Detail SPJ',
             'spj' => $spj

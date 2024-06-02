@@ -14,7 +14,8 @@
                                     <th>No.</th>
                                     <th>Nomor Surat</th>
                                     <th>Maksud Perjalanan Dinas</th>
-                                    {{-- <th>Status Uang Muka</th> --}}
+                                    <th>Tanggal Surat</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -24,17 +25,18 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->surat->nomor_surat }}</td>
                                         <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->surat->created_at)->format('d M Y') }}</td>
+                                        <td>{{ $item->status }}</td>
                                         {{-- <td>{{ $item->statusUangMuka() }}</td> --}}
                                         <td>
-
-                                            {{-- @if ($item->verifikasi_ppk == 1)
-                                                <a href="{{ route('bendahara-keuangan.spd-uang-muka.index', [
-                                                    'spd_uuid' => $item->id,
-                                                ]) }}"
+                                            @if ($item->status == 'SPD Sudah Di TTD')
+                                                <a href="{{ route('bendahara-keuangan.uang-muka-spd.index', $item->spd_pelaksana_dinas->id) }}"
                                                     class="btn btn-sm py-2 btn-primary">Uang Muka</a>
-                                            @endif --}}
-                                            <a href="{{ route('bendahara-keuangan.permohonan-spd.print', $item->id) }}"
-                                                class="btn btn-sm py-2 btn-secondary">Print</a>
+                                            @endif
+                                            @if ($item->spd_pelaksana_dinas)
+                                                <a href="{{ route('bendahara-keuangan.buat-spd.print', $item->spd_pelaksana_dinas->id) }}" target="_blank"
+                                                    class="btn btn-sm py-2 btn-info">Print SPD</a>
+                                            @endif
                                             <a href="{{ route('bendahara-keuangan.permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
@@ -48,58 +50,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalKeterangan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Keterangan Penolakan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class='form-group mb-3'>
-                        <label for='keterangan' class='mb-2'>Keterangan</label>
-                        <textarea name='keterangan' id='keterangan' cols='30' rows='3'
-                            class='form-control @error('keterangan') is-invalid @enderror'>{{ old('keterangan') }}</textarea>
-                        @error('keterangan')
-                            <div class='invalid-feedback'>
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btnSubmit">Submit</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 <x-Admin.Sweetalert />
 <x-Admin.Datatable />
 @push('scripts')
-    <script>
-        $(function() {
-            $('body').on('click', '.btnTolak', function() {
-                let url = $(this).data('url');
-
-                $('body').on('click', '.btnSubmit', function() {
-                    let keterangan = $('#modalKeterangan textarea').val();
-                    $('#keterangan_ppk').val(keterangan);
-                    $('<input>').attr({
-                        type: 'hidden',
-                        name: 'status',
-                        value: 2
-                    }).appendTo('#formAcc');
-                    $('#formAcc').attr('action', url);
-                    $('#formAcc').submit();
-                })
-                $('#modalKeterangan').modal('show');
-            })
-
-
-        })
-    </script>
 @endpush

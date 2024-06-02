@@ -13,13 +13,19 @@ return new class extends Migration
     {
         Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('surat_perjalanan_dinas_id')->constrained('surat_perjalanan_dinas');
-            $table->string('tipe');
-            $table->text('catatan')->nullable();
-            $table->foreignId('pembuat_karyawan_id')->constrained('karyawan');
-            $table->foreignId('tujuan_karyawan_id')->constrained('karyawan');
-            $table->string('nomor_agenda')->nullable();
-            $table->string('perihal')->nullable();
+            $table->foreignId('surat_perjalanan_dinas_id')->constrained('surat_perjalanan_dinas')->onDelete('cascade');
+            $table->string('tipe_1')->nullable();
+            $table->text('catatan_1')->nullable();
+            $table->foreignId('pembuat_karyawan_id_1')->constrained('karyawan')->nullable();
+            $table->foreignId('tujuan_karyawan_id_1')->constrained('karyawan')->nullable();
+            $table->string('nomor_agenda_1')->nullable();
+            $table->string('perihal_1')->nullable();
+            $table->string('tipe_2')->nullable();
+            $table->text('catatan_2')->nullable();
+            $table->foreignId('pembuat_karyawan_id_2')->constrained('karyawan')->nullable();
+            $table->foreignId('tujuan_karyawan_id_2')->constrained('karyawan')->nullable();
+            $table->string('nomor_agenda_2')->nullable();
+            $table->string('perihal_2')->nullable();
             $table->timestamps();
         });
         Schema::create('disposisi_detail', function (Blueprint $table) {

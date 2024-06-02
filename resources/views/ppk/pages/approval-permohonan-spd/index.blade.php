@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-3">Permohonan Surat Perjalanan Dinas</h4>
+                        <h4 class="card-title mb-3">Approval Permohonan Surat Perjalanan Dinas</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table dtTable table-hover">
@@ -15,7 +15,6 @@
                                     <th>Nomor Surat</th>
                                     <th>Maksud Perjalanan Dinas</th>
                                     <th>Tanggal Surat</th>
-                                    <th>Pelaksana Dinas</th>
                                     <th>Status Verifikasi</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
@@ -28,20 +27,15 @@
                                         <td>{{ $item->surat->nomor_surat }}</td>
                                         <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->surat->created_at)->format('d F Y') }}</td>
-                                        <td>
-                                            <ol>
-                                                @foreach ($item->surat->pelaksana as $pelaksana)
-                                                    <li>{{ $pelaksana->karyawan->nama }}</li>
-                                                @endforeach
-                                            </ol>
-                                        </td>
                                         <td>{{ $item->statusSpd() }}</td>
                                         <td>{{ $item->status }}</td>
                                         <td>
-                                            @if ($item->disposisi)
+                                            {{--  @if ($item->disposisi)
                                                 @if ($item->disposisi->pembuat_karyawan_id_2 != null)
                                                     @if ($item->verifikasi_ppk != 1)
-                                                        <form action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->id) }}" method="post" class="d-inline">
+                                                        <form
+                                                            action="{{ route('ppk.permohonan-spd.verifikasi-ppk', $item->id) }}"
+                                                            method="post" class="d-inline">
                                                             @csrf
                                                             <button class="btn py-2  btn-sm btn-success">Set
                                                                 Verifikasi</button>
@@ -51,8 +45,21 @@
                                                             target="_blank" class="btn btn-sm py-2 btn-secondary">Print</a>
                                                     @endif
                                                 @endif
+                                            @endif  --}}
+                                            @if ($item->spd_pelaksana_dinas->verifikasi_ppk == 0 || $item->spd_supir->verifikasi_ppk == 0)
+                                                <form
+                                                    action="{{ route('ppk.approval-permohonan-spd.verifikasi', $item->id) }}"
+                                                    method="post" class="d-inline">
+                                                    @csrf
+                                                    <button class="btn py-2  btn-sm btn-success">
+                                                        Verifikasi SPD</button>
+                                                </form>
                                             @endif
-                                            <a href="{{ route('ppk.permohonan-spd.show', $item->id) }}"
+                                            @if ($item->spd_pelaksana_dinas)
+                                                <a href="{{ route('ppk.approval-permohonan-spd.lihat-spd-pelaksana', $item->spd_pelaksana_dinas->id) }}"
+                                                    target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD</a>
+                                            @endif
+                                            <a href="{{ route('ppk.approval-permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>

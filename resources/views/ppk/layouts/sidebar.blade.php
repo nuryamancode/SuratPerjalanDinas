@@ -7,6 +7,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link py-2" href="{{ route('ppk.permohonan-spd.index') }}">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Disposisi Permohonan SPD</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#approval" aria-expanded="false"
                 aria-controls="approval">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
@@ -16,7 +22,7 @@
             <div class="collapse" id="approval">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ppk.permohonan-spd.index') }}"> Surat Perjalan Dinas </a>
+                        <a class="nav-link" href="{{ route('ppk.approval-permohonan-spd.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('ppk.surat-non-pbj-spj.index') }}"> SPJ Surat Non PBJ </a>
@@ -40,7 +46,7 @@
             <div class="collapse" id="surat">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ppk.spd.index') }}"> Surat Perjalan Dinas </a>
+                        <a class="nav-link" href="{{ route('ppk.spd-spj.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""> Surat PertanggungJawaban </a>

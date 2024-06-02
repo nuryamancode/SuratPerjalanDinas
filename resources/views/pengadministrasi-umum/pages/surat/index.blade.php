@@ -27,7 +27,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nomor_surat }}</td>
-                                        <td>{{ $item->tanggal_surat }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y') }}</td>
                                         <td>
                                             <ul>
                                                 @foreach ($item->pelaksana as $pelaksana)

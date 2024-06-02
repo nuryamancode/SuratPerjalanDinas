@@ -112,14 +112,14 @@
     </div>
     <div class="line2">
         <div class="checkboxes">
-            <input type="checkbox" id="rahasia" name="rahasia" @if ($spd->disposisi->tipe === 'Terbatas Biasa') checked @endif>
+            <input type="checkbox" id="rahasia" name="rahasia" @if ($spd->disposisi->tipe_1 === 'Terbatas Biasa') checked @endif>
             <label for="terbatas_rahasia">Terbatas Biasa</label>
-            <input type="checkbox" id="rahasia" name="rahasia" @if ($spd->disposisi->tipe === 'Rahasia') checked @endif>
+            <input type="checkbox" id="rahasia" name="rahasia" @if ($spd->disposisi->tipe_1 === 'Rahasia') checked @endif>
             <label for="rahasia">Rahasia</label>
             <input type="checkbox" id="terbatas_rahasia" name="terbatas_rahasia"
-                @if ($spd->disposisi->tipe === 'Segera') checked @endif>
+                @if ($spd->disposisi->tipe_1 === 'Segera') checked @endif>
             <label for="segera">Segera</label>
-            <input type="checkbox" id="segera" name="segera" @if ($spd->disposisi->tipe === 'Sangat Segera') checked @endif>
+            <input type="checkbox" id="segera" name="segera" @if ($spd->disposisi->tipe_1 === 'Sangat Segera') checked @endif>
             <label for="sangat_segera">Sangat Segera</label>
         </div>
     </div>
@@ -128,7 +128,7 @@
             <tr>
                 <td>No. Agenda</td>
                 <td>:</td>
-                <td>{{ $spd->disposisi->nomor_agenda ?? '-' }}</td>
+                <td>{{ $spd->disposisi->nomor_agenda_1 ?? '-' }}</td>
             </tr>
             <tr>
                 <td>No. Surat</td>
@@ -138,7 +138,7 @@
             <tr>
                 <td>Tanggal Surat</td>
                 <td>:</td>
-                <td>{{ $spd->disposisi->spd->surat->tanggal_surat->translatedFormat('d F Y') ?? '-' }}
+                <td>{{ $spd->disposisi->spd->surat->created_at->translatedFormat('d F Y') ?? '-' }}
                 </td>
             </tr>
             <tr>
@@ -149,7 +149,7 @@
             <tr>
                 <td>Perihal</td>
                 <td>:</td>
-                <td>{{ $spd->disposisi->perihal ?? '-' }}</td>
+                <td>{{ $spd->disposisi->perihal_1 ?? '-' }}</td>
             </tr>
         </table>
     </div>
@@ -159,16 +159,14 @@
                 <td>Diteruskan Kepada</td>
                 <td>:</td>
             </tr>
-            @foreach ($spd->disposisis->where('pembuat_karyawan_id', auth()->user()->karyawan->id) as $disposisi)
-                <tr>
-                    <td>
-                        <div class="checkboxes-left">
-                            <input type="checkbox" checked id="arsip" name="arsip">
-                            <label for="arsip">{{ $disposisi->tujuan->nama }}</label>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
+            <tr>
+                <td>
+                    <div class="checkboxes-left">
+                        <input type="checkbox" checked id="arsip" name="arsip">
+                        <label for="arsip">{{ $spd->disposisi->tujuan->jabatan->nama }}</label>
+                    </div>
+                </td>
+            </tr>
         </table>
         <br>
         <div>
@@ -176,7 +174,7 @@
                 <td><b>Intruksi/informasi</b></td>
             </div>
             <div>
-                <td>{{ $spd->disposisi->catatan ?? '-' }}</td>
+                <td>{{ $spd->disposisi->catatan_1 ?? '-' }}</td>
             </div>
         </div>
     </div>
@@ -188,18 +186,18 @@
 
             </td>
             <td style="width: 30%">
-                <div>{{ auth()->user()->karyawan->jabatan->nama }} <br>
+                <div>{{ $spd->disposisi->pembuat->jabatan->nama}} <br>
                     Politeknik Negeri Subang
                 </div>
                 <div style="height:100px;margin-top:10px">
-                    @if (auth()->user()->karyawan->tte_file)
-                        <img src="{{ auth()->user()->karyawan->tte() }}" alt="" class="img-fluid"
+                    @if ($spd->disposisi->pembuat->tte_file)
+                        <img src="{{ $spd->disposisi->pembuat->tte() }}" alt="" class="img-fluid"
                             style="max-height: 80px">
                     @endif
                 </div>
                 <div>
-                    {{ auth()->user()->karyawan->nama }} <br>
-                    NIP. {{ auth()->user()->karyawan->nip }}
+                    {{ $spd->disposisi->pembuat->nama }} <br>
+                    NIP. {{ $spd->disposisi->pembuat->nip }}
                 </div>
             </td>
         </tr>

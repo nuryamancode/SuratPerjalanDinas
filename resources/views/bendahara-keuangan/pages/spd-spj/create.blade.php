@@ -8,12 +8,12 @@
                     <form action="{{ route('bendahara-keuangan.spd-spj.store') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="spd_detail_uuid" value="{{ $spd_detail->uuid }}" hidden>
+                        <input type="text" name="spd_detail_uuid" value="{{ $spd_detail->id }}" hidden>
                         <div class='form-group mb-3'>
                             <label for='nominal' class='mb-2'>Nominal Uang Muka</label>
                             <input type='text' name='nominal' id='nominal'
                                 class='form-control @error('nominal') is-invalid @enderror'
-                                value='{{ $spd_detail->surat_perjalanan_dinas->uang_muka ? 'Rp. ' . number_format($spd_detail->surat_perjalanan_dinas->uang_muka->nominal) : old('nominal') }}'
+                                value='{{ $spd_detail->uang_muka ? 'Rp. ' . number_format($spd_detail->uang_muka->nominal) : old('nominal') }}'
                                 disabled>
                             @error('nominal')
                                 <div class='invalid-feedback'>

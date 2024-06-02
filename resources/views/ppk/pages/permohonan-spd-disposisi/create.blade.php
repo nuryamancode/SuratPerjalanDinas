@@ -11,17 +11,55 @@
                         ]) }}"
                         method="post">
                         @csrf
-                        <div class='form-group'>
-                            <label for='tujuan_karyawan_id'>Diteruskan Ke</label>
-                            <select name='tujuan_karyawan_id[]' id='tujuan_karyawan_id'
-                                class='form-control @error('tujuan_karyawan_id') is-invalid @enderror' multiple>
-                                @foreach ($data_karyawan as $karyawan)
-                                    <option @selected($karyawan->id == old('tujuan_karyawan_id')) value='{{ $karyawan->id }}'>
-                                        {{ $karyawan->nama . ' | ' . $karyawan->jabatan->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('tujuan_karyawan_id')
+                        <div class='form-group mb-3'>
+                            <label for='nomor_surat' class='mb-2'>Nomor Surat</label>
+                            <input type='text' name='nomor_surat' id='nomor_surat'
+                                class='form-control @error('nomor_surat') is-invalid @enderror'
+                                value='{{ $permohonan->surat->nomor_surat ?? old('nomor_surat') }}' disabled>
+                            @error('nomor_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='nomor_agenda' class='mb-2'>Nomor Agenda</label>
+                            <input type='text' name='nomor_agenda' id='nomor_agenda'
+                                class='form-control @error('nomor_agenda') is-invalid @enderror'
+                                value='{{ old('nomor_agenda') }}'>
+                            @error('nomor_agenda')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
+                            <input type='text' name='tanggal_surat' id='tanggal_surat'
+                                class='form-control @error('tanggal_surat') is-invalid @enderror'
+                                value='{{ \Carbon\Carbon::parse($permohonan->surat->created_at ?? old('tanggal_surat'))->format('Y-m-d') }}' disabled>
+                            @error('tanggal_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='asal_surat' class='mb-2'>Asal Surat</label>
+                            <input type='text' name='asal_surat' id='asal_surat'
+                                class='form-control @error('asal_surat') is-invalid @enderror'
+                                value='{{ $permohonan->surat->asal_surat ?? old('asal_surat') }}' disabled>
+                            @error('asal_surat')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
+                            <label for='perihal' class='mb-2'>Perihal</label>
+                            <input type='text' name='perihal' id='perihal'
+                                class='form-control @error('perihal') is-invalid @enderror' value='{{ old('perihal') }}'>
+                            @error('perihal')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
                                 </div>
@@ -42,6 +80,21 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class='form-group'>
+                            <label for='teruskan_ke'>Diteruskan Ke</label>
+                            <select name='teruskan_ke' id='teruskan_ke' class='form-control'>
+                                <option value='' selected disabled>Pilih Diteruskan</option>
+                                @foreach ($data_karyawan as $items)
+                                    <option value='{{ $items->id }}'>{{ $items->nama }} - {{ $items->jabatan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('teruskan_ke')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         <div class='form-group mb-3'>
                             <label for='catatan' class='mb-2'>Catatan</label>
                             <textarea name='catatan' id='catatan' cols='30' rows='3'
@@ -53,9 +106,7 @@
                             @enderror
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('ppk.permohonan-spd-disposisi.index', [
-                                'permohonan_spd_uuid' => $permohonan->id,
-                            ]) }}"
+                            <a href="{{ route('ppk.permohonan-spd-disposisi.index', $permohonan->id) }}"
                                 class="btn btn-warning">Batal</a>
                             <button class="btn btn-primary">Submit</button>
                         </div>

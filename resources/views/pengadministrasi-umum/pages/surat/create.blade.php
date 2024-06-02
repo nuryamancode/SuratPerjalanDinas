@@ -19,7 +19,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class='form-group mb-3'>
+                        {{--  <div class='form-group mb-3'>
                             <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
                             <input type='date' name='tanggal_surat' id='tanggal_surat'
                                 class='form-control @error('tanggal_surat') is-invalid @enderror'
@@ -29,13 +29,13 @@
                                     {{ $message }}
                                 </div>
                             @enderror
-                        </div>
+                        </div>  --}}
                         <div class='form-group'>
                             <label for='pelaksana'>Pelaksana</label>
                             <select name='pelaksana[]' id='pelaksana'
                                 class='form-control @error('pelaksana') is-invalid @enderror' multiple>
                                 <option value='' disabled>Pilih Pelaksana</option>
-                                @foreach ($data_karyawan as $karyawan)
+                                @foreach ($data_pelaksana as $karyawan)
                                     <option @selected($karyawan->id == old('pelaksana')) value='{{ $karyawan->id }}'>
                                         {{ $karyawan->nama . ' | ' . $karyawan->jabatan->nama }}
                                     </option>
@@ -58,6 +58,17 @@
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
+                            <label for='lama_hari' class='mb-2'>Lama Hari</label>
+                            <input type='number' name='lama_hari' id='lama_hari'
+                            class='form-control @error('lama_hari') is-invalid @enderror'
+                            value='{{ old('lama_hari') }}'>
+                            @error('lama_hari')
+                                <div class='invalid-feedback'>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class='form-group mb-3'>
                             <label for='tanggal_mulai' class='mb-2'>Tanggal Mulai Perjalanan Dinas</label>
                             <input type='date' name='tanggal_mulai' id='tanggal_mulai'
                                 class='form-control @error('tanggal_mulai') is-invalid @enderror'
@@ -69,8 +80,7 @@
                             @enderror
                         </div>
                         <div class='form-group mb-3'>
-                            <label for='tanggal_sampai' class='mb-2'>Tanggal Sampai Perjalanan
-                                Dinas</label>
+                            <label for='tanggal_sampai' class='mb-2'>Tanggal Sampai Perjalanan Dinas</label>
                             <input type='date' name='tanggal_sampai' id='tanggal_sampai'
                                 class='form-control @error('tanggal_sampai') is-invalid @enderror'
                                 value='{{ old('tanggal_sampai') }}'>
@@ -199,6 +209,17 @@
                                 @enderror
                             </div>
                             <div class='form-group mb-3'>
+                                <label for='lama_hari_tugas' class='mb-2'>Lama Hari Tugas</label>
+                                <input type='number' name='lama_hari_tugas' id='lama_hari_tugas'
+                                class='form-control @error('lama_hari_tugas') is-invalid @enderror'
+                                value='{{ old('lama_hari_tugas') }}'>
+                                @error('lama_hari_tugas')
+                                    <div class='invalid-feedback'>
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class='form-group mb-3'>
                                 <label for='mulai_tanggal_tugas' class='mb-2'>Tanggal Mulai Tugas</label>
                                 <input type='date' name='mulai_tanggal_tugas' id='mulai_tanggal_tugas'
                                     class='form-control @error('mulai_tanggal_tugas') is-invalid @enderror'
@@ -253,5 +274,57 @@
                 }
             })
         })
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lamaHariField = document.getElementById('lama_hari');
+            const tanggalMulaiField = document.getElementById('tanggal_mulai');
+            const tanggalSampaiField = document.getElementById('tanggal_sampai');
+
+            function updateTanggalSampai() {
+                const lamaHari = parseInt(lamaHariField.value, 10);
+                const tanggalMulai = new Date(tanggalMulaiField.value);
+
+                if (!isNaN(lamaHari) && tanggalMulai instanceof Date && !isNaN(tanggalMulai)) {
+                    const tanggalSampai = new Date(tanggalMulai);
+                    tanggalSampai.setDate(tanggalMulai.getDate() + lamaHari);
+
+                    const year = tanggalSampai.getFullYear();
+                    const month = String(tanggalSampai.getMonth() + 1).padStart(2, '0');
+                    const day = String(tanggalSampai.getDate()).padStart(2, '0');
+
+                    tanggalSampaiField.value = `${year}-${month}-${day}`;
+                }
+            }
+
+            lamaHariField.addEventListener('input', updateTanggalSampai);
+            tanggalMulaiField.addEventListener('input', updateTanggalSampai);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lamaHariTugasField = document.getElementById('lama_hari_tugas');
+            const tanggalMulaiTugasField = document.getElementById('mulai_tanggal_tugas');
+            const tanggalSampaiTUgasField = document.getElementById('sampai_tanggal_tugas');
+
+            function updateTanggalSampai() {
+                const lamaHariTugas = parseInt(lamaHariTugasField.value, 10);
+                const tanggalMulaiTugas = new Date(tanggalMulaiTugasField.value);
+
+                if (!isNaN(lamaHariTugas) && tanggalMulaiTugas instanceof Date && !isNaN(tanggalMulaiTugas)) {
+                    const tanggalSampaiTugas = new Date(tanggalMulaiTugas);
+                    tanggalSampaiTugas.setDate(tanggalMulaiTugas.getDate() + lamaHariTugas);
+
+                    const year = tanggalSampaiTugas.getFullYear();
+                    const month = String(tanggalSampaiTugas.getMonth() + 1).padStart(2, '0');
+                    const day = String(tanggalSampaiTugas.getDate()).padStart(2, '0');
+
+                    tanggalSampaiTUgasField.value = `${year}-${month}-${day}`;
+                }
+            }
+
+            lamaHariTugasField.addEventListener('input', updateTanggalSampai);
+            tanggalMulaiTugasField.addEventListener('input', updateTanggalSampai);
+        });
     </script>
 @endpush

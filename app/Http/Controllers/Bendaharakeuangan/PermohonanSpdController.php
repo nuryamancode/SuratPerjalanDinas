@@ -11,7 +11,7 @@ class PermohonanSpdController extends Controller
 {
     public function index()
     {
-        $items = SuratPerjalananDinas::with('details')->verifikasiWadir2Ppk()->latest()->get();
+        $items = SuratPerjalananDinas::with(['spd_pelaksana_dinas','spd_supir'])->verifikasiWadir2Ppk()->latest()->get();
         // dd($items);
         return view('bendahara-keuangan.pages.permohonan-spd.index', [
             'title' => 'Surat Perjalanan Dinas',
@@ -37,6 +37,14 @@ class PermohonanSpdController extends Controller
             'title' => 'Cetak Disposisi',
             'spd' => $spd,
             'ppk' => $ppk
+        ]);
+    }
+    public function printppk($spd_uuid)
+    {
+        $spd = SuratPerjalananDinas::where('id', $spd_uuid)->firstOrFail();
+        return view('ppk.pages.permohonan-spd-disposisi.print', [
+            'title' => 'Cetak Disposisi',
+            'spd' => $spd,
         ]);
     }
 }

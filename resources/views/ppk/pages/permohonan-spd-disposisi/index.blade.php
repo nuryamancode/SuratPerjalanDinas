@@ -7,10 +7,14 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title mb-3">Disposisi Permohonan SPD</h4>
                         @if (!$permohonan->is_arsip)
-                            <a href="{{ route('ppk.permohonan-spd-disposisi.create', [
-                                'permohonan_spd_uuid' => $permohonan->id,
-                            ]) }}"
-                                class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                            @if ($permohonan->disposisi == null || $permohonan->disposisi->pembuat_karyawan_id_2 == null)
+                                <a href="{{ route('ppk.permohonan-spd-disposisi.create', [
+                                    'permohonan_spd_uuid' => $permohonan->id,
+                                ]) }}"
+                                    class="btn my-2 mb-3 btn-sm py-2 btn-primary">Buat Disposisi</a>
+                            @else
+                                {{ null }}
+                            @endif
                         @endif
                     </div>
                     <div class="table-responsive">
@@ -30,12 +34,12 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->spd->surat->nomor_surat }}</td>
-                                        <td>{{ $item->spd->surat->perihal }}</td>
-                                        <td>{{ $item->pembuat->nama }}</td>
-                                        <td>{{ $item->tujuan->nama }}</td>
+                                        <td>{{ $item->perihal_2 }}</td>
+                                        <td>{{ $item->pembuat2->nama }}</td>
+                                        <td>{{ $item->tujuan2->nama }}</td>
                                         <td>
                                             @if (!$permohonan->disposisi)
-                                                @if ($item->pembuat_karyawan_id == auth()->user()->karyawan->id)
+                                                @if ($item->pembuat_karyawan_id_2 == auth()->user()->karyawan->id)
                                                     <form action="javascript:void(0)" method="post" class="d-inline"
                                                         id="formDelete">
                                                         @csrf

@@ -32,8 +32,6 @@
                             @endif
                         </div>
                     </form>
-                    {{-- {{ $spd->cekVerifikasiSemuaSpj() }} --}}
-
                 </div>
             </div>
         </div>

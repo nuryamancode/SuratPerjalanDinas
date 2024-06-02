@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('surat_perjalanan_dinas_detail', function (Blueprint $table) {
+        Schema::create('spd_pelaksana_dinas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('surat_perjalanan_dinas_id')->constrained('surat_perjalanan_dinas')->cascadeOnDelete();
-            $table->foreignId('karyawan_id')->constrained('karyawan');
             $table->string('tingkat_biaya')->nullable();
             $table->string('maksud_perjalanan_dinas')->nullable();
             $table->string('alat_angkut')->nullable();
@@ -22,12 +21,30 @@ return new class extends Migration
             $table->string('tempat_tujuan')->nullable();
             $table->string('lama_perjalanan')->nullable();
             $table->date('tanggal_berangkat')->nullable();
-            $table->date('tanggal_harus_kembali')->nullable();
-            $table->string('pembebasan_anggaran')->nullable();
+            $table->string('pembebanan_anggaran')->nullable();
             $table->string('instansi')->nullable();
             $table->string('mata_anggaran_kegiatan')->nullable();
             $table->string('keterangan_lain_lain')->nullable();
             $table->string('dikeluarkan_di')->nullable();
+            $table->integer('verifikasi_ppk')->default(0);
+            $table->timestamps();
+        });
+        Schema::create('spd_supir', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('surat_perjalanan_dinas_id')->constrained('surat_perjalanan_dinas')->cascadeOnDelete();
+            $table->string('tingkat_biaya')->nullable();
+            $table->string('maksud_perjalanan_dinas')->nullable();
+            $table->string('alat_angkut')->nullable();
+            $table->string('tempat_berangkat')->nullable();
+            $table->string('tempat_tujuan')->nullable();
+            $table->string('lama_perjalanan')->nullable();
+            $table->date('tanggal_berangkat')->nullable();
+            $table->string('pembebanan_anggaran')->nullable();
+            $table->string('instansi')->nullable();
+            $table->string('mata_anggaran_kegiatan')->nullable();
+            $table->string('keterangan_lain_lain')->nullable();
+            $table->string('dikeluarkan_di')->nullable();
+            $table->integer('verifikasi_ppk')->default(0);
             $table->timestamps();
         });
     }
@@ -37,6 +54,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('surat_perjalanan_dinas_detail');
+        Schema::dropIfExists('spd_pelaksana_dinas');
+        Schema::dropIfExists('spd_supir');
     }
 };

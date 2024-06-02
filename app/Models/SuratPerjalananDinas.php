@@ -13,7 +13,9 @@ class SuratPerjalananDinas extends Model
     protected $fillable = [
         'verifikasi_wadir2',
         'verifikasi_ppk',
-        'status'
+        'acc_ppk',
+        'status',
+        'surat_id'
     ];
 
     // protected static function boot()
@@ -30,10 +32,22 @@ class SuratPerjalananDinas extends Model
         return $this->belongsTo(Surat::class);
     }
 
-    public function details()
+    public function spd_pelaksana_dinas()
     {
-        return $this->hasMany(SuratPerjalananDinasDetail::class, 'surat_perjalanan_dinas_id', 'id');
+        return $this->hasOne(SPDPelaksana::class, 'surat_perjalanan_dinas_id', 'id');
     }
+    public function spd_supir()
+    {
+        return $this->hasOne(SPDSupir::class, 'surat_perjalanan_dinas_id', 'id');
+    }
+    // public function details()
+    // {
+    //     return $this->hasMany(SuratPerjalananDinasDetail::class, 'surat_perjalanan_dinas_id', 'id');
+    // }
+    // public function detail()
+    // {
+    //     return $this->hasOne(SuratPerjalananDinasDetail::class, 'surat_perjalanan_dinas_id', 'id');
+    // }
 
     public function tujuan_disposisi()
     {
@@ -61,7 +75,7 @@ class SuratPerjalananDinas extends Model
 
     public function scopeActive($val)
     {
-        $val->where('status', 1);
+        $val->whereNotNull('status');
     }
 
     public function scopeAcc($val)
@@ -149,10 +163,10 @@ class SuratPerjalananDinas extends Model
     //     }
     // }
 
-    // public function uang_muka()
-    // {
-    //     return $this->hasOne(UangMuka::class, 'surat_perjalanan_dinas_id', 'id');
-    // }
+    public function uang_muka()
+    {
+        return $this->hasOne(UangMuka::class, 'surat_perjalanan_dinas_id', 'id');
+    }
 
     public function scopeVerifikasiPpk($val)
     {

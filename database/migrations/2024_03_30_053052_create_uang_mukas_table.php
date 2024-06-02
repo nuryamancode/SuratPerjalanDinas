@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('uang_muka', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('nominal');
-            $table->foreignId('spd_detail_id')->nullable()->constrained('surat_perjalanan_dinas_detail');
+            $table->foreignId('spd_pelaksana_dinas_id')->nullable()->constrained('spd_pelaksana_dinas');
+            $table->foreignId('spd_supir_id')->nullable()->constrained('spd_supir');
             $table->timestamps();
         });
     }

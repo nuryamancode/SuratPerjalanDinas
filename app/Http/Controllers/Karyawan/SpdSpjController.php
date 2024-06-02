@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Karyawan;
 
 use App\Http\Controllers\Controller;
+use App\Models\SPDPelaksana;
+use App\Models\SuratPerjalananDinas;
 use App\Models\SuratPerjalananDinasDetail;
 use App\Models\SuratPertanggungJawaban;
 use App\Models\User;
@@ -13,7 +15,7 @@ class SpdSpjController extends Controller
 {
     public function create()
     {
-        $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+        $spd_detail = SPDPelaksana::where('id', request('spd_detail_uuid'))->firstOrFail();
         return view('karyawan.pages.spd-spj.create', [
             'title' => 'Buat SPJ Perjalanan Dinas',
             'spd_detail' => $spd_detail
@@ -62,8 +64,8 @@ class SpdSpjController extends Controller
             return redirect()->route('karyawan.spd.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
         } catch (\Throwable $th) {
             throw $th;
-            DB::rollBack();
-            return redirect()->route('karyawan.spd.index')->with('error', $th->getMessage());
+            // DB::rollBack();
+            // return redirect()->route('karyawan.spd.index')->with('error', $th->getMessage());
         }
     }
 

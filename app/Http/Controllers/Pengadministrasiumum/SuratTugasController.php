@@ -8,6 +8,7 @@ use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SuratTugasController extends Controller
 {
@@ -22,9 +23,16 @@ class SuratTugasController extends Controller
 
     public function create()
     {
+        $data_karyawan = Karyawan::whereHas('user', function ($q) {
+            $q->whereHas('roles', function ($role) {
+                $role->whereIn('name', ['Supir']);
+            });
+        })->orderBy('nama', 'ASC')->get();
+        $data_pelaksana = Karyawan::orderBy('nama', 'ASC')->get();
         return view('pengadministrasi-umum.pages.surat.create', [
             'title' => 'Tambah Surat',
-            'data_karyawan' => Karyawan::orderBy('nama', 'ASC')->get()
+            'data_karyawan' => $data_karyawan,
+            'data_pelaksana' => $data_pelaksana,
         ]);
     }
 
@@ -39,8 +47,8 @@ class SuratTugasController extends Controller
 
         DB::beginTransaction();
         try {
-            $data_req = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
-            $data_supir = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
+            $data_req = request()->only(['nomor_surat', 'maksud_perjalanan_dinas','lama_hari', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
+            $data_supir = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'lama_hari','tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas','lama_hari_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
 
             if (request('antar') == 1) {
                 // jemput
@@ -52,12 +60,11 @@ class SuratTugasController extends Controller
             }
             // dd($data);
             $data['file'] = request()->file('file')->store('surat', 'public');
-            // if (request('lampiran_surat_tugas')) {
-            //     $datauuid['lampiran_surat_tugas'] = request()->file('lampiran_surat_tugas')->store('surat-tugas-supir', 'public');
-            // }
+            if (request('lampiran_surat_tugas')) {
+                $data['lampiran_surat_tugas'] = request()->file('lampiran_surat_tugas')->store('surat-tugas-supir', 'public');
+            }
             $data_lampiran = request()->file('lampiran');
             $data_pelaksana = request('pelaksana');
-            $data[''] = \Str::uuid();
             $data['pembuat_user_id'] = auth()->id();
             $data['status'] = 'Belum Didisposisikan';
             $data['jenis_surat'] = 'tugas';
@@ -68,7 +75,6 @@ class SuratTugasController extends Controller
             if (!empty($data_lampiran)) {
                 foreach ($data_lampiran as $lampiran) {
                     $surat->lampiran()->create([
-                        'uuid' => \Str::uuid(),
                         'file' => $lampiran->store('surat-lampiran', 'public')
                     ]);
                 }
@@ -78,7 +84,6 @@ class SuratTugasController extends Controller
             if (!empty($data_pelaksana)) {
                 foreach ($data_pelaksana as $pelaksana) {
                     $surat->pelaksana()->create([
-                        'id' => \Str::uuid(),
                         'karyawan_id' => $pelaksana
                     ]);
                 }
@@ -89,22 +94,22 @@ class SuratTugasController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
+            // return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
-    public function show($uuid)
+    public function show($id)
     {
-        $item = Surat::where('id', $uuid)->firstOrFail();
+        $item = Surat::where('id', $id)->firstOrFail();
         return view('pengadministrasi-umum.pages.surat.show', [
             'title' => 'Detail Surat',
             'item' => $item
         ]);
     }
 
-    public function edit($uuid)
+    public function edit($id)
     {
-        $item = Surat::where('uuid', $uuid)->firstOrFail();
+        $item = Surat::where('id', $id)->firstOrFail();
         return view('pengadministrasi-umum.pages.surat.edit', [
             'title' => 'Edit Surat',
             'item' => $item,
@@ -113,10 +118,10 @@ class SuratTugasController extends Controller
         ]);
     }
 
-    public function update($uuid)
+    public function update($id)
     {
         request()->validate([
-            'nomor_surat' => 'required|unique:surat,nomor_surat,' . $uuid . ',uuid',
+            'nomor_surat' => 'required|unique:surat,nomor_surat,' . $id . ',id',
             'file' => ['mimes:pdf', 'max:2048'],
             // 'lampiran.*' => 'mimes:pdf|max:2048',
             'pelaksana' => ['required', 'array'],
@@ -124,9 +129,9 @@ class SuratTugasController extends Controller
 
         DB::beginTransaction();
         try {
-            $item = Surat::where('uuid', $uuid)->firstOrFail();
-            $data_req = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
-            $data_supir = request()->only(['nomor_surat', 'tanggal_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
+            $item = Surat::where('id', $id)->firstOrFail();
+            $data_req = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'lama_hari','tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
+            $data_supir = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'lama_hari','lama_hari_tugas','tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
 
             if ($item) {
                 // jemput
@@ -145,19 +150,18 @@ class SuratTugasController extends Controller
                     Storage::disk('public')->delete($item->file);
                 $data['file'] = request()->file('lampiran_surat_tugas')->store('surat-tugas', 'public');
             }
-            // $data_lampiran = request()->file('lampiran');
+            $data_lampiran = request()->file('lampiran');
             $data_pelaksana = request('pelaksana');
             $item->update($data);
 
             // create lampiran
-            // if (!empty($data_lampiran)) {
-            //     foreach ($data_lampiran as $lampiran) {
-            //         $item->lampiran()->create([
-            //             'uuid' => \Str::uuid(),
-            //             'file' => $lampiran->store('surat-lampiran', 'public')
-            //         ]);
-            //     }
-            // }
+            if (!empty($data_lampiran)) {
+                foreach ($data_lampiran as $lampiran) {
+                    $item->lampiran()->create([
+                        'file' => $lampiran->store('surat-lampiran', 'public')
+                    ]);
+                }
+            }
 
             // create pelaksana
             if (!empty($data_pelaksana)) {
@@ -165,7 +169,6 @@ class SuratTugasController extends Controller
                 $item->pelaksana()->delete();
                 foreach ($data_pelaksana as $pelaksana) {
                     $item->pelaksana()->create([
-                        'uuid' => \Str::uuid(),
                         'karyawan_id' => $pelaksana
                     ]);
                 }
@@ -176,16 +179,16 @@ class SuratTugasController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
-            return redirect()->back()->with('error', $th->getMessage());
+            // return redirect()->back()->with('error', $th->getMessage());s
         }
     }
 
-    public function destroy($uuid)
+    public function destroy($id)
     {
 
         DB::beginTransaction();
         try {
-            $item = Surat::where('uuid', $uuid);
+            $item = Surat::where('id', $id);
             $item->delete();
             DB::commit();
             return redirect()->route('pengadministrasi-umum.surat.index')->with('success', 'Surat berhasil dihapus.');

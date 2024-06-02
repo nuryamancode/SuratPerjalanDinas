@@ -7,7 +7,7 @@
                     text-decoration: none;
                 }
             </style>
-            <a href="{{ route('ppk.permohonan-spd.index') }}" class="back">
+            <a href="{{ route('ppk.approval-permohonan-spd.index') }}" class="back">
                 <div class="d-flex align-items-center">
                     <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
                     <span>Kembali</span>
@@ -73,7 +73,7 @@
                                         target="_blank" class="btn btn-info btn-sm">Print Surat</a>
                                 </span>
                             </li>
-                            <li class="list-item mb-4 d-flex justify-content-between">
+                            {{--  <li class="list-item mb-4 d-flex justify-content-between">
                                 <span>Aksi</span>
                                 <div>
                                     @if ($item->acc_ppk == 0)
@@ -90,7 +90,7 @@
                                             class="btn btn-sm py-2 btn-warning">Lihat Disposisi</a>
                                     @endif
                                 </div>
-                            </li>
+                            </li>  --}}
                         </ul>
 
                     </ul>

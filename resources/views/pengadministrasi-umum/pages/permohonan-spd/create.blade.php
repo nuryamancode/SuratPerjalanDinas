@@ -51,7 +51,7 @@
                             <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
                             <input type='text' name='tanggal_surat' id='tanggal_surat'
                                 class='form-control @error('tanggal_surat') is-invalid @enderror'
-                                value='{{ old('tanggal_surat') }}' disabled>
+                                value='{{ old('created_at') }}' disabled>
                             @error('tanggal_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -88,10 +88,11 @@
                     type: 'GET',
                     success: function(res) {
                         if (res) {
+                            let createdAt = new Date(res.created_at);
+                            let formattedDate = createdAt.toISOString().split('T')[0]; // Format to YYYY-MM-DD
                             $('#nomor_surat').val(res.nomor_surat);
                             $('#maksud_perjalanan_dinas').val(res.maksud_perjalanan_dinas);
-                            $('#nomor_surat').val(res.nomor_surat);
-                            $('#tanggal_surat').val(res.tanggal_surat);
+                            $('#tanggal_surat').val(formattedDate);
                         }
                     }
                 })
