@@ -11,15 +11,6 @@ class SuratPertanggungJawaban extends Model
     protected $table = 'surat_pertanggung_jawaban';
     protected $guarded = ['id'];
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (!$model->uuid) {
-                $model->uuid = \Str::uuid();
-            }
-        });
-    }
     public function spd_detail()
     {
         return $this->belongsTo(SuratPerjalananDinasDetail::class, 'spd_detail_id', 'id');

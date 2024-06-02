@@ -57,15 +57,15 @@
                                     <a href="{{ route('karyawan.spd.print', $item->id) }}"
                                         target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD</a>
                                 @endif
-                                {{--  @if ($item->spj)
+                                @if ($item->spj)
                                     <a href="{{ route('karyawan.spd-spj.show', $item->spj->id) }}"
                                         class="btn btn-info  py-2">Lihat SPJ</a>
                                 @else
                                     <a href="{{ route('karyawan.spd-spj.create', [
-                                        'spd_detail_uuid' => $item->id,
+                                        'spd_id' => $item->id,
                                     ]) }}"
                                         class="btn btn-primary  py-2">Buat SPJ</a>
-                                @endif  --}}
+                                @endif
                             </div>
                         </li>
                     </ul>

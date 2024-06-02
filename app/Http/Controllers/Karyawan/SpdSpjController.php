@@ -15,10 +15,10 @@ class SpdSpjController extends Controller
 {
     public function create()
     {
-        $spd_detail = SPDPelaksana::where('id', request('spd_detail_uuid'))->firstOrFail();
+        $spdpelaksana = SPDPelaksana::where('id', request('spd_id'))->firstOrFail();
         return view('karyawan.pages.spd-spj.create', [
             'title' => 'Buat SPJ Perjalanan Dinas',
-            'spd_detail' => $spd_detail
+            'spdpelaksana' => $spdpelaksana
         ]);
     }
 
