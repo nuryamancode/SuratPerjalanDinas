@@ -157,7 +157,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('wakil-direktur-ii.pengajuan-pbj.tolak', $item->id) }}" method="post">
+                <form action="{{ route('ppk.permohonan-spd.tolak', $item->id) }}" method="post">
                     @csrf
                     @method('put')
                     <div class="modal-body">

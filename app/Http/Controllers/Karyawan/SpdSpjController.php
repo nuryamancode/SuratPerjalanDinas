@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Karyawan;
 
 use App\Http\Controllers\Controller;
 use App\Models\SPDPelaksana;
+use App\Models\SPJPelaksana;
 use App\Models\SuratPerjalananDinas;
 use App\Models\SuratPerjalananDinasDetail;
 use App\Models\SuratPertanggungJawaban;
@@ -13,6 +14,17 @@ use Illuminate\Support\Facades\DB;
 
 class SpdSpjController extends Controller
 {
+    public function index()
+    {
+        $items = SPJPelaksana::whereHas('karyawan', function ($qu) {
+            $qu->where('pembuat_spj', auth()->user()->karyawan->id);
+        })->latest()->get();
+        return view('karyawan.pages.spd-spj.index', [
+            'title' => 'Surat Pertanggung Jawaban SPD',
+            'items' => $items,
+            // 'data_permohonan' => $data_permohonan
+        ]);
+    }
     public function create()
     {
         $spdpelaksana = SPDPelaksana::where('id', request('spd_id'))->firstOrFail();
@@ -26,7 +38,7 @@ class SpdSpjController extends Controller
     {
         request()->validate([
             'draft' => ['required', 'mimes:pdf'],
-            'spd_detail_uuid' => ['required']
+            'spd_id' => ['required']
         ]);
 
         DB::beginTransaction();
@@ -36,7 +48,7 @@ class SpdSpjController extends Controller
             $data_keterangan = request('keterangan');
             $data_file = request('file');
 
-            $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+            $spd_detail = SPDPelaksana::where('id', request('spd_id'))->firstOrFail();
             // cek spj
             if ($spd_detail->spj) {
                 // update spj
@@ -44,7 +56,7 @@ class SpdSpjController extends Controller
                 // create spj
                 $spj = $spd_detail->spj()->create([
                     'file' => request()->file('draft')->store('spj', 'public'),
-                    'status' => 0
+                    'pembuat_spj' => auth()->user()->karyawan->id,
                 ]);
 
                 foreach ($data_perincian_biaya as $key => $perincian) {
@@ -69,9 +81,25 @@ class SpdSpjController extends Controller
         }
     }
 
+    public function kirim_ulang($uuid)
+    {
+
+        $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
+        $item->update([
+            'acc_ppk' => 0,
+            'status_spj' => 0,
+        ]);
+
+        $item->spd->spd->update([
+            'status' => 'Menunggu Persetujuan SPJ',
+
+        ]);
+        return redirect()->back()->with('success', 'Surat Pertanggung Jawaban Berhasil dikirim ulang.');
+    }
+
     public function show($uuid)
     {
-        $item = SuratPertanggungJawaban::where('uuid', $uuid)->firstOrFail();
+        $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
         return view('karyawan.pages.spd-spj.show', [
             'title' => 'Detail SPJ Perjalanan Dinas',
             'item' => $item
@@ -80,7 +108,7 @@ class SpdSpjController extends Controller
 
     public function print($uuid)
     {
-        $spj = SuratPertanggungJawaban::where('uuid', $uuid)->firstOrFail();
+        $spj = SPJPelaksana::where('id', $uuid)->firstOrFail();
         $bendahara = User::role('Bendahara Keuangan')->first();
         $ppk = User::role('Pejabat Pembuat Komitmen')->first();
         // dd($ppk);

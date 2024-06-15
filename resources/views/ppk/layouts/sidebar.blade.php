@@ -25,6 +25,9 @@
                         <a class="nav-link" href="{{ route('ppk.approval-permohonan-spd.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ppk.spd-spj.index') }}"> SPJ Surat Perjalan Dinas </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('ppk.surat-non-pbj-spj.index') }}"> SPJ Surat Non PBJ </a>
                     </li>
                     <li class="nav-item">
@@ -46,7 +49,7 @@
             <div class="collapse" id="surat">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ppk.spd-spj.index') }}"> Surat Perjalan Dinas </a>
+                        <a class="nav-link" href=""> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""> Surat PertanggungJawaban </a>

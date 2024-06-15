@@ -43,9 +43,15 @@
                                                         <button class="btn py-2  btn-sm btn-success">Set Verifikasi</button>
                                                     </form>
                                                 @else
-                                                    <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.print', $item->id) }}" target="_blank"
-                                                        class="btn btn-sm py-2 btn-secondary">Print</a>
+                                                    <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.print', $item->id) }}"
+                                                        target="_blank" class="btn btn-sm py-2 btn-secondary">Print</a>
                                                 @endif
+                                            @endif
+                                            @if ($item->acc_ppk == 2)
+                                                <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
+                                                    'permohonan_spd_uuid' => $item->id,
+                                                ]) }}"
+                                                    class="btn btn-sm py-2 btn-info">Kirim Ulang</a>
                                             @endif
                                             <a href="{{ route('wakil-direktur-ii.permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>

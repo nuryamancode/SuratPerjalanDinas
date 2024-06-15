@@ -4,10 +4,17 @@
         <div class="col-md">
             <div class="card">
                 <div class="card-body">
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div class="alert alert-danger" role="alert">
+                                {{ $error }}
+                            </div>
+                        @endforeach
+                    @endif
                     <h4 class="card-title mb-5">Buat SPJ</h4>
                     <form action="{{ route('karyawan.spd-spj.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="spd_id" value="{{ $spdpelaksana->uuid }}" hidden>
+                        <input type="text" name="spd_id" value="{{ $spdpelaksana->id }}" hidden>
                         <div class='form-group mb-3'>
                             <label for='nominal' class='mb-2'>Nominal Uang Muka</label>
                             <input type='text' name='nominal' id='nominal'

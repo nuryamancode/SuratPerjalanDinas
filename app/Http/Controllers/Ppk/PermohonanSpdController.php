@@ -26,18 +26,15 @@ class PermohonanSpdController extends Controller
         ]);
     }
 
-    public function acc_ppk($uuid)
+    public function tolak($uuid)
     {
-        request()->validate([
-            'status' => ['required']
-        ]);
-        dd(request()->all());
         $item = SuratPerjalananDinas::notActive()->where('id', $uuid)->firstOrFail();
         $item->update([
-            'acc_ppk' => request('status'),
-            'keterangan_ppk' => request('keterangan_ppk')
+            'acc_ppk' => 2,
+            'status' => 'Pengajuan Ditolak',
+            'keterangan_acc_ppk' => request('keterangan')
         ]);
-        return redirect()->back()->with('success', 'Verifikasi Surat Pe');
+        return redirect()->back()->with('success', 'Surat Perjalanan Dinas Berhasil ditolak.');
     }
     public function verifikasi_ppk($uuid)
     {

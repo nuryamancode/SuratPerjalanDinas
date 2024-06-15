@@ -145,11 +145,11 @@ class BuatSPDController extends Controller
             'ppk' => $ppk
         ]);
     }
-    public function print_supir($id)
+    public function print_pelaksana($id)
     {
-        $item = SPDSupir::where('id', $id)->firstOrFail();
+        $item = SPDPelaksana::where('id', $id)->firstOrFail();
         $ppk = User::role('Pejabat Pembuat Komitmen')->first()->karyawan;
-        return view('bendahara-keuangan.pages.spd.print-supir', [
+        return view('bendahara-keuangan.pages.spd.print-pelaksana', [
             'title' => 'Cetak SPD Supir',
             'item' => $item,
             'ppk' => $ppk

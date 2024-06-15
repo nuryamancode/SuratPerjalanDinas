@@ -30,12 +30,22 @@
                                         {{-- <td>{{ $item->statusUangMuka() }}</td> --}}
                                         <td>
                                             @if ($item->status == 'SPD Sudah Di TTD')
-                                                <a href="{{ route('bendahara-keuangan.uang-muka-spd.index', $item->spd_pelaksana_dinas->id) }}"
-                                                    class="btn btn-sm py-2 btn-primary">Uang Muka</a>
+                                                @if ($item->surat->antar == 1)
+                                                    <a href="{{ route('bendahara-keuangan.uang-muka-spd.index', $item->spd_pelaksana_dinas->id) }}"
+                                                        class="btn btn-sm py-2 btn-primary">Uang Muka</a>
+                                                @else
+                                                    <a href="{{ route('bendahara-keuangan.uang-muka-spd.pelaksana', $item->spd_pelaksana_dinas->id) }}"
+                                                        class="btn btn-sm py-2 btn-primary">Uang Muka</a>
+                                                @endif
                                             @endif
                                             @if ($item->spd_pelaksana_dinas)
-                                                <a href="{{ route('bendahara-keuangan.buat-spd.print', $item->spd_pelaksana_dinas->id) }}" target="_blank"
-                                                    class="btn btn-sm py-2 btn-info">Print SPD</a>
+                                                @if ($item->surat->antar == 1)
+                                                    <a href="{{ route('bendahara-keuangan.buat-spd.print', $item->spd_pelaksana_dinas->id) }}"
+                                                        target="_blank" class="btn btn-sm py-2 btn-info">Print SPD</a>
+                                                @else
+                                                    <a href="{{ route('bendahara-keuangan.buat-spd.print-pelaksana', $item->spd_pelaksana_dinas->id) }}"
+                                                        target="_blank" class="btn btn-sm py-2 btn-info">Print SPD</a>
+                                                @endif
                                             @endif
                                             <a href="{{ route('bendahara-keuangan.permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
@@ -49,7 +59,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 <x-Admin.Sweetalert />
 <x-Admin.Datatable />

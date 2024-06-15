@@ -45,6 +45,10 @@
                                                         data-action="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.destroy', $item->id) }}">Hapus</button>
                                                 </form>
                                             @endif
+                                            @if ($item->spd->acc_ppk == 2)
+                                                <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.edit', $item->id) }}"
+                                                    class="btn btn-sm py-2 btn-info">Kirim Ulang</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

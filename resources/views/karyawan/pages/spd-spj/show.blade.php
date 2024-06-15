@@ -2,17 +2,28 @@
 @section('content')
     <div class="row">
         <div class="col-md-4 mb-3">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('karyawan.spd-spj.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Detail SPJ</h4>
                     <ul class="list-inline">
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span class="font-weight-bold">Tingkat Biaya</span>
-                            <span>{{ $item->spd_detail->tingkat_biaya }}</span>
+                            <span>{{ $item->spd->tingkat_biaya }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span class="font-weight-bold">Maksud Perjalana Dinas</span>
-                            <span>{{ $item->spd_detail->maksud_perjalanan_dinas }}</span>
+                            <span>{{ $item->spd->maksud_perjalanan_dinas }}</span>
                         </li>
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span class="font-weight-bold">File Draft</span>
@@ -34,12 +45,15 @@
                             </span>
                         </li>
 
-                        <li class="list-item mb-4 d-flex justify-content-between">
-                            <span>Aksi</span>
-                            <div>
-                                <a href="{{ route('karyawan.spd.index') }}" class="btn btn-sm btn-warning">Kembali</a>
-                            </div>
-                        </li>
+                        @if ($item->status_spj == 2)
+                            <li class="list-item mb-4 d-flex justify-content-between">
+                                <span>Aksi</span>
+                                <div>
+                                    <a href="{{ route('karyawan.spd-spj.kirim-ulang', $item->id) }}"
+                                        class="btn btn-sm btn-info">Kirim Ulang</a>
+                                </div>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -49,9 +63,9 @@
                 <div class="card-body">
                     <div class="d-flex mb-3 justify-content-between">
                         <h4 class="card-title ">Detail Biaya</h4>
-                        @if ($item->status != 1)
+                        @if ($item->status_spj != 1)
                             <a href="{{ route('karyawan.spd-spj-detail.create', [
-                                'spj_uuid' => $item->uuid,
+                                'spj_uuid' => $item->id,
                             ]) }}"
                                 class="btn btn-primary btn-sm">Tambah
                                 Data</a>
@@ -66,7 +80,7 @@
                                     <th>Nominal</th>
                                     <th>Keterangan</th>
                                     <th>File Dokumen</th>
-                                    @if ($item->status != 1)
+                                    @if ($item->status_spj != 1)
                                         <th>Aksi</th>
                                     @endif
                                 </tr>
@@ -82,16 +96,16 @@
                                             <a href="{{ $item->downloadFile() }}" target="_blank"
                                                 class="btn btn-success btn-sm">Lihat</a>
                                         </td>
-                                        @if ($item->status != 1)
+                                        @if ($item->status_spj != 1)
                                             <td>
-                                                <a href="{{ route('karyawan.spd-spj-detail.edit', $detail->uuid) }}"
+                                                <a href="{{ route('karyawan.spd-spj-detail.edit', $detail->id) }}"
                                                     class="btn btn-sm py-2 btn-info">Edit</a>
                                                 <form action="javascript:void(0)" method="post" class="d-inline"
                                                     id="formDelete">
                                                     @csrf
                                                     @method('delete')
                                                     <button class="btn btnDelete btn-sm py-2 btn-danger"
-                                                        data-action="{{ route('karyawan.spd-spj-detail.destroy', $detail->uuid) }}">Hapus</button>
+                                                        data-action="{{ route('karyawan.spd-spj-detail.destroy', $detail->id) }}">Hapus</button>
                                                 </form>
                                             </td>
                                         @endif

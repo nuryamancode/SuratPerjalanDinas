@@ -3,7 +3,7 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
         crossorigin="anonymous"></script>
-    <title>spd </title>
+    <title>RINCIAN BIAYA PERJALANAN DINAS</title>
     <style type= "text/css">
         * {
             margin: 0;
@@ -131,13 +131,13 @@
                 <tr>
                     <td style="width:30%">Lampiran SPD Nomor</td>
                     <td style="width:5%">:</td>
-                    <td style="width:65%">{{ $spj->spd_detail->surat_perjalanan_dinas->surat->nomor_surat }}</td>
+                    <td style="width:65%">{{ $spj->spd->spd->surat->nomor_surat }}</td>
                 </tr>
                 <tr>
                     <td style="width:20%">Tanggal</td>
                     <td style="width:5%">:</td>
                     <td style="width:75%">
-                        {{ $spj->spd_detail->surat_perjalanan_dinas->created_at->translatedFormat('d F Y') }}</td>
+                        {{ $spj->spd->spd->created_at->translatedFormat('d F Y') }}</td>
                 </tr>
             </table>
         </div>
@@ -258,8 +258,8 @@
                     </tr>
                     <tr style="height: 30px">
                         <td style="width:5%"></td>
-                        <td style="width:30%">{{ $spj->spd_detail->uang_muka->nominal }}</td>
-                        <td style="width:30%">{{ $spj->spd_detail->uang_muka->nominal }}</td>
+                        <td style="width:30%">{{ $spj->spd->uang_muka->nominal }}</td>
+                        <td style="width:30%">{{ $spj->spd->uang_muka->nominal }}</td>
                         <td style="width:30%"></td>
                     </tr>
                     <tr style="height: 30px">
@@ -334,12 +334,12 @@
                     <td style="width:1%"></td>
                     <td style="width:20%">Yang telah dibayar semula</td>
                     <td style="width:1%">:</td>
-                    <td style="width:30%">{{ $spj->spd_detail->uang_muka->nominal }}</td>
+                    <td style="width:30%">{{ $spj->spd->uang_muka->nominal }}</td>
                 </tr>
                 <tr>
                     @php
                         $jumlah = str_replace('.', '', $jumlah);
-                        $uangmuka = str_replace('.', '', $spj->spd_detail->uang_muka->nominal);
+                        $uangmuka = str_replace('.', '', $spj->spd->uang_muka->nominal);
                         if ($jumlah < $uangmuka) {
                             $lk = 'Lebih';
                             $sisa = $uangmuka - $jumlah;

@@ -12,9 +12,9 @@ class SPJSupir extends Model
     protected $guarded = ['id'];
 
 
-    public function spd_detail()
+    public function spd()
     {
-        return $this->belongsTo(SuratPerjalananDinasDetail::class, 'spd_detail_id', 'id');
+        return $this->belongsTo(SPDSupir::class, 'spd_id', 'id');
     }
 
     public function details()

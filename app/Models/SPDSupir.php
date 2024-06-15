@@ -63,12 +63,14 @@ class SPDSupir extends Model
             return 'Belum Didistribusikan';
         }
     }
-    public function status()
+    public function statusSPJ()
     {
-        if ($this->spj && $this->spj->status == 1) {
+        if ($this->spj && $this->spj->status_spj == 1) {
             return 'Disetujui';
-        } elseif ($this->spj && $this->spj->status == 0) {
-            return 'Menunggu Persetujuan';
+        } elseif ($this->spj && $this->spj->status_spj == 0) {
+            return 'Menunggu Persetujuan PPK';
+        } elseif ($this->spj && $this->spj->status_spj == 2) {
+            return 'Ditolak';
         } else {
             return '-';
         }

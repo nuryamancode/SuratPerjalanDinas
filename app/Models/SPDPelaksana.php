@@ -18,13 +18,13 @@ class SPDPelaksana extends Model
 
     public function spd()
     {
-        return $this->belongsTo(SuratPerjalananDinas::class, 'surat_perjalanan_dinas_id','id');
+        return $this->belongsTo(SuratPerjalananDinas::class, 'surat_perjalanan_dinas_id', 'id');
     }
 
 
     public function spj()
     {
-        return $this->hasOne(SPJPelaksana::class, 'spd_detail_id', 'id');
+        return $this->hasOne(SPJPelaksana::class, 'spd_id', 'id');
     }
 
     public function downloadFile()
@@ -60,12 +60,14 @@ class SPDPelaksana extends Model
             return 'Belum Didistribusikan';
         }
     }
-    public function status()
+    public function statusSPJ()
     {
-        if ($this->spj && $this->spj->status == 1) {
+        if ($this->spj && $this->spj->status_spj == 1) {
             return 'Disetujui';
-        } elseif ($this->spj && $this->spj->status == 0) {
-            return 'Menunggu Persetujuan';
+        } elseif ($this->spj && $this->spj->status_spj == 0) {
+            return 'Menunggu Persetujuan PPK';
+        } elseif ($this->spj && $this->spj->status_spj == 2) {
+            return 'Ditolak';
         } else {
             return '-';
         }

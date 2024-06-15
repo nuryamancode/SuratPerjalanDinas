@@ -60,4 +60,14 @@ class ApprovalSPDController extends Controller
             'ppk' => $ppk
         ]);
     }
+    public function print_pelaksana($id)
+    {
+        $item = SPDPelaksana::where('id', $id)->firstOrFail();
+        $ppk = User::role('Pejabat Pembuat Komitmen')->first()->karyawan;
+        return view('bendahara-keuangan.pages.spd.print-pelaksana', [
+            'title' => 'Cetak SPD Pelaksana Dinas',
+            'item' => $item,
+            'ppk' => $ppk
+        ]);
+    }
 }

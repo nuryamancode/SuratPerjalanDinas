@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('karyawan.spd.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Detail Surat</h4>
@@ -37,7 +48,8 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>File</span>
                             <span>
-                                <a href="{{ $item->spd->surat->getFile() }}" target="_blank" class="btn btn-success btn-sm">Lihat
+                                <a href="{{ $item->spd->surat->getFile() }}" target="_blank"
+                                    class="btn btn-success btn-sm">Lihat
                                     Surat</a>
                             </span>
                         </li>
@@ -52,10 +64,9 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
-                                <a href="{{ route('karyawan.spd.index') }}" class="btn btn-sm btn-warning">Kembali</a>
                                 @if ($item->uang_muka)
-                                    <a href="{{ route('karyawan.spd.print', $item->id) }}"
-                                        target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD</a>
+                                    <a href="{{ route('karyawan.spd.print', $item->id) }}" target="_blank"
+                                        class="btn btn-sm py-2 btn-info">Lihat SPD</a>
                                 @endif
                                 @if ($item->spj)
                                     <a href="{{ route('karyawan.spd-spj.show', $item->spj->id) }}"

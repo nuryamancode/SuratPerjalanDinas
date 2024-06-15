@@ -16,7 +16,7 @@
             <div class="collapse" id="permohonan">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Permohonan SPD </a>
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.permohonan-spd.index') }}"> Permohonan SPD </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pengelola-keuangan.permohonan-form-non-pbj.index') }}">
@@ -57,7 +57,7 @@
             <div class="collapse" id="arsip">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Perjalanan Dinas </a>
+                        <a class="nav-link" href="{{ route('pengelola-keuangan.arsip-spd-spj.index') }}"> Perjalanan Dinas </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pengelola-keuangan.surat-non-pbj.arsip.spj') }}"> SPJ </a>

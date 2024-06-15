@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Ppk;
 
 use App\Http\Controllers\Controller;
+use App\Models\SPJPelaksana;
+use App\Models\SPJSupir;
 use App\Models\SuratPerjalananDinasDetail;
 use App\Models\SuratPertanggungJawaban;
 use Illuminate\Http\Request;
@@ -12,48 +14,105 @@ class SpdSpjController extends Controller
 {
     public function index()
     {
-        $items = SuratPertanggungJawaban::with('spd_detail')->latest()->get();
+        $items = SPJPelaksana::with('spd')->latest()->get();
+        $item = SPJSupir::with('spd')->latest()->get();
         return view('ppk.pages.spd-spj.index', [
             'title' => 'Data SPJ Perjalanan Dinas',
-            'items' => $items
+            'items' => $items,
+            'item' => $item,
         ]);
     }
 
 
     public function show($uuid)
     {
-        $item = SuratPertanggungJawaban::where('uuid', $uuid)->firstOrFail();
+        $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
         return view('ppk.pages.spd-spj.show', [
             'title' => 'Detail SPJ Perjalanan Dinas',
             'item' => $item
         ]);
     }
-    public function verifikasi($uuid)
+    public function show_supir($uuid)
     {
-        request()->validate([
-            'status' => ['required']
+        $item = SPJSupir::where('id', $uuid)->firstOrFail();
+        return view('ppk.pages.spd-spj.show-supir', [
+            'title' => 'Detail SPJ Perjalanan Dinas',
+            'item' => $item
         ]);
+    }
+    public function verifikasi_pelaksana($uuid)
+    {
 
         // cek tte
         if (request()->status == 1 && auth()->user()->karyawan->tte_file == NULL) {
-            return redirect()->route('ppk.tte.index')->with('error', 'Silahka upload terlebih dahulu TTE nya.');
+            return redirect()->route('ppk.tte.index')->with('error', 'Silahkan upload terlebih dahulu TTE nya.');
         }
 
-        // dd(request()->all());
-        $item = SuratPertanggungJawaban::where('uuid', $uuid)->firstOrFail();
+        $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
         $item->update([
-            'status' => request('status'),
-            'keterangan_ppk' => request('keterangan_ppk')
+            'acc_ppk' => 1,
+            'status_spj' => 1,
         ]);
 
-        $item->spd_detail->surat_perjalanan_dinas->update([
-            'status' => 'Diarsipkan Oleh Bendahara'
+        $item->spd->spd()->update([
+            'status' => 'Selesai',
+            'is_arsip' => '1',
+
         ]);
-        // $item->update([
-        //     'acc_ppk' => request('status'),
-        //     'keterangan_acc_ppk' => request('keterangan_ppk')
-        // ]);
-        return redirect()->back()->with('success', 'Verifikasi Surat Pertanggung Jawaban Berhasil disubmit.');
+        return redirect()->back()->with('success', 'Surat Pertanggung Jawaban Berhasil disetujui.');
+    }
+    public function verifikasi_supir($uuid)
+    {
+
+        // cek tte
+        if (request()->status == 1 && auth()->user()->karyawan->tte_file == NULL) {
+            return redirect()->route('ppk.tte.index')->with('error', 'Silahkan upload terlebih dahulu TTE nya.');
+        }
+
+        $item = SPJSupir::where('id', $uuid)->firstOrFail();
+        $item->update([
+            'acc_ppk' => 1,
+            'status_spj' => 1,
+        ]);
+
+        $item->spd->spd->update([
+            'status' => 'Selesai',
+            'is_arsip' => 1,
+        ]);
+        return redirect()->back()->with('success', 'Surat Pertanggung Jawaban Berhasil disetujui.');
+    }
+
+    public function tolak_pelaksana($uuid)
+    {
+
+
+        $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
+        $item->update([
+            'acc_ppk' => 2,
+            'keterangan_ppk' => request('keterangan'),
+            'status_spj' => 2,
+        ]);
+
+        $item->spd->spd->update([
+            'status' => 'SPD Belum Selesai'
+        ]);
+        return redirect()->back()->with('success', 'Surat Pertanggung Jawaban Berhasil ditolak.');
+    }
+    public function tolak_supir($uuid)
+    {
+
+
+        $item = SPJSupir::where('id', $uuid)->firstOrFail();
+        $item->update([
+            'acc_ppk' => 2,
+            'keterangan_ppk' => request('keterangan'),
+            'status_spj' => 2,
+        ]);
+
+        $item->spd->spd->update([
+            'status' => 'SPD Belum Selesai',
+        ]);
+        return redirect()->back()->with('success', 'Surat Pertanggung Jawaban Berhasil ditolak.');
     }
 
     public function create()
@@ -107,8 +166,6 @@ class SpdSpjController extends Controller
             return redirect()->route('ppk.spd-spj.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
         } catch (\Throwable $th) {
             throw $th;
-            DB::rollBack();
-            return redirect()->route('ppk.spd-spj.index')->with('error', $th->getMessage());
         }
     }
 

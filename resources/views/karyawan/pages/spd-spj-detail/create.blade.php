@@ -7,7 +7,7 @@
                     <h4 class="card-title mb-5">Buat Biaya SPJ</h4>
                     <form
                         action="{{ route('karyawan.spd-spj-detail.store', [
-                            'spj_uuid' => $spj->uuid,
+                            'spj_uuid' => $spj->id,
                         ]) }}"
                         method="post" enctype="multipart/form-data">
                         @csrf

@@ -8,18 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class SPJPelaksana extends Model
 {
     use HasFactory;
-    protected $table = 'spj_pelaksana';
+    protected $table = 'spj_pelaksana_dinas';
     protected $guarded = ['id'];
 
 
-    public function spd_detail()
+    public function spd()
     {
-        return $this->belongsTo(SuratPerjalananDinasDetail::class, 'spd_detail_id', 'id');
+        return $this->belongsTo(SPDPelaksana::class, 'spd_id', 'id');
     }
 
     public function details()
     {
-        return $this->hasMany(SuratPertanggungJawabanDetail::class, 'spj_id', 'id');
+        return $this->hasMany(SPJPelaksanaDetail::class, 'spj_id', 'id');
+    }
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class, 'pembuat_spj', 'id');
     }
     public function downloadFile()
     {
@@ -27,9 +31,9 @@ class SPJPelaksana extends Model
     }
     public function status()
     {
-        if ($this->status == 0) {
+        if ($this->acc_ppk == 0) {
             return '<span class="badge badge-warning">Menunggu Persetujuan</span>';
-        } elseif ($this->status == 1) {
+        } elseif ($this->acc_ppk == 1) {
             return '<span class="badge badge-success">Disetujui</span>';
         } else {
             return '<span class="badge badge-danger">Ditolak</span>';

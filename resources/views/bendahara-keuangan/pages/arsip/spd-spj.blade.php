@@ -1,6 +1,6 @@
 @extends('bendahara-keuangan.layouts.app')
 @section('content')
-    <div class="row mb-3">
+    {{--  <div class="row mb-3">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  --}}
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -42,14 +42,10 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Pelaksana</th>
-                                    <th>Tempat Berangkat</th>
-                                    <th>Tempat Tujuan</th>
-                                    <th>Lama Perjalanan Dinas</th>
-                                    <th>Tanggal Berangkat</th>
-                                    <th>Tanggal Harus Pulang</th>
-                                    <th>Catatan Lain-Lain</th>
-                                    <th>Status Uang Muka</th>
+                                    <th>Nomor Surat</th>
+                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>Tanggal Surat</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -57,17 +53,19 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->karyawan->nama }}</td>
-                                        <td>{{ $item->tempat_berangkat ?? '-' }}</td>
-                                        <td>{{ $item->tempat_tujuan ?? '-' }}</td>
-                                        <td>{{ $item->lama_perjalanan ?? '-' }}</td>
-                                        <td>{{ $item->tanggal_berangkat ?? '-' }}</td>
-                                        <td>{{ $item->tanggal_harus_kembali ?? '-' }}</td>
-                                        <td>{{ $item->keterangan_lain_lain ?? '-' }}</td>
-                                        <td>{{ $item->statusUangMuka() }}</td>
+                                        <td>{{ $item->surat->nomor_surat }}</td>
+                                        <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->surat->created_at)->format('d M Y') }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td>
-                                            <a href="{{ route('bendahara-keuangan.arsip-spd-spj.detail', $item->spj->uuid) }}"
-                                                class="btn btn-info  py-2">Lihat SPJ</a>
+                                            @if ($item->surat->antar == 1)
+                                                <a href="{{ route('bendahara-keuangan.arsip-spd-spj.detail-supir', $item->spd_supir->id) }}"
+                                                    class="btn btn-sm py-2 btn-info">Lihat SPJ Supir</a>
+                                            @endif
+                                            <a href="{{ route('bendahara-keuangan.arsip-spd-spj.detail', $item->spd_pelaksana_dinas->id) }}"
+                                                class="btn btn-sm py-2 btn-info">Lihat SPJ Pelaksana</a>
+                                            <a href="{{ route('bendahara-keuangan.arsip-spd-spj.show', $item->id) }}"
+                                                class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>
                                     </tr>
                                 @endforeach

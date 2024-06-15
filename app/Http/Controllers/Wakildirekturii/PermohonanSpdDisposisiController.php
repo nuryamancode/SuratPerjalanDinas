@@ -36,6 +36,18 @@ class PermohonanSpdDisposisiController extends Controller
             'ppk' => $ppk
         ]);
     }
+    public function edit($id)
+    {
+        $ppk = User::role('Pejabat Pembuat Komitmen')->first();
+        $data_karyawan = Karyawan::orderBy('nama', 'ASC')->get();
+        $disposisi = Disposisi::where('id', $id)->firstOrFail();
+        return view('wakil-direktur-ii.pages.permohonan-spd-disposisi.edit', [
+            'title' => 'Permohonan SPD Disposisi',
+            'data_karyawan' => $data_karyawan,
+            'ppk' => $ppk,
+            'disposisi' => $disposisi,
+        ]);
+    }
 
     public function store()
     {
@@ -70,6 +82,40 @@ class PermohonanSpdDisposisiController extends Controller
                     ])->with('error', 'Disposisi tidak bisa dibuatkan lagi.');
                 }
             }
+
+            DB::commit();
+            return redirect()->route('wakil-direktur-ii.permohonan-spd.index')->with('success', 'Disposisi Berhasil disimpan.');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function update($id)
+    {
+        request()->validate([
+            'tipe' => ['required']
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $disposisi = Disposisi::where('id', $id)->firstOrFail();
+            $tujuan = request('tujuan_karyawan_id');
+            $disposisi->update([
+                'pembuat_karyawan_id_1' => auth()->user()->karyawan->id,
+                'tujuan_karyawan_id_1' => $tujuan,
+                'tipe_1' => request('tipe'),
+                'catatan_1' => request('catatan'),
+                'nomor_agenda_1' => request('nomor_agenda'),
+                'perihal_1' => request('perihal')
+            ]);
+            $disposisi->spd()->update([
+                'acc_ppk' => 0,
+                'keterangan_acc_ppk' => null,
+                'verifikasi_wadir2' => 0,
+                'status' => 'Menunggu Persetujuan PPK'
+            ]);
+            // return redirect()->route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
+            //     'permohonan_spd_uuid' => $permohonan->id
+            // ])->with('error', 'Disposisi tidak bisa dibuatkan lagi.');
 
             DB::commit();
             return redirect()->route('wakil-direktur-ii.permohonan-spd.index')->with('success', 'Disposisi Berhasil disimpan.');

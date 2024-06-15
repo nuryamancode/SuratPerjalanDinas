@@ -46,7 +46,7 @@
                                                     @endif
                                                 @endif
                                             @endif  --}}
-                                            @if ($item->spd_pelaksana_dinas->verifikasi_ppk == 0 || $item->spd_supir->verifikasi_ppk == 0)
+                                            @if ($item->spd_pelaksana_dinas->verifikasi_ppk == 0)
                                                 <form
                                                     action="{{ route('ppk.approval-permohonan-spd.verifikasi', $item->id) }}"
                                                     method="post" class="d-inline">
@@ -55,7 +55,10 @@
                                                         Verifikasi SPD</button>
                                                 </form>
                                             @endif
-                                            @if ($item->spd_pelaksana_dinas)
+                                            @if ($item->surat->antar == 1)
+                                                <a href="{{ route('ppk.approval-permohonan-spd.lihat-spd', $item->spd_pelaksana_dinas->id) }}"
+                                                    target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD</a>
+                                            @else
                                                 <a href="{{ route('ppk.approval-permohonan-spd.lihat-spd-pelaksana', $item->spd_pelaksana_dinas->id) }}"
                                                     target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD</a>
                                             @endif

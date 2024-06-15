@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('perihal_1')->nullable();
             $table->string('tipe_2')->nullable();
             $table->text('catatan_2')->nullable();
-            $table->foreignId('pembuat_karyawan_id_2')->constrained('karyawan')->nullable();
-            $table->foreignId('tujuan_karyawan_id_2')->constrained('karyawan')->nullable();
+            $table->foreignId('pembuat_karyawan_id_2')->nullable()->constrained('karyawan');
+            $table->foreignId('tujuan_karyawan_id_2')->nullable()->constrained('karyawan');
             $table->string('nomor_agenda_2')->nullable();
             $table->string('perihal_2')->nullable();
             $table->timestamps();

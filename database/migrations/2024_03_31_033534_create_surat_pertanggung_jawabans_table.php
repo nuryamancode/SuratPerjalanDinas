@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('spj_peksana_dinas', function (Blueprint $table) {
+        Schema::create('spj_pelaksana_dinas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('spd_id')->nullable()->constrained('spd_pelaksana_dinas');
             $table->string('file');
-            $table->integer('status');
+            $table->integer('acc_ppk')->default(0);
+            $table->foreignId('pembuat_spj')->constrained('karyawan')->nullable();
+            $table->integer('status_spj')->default(0);
             $table->text('keterangan_ppk')->nullable();
             $table->timestamps();
         });
@@ -23,13 +25,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('spd_id')->nullable()->constrained('spd_supir');
             $table->string('file');
-            $table->integer('status');
+            $table->integer('acc_ppk')->default(0);
+            $table->foreignId('pembuat_spj')->constrained('karyawan')->nullable();
+            $table->integer('status_spj')->default(0);
             $table->text('keterangan_ppk')->nullable();
             $table->timestamps();
         });
         Schema::create('spj_pelaksana_dinas_detail', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('spj_id')->constrained('spj_peksana_dinas')->cascadeOnDelete();
+            $table->foreignId('spj_id')->constrained('spj_pelaksana_dinas')->cascadeOnDelete();
             $table->string('perincian_biaya');
             $table->bigInteger('nominal');
             $table->text('keterangan')->nullable();
