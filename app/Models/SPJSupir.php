@@ -16,10 +16,13 @@ class SPJSupir extends Model
     {
         return $this->belongsTo(SPDSupir::class, 'spd_id', 'id');
     }
-
+    public function supir()
+    {
+        return $this->belongsTo(Karyawan::class, 'pembuat_spj', 'id');
+    }
     public function details()
     {
-        return $this->hasMany(SuratPertanggungJawabanDetail::class, 'spj_id', 'id');
+        return $this->hasMany(SPJSupirDetail::class, 'spj_id', 'id');
     }
     public function downloadFile()
     {
@@ -27,9 +30,9 @@ class SPJSupir extends Model
     }
     public function status()
     {
-        if ($this->status == 0) {
+        if ($this->acc_ppk == 0) {
             return '<span class="badge badge-warning">Menunggu Persetujuan</span>';
-        } elseif ($this->status == 1) {
+        } elseif ($this->acc_ppk == 1) {
             return '<span class="badge badge-success">Disetujui</span>';
         } else {
             return '<span class="badge badge-danger">Ditolak</span>';

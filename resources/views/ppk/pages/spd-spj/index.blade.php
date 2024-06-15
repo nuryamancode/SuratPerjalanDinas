@@ -44,7 +44,7 @@
                                 @foreach ($item as $supir)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $supir->karyawan->nama ?? '-' }}</td>
+                                        <td>{{ $supir->supir->nama ?? '-' }}</td>
                                         <td>{{ \Carbon\Carbon::parse($supir->created_at)->format('d M Y') }}</td>
                                         <td>
                                             @if ($supir->status_spj == 0)

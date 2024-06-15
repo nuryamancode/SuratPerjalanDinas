@@ -27,7 +27,7 @@ class SPDSupir extends Model
 
     public function spj()
     {
-        return $this->hasOne(SuratPertanggungJawaban::class, 'spd_detail_id', 'id');
+        return $this->hasOne(SPJSupir::class, 'spd_id', 'id');
     }
 
     public function downloadFile()

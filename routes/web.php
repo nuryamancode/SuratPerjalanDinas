@@ -563,6 +563,13 @@ Route::middleware('auth')->group(function () {
     });
     Route::name('supir.')->prefix('supir')->middleware('role:Supir')->group(function () {
         Route::get('/', [\App\Http\Controllers\Supir\DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('spd', App\Http\Controllers\Supir\SPDController::class);
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Supir\SpdSPJController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Supir\SPDController::class, 'print'])->name('spd.print');
+
+        Route::resource('spd-spj', App\Http\Controllers\Supir\SpdSPJController::class);
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Supir\SpdSPJController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
+        Route::resource('spd-spj-detail', App\Http\Controllers\Supir\SpdSPJDetailController::class);
     });
 
 
