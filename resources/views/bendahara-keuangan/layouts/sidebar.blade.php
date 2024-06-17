@@ -76,7 +76,7 @@
                         <a class="nav-link" href="{{ route('bendahara-keuangan.spd.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat PertanggungJawaban </a>
+                        <a class="nav-link" href="{{ route('bendahara-keuangan.spd-spj.index') }}"> Surat PertanggungJawaban </a>
                     </li>
                 </ul>
             </div>

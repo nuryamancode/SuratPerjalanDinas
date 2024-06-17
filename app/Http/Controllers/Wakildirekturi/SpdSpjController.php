@@ -3,19 +3,33 @@
 namespace App\Http\Controllers\Wakildirekturi;
 
 use App\Http\Controllers\Controller;
+use App\Models\SPDPelaksana;
+use App\Models\SPJPelaksana;
 use App\Models\SuratPerjalananDinasDetail;
 use App\Models\SuratPertanggungJawaban;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SpdSpjController extends Controller
 {
+    public function index()
+    {
+        $items = SPJPelaksana::whereHas('karyawan', function ($qu) {
+            $qu->where('pembuat_spj', auth()->user()->karyawan->id);
+        })->latest()->get();
+        return view('wakil-direktur-i.pages.spd-spj.index', [
+            'title' => 'Surat Pertanggung Jawaban SPD',
+            'items' => $items,
+            // 'data_permohonan' => $data_permohonan
+        ]);
+    }
     public function create()
     {
-        $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+        $spdpelaksana = SPDPelaksana::where('id', request('spd_id'))->firstOrFail();
         return view('wakil-direktur-i.pages.spd-spj.create', [
             'title' => 'Buat SPJ Perjalanan Dinas',
-            'spd_detail' => $spd_detail
+            'spdpelaksana' => $spdpelaksana
         ]);
     }
 
@@ -23,7 +37,7 @@ class SpdSpjController extends Controller
     {
         request()->validate([
             'draft' => ['required', 'mimes:pdf'],
-            'spd_detail_uuid' => ['required']
+            'spd_id' => ['required']
         ]);
 
         DB::beginTransaction();
@@ -33,45 +47,70 @@ class SpdSpjController extends Controller
             $data_keterangan = request('keterangan');
             $data_file = request('file');
 
-            $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+            $spd_detail = SPDPelaksana::where('id', request('spd_id'))->firstOrFail();
             // cek spj
-            if ($spd_detail->spj) {
-                // update spj
-            } else {
-                // create spj
-                $spj = $spd_detail->spj()->create([
-                    'file' => request()->file('draft')->store('spj', 'public'),
-                    'status' => 0
-                ]);
+            $spj = $spd_detail->spj()->create([
+                'file' => request()->file('draft')->store('spj', 'public'),
+                'pembuat_spj' => auth()->user()->karyawan->id,
+            ]);
 
-                foreach ($data_perincian_biaya as $key => $perincian) {
-                    // harus ada isi
-                    if ($perincian && isset($data_nominal[$key]) && isset($data_file[$key])) {
-                        $spj->details()->create([
-                            'perincian_biaya' => $perincian,
-                            'nominal' => $data_nominal[$key],
-                            'keterangan' => $data_keterangan[$key],
-                            'file' => $data_file[$key]->store('spj-detail', 'public')
-                        ]);
-                    }
+            foreach ($data_perincian_biaya as $key => $perincian) {
+                // harus ada isi
+                if ($perincian && isset($data_nominal[$key]) && isset($data_file[$key])) {
+                    $spj->details()->create([
+                        'perincian_biaya' => $perincian,
+                        'nominal' => $data_nominal[$key],
+                        'keterangan' => $data_keterangan[$key],
+                        'file' => $data_file[$key]->store('spj-detail', 'public')
+                    ]);
                 }
             }
 
             DB::commit();
-            return redirect()->route('wakil-direktur-i.spd.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
+            return redirect()->route('wakil-direktur-i.spd-spj.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
         } catch (\Throwable $th) {
             throw $th;
-            DB::rollBack();
-            return redirect()->route('wakil-direktur-i.spd.index')->with('error', $th->getMessage());
+            // DB::rollBack();
+            // return redirect()->route('karyawan.spd.index')->with('error', $th->getMessage());
         }
+    }
+
+    public function kirim_ulang($uuid)
+    {
+
+        $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
+        $item->update([
+            'acc_ppk' => 0,
+            'status_spj' => 0,
+        ]);
+
+        $item->spd->spd->update([
+            'status' => 'Menunggu Persetujuan SPJ',
+
+        ]);
+        return redirect()->back()->with('success', 'Surat Pertanggung Jawaban Berhasil dikirim ulang.');
     }
 
     public function show($uuid)
     {
-        $item = SuratPertanggungJawaban::where('uuid', $uuid)->firstOrFail();
+        $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
         return view('wakil-direktur-i.pages.spd-spj.show', [
             'title' => 'Detail SPJ Perjalanan Dinas',
             'item' => $item
+        ]);
+    }
+
+    public function print($uuid)
+    {
+        $spj = SPJPelaksana::where('id', $uuid)->firstOrFail();
+        $bendahara = User::role('Bendahara Keuangan')->first();
+        $ppk = User::role('Pejabat Pembuat Komitmen')->first();
+        // dd($ppk);
+        return view('wakil-direktur-i.pages.spd-spj.print', [
+            'title' => 'Cetak SPJ Perjalanan Dinas',
+            'spj' => $spj,
+            'bendahara' => $bendahara,
+            'ppk' => $ppk
         ]);
     }
 }

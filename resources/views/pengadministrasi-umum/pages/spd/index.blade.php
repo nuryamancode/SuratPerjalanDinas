@@ -12,12 +12,9 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Pelaksana</th>
-                                    <th>Tempat Berangkat</th>
-                                    <th>Tempat Tujuan</th>
-                                    <th>Tanggal Berangkat</th>
-                                    <th>Tanggal Harus Pulang</th>
-                                    <th>Nominal Uang Muka</th>
+                                    <th>Nomor Surat</th>
+                                    <th>Tanggal Surat</th>
+                                    <th>Status Surat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -25,33 +22,38 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->karyawan->nama }}</td>
-                                        <td>{{ $item->tempat_berangkat ?? '-' }}</td>
-                                        <td>{{ $item->tempat_tujuan ?? '-' }}</td>
-                                        <td>{{ $item->tanggal_berangkat ?? '-' }}</td>
-                                        <td>{{ $item->tanggal_harus_kembali ?? '-' }}</td>
-                                        <td>{{ $item->uang_muka ? 'Rp. ' . number_format($item->uang_muka->nominal) : '-' }}
-                                        </td>
+                                        <td>{{ $item->spd->surat->nomor_surat }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->spd->surat->created_at)->format('d M Y') }}</td>
+                                        <td>{{ $item->spd->status }}</td>
                                         <td>
-                                            @if ($item->spj)
-                                                <a href="{{ route('pengadministrasi-umum.spd-spj.show', $item->spj->uuid) }}"
-                                                    class="btn btn-info  py-2">Lihat SPJ</a>
-                                            @else
-                                                <a href="{{ route('pengadministrasi-umum.spd-spj.create', [
-                                                    'spd_detail_uuid' => $item->uuid,
-                                                ]) }}"
-                                                    class="btn btn-primary  py-2">Buat SPJ</a>
+                                            @php
+                                                $userId = auth()->user()->karyawan->id;
+                                                $isPembuatSpj = false;
+                                            @endphp
+                                            @foreach ($item->spj_many as $spj)
+                                                @if ($spj->pembuat_spj == $userId)
+                                                    @php $isPembuatSpj = true; @endphp
+                                                    <a href="{{ route('pengadministrasi-umum.spd-spj.show', $spj->id) }}"
+                                                        class="btn btn-info py-2">Lihat SPJ</a>
+                                                @break
                                             @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        @endforeach
+                                        @if (!$isPembuatSpj)
+                                            <a href="{{ route('pengadministrasi-umum.spd-spj.create', ['spd_id' => $item->id]) }}"
+                                                class="btn btn-primary py-2">Buat SPJ</a>
+                                        @endif
+                                        <a href="{{ route('pengadministrasi-umum.spd.show', $item->id) }}"
+                                            class="btn btn-sm py-2 btn-warning">Detail</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 <x-Admin.Sweetalert />
 <x-Admin.Datatable />

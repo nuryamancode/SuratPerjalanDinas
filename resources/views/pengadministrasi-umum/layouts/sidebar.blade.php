@@ -37,7 +37,7 @@
                         <a class="nav-link" href="{{ route('pengadministrasi-umum.spd.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat Pertanggung Jawaban </a>
+                        <a class="nav-link" href="{{ route('pengadministrasi-umum.spd-spj.index') }}"> Surat Pertanggung Jawaban </a>
                     </li>
                 </ul>
             </div>

@@ -209,6 +209,15 @@ Route::middleware('auth')->group(function () {
         Route::get('permohonan-spd-disposisi-print/{id}', [App\Http\Controllers\Ppk\PermohonanSpdDisposisiController::class, 'print'])->name('permohonan-spd-disposisi.print');
         Route::get('permohonan-spd/print-wadir2-disposisi/{id}', [App\Http\Controllers\Ppk\PermohonanSpdController::class, 'print'])->name('permohonan-spd.print-disposisi-wadir2');
 
+        Route::get('/spd-spj-pelaksana/print/{spj_uuid}', [\App\Http\Controllers\Ppk\SpdSpj1Controller::class, 'print'])->name('spd-spj-pelaksana.print');
+        Route::get('/spd-pelaksana/print/{id}', [\App\Http\Controllers\Ppk\SpdController::class, 'print'])->name('spd-pelaksana.print');
+        Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Ppk\SpdController::class, 'printppk'])->name('permohonan-spd-pelaksana.print-ppk');
+        Route::get('/spd-pelaksana/print-pelaksana/{id}', [\App\Http\Controllers\Ppk\SpdController::class, 'print_pelaksana'])->name('spd-pelaksana.print-pelaksana');
+        Route::get('/spd-spj-pelaksana/kirim-ulang/{id}', [\App\Http\Controllers\Ppk\SpdSpj1Controller::class, 'kirim_ulang'])->name('spd-spj-pelaksana.kirim-ulang');
+        Route::resource('spd-pelaksana', App\Http\Controllers\Ppk\SpdController::class);
+        Route::resource('spd-spj-pelaksana', App\Http\Controllers\Ppk\SpdSpj1Controller::class);
+        Route::resource('spd-spj-detail-pelaksana', App\Http\Controllers\Ppk\SpdSpjDetailController::class);
+
         // pembelanjaan
         Route::controller(App\Http\Controllers\Ppk\FormNonPbjController::class)->group(function () {
             Route::get('form-non-pbj', 'index')->name('form-non-pbj.index');
@@ -293,14 +302,21 @@ Route::middleware('auth')->group(function () {
         Route::get('surat/detail', [\App\Http\Controllers\Pengadministrasiumum\SuratTugasController::class, 'detail'])->name('surat.detail');
         Route::resource('surat', \App\Http\Controllers\Pengadministrasiumum\SuratTugasController::class);
 
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Pengadministrasiumum\SpdSpjController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Pengadministrasiumum\SpdController::class, 'print'])->name('spd.print');
+        Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Pengadministrasiumum\SpdController::class, 'printppk'])->name('permohonan-spd.print-ppk');
+        Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Pengadministrasiumum\SpdController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Pengadministrasiumum\SpdSpjController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
+        Route::resource('spd', App\Http\Controllers\Pengadministrasiumum\SpdController::class);
+        Route::resource('spd-spj', App\Http\Controllers\Pengadministrasiumum\SpdSpjController::class);
+        Route::resource('spd-spj-detail', App\Http\Controllers\Pengadministrasiumum\SpdSpjDetailController::class);
+
+
         Route::resource('permohonan-spd', PermohonanSpdController::class);
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Pengadministrasiumum\PengajuanFormNonPbjController::class);
         Route::resource('pengajuan-surat-non-pbj', \App\Http\Controllers\Pengadministrasiumum\PengajuanSuratNonPbjController::class);
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Pengadministrasiumum\PengajuanPbjController::class);
 
-        Route::resource('spd', App\Http\Controllers\Pengadministrasiumum\SpdController::class);
-        Route::resource('spd-spj', App\Http\Controllers\Pengadministrasiumum\SpdSpjController::class);
-        Route::resource('spd-spj-detail', App\Http\Controllers\Pengadministrasiumum\SpdSpjDetailController::class);
 
         Route::resource('surat-non-pbj', \App\Http\Controllers\Pengadministrasiumum\SuratNonPbjController::class);
     });
@@ -339,6 +355,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('spd', App\Http\Controllers\Wakildirekturii\SpdController::class);
         Route::resource('spd-spj', App\Http\Controllers\Wakildirekturii\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Wakildirekturii\SpdSpjDetailController::class);
+        Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Wakildirekturii\SpdController::class, 'printppk'])->name('permohonan-spd.print-ppk');
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Wakildirekturii\SpdSpjController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Wakildirekturii\SpdController::class, 'print'])->name('spd.print');
+        Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Wakildirekturii\SpdController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Wakildirekturii\SpdSpjController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
+
+
+
         Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
         Route::get('surat-non-pbj/print/{id}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'print_disposisi'])->name('surat-non-pbj.print');
         Route::put('surat-non-pbj/tolak/{id}', [\App\Http\Controllers\Wakildirekturii\SuratNonPbjController::class, 'tolak'])->name('surat-non-pbj.tolak');
@@ -362,16 +386,25 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [\App\Http\Controllers\Bendaharakeuangan\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('permohonan-spd', App\Http\Controllers\Bendaharakeuangan\PermohonanSpdController::class);
         Route::resource('pengajuan-pbj', App\Http\Controllers\Bendaharakeuangan\PengajuanPbjController::class);
-        Route::resource('spd-detail', App\Http\Controllers\Bendaharakeuangan\SpdDetailController::class);
-        Route::resource('spd-detail-supir', App\Http\Controllers\Bendaharakeuangan\SpdDetailSupirController::class);
         Route::resource('spd-detail-uang-muka', App\Http\Controllers\Bendaharakeuangan\SpdDetailUangMukaController::class);
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Bendaharakeuangan\PengajuanFormNonPbjController::class);
         Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Bendaharakeuangan\PermohonanSpdController::class, 'printppk'])->name('permohonan-spd.print-ppk');
 
-        Route::get('spd-detail/print/{uuid}', [App\Http\Controllers\Bendaharakeuangan\SpdDetailController::class, 'print'])->name('spd-detail.print');
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Bendaharakeuangan\SpdSpjController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Bendaharakeuangan\SpdController::class, 'print'])->name('spd.print');
+        Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Bendaharakeuangan\SpdController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Bendaharakeuangan\SpdSpjController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
         Route::resource('spd', App\Http\Controllers\Bendaharakeuangan\SpdController::class);
         Route::resource('spd-spj', App\Http\Controllers\Bendaharakeuangan\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Bendaharakeuangan\SpdSpjDetailController::class);
+
+
+        // Route::resource('spd-detail', App\Http\Controllers\Bendaharakeuangan\SpdDetailController::class);
+        // Route::resource('spd-detail-supir', App\Http\Controllers\Bendaharakeuangan\SpdDetailSupirController::class);
+        // Route::get('spd-detail/print/{uuid}', [App\Http\Controllers\Bendaharakeuangan\SpdDetailController::class, 'print'])->name('spd-detail.print');
+        // Route::resource('spd', App\Http\Controllers\Bendaharakeuangan\SpdController::class);
+        // Route::resource('spd-spj', App\Http\Controllers\Bendaharakeuangan\SpdSpjController::class);
+        // Route::resource('spd-spj-detail', App\Http\Controllers\Bendaharakeuangan\SpdSpjDetailController::class);
         Route::controller(\App\Http\Controllers\Bendaharakeuangan\BuatSpdController::class)->group(function () {
             Route::get('buat-spd/create/{id}', 'create')->name('buat-spd.create');
             Route::get('buat-spd/create-supir/{id}', 'create_supir')->name('buat-spd.create-supir');
@@ -450,23 +483,23 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::name('pelaksana-spd.')->prefix('pelaksana-spd')->middleware('role:Pelaksana Perjalanan Dinas')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Pelaksanaspd\DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('spd', App\Http\Controllers\Pelaksanaspd\SpdController::class);
-        Route::resource('spd-spj', App\Http\Controllers\Pelaksanaspd\SpdSpjController::class);
-        Route::resource('spd-spj-detail', App\Http\Controllers\Pelaksanaspd\SpdSpjDetailController::class);
-    });
+    // Route::name('pelaksana-spd.')->prefix('pelaksana-spd')->middleware('role:Pelaksana Perjalanan Dinas')->group(function () {
+    //     Route::get('/', [\App\Http\Controllers\Pelaksanaspd\DashboardController::class, 'index'])->name('dashboard');
+    //     Route::resource('spd', App\Http\Controllers\Pelaksanaspd\SpdController::class);
+    //     Route::resource('spd-spj', App\Http\Controllers\Pelaksanaspd\SpdSpjController::class);
+    //     Route::resource('spd-spj-detail', App\Http\Controllers\Pelaksanaspd\SpdSpjDetailController::class);
+    // });
 
 
-    Route::name('pengusul.')->prefix('pengusul')->middleware('role:Pengusul')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Pengusul\DashboardController::class, 'index'])->name('dashboard');
-        Route::post('pengajuan-pbj-form-non-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Pengusul\PengajuanFormNonPbjController::class, 'verifikasi'])->name('pengajuan-form-non-pbj.verifikasi');
-        Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Pengusul\PengajuanFormNonPbjController::class);
-        Route::resource('pengajuan-form-non-pbj-detail', \App\Http\Controllers\Pengusul\PengajuanFormNonPbjDetailController::class);
-    });
+    // Route::name('pengusul.')->prefix('pengusul')->middleware('role:Pengusul')->group(function () {
+    //     Route::get('/', [\App\Http\Controllers\Pengusul\DashboardController::class, 'index'])->name('dashboard');
+    //     Route::post('pengajuan-pbj-form-non-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Pengusul\PengajuanFormNonPbjController::class, 'verifikasi'])->name('pengajuan-form-non-pbj.verifikasi');
+    //     Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Pengusul\PengajuanFormNonPbjController::class);
+    //     Route::resource('pengajuan-form-non-pbj-detail', \App\Http\Controllers\Pengusul\PengajuanFormNonPbjDetailController::class);
+    // });
 
-    Route::name('pelaksana-belanja.')->prefix('pelaksana-belanja')->middleware('role:Pelaksana Belanja')->group(function () {
-    });
+    // Route::name('pelaksana-belanja.')->prefix('pelaksana-belanja')->middleware('role:Pelaksana Belanja')->group(function () {
+    // });
 
     Route::name('wakil-direktur-i.')->prefix('wakil-direktur-i')->middleware('role:Wakil Direktur I')->group(function () {
         Route::get('/', [\App\Http\Controllers\Wakildirekturi\DashboardController::class, 'index'])->name('dashboard');
@@ -477,6 +510,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('spd', App\Http\Controllers\Wakildirekturi\SpdController::class);
         Route::resource('spd-spj', App\Http\Controllers\Wakildirekturi\SpdSpjController::class);
         Route::resource('spd-spj-detail', App\Http\Controllers\Wakildirekturi\SpdSpjDetailController::class);
+        Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Wakildirekturi\SpdController::class, 'printppk'])->name('permohonan-spd.print-ppk');
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Wakildirekturi\SpdSpjController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Wakildirekturi\SpdController::class, 'print'])->name('spd.print');
+        Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Wakildirekturi\SpdController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Wakildirekturi\SpdSpjController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
 
         // surat non pbj
         Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Wakildirekturi\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
@@ -488,6 +526,7 @@ Route::middleware('auth')->group(function () {
     Route::name('karyawan.')->prefix('karyawan')->middleware('role:Karyawan')->group(function () {
         Route::get('/', [\App\Http\Controllers\Karyawan\DashboardController::class, 'index'])->name('dashboard');
         Route::resource('spd', App\Http\Controllers\Karyawan\SpdController::class);
+        Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Karyawan\SpdController::class, 'printppk'])->name('permohonan-spd.print-ppk');
         Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Karyawan\SpdSpjController::class, 'print'])->name('spd-spj.print');
         Route::get('/spd/print/{id}', [\App\Http\Controllers\Karyawan\SpdController::class, 'print'])->name('spd.print');
         Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Karyawan\SpdController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
@@ -511,6 +550,17 @@ Route::middleware('auth')->group(function () {
         Route::resource('form-non-pbj', \App\Http\Controllers\Kabag\PengajuanFormNonPbjController::class);
         Route::put('surat-non-pbj/taksiran/{id}', [\App\Http\Controllers\Kabag\SuratNonPbjController::class, 'taksiran'])->name('taksiran.store');
         Route::post('surat-non-pbj/verifikasi/{id}', [\App\Http\Controllers\Kabag\SuratNonPbjController::class, 'verifikasi'])->name('surat-non-pbj.verifikasi');
+
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Kabag\SPDSpjController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Kabag\SPDPelaksanaController::class, 'print'])->name('spd.print');
+        Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Kabag\SPDPelaksanaController::class, 'printppk'])->name('permohonan-spd.print-ppk');
+        Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Kabag\SPDPelaksanaController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Kabag\SPDSpjController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
+        Route::resource('spd', App\Http\Controllers\Kabag\SPDPelaksanaController::class);
+        Route::resource('spd-spj', App\Http\Controllers\Kabag\SpdSpjController::class);
+        Route::resource('spd-spj-detail', App\Http\Controllers\Kabag\SPDSpjDetailController::class);
+
+
     });
 
     Route::name('timppk.')->prefix('timppk')->middleware('role:Tim PPK')->group(function () {
@@ -520,6 +570,15 @@ Route::middleware('auth')->group(function () {
         Route::resource('pembelanjaan-form-non-pbj', \App\Http\Controllers\Timppk\PembelanjaanFormController::class);
         Route::get('/pembelanjaan-form-non-pbj/print/{id}', [\App\Http\Controllers\Timppk\PembelanjaanFormController::class, 'print'])->name('pembelanjaan-form-non-pbj.print', );
         Route::get('/pembelanjaan-form-non-pbj/kirim-ulang/{id}', [\App\Http\Controllers\Timppk\PembelanjaanFormController::class, 'kirim_ulang'])->name('pembelanjaan-form-non-pbj.kirim-ulang', );
+
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Timppk\SPDSpjController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Timppk\SPDPelaksanaController::class, 'print'])->name('spd.print');
+        Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Timppk\SPDPelaksanaController::class, 'printppk'])->name('permohonan-spd.print-ppk');
+        Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Timppk\SPDPelaksanaController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Timppk\SPDSpjController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
+        Route::resource('spd', App\Http\Controllers\Timppk\SPDPelaksanaController::class);
+        Route::resource('spd-spj', App\Http\Controllers\Timppk\SpdSpjController::class);
+        Route::resource('spd-spj-detail', App\Http\Controllers\Timppk\SPDSpjDetailController::class);
 
         Route::controller(\App\Http\Controllers\Timppk\FormNonPbjController::class)->group(function () {
             Route::get('/form-non-pbj', 'index')->name('form-non-pbj.index');
@@ -628,6 +687,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/arsip-spd-spj-show/{id}', 'show')->name('arsip-spd-spj.show');
             Route::get('/arsip-spd-spj-detail-supir/{spj_uuid}', 'spd_spj_detail_supir')->name('arsip-spd-spj.detail-supir');
         });
+
+        Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Pengelolakeuangan\SPDSpjController::class, 'print'])->name('spd-spj.print');
+        Route::get('/spd/print/{id}', [\App\Http\Controllers\Pengelolakeuangan\SPDPelaksanaController::class, 'print'])->name('spd.print');
+        Route::get('/spd/print-pelaksana/{id}', [\App\Http\Controllers\Pengelolakeuangan\SPDPelaksanaController::class, 'print_pelaksana'])->name('spd.print-pelaksana');
+        Route::get('/spd-spj/kirim-ulang/{id}', [\App\Http\Controllers\Pengelolakeuangan\SPDSpjController::class, 'kirim_ulang'])->name('spd-spj.kirim-ulang');
+        Route::resource('spd', App\Http\Controllers\Pengelolakeuangan\SPDPelaksanaController::class);
+        Route::resource('spd-spj', App\Http\Controllers\Pengelolakeuangan\SpdSpjController::class);
+        Route::resource('spd-spj-detail', App\Http\Controllers\Pengelolakeuangan\SPDSpjDetailController::class);
 
     });
 

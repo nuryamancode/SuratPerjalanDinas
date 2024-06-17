@@ -26,6 +26,10 @@ class SPDPelaksana extends Model
     {
         return $this->hasOne(SPJPelaksana::class, 'spd_id', 'id');
     }
+    public function spj_many()
+    {
+        return $this->hasMany(SPJPelaksana::class, 'spd_id', 'id');
+    }
 
     public function downloadFile()
     {

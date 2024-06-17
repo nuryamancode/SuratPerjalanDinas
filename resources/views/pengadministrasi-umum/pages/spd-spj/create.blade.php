@@ -2,18 +2,29 @@
 @section('content')
     <div class="row">
         <div class="col-md">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('pengadministrasi-umum.spd.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Buat SPJ</h4>
                     <form action="{{ route('pengadministrasi-umum.spd-spj.store') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="spd_detail_uuid" value="{{ $spd_detail->uuid }}" hidden>
+                        <input type="text" name="spd_id" value="{{ $spdpelaksana->id }}" hidden>
                         <div class='form-group mb-3'>
                             <label for='nominal' class='mb-2'>Nominal Uang Muka</label>
                             <input type='text' name='nominal' id='nominal'
                                 class='form-control @error('nominal') is-invalid @enderror'
-                                value='{{ $spd_detail->uang_muka ? 'Rp. ' . number_format($spd_detail->uang_muka->nominal) : old('nominal') }}'
+                                value='{{ $spdpelaksana->uang_muka ? 'Rp. ' . number_format($spdpelaksana->uang_muka->nominal) : old('nominal') }}'
                                 disabled>
                             @error('nominal')
                                 <div class='invalid-feedback'>

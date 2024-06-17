@@ -22,7 +22,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</td>
-                                        <td>{!! $item->spd->statusSPJ() !!}</td>
+                                        <td>{!! $item->status() !!}</td>
                                         <td>
                                             @if ($item->status_spj == 1)
                                                 <a href="{{ route('karyawan.spd-spj.print', $item->id) }}" target="_blank"

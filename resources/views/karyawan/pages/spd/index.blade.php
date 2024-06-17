@@ -26,43 +26,34 @@
                                         <td>{{ \Carbon\Carbon::parse($item->spd->surat->created_at)->format('d M Y') }}</td>
                                         <td>{{ $item->spd->status }}</td>
                                         <td>
-                                            {{--  @if ($item->spj && $item->spj->status)
-                                                <a href="{{ route('karyawan.spd-spj.print', $item->spj->uuid) }}"
-                                                    class="btn btn-secondary py-2">Print Kwitansi</a>
-                                            @endif  --}}
-                                            {{-- <a href="{{ route('karyawan.spd-detail-supir.index', [
-                                                'spd_detail_uuid' => $item->uuid,
-                                            ]) }}"
-                                                class="btn btn-primary  py-2">Supir</a> --}}
-                                            {{-- <a href="{{ route('karyawan.spd-detail.edit', $item->uuid) }}"
-                                                class="btn btn-sm py-2 btn-info">Isi SPD</a> --}}
-                                            {{--  @if ($item->uang_muka)
-                                                @if ($item->spj)
-                                                    <a href="{{ route('karyawan.spd-spj.show', $item->spj->uuid) }}"
-                                                        class="btn btn-info  py-2">Lihat SPJ</a>
-                                                @else
-                                                    <a href="{{ route('karyawan.spd-spj.create', [
-                                                        'spd_detail_uuid' => $item->uuid,
-                                                    ]) }}"
-                                                        class="btn btn-primary  py-2">Buat SPJ</a>
-                                                @endif
-                                            @else
-                                                <a href="javascript:void()" class="btn btn-primary disabled py-2"
-                                                    disabled>Buat
-                                                    SPJ</a>
-                                            @endif  --}}
-                                            <a href="{{ route('karyawan.spd.show', $item->id) }}"
-                                                class="btn btn-sm py-2 btn-warning">Detail</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                            @php
+                                                $userId = auth()->user()->karyawan->id;
+                                                $isPembuatSpj = false;
+                                            @endphp
+                                            @foreach ($item->spj_many as $spj)
+                                                @if ($spj->pembuat_spj == $userId)
+                                                    @php $isPembuatSpj = true; @endphp
+                                                    <a href="{{ route('karyawan.spd-spj.show', $spj->id) }}"
+                                                        class="btn btn-info py-2">Lihat SPJ</a>
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if (!$isPembuatSpj)
+                                            <a href="{{ route('karyawan.spd-spj.create', ['spd_id' => $item->id]) }}"
+                                                class="btn btn-primary py-2">Buat SPJ</a>
+                                        @endif
+                                        <a href="{{ route('karyawan.spd.show', $item->id) }}"
+                                            class="btn btn-sm py-2 btn-warning">Detail</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 <x-Admin.Sweetalert />
 <x-Admin.Datatable />

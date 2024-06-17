@@ -2,12 +2,23 @@
 @section('content')
     <div class="row">
         <div class="col-md">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('wakil-direktur-ii.spd-spj.show', $spj->id) }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Buat Biaya SPJ</h4>
                     <form
                         action="{{ route('wakil-direktur-ii.spd-spj-detail.store', [
-                            'spj_uuid' => $spj->uuid,
+                            'spj_uuid' => $spj->id,
                         ]) }}"
                         method="post" enctype="multipart/form-data">
                         @csrf

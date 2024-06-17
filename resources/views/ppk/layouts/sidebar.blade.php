@@ -49,10 +49,10 @@
             <div class="collapse" id="surat">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat Perjalan Dinas </a>
+                        <a class="nav-link" href="{{ route('ppk.spd-pelaksana.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat PertanggungJawaban </a>
+                        <a class="nav-link" href="{{ route('ppk.spd-spj-pelaksana.index') }}"> Surat PertanggungJawaban </a>
                     </li>
                 </ul>
             </div>

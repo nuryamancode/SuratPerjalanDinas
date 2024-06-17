@@ -104,4 +104,12 @@ class SpdController extends Controller
             return $item;
         }
     }
+    public function printppk($spd_uuid)
+    {
+        $spd = SuratPerjalananDinas::where('id', $spd_uuid)->firstOrFail();
+        return view('ppk.pages.permohonan-spd-disposisi.print', [
+            'title' => 'Cetak Disposisi',
+            'spd' => $spd,
+        ]);
+    }
 }

@@ -56,7 +56,7 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Lihat Disposisi</span>
                             <span>
-                                <a href="{{ route('bendahara-keuangan.permohonan-spd.print-ppk', $item->spd->disposisi->id) }}"
+                                <a href="{{ route('karyawan.permohonan-spd.print-ppk', $item->spd->disposisi->id) }}"
                                     target="_blank" class="btn btn-success btn-sm">Lihat
                                     Disposisi</a>
                             </span>

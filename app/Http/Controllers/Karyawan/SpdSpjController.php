@@ -50,25 +50,20 @@ class SpdSpjController extends Controller
 
             $spd_detail = SPDPelaksana::where('id', request('spd_id'))->firstOrFail();
             // cek spj
-            if ($spd_detail->spj) {
-                // update spj
-            } else {
-                // create spj
-                $spj = $spd_detail->spj()->create([
-                    'file' => request()->file('draft')->store('spj', 'public'),
-                    'pembuat_spj' => auth()->user()->karyawan->id,
-                ]);
+            $spj = $spd_detail->spj()->create([
+                'file' => request()->file('draft')->store('spj', 'public'),
+                'pembuat_spj' => auth()->user()->karyawan->id,
+            ]);
 
-                foreach ($data_perincian_biaya as $key => $perincian) {
-                    // harus ada isi
-                    if ($perincian && isset($data_nominal[$key]) && isset($data_file[$key])) {
-                        $spj->details()->create([
-                            'perincian_biaya' => $perincian,
-                            'nominal' => $data_nominal[$key],
-                            'keterangan' => $data_keterangan[$key],
-                            'file' => $data_file[$key]->store('spj-detail', 'public')
-                        ]);
-                    }
+            foreach ($data_perincian_biaya as $key => $perincian) {
+                // harus ada isi
+                if ($perincian && isset($data_nominal[$key]) && isset($data_file[$key])) {
+                    $spj->details()->create([
+                        'perincian_biaya' => $perincian,
+                        'nominal' => $data_nominal[$key],
+                        'keterangan' => $data_keterangan[$key],
+                        'file' => $data_file[$key]->store('spj-detail', 'public')
+                    ]);
                 }
             }
 

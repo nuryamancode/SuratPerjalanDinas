@@ -39,9 +39,9 @@
             </a>
             <div class="collapse" id="approval">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
+                    {{--  <li class="nav-item">
                         <a class="nav-link" href=""> Surat Perjalan Dinas </a>
-                    </li>
+                    </li>  --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('wakil-direktur-ii.pengajuan-belanja.index') }}"> Pengajuan Belanja </a>
                     </li>
@@ -61,7 +61,7 @@
                         <a class="nav-link" href="{{ route('wakil-direktur-ii.spd.index') }}"> Surat Perjalan Dinas </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""> Surat PertanggungJawaban </a>
+                        <a class="nav-link" href="{{ route('wakil-direktur-ii.spd-spj.index') }}"> Surat PertanggungJawaban </a>
                     </li>
                 </ul>
             </div>

@@ -2,18 +2,29 @@
 @section('content')
     <div class="row">
         <div class="col-md">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('bendahara-keuangan.spd.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Buat SPJ</h4>
                     <form action="{{ route('bendahara-keuangan.spd-spj.store') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="spd_detail_uuid" value="{{ $spd_detail->id }}" hidden>
+                        <input type="text" name="spd_id" value="{{ $spdpelaksana->id }}" hidden>
                         <div class='form-group mb-3'>
                             <label for='nominal' class='mb-2'>Nominal Uang Muka</label>
                             <input type='text' name='nominal' id='nominal'
                                 class='form-control @error('nominal') is-invalid @enderror'
-                                value='{{ $spd_detail->uang_muka ? 'Rp. ' . number_format($spd_detail->uang_muka->nominal) : old('nominal') }}'
+                                value='{{ $spdpelaksana->uang_muka ? 'Rp. ' . number_format($spdpelaksana->uang_muka->nominal) : old('nominal') }}'
                                 disabled>
                             @error('nominal')
                                 <div class='invalid-feedback'>
@@ -125,24 +136,6 @@
                 $(this).closest('.row').remove();
             });
 
-            // get detail spd detail
-            $('#spd_detail_id').on('change', function() {
-                let spd_detail_id = $(this).val();
-                $.ajax({
-                    url: '{{ route('surat-perjalanan-dinas-detail.getById') }}',
-                    type: 'GET',
-                    data: {
-                        spd_detail_id
-                    },
-                    dataType: 'JSON',
-                    success: function(data) {
-                        $('#tingkat_biaya').val(data.tingkat_biaya);
-                        $('#maksud_perjalanan_dinas').val(data.maksud_perjalanan_dinas);
-                        $('#tempat_berangkat').val(data.tempat_berangkat);
-                        $('#tempat_tujuan').val(data.tempat_tujuan);
-                    }
-                })
-            })
         });
     </script>
 @endpush
