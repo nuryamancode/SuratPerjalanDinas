@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('pengadministrasi-umum.surat.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 @if ($errors->any())
                     <ul>
@@ -15,7 +26,7 @@
                     <form action="{{ route('pengelola-keuangan.buat-spd.store') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="id_spd" value="{{ $spd->id  }}">
+                        <input type="hidden" name="id_spd" value="{{ $spd->id }}">
                         <div class='form-group'>
                             <label for='pelaksana'>Pelaksana Dinas</label>
                             <select name='pelaksana[]' id='pelaksana'
@@ -102,7 +113,7 @@
                             <label for='tanggal_mulai' class='mb-2'>Tanggal Berangkat</label>
                             <input type='text' name='tanggal_mulai' id='tanggal_mulai' readonly
                                 class='form-control @error('tanggal_mulai') is-invalid @enderror'
-                                value='{{ ($spd->surat->tanggal_mulai) }}'>
+                                value='{{ $spd->surat->tanggal_mulai }}'>
                             @error('tanggal_mulai')
                                 <div class='invalid-feedback'>
                                     {{ $message }}

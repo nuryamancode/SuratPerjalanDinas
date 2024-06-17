@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Submit Uang Muka</h4>
+                    <h4 class="card-title mb-5">Submit Uang Muka Pelaksana</h4>
                     <form action="{{ route('pengelola-keuangan.uang-muka-spd.store-pelaksana') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="spd_pelaksana" value="{{ $item->id }}">

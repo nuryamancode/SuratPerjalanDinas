@@ -2,6 +2,20 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.index', [
+                'permohonan_spd_uuid' => $permohonan->id,
+            ]) }}"
+                class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Disposisi Permohonan SPD</h4>
@@ -49,7 +63,8 @@
                             <label for='tanggal_surat' class='mb-2'>Tanggal Surat</label>
                             <input type='text' name='tanggal_surat' id='tanggal_surat'
                                 class='form-control @error('tanggal_surat') is-invalid @enderror'
-                                value='{{ \Carbon\Carbon::parse($permohonan->surat->created_at ?? old('tanggal_surat'))->format('Y-m-d') }}' disabled>
+                                value='{{ \Carbon\Carbon::parse($permohonan->surat->created_at ?? old('tanggal_surat'))->format('Y-m-d') }}'
+                                disabled>
                             @error('tanggal_surat')
                                 <div class='invalid-feedback'>
                                     {{ $message }}

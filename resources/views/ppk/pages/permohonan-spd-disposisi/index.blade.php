@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('ppk.permohonan-spd.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">

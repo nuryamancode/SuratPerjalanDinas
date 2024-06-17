@@ -14,13 +14,28 @@ class SpdSpjController extends Controller
 {
     public function index()
     {
-        $items = SPJPelaksana::with('spd')->latest()->get();
-        $item = SPJSupir::with('spd')->latest()->get();
-        return view('ppk.pages.spd-spj.index', [
-            'title' => 'Data SPJ Perjalanan Dinas',
-            'items' => $items,
-            'item' => $item,
-        ]);
+        $filter = request('pilih_filter');
+        if ($filter == 'supir') {
+            $items = SPJSupir::with('spd')->latest()->get();
+            $data = [
+                'title' => 'SPJ Perjalanan Dinas Supir',
+                'items' => $items,
+                'filter' => $filter,
+            ];
+        } elseif ($filter == 'pelaksana') {
+            $items = SPJPelaksana::with('spd')->latest()->get();
+            $data = [
+                'title' => 'SPJ Perjalanan Dinas Pelaksana Dinas',
+                'items' => $items,
+                'filter' => $filter,
+            ];
+        } else {
+            $data = [
+                'title' => 'SPJ Perjalanan Dinas',
+                'filter' => $filter
+            ];
+        }
+        return view('ppk.pages.spd-spj.index', $data);
     }
 
 

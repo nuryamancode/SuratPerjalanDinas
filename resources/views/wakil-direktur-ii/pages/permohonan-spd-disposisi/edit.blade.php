@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('wakil-direktur-ii.permohonan-spd-disposisi.index', $disposisi->spd_id) }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 @if ($errors->any())
                     <div class="alert alert-danger">

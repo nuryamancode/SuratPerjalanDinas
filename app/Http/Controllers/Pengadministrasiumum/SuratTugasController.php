@@ -47,8 +47,8 @@ class SuratTugasController extends Controller
 
         DB::beginTransaction();
         try {
-            $data_req = request()->only(['nomor_surat', 'maksud_perjalanan_dinas','lama_hari', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
-            $data_supir = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'lama_hari','tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas','lama_hari_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
+            $data_req = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'lama_hari', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
+            $data_supir = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'lama_hari', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'lama_hari_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
 
             if (request('antar') == 1) {
                 // jemput
@@ -69,7 +69,7 @@ class SuratTugasController extends Controller
             $data['status'] = 'Belum Didisposisikan';
             $data['jenis_surat'] = 'tugas';
             $data['asal_surat'] = 'Pengadministrasi Umum';
-            $surat  = Surat::create($data);
+            $surat = Surat::create($data);
 
             // create lampiran
             if (!empty($data_lampiran)) {
@@ -110,10 +110,15 @@ class SuratTugasController extends Controller
     public function edit($id)
     {
         $item = Surat::where('id', $id)->firstOrFail();
+        $data_karyawan = Karyawan::whereHas('user', function ($q) {
+            $q->whereHas('roles', function ($role) {
+                $role->whereNotIn('name', ['Supir']);
+            });
+        })->orderBy('nama', 'ASC')->get();
         return view('pengadministrasi-umum.pages.surat.edit', [
             'title' => 'Edit Surat',
             'item' => $item,
-            'data_karyawan' => Karyawan::orderBy('nama', 'ASC')->get(),
+            'data_karyawan' => $data_karyawan,
             'selectedKaryawan' => $item->pelaksana->pluck('karyawan.id')->toArray()
         ]);
     }
@@ -130,8 +135,8 @@ class SuratTugasController extends Controller
         DB::beginTransaction();
         try {
             $item = Surat::where('id', $id)->firstOrFail();
-            $data_req = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'lama_hari','tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
-            $data_supir = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'lama_hari','lama_hari_tugas','tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
+            $data_req = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'lama_hari', 'tanggal_mulai', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan']);
+            $data_supir = request()->only(['nomor_surat', 'maksud_perjalanan_dinas', 'tanggal_mulai', 'lama_hari', 'lama_hari_tugas', 'tanggal_sampai', 'tempat_berangkat', 'tempat_tujuan', 'no_surat_jalan_dinas', 'tanggal_surat_jalan', 'supir_karyawan_id', 'uraian_tugas', 'mulai_tanggal_tugas', 'sampai_tanggal_tugas']);
 
             if ($item) {
                 // jemput

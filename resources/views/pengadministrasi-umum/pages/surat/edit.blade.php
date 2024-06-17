@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('pengadministrasi-umum.surat.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Edit Surat Tugas</h4>
@@ -50,8 +61,8 @@
                         <div class='form-group mb-3'>
                             <label for='lama_hari' class='mb-2'>Lama Hari</label>
                             <input type='number' name='lama_hari' id='lama_hari'
-                            class='form-control @error('lama_hari') is-invalid @enderror'
-                            value='{{ $item->lama_hari }}'>
+                                class='form-control @error('lama_hari') is-invalid @enderror'
+                                value='{{ $item->lama_hari }}'>
                             @error('lama_hari')
                                 <div class='invalid-feedback'>
                                     {{ $message }}
@@ -206,8 +217,8 @@
                             <div class='form-group mb-3'>
                                 <label for='lama_hari_tugas' class='mb-2'>Lama Hari Tugas</label>
                                 <input type='number' name='lama_hari_tugas' id='lama_hari_tugas'
-                                class='form-control @error('lama_hari_tugas') is-invalid @enderror'
-                                value='{{ $item->lama_hari_tugas }}'>
+                                    class='form-control @error('lama_hari_tugas') is-invalid @enderror'
+                                    value='{{ $item->lama_hari_tugas }}'>
                                 @error('lama_hari_tugas')
                                     <div class='invalid-feedback'>
                                         {{ $message }}
@@ -257,7 +268,7 @@
                                 <form action="javascript:void(0)" method="post" class="d-inline" id="formDelete">
                                     @csrf
                                     @method('delete')
-                                    <button class="btn btnDelete btn-sm py-2 btn-link"
+                                    <button class="btn btnDelete btn-sm py-2 btn-danger"
                                         data-action="{{ route('lampiran.destroy', $lampiran->id) }}">Hapus</button>
                                 </form>
                             </li>
@@ -286,7 +297,7 @@
         })
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const lamaHariField = document.getElementById('lama_hari');
             const tanggalMulaiField = document.getElementById('tanggal_mulai');
             const tanggalSampaiField = document.getElementById('tanggal_sampai');
@@ -312,7 +323,7 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const lamaHariTugasField = document.getElementById('lama_hari_tugas');
             const tanggalMulaiTugasField = document.getElementById('tanggal_mulai_tugas');
             const tanggalSampaiTUgasField = document.getElementById('sampai_tanggal_tugas');

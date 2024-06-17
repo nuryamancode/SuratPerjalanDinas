@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nomor_surat');
             $table->string('status');
             $table->string('jenis_surat');
+            $table->string('file')->nullable();
             $table->text('maksud_perjalanan_dinas')->nullable();
             $table->integer('lama_hari')->nullable();
             $table->date('tanggal_mulai')->nullable();

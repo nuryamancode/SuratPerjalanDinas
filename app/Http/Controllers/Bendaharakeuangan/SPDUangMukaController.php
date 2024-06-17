@@ -13,13 +13,11 @@ class SPDUangMukaController extends Controller
 {
     public function index($id)
     {
-        $item = SPDPelaksana::where('id', $id)->firstOrFail();
         $items = SPDSupir::where('id', $id)->firstOrFail();
         return view('bendahara-keuangan.pages.spd-detail-uang-muka.index', [
             'title' => 'Input Uang Muka',
-            'item' => $item,
             'items' => $items,
-            'selectedKaryawan' => $item->spd->surat->pelaksana->pluck('karyawan.id')->toArray(),
+            'selectedKaryawan' => $items->spd->surat->pelaksana->pluck('karyawan.id')->toArray(),
             'data_karyawan' => Karyawan::orderBy('nama', 'ASC')->get(),
         ]);
     }
@@ -37,23 +35,17 @@ class SPDUangMukaController extends Controller
     public function store()
     {
         request()->validate([
-            'nominal_pelaksana' => ['required'],
+            'nominal_supir' => ['required'],
         ]);
 
         DB::beginTransaction();
         try {
-            $spd_pelaksana = SPDPelaksana::where('id', request('spd_pelaksana'))->firstOrFail();
             $spd_supir = SPDSupir::where('id', request('spd_supir'))->firstOrFail();
-            $spd_pelaksana->uang_muka()->create([
-                'nominal' => request('nominal_pelaksana')
+            $spd_supir->uang_muka()->create([
+                'nominal' => request('nominal_supir')
             ]);
-            if ($spd_pelaksana->spd->surat->antar == 1) {
-                $spd_supir->uang_muka()->create([
-                    'nominal' => request('nominal_supir')
-                ]);
-            }
-            $spd_pelaksana->spd->update([
-                'status' => 'Sudah Didistribusikan dan Menunggu Proses Perjalanan Dinas'
+            $spd_supir->spd->update([
+                'status' => 'Uang Muka Supir Sudah Disubmit'
             ]);
             DB::commit();
             return redirect()->route('bendahara-keuangan.permohonan-spd.index')->with('success', 'Uang Muka berhasil disubmit.');

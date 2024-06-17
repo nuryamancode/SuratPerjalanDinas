@@ -2,6 +2,17 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
+            <style>
+                .back:hover {
+                    text-decoration: none;
+                }
+            </style>
+            <a href="{{ route('pengelola-keuangan.permohonan-spd.index') }}" class="back">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-arrow-left-bold-circle  pr-2 pt-1 icon-large"></i>
+                    <span>Kembali</span>
+                </div>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-5">Detail Surat</h4>
@@ -52,8 +63,6 @@
                         <li class="list-item mb-4 d-flex justify-content-between">
                             <span>Aksi</span>
                             <div>
-                                <a href="{{ route('pengelola-keuangan.permohonan-spd.index') }}"
-                                    class="btn btn-sm btn-warning">Kembali</a>
                                 @if ($item->spd_pelaksana_dinas)
                                     <a href="{{ route('pengelola-keuangan.buat-spd.show', $item->id) }}"
                                         class="btn btn-sm py-2 btn-info">Lihat SPD Pelaksana Dinas</a>

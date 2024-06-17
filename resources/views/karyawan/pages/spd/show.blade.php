@@ -65,8 +65,12 @@
                             <span>Aksi</span>
                             <div>
                                 @if ($item->uang_muka)
-                                    <a href="{{ route('karyawan.spd.print', $item->id) }}" target="_blank"
-                                        class="btn btn-sm py-2 btn-info">Lihat SPD</a>
+                                    @if ($item->spd->surat->antar == 1)
+                                        <a href="{{ route('karyawan.spd.print', $item->spd->spd_supir->id) }}" target="_blank"
+                                            class="btn btn-sm py-2 btn-info">Lihat SPD Supir</a>
+                                    @endif
+                                    <a href="{{ route('karyawan.spd.print-pelaksana', $item->id) }}" target="_blank"
+                                        class="btn btn-sm py-2 btn-info">Lihat SPD Pelaksana</a>
                                 @endif
                                 @if ($item->spj)
                                     <a href="{{ route('karyawan.spd-spj.show', $item->spj->id) }}"

@@ -7,6 +7,7 @@ use App\Models\Karyawan;
 use App\Models\SuratNonPbj;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class SuratNonPbjController extends Controller
 {
@@ -50,7 +51,7 @@ class SuratNonPbjController extends Controller
         try {
             $data = request()->only(['nomor_surat', 'perihal', 'no_agenda', 'tanggal', 'nomor_agenda', 'karyawan_id']);
             $data_pengusul = request('pelaksana');
-            $data['uuid'] = \Str::uuid();
+            $data['uuid'] = Str::uuid();
             if (request()->file('file')) {
                 $data['file'] = request()->file('file')->store('surat-non-pbj', 'public');
             }
@@ -69,7 +70,7 @@ class SuratNonPbjController extends Controller
             if (!empty($data_pengusul)) {
                 foreach ($data_pengusul as $pengusul) {
                     $item->pengusul()->create([
-                        'uuid' => \Str::uuid(),
+                        'uuid' => Str::uuid(),
                         'karyawan_id' => $pengusul
                     ]);
                 }
@@ -125,7 +126,7 @@ class SuratNonPbjController extends Controller
                 $item->pengusul()->delete();
                 foreach ($data_pengusul as $pengusul) {
                     $item->pengusul()->create([
-                        'uuid' => \Str::uuid(),
+                        'uuid' => Str::uuid(),
                         'karyawan_id' => $pengusul
                     ]);
                 }

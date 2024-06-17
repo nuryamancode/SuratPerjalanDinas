@@ -73,7 +73,7 @@ class SpdSpjController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('karyawan.spd.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
+            return redirect()->route('karyawan.spd-spj.index')->with('success', 'Surat Pertanggung Jawaban Berhasil dibuat.');
         } catch (\Throwable $th) {
             throw $th;
             // DB::rollBack();

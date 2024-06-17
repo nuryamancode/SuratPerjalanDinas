@@ -56,12 +56,11 @@
                                                 </form>
                                             @endif
                                             @if ($item->surat->antar == 1)
-                                                <a href="{{ route('ppk.approval-permohonan-spd.lihat-spd', $item->spd_pelaksana_dinas->id) }}"
-                                                    target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD</a>
-                                            @else
-                                                <a href="{{ route('ppk.approval-permohonan-spd.lihat-spd-pelaksana', $item->spd_pelaksana_dinas->id) }}"
-                                                    target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD</a>
+                                                <a href="{{ route('ppk.approval-permohonan-spd.lihat-spd', $item->spd_supir->id) }}"
+                                                    target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD Supir</a>
                                             @endif
+                                            <a href="{{ route('ppk.approval-permohonan-spd.lihat-spd-pelaksana', $item->spd_pelaksana_dinas->id) }}"
+                                                target="_blank" class="btn btn-sm py-2 btn-info">Lihat SPD Pelaksana</a>
                                             <a href="{{ route('ppk.approval-permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
                                         </td>

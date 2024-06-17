@@ -31,21 +31,23 @@
                                         <td>
                                             @if ($item->status == 'SPD Sudah Di TTD')
                                                 @if ($item->surat->antar == 1)
-                                                    <a href="{{ route('pengelola-keuangan.uang-muka-spd.index', $item->spd_pelaksana_dinas->id) }}"
-                                                        class="btn btn-sm py-2 btn-primary">Uang Muka</a>
+                                                    <a href="{{ route('pengelola-keuangan.uang-muka-spd.index', $item->spd_supir->id) }}"
+                                                        class="btn btn-sm py-2 btn-primary">Uang Muka Supir</a>
                                                 @else
                                                     <a href="{{ route('pengelola-keuangan.uang-muka-spd.pelaksana', $item->spd_pelaksana_dinas->id) }}"
-                                                        class="btn btn-sm py-2 btn-primary">Uang Muka</a>
+                                                        class="btn btn-sm py-2 btn-primary">Uang Muka Pelaksana</a>
                                                 @endif
+                                            @elseif($item->status == 'Uang Muka Supir Sudah Disubmit')
+                                                <a href="{{ route('pengelola-keuangan.uang-muka-spd.pelaksana', $item->spd_pelaksana_dinas->id) }}"
+                                                    class="btn btn-sm py-2 btn-primary">Uang Muka Pelaksana</a>
                                             @endif
                                             @if ($item->spd_pelaksana_dinas)
                                                 @if ($item->surat->antar == 1)
-                                                    <a href="{{ route('pengelola-keuangan.buat-spd.print', $item->spd_pelaksana_dinas->id) }}"
-                                                        target="_blank" class="btn btn-sm py-2 btn-info">Print SPD</a>
-                                                @else
-                                                    <a href="{{ route('pengelola-keuangan.buat-spd.print-pelaksana', $item->spd_pelaksana_dinas->id) }}"
-                                                        target="_blank" class="btn btn-sm py-2 btn-info">Print SPD</a>
+                                                    <a href="{{ route('pengelola-keuangan.buat-spd.print', $item->spd_supir->id) }}"
+                                                        target="_blank" class="btn btn-sm py-2 btn-info">Print SPD Supir</a>
                                                 @endif
+                                                <a href="{{ route('pengelola-keuangan.buat-spd.print-pelaksana', $item->spd_pelaksana_dinas->id) }}"
+                                                    target="_blank" class="btn btn-sm py-2 btn-info">Print SPD Pelaksana</a>
                                             @endif
                                             <a href="{{ route('pengelola-keuangan.permohonan-spd.show', $item->id) }}"
                                                 class="btn btn-sm py-2 btn-warning">Detail</a>
