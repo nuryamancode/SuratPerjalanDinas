@@ -35,14 +35,14 @@ class SpdSpjController extends Controller
                 'filter' => $filter
             ];
         }
-        return view('ppk.pages.spd-spj.index', $data);
+        return view('ppk.pages.approval-spj-spd.index', $data);
     }
 
 
     public function show($uuid)
     {
         $item = SPJPelaksana::where('id', $uuid)->firstOrFail();
-        return view('ppk.pages.spd-spj.show', [
+        return view('ppk.pages.approval-spj-spd.show', [
             'title' => 'Detail SPJ Perjalanan Dinas',
             'item' => $item
         ]);
@@ -50,7 +50,7 @@ class SpdSpjController extends Controller
     public function show_supir($uuid)
     {
         $item = SPJSupir::where('id', $uuid)->firstOrFail();
-        return view('ppk.pages.spd-spj.show-supir', [
+        return view('ppk.pages.approval-spj-spd.show-supir', [
             'title' => 'Detail SPJ Perjalanan Dinas',
             'item' => $item
         ]);
@@ -130,14 +130,14 @@ class SpdSpjController extends Controller
         return redirect()->back()->with('success', 'Surat Pertanggung Jawaban Berhasil ditolak.');
     }
 
-    public function create()
-    {
-        $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
-        return view('ppk.pages.spd-spj.create', [
-            'title' => 'Buat SPJ Perjalanan Dinas',
-            'spd_detail' => $spd_detail
-        ]);
-    }
+    // public function create()
+    // {
+    //     $spd_detail = SuratPerjalananDinasDetail::where('uuid', request('spd_detail_uuid'))->firstOrFail();
+    //     return view('ppk.pages.approval-permohonan-spd.create', [
+    //         'title' => 'Buat SPJ Perjalanan Dinas',
+    //         'spd_detail' => $spd_detail
+    //     ]);
+    // }
 
     public function store()
     {

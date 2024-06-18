@@ -42,9 +42,14 @@
                                                     class="btn btn-sm py-2 btn-primary">Uang Muka Pelaksana</a>
                                             @endif
                                             @if ($item->spd_pelaksana_dinas)
-                                                @if ($item->surat->antar == 1)
-                                                    <a href="{{ route('bendahara-keuangan.buat-spd.print', $item->spd_supir->id) }}"
-                                                        target="_blank" class="btn btn-sm py-2 btn-info">Print SPD Supir</a>
+                                                @if ($item->spd_supir)
+                                                    @if ($item->surat->antar == 1)
+                                                        <a href="{{ route('bendahara-keuangan.buat-spd.print', $item->spd_supir->id) }}"
+                                                            target="_blank" class="btn btn-sm py-2 btn-info">Print SPD
+                                                            Supir</a>
+                                                    @endif
+                                                @else
+                                                    {{ null }}
                                                 @endif
                                                 <a href="{{ route('bendahara-keuangan.buat-spd.print-pelaksana', $item->spd_pelaksana_dinas->id) }}"
                                                     target="_blank" class="btn btn-sm py-2 btn-info">Print SPD Pelaksana</a>
