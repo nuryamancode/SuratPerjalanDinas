@@ -177,6 +177,7 @@ Route::middleware('auth')->group(function () {
     // ppk
     Route::name('ppk.')->prefix('ppk')->group(function () {
         Route::get('/', [\App\Http\Controllers\Ppk\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Ppk\DashboardController::class, 'profile'])->name('profile');
         Route::put('permohonan-spd/tolak/{id}', [App\Http\Controllers\Ppk\PermohonanSpdController::class, 'tolak'])->name('permohonan-spd.tolak');
         Route::post('permohonan-spd/verifikasi-ppk/{id}', [App\Http\Controllers\Ppk\PermohonanSpdController::class, 'verifikasi_ppk'])->name('permohonan-spd.verifikasi-ppk');
         Route::resource('permohonan-spd', App\Http\Controllers\Ppk\PermohonanSpdController::class);
@@ -299,6 +300,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('pengadministrasi-umum.')->prefix('pengadministrasi-umum')->middleware('role:Pengadministrasi Umum')->group(function () {
         Route::get('/', [\App\Http\Controllers\Pengadministrasiumum\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Pengadministrasiumum\DashboardController::class, 'profile'])->name('profile');
         Route::get('surat/detail', [\App\Http\Controllers\Pengadministrasiumum\SuratTugasController::class, 'detail'])->name('surat.detail');
         Route::resource('surat', \App\Http\Controllers\Pengadministrasiumum\SuratTugasController::class);
 
@@ -323,6 +325,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('wakil-direktur-ii.')->prefix('wakil-direktur-ii')->middleware('role:Wakil Direktur II')->group(function () {
         Route::get('/', [\App\Http\Controllers\Wakildirekturii\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Wakildirekturii\DashboardController::class, 'profile'])->name('profile');
         Route::post('permohonan-spd/verifikasi/{id}', [App\Http\Controllers\Wakildirekturii\PermohonanSpdController::class, 'verifikasi'])->name('permohonan-spd.verifikasi');
         Route::resource('permohonan-spd', App\Http\Controllers\Wakildirekturii\PermohonanSpdController::class);
         Route::get('tte', [App\Http\Controllers\Wakildirekturii\TTEController::class, 'index'])->name('tte.index');
@@ -384,6 +387,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('bendahara-keuangan.')->prefix('bendahara-keuangan')->middleware('role:Bendahara Keuangan')->group(function () {
         Route::get('/', [\App\Http\Controllers\Bendaharakeuangan\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Bendaharakeuangan\DashboardController::class, 'profile'])->name('profile');
         Route::resource('permohonan-spd', App\Http\Controllers\Bendaharakeuangan\PermohonanSpdController::class);
         Route::resource('pengajuan-pbj', App\Http\Controllers\Bendaharakeuangan\PengajuanPbjController::class);
         Route::resource('spd-detail-uang-muka', App\Http\Controllers\Bendaharakeuangan\SpdDetailUangMukaController::class);
@@ -503,6 +507,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('wakil-direktur-i.')->prefix('wakil-direktur-i')->middleware('role:Wakil Direktur I')->group(function () {
         Route::get('/', [\App\Http\Controllers\Wakildirekturi\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Wakildirekturi\DashboardController::class, 'profile'])->name('profile');
         Route::post('pengajuan-pbj/verifikasi/{uuid}', [\App\Http\Controllers\Wakildirekturi\PengajuanPbjController::class, 'verifikasi'])->name('pengajuan-pbj.verifikasi');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Wakildirekturi\PengajuanPbjController::class);
         Route::resource('pengajuan-form-non-pbj', \App\Http\Controllers\Wakildirekturi\PengajuanFormNonPbjController::class);
@@ -525,6 +530,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('karyawan.')->prefix('karyawan')->middleware('role:Karyawan')->group(function () {
         Route::get('/', [\App\Http\Controllers\Karyawan\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Karyawan\DashboardController::class, 'profile'])->name('profile');
         Route::resource('spd', App\Http\Controllers\Karyawan\SpdController::class);
         Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Karyawan\SpdController::class, 'printppk'])->name('permohonan-spd.print-ppk');
         Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Karyawan\SpdSpjController::class, 'print'])->name('spd-spj.print');
@@ -542,6 +548,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('kabag.')->prefix('kabag')->middleware('role:Kepala Bagian')->group(function () {
         Route::get('/', [\App\Http\Controllers\Kabag\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Kabag\DashboardController::class, 'profile'])->name('profile');
         Route::post('pengajuan-pbj/verifikasi/{id}', [\App\Http\Controllers\Kabag\PengajuanPbjController::class, 'verifikasi'])->name('pengajuan-pbj.verifikasi');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Kabag\PengajuanPbjController::class);
         Route::resource('pengajuan-pbj-detail', \App\Http\Controllers\Kabag\PengajuanPbjDetailController::class);
@@ -565,6 +572,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('timppk.')->prefix('timppk')->middleware('role:Tim PPK')->group(function () {
         Route::get('/', [\App\Http\Controllers\Timppk\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Timppk\DashboardController::class, 'profile'])->name('profile');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Timppk\PengajuanPbjController::class);
         Route::put('pengajuan-pbj/update-proses/{id}', [\App\Http\Controllers\Timppk\PengajuanPbjController::class, 'update_proses'])->name('pengajuan-pbj.update-proses');
         Route::resource('pembelanjaan-form-non-pbj', \App\Http\Controllers\Timppk\PembelanjaanFormController::class);
@@ -623,6 +631,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::name('supir.')->prefix('supir')->middleware('role:Supir')->group(function () {
         Route::get('/', [\App\Http\Controllers\Supir\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Supir\DashboardController::class, 'profile'])->name('profile');
         Route::resource('spd', App\Http\Controllers\Supir\SPDController::class);
         Route::get('/spd-spj/print/{spj_uuid}', [\App\Http\Controllers\Supir\SpdSPJController::class, 'print'])->name('spd-spj.print');
         Route::get('/spd/print/{id}', [\App\Http\Controllers\Supir\SPDController::class, 'print'])->name('spd.print');
@@ -635,6 +644,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('pengelola-keuangan.')->prefix('pengelola-keuangan')->middleware('role:Pengelola Keuangan')->group(function () {
         Route::get('/', [\App\Http\Controllers\Pengelolakeuangan\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile/', [\App\Http\Controllers\Pengelolakeuangan\DashboardController::class, 'profile'])->name('profile');
         Route::resource('pengajuan-pbj', \App\Http\Controllers\Pengelolakeuangan\PbjController::class)->only('index', 'show');
         Route::resource('permohonan-spd', App\Http\Controllers\Pengelolakeuangan\PermohonanSPDController::class);
         Route::get('permohonan-spd-print-ppk/{id}', [App\Http\Controllers\Pengelolakeuangan\PermohonanSpdController::class, 'printppk'])->name('permohonan-spd.print-ppk');

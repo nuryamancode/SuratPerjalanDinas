@@ -23,4 +23,11 @@ class DashboardController extends Controller
             'count' => $count
         ]);
     }
+
+    public function profile()
+    {
+        return view('pengadministrasi-umum.pages.profile', [
+            'title' => 'Profile'
+        ]);
+    }
 }

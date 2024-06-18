@@ -15,6 +15,8 @@
                                     <th>Nomor Surat</th>
                                     <th>Maksud Perjalanan Dinas</th>
                                     <th>Tanggal Surat</th>
+                                    <th>Nominal Pelaksana</th>
+                                    <th>Nominal Supir</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -26,6 +28,20 @@
                                         <td>{{ $item->surat->nomor_surat }}</td>
                                         <td>{{ $item->surat->maksud_perjalanan_dinas }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->surat->created_at)->format('d M Y') }}</td>
+                                        <td>
+                                            @if ($item->uang_muka_pelaksana)
+                                                Rp. {{ number_format($item->uang_muka_pelaksana->nominal) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->uang_muka_supir)
+                                                Rp. {{ number_format($item->uang_muka_supir->nominal) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td>{{ $item->status }}</td>
                                         {{-- <td>{{ $item->statusUangMuka() }}</td> --}}
                                         <td>

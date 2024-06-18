@@ -22,4 +22,11 @@ class DashboardController extends Controller
             'count' => $count
         ]);
     }
+
+    public function profile()
+    {
+        return view('bendahara-keuangan.pages.profile', [
+            'title' => 'Profile'
+        ]);
+    }
 }

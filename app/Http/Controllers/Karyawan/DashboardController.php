@@ -22,4 +22,11 @@ class DashboardController extends Controller
             'count' => $count
         ]);
     }
+
+    public function profile()
+    {
+        return view('karyawan.pages.profile', [
+            'title' => 'Profile'
+        ]);
+    }
 }

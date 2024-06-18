@@ -22,4 +22,10 @@ class DashboardController extends Controller
             'count' => $count
         ]);
     }
+    public function profile()
+    {
+        return view('pengelola-keuangan.pages.profile', [
+            'title' => 'Profile'
+        ]);
+    }
 }

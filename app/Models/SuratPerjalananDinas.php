@@ -163,9 +163,13 @@ class SuratPerjalananDinas extends Model
     //     }
     // }
 
-    public function uang_muka()
+    public function uang_muka_pelaksana()
     {
-        return $this->hasOne(UangMuka::class, 'surat_perjalanan_dinas_id', 'id');
+        return $this->hasOne(UangMuka::class, 'spd_pelaksana_dinas_id', 'id');
+    }
+    public function uang_muka_supir()
+    {
+        return $this->hasOne(UangMuka::class, 'spd_supir_id', 'id');
     }
 
     public function scopeVerifikasiPpk($val)

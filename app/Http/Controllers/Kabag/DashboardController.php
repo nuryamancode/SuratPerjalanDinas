@@ -22,4 +22,11 @@ class DashboardController extends Controller
             'count' => $count
         ]);
     }
+
+    public function profile()
+    {
+        return view('kabag.pages.profile', [
+            'title' => 'Profile'
+        ]);
+    }
 }

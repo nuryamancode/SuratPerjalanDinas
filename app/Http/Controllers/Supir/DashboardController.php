@@ -25,6 +25,12 @@ class DashboardController extends Controller
             'count' => $count
         ]);
     }
+    public function profile()
+    {
+        return view('supir.pages.profile', [
+            'title' => 'Profile'
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
