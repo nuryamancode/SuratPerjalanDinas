@@ -383,6 +383,20 @@ Route::middleware('auth')->group(function () {
             Route::get('pengajuan-belanja/show/pbj/{id}', 'show_pbj')->name('pengajuan-belanja.show.pbj');
             Route::get('pengajuan-belanja/show/suratnonpbj/{id}', 'show_suratnonpbj')->name('pengajuan-belanja.show.suratnonpbj');
         });
+
+
+
+        Route::controller(\App\Http\Controllers\Wakildirekturii\LaporanController::class)->group(function () {
+            Route::get('laporan-spd/', 'spd')->name('laporan.spd');
+            Route::get('laporan-show-spd/{id}', 'show_spd')->name('laporan.spd-show');
+            Route::get('laporan-form/', 'form')->name('laporan.form');
+            Route::get('laporan-show-form/{id}', 'show_form')->name('laporan.form-show');
+            Route::get('laporan-surat/', 'surat')->name('laporan.surat');
+            Route::get('laporan-show-surat/{id}', 'show_surat')->name('laporan.surat-show');
+            Route::get('laporan-pbj/', 'pbj')->name('laporan.pbj');
+        });
+
+
     });
 
     Route::name('bendahara-keuangan.')->prefix('bendahara-keuangan')->middleware('role:Bendahara Keuangan')->group(function () {

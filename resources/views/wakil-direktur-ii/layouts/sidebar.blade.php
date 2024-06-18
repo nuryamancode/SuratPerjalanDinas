@@ -93,6 +93,30 @@
                 <span class="menu-title">TTE</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#laporan" aria-expanded="false"
+                aria-controls="laporan">
+                <i class="mdi mdi-folder  pr-2 icon-large"></i>
+                <span class="menu-title">Laporan</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="laporan">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('wakil-direktur-ii.laporan.spd') }}"> Laporan SPD </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('wakil-direktur-ii.laporan.form') }}"> Laporan Non PBJ Formulir </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('wakil-direktur-ii.laporan.surat') }}"> Laporan Non PBJ Surat </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('wakil-direktur-ii.laporan.pbj') }}"> Laporan PBJ </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
         {{--  <li class="nav-item">
             <a class="nav-link py-2" href="">
                 <i class="mdi mdi-folder  pr-2 icon-large"></i>
