@@ -1,4 +1,4 @@
-@extends('karyawan.layouts.app')
+@extends('supir.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-md-4 mb-3">
