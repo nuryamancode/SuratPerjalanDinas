@@ -33,9 +33,9 @@
             </a>
             <div class="collapse" id="distribusi">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href=""> Perjalanan Dinas </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('bendahara-keuangan.disposisi-belanja.form-non-pbj') }}"> Belanja Form Non PBJ </a>
                     </li>

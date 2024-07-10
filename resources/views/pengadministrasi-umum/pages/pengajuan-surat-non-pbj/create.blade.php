@@ -15,7 +15,7 @@
             </a>  --}}
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-5">Tambah Pengajuan Form Non PBJ</h4>
+                    <h4 class="card-title mb-5">Tambah Pengajuan Surat Non PBJ</h4>
                     <form action="{{ route('pengadministrasi-umum.pengajuan-surat-non-pbj.store') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
